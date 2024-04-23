@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import MainPage from './containers/MainPage';
+import Community from './containers/Community';
+import MyPage from './containers/MyPage.tsx';
+import Detail from './containers/Community/Detail/Detail.tsx';
+import Essay from './containers/Essay/index.tsx';
+import TextDetail from './containers/Essay/Detail/TextDetail.tsx';
+import Recruit from './containers/Community/Recruit/index.tsx';
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	return (
+		<>
+			<BrowserRouter>
+				<Routes>
+					<Route path='/' element={<MainPage />} />
+					<Route path='/community' element={<Community />} />
+					<Route path='/detail' element={<Detail />} />
+					<Route path='/recruit' element={<Recruit />} />
+					<Route path='/text' element={<TextDetail />} />
+					<Route path='/essay' element={<Essay />} />
+					<Route path='/mypage' element={<MyPage />} />
+				</Routes>
+			</BrowserRouter>
+		</>
+	);
 }
 
-export default App
+export default App;
