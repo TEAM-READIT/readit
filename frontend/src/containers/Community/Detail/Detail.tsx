@@ -1,12 +1,31 @@
 import { Button, Card } from 'flowbite-react';
 import Headers from '../../../components/Headers';
 import CommunityDetailHeader from './CommunityDetailHeaders';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+
+
+interface GroupProps {
+	id: number;
+	title: string;
+	tag: string;
+	detail: string;
+	date: string;
+	// enddate:string;
+	clicked: number;
+	writer: string;
+	participant: number;
+	maxparticipant: number;
+}
 
 const Detail = () => {
 	const location = useLocation();
+	const navigate = useNavigate();
 	const group = location.state?.group; // 전달된 그룹 정보
 	console.log(group);
+	const handleClickGroup = (group: GroupProps) => {
+		navigate('/group', { state: { group } });
+	};
 	return (
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-screen'>
@@ -15,12 +34,12 @@ const Detail = () => {
 					<CommunityDetailHeader />
 					<Card className='w-3/5 p-10'>
 						<div className='flex flex-col gap-y-10'>
-							<div className='flex flex-row justify-between'>
+							<div className='flex flex-row justify-between items-center'>
 								<div className='text-2xl font-bold'>{group.title}</div>
 								<Button className='bg-green-500 '>
 									<div className='flex items-center gap-2'>
 										<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-										<span>모임 가입하기</span>
+										<span onClick={() => handleClickGroup(group)}>모임 가입하기</span>
 									</div>
 								</Button>
 							</div>
