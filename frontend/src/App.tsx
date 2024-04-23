@@ -7,6 +7,7 @@ import Detail from './containers/Community/Detail/Detail.tsx';
 import Essay from './containers/Essay/index.tsx';
 import TextDetail from './containers/Essay/Detail/TextDetail.tsx';
 import Recruit from './containers/Community/Recruit/index.tsx';
+import { ViewerPage } from './containers/Viewer/ViewerPage.tsx';
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 					<Route path='/text' element={<TextDetail />} />
 					<Route path='/essay' element={<Essay />} />
 					<Route path='/mypage' element={<MyPage />} />
+					<Route path='/viewer' element={<ViewerPage />} />
 				</Routes>
 			</BrowserRouter>
 		</>

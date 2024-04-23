@@ -1,7 +1,7 @@
 import { Button, Card } from 'flowbite-react';
 import Headers from '../../../components/Headers';
 import EssayDetailHeader from './EssayDetailHeader';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const TextDetail = () => {
 	const location = useLocation();
@@ -20,10 +20,10 @@ const TextDetail = () => {
 									{group.title.length <= 30 ? <div>{group.title} </div> : <div>{group.title.slice(0, 30)}...</div>}
 								</div>
 								<Button className='bg-green-500 '>
-									<div className='flex items-center gap-2'>
+									<Link to={'/viewer'} className='flex items-center gap-2'>
 										<span className='material-symbols-outlined'>done</span>
 										<span>글 읽으러 가기</span>
-									</div>
+									</Link>
 								</Button>
 							</div>
 							<div className='flex flex-row gap-5 items-center'>
