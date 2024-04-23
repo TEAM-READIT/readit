@@ -8,6 +8,7 @@ import Essay from './containers/Essay/index.tsx';
 import TextDetail from './containers/Essay/Detail/TextDetail.tsx';
 import Recruit from './containers/Community/Recruit/index.tsx';
 import { ViewerPage } from './containers/Viewer/ViewerPage.tsx';
+import Group from './containers/Group/index.tsx';
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 					<Route path='/recruit' element={<Recruit />} />
 					<Route path='/text' element={<TextDetail />} />
 					<Route path='/essay' element={<Essay />} />
+					<Route path='/group' element={<Group />} />
 					<Route path='/mypage' element={<MyPage />} />
 					<Route path='/viewer' element={<ViewerPage />} />
 				</Routes>

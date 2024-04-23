@@ -15,9 +15,10 @@ const TextDetail = () => {
 					<EssayDetailHeader />
 					<Card className='w-3/5 p-10'>
 						<div className='flex flex-col gap-y-10'>
-							<div className='flex flex-row justify-between border border-black'>
+							<div className='flex flex-row justify-between items-center'>
 								<div className='text-2xl font-bold'>
-									{group.title.length <= 30 ? <div>{group.title} </div> : <div>{group.title.slice(0, 30)}...</div>}
+									<div></div>
+									{group.title.length <= 28 ? <div>{group.title} </div> : <div>{group.title.slice(0, 29)}...</div>}
 								</div>
 								<Button className='bg-green-500 '>
 									<Link to={'/viewer'} className='flex items-center gap-2'>
@@ -41,7 +42,7 @@ const TextDetail = () => {
 								<div className='flex flex-row gap-1 items-center justify-center'>
 									<span className='material-symbols-outlined'>person</span>
 									<span>
-										{group.participant}/{group.maxparticipant}
+										{group.participant} / {group.maxparticipant}
 									</span>
 								</div>
 								<div className='flex flex-row gap-1 items-center justify-center'>

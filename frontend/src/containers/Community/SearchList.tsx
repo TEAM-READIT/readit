@@ -1,4 +1,5 @@
 import { Card } from 'flowbite-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface GroupProps {
@@ -17,6 +18,8 @@ interface GroupProps {
 
 const SearchList = () => {
 	const navigate = useNavigate();
+
+
 	const groups: GroupProps[] = [
 		{
 			id: 1,
