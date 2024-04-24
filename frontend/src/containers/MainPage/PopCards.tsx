@@ -72,19 +72,11 @@ const PopCards = () => {
 			categoryName: '시사',
 			hits: 623,
 		},
-		{
-			articleId: 1,
-			title: 'AXYZ에서 Flutter 앱 개발자, React웹 개발자 한분 씩을 모집합니다 가나다',
-			content: '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-			type: '뉴스',
-			categoryName: '시사',
-			hits: 723,
-		},
 	];
 
 	return (
 		<>
-			<div className='flex flex-col w-full items-center'>
+			<div className='flex flex-col w-full items-center pb-10'>
 				<div className='flex flex-row w-full h-28 items-center text-gray-400 font-bold text-2xl text-end gap-x-16'>
 					{mode == total ? (
 						<div className='text-black'>
@@ -108,13 +100,13 @@ const PopCards = () => {
 						<div onClick={() => setMode(liter)}> 비문학 </div>
 					)}
 				</div>
-				<div className='flex flex-row w-full h-52 justify-start px-3 gap-x-5 flex-wrap'>
+				<div className='flex flex-row w-full justify-start px-5 gap-x-5 flex-wrap'>
 					{mode == total ? (
 						<>
 							{popArticleData.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 justify-between rounded-3xl border-gray-400 border'
+									className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border'
 									onClick={() => handleCardClick(article)}
 								>
 									<div className='flex justify-end gap-2'>
@@ -144,7 +136,7 @@ const PopCards = () => {
 								.map((article, index) => (
 									<Card
 										key={index}
-										className='flex flex-col w-64 justify-between rounded-3xl border-gray-400 border'
+										className='flex flex-col w-64 h-44 justify-between rounded-3xl border-gray-400 border'
 										onClick={() => handleCardClick(article)}
 									>
 										<div className='flex justify-end gap-2'>
@@ -174,7 +166,7 @@ const PopCards = () => {
 								.map((article, index) => (
 									<Card
 										key={index}
-										className='flex flex-col w-64 justify-between rounded-3xl border-gray-400 border'
+										className='flex flex-col w-64 h-44 justify-between rounded-3xl border-gray-400 border'
 										onClick={() => handleCardClick(article)}
 									>
 										<div className='flex justify-end gap-2'>

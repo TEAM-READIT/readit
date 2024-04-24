@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const MyPageHeaders = () => {
   return (
 		<>
-			<div className='flex flex-col w-3/4 h-full justify-start  items-center '>
+			<div className='flex flex-col w-3/5 h-full justify-start  items-center '>
 				<div className='flex flex-row w-full justify-between px-5 items-center'>
 					<div className=' w-full'>
 						<Breadcrumb className='pb-8'>

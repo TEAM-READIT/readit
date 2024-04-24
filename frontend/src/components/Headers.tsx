@@ -35,7 +35,7 @@ const Headers = () => {
 	return (
 		<>
 			<div className='flex justify-center w-full '>
-				<div className='w-3/4 flex flex-row justify-between items-center p-5 '>
+				<div className='w-3/5 flex flex-row justify-between items-center p-5 '>
 					<div className='font-nicolast text-4xl hover:cursor-pointer ' onClick={() => navigate('/')}>
 						Readit
 					</div>

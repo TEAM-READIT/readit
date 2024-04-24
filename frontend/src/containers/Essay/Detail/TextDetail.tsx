@@ -24,7 +24,7 @@ const TextDetail = () => {
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-screen'>
 				<Headers />
-				<div className='flex flex-col w-3/4 h-full justify-start  items-center '>
+				<div className='flex flex-col w-3/5 h-full justify-start  items-center '>
 					<EssayDetailHeader />
 					<Card className='w-3/5 p-10'>
 						<div className='flex flex-col gap-y-5'>

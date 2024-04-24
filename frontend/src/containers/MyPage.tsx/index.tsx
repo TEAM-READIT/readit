@@ -7,7 +7,7 @@ const MyPage = () => {
 		<>
 			<div className='w-full flex flex-col items-center'>
 				<Headers />
-				<div className='w-3/4'>
+				<div className='w-3/5'>
 					<MyPageHeaders />
 					<Stats />
 				</div>
