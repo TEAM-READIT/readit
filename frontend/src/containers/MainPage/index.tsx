@@ -28,7 +28,7 @@ const IndexPage = () => {
 		} else {
 			document.body.style.overflow = 'auto';
 		}
-		console.log(modal);
+
 	}, [modal]);
 
 	return (
