@@ -1,6 +1,5 @@
-import { Card } from 'flowbite-react';
 import PopCards from './PopCards';
-import TotalCards from './TotalCards';
+import TotalCards from './PopCommu';
 
 const Cards = () => {
 	return (

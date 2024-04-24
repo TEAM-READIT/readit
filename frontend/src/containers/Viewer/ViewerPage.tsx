@@ -1,4 +1,8 @@
+import { useLocation } from "react-router-dom";
+
 export const ViewerPage = () => {
+		const location = useLocation();
+		const article = location.state?.article; 
 	return (
 		<>
 			<div className="relative flex">
@@ -8,7 +12,12 @@ export const ViewerPage = () => {
 							<div className="w-full h-5/6 bg-yellow-100"></div>
 							<div className="w-full h-1/6 bg-red-400"></div>
 						</div>
-						<div className="w-4/5 h-full bg-green-500"></div>
+						<div className="w-4/5 h-full bg-green-500">
+							<div>
+								{article.title}
+							</div>
+							{article.content}
+						</div>
 					</div>
 					<div className="w-full h-1/3 bg-orange-500"></div>
 				</div>

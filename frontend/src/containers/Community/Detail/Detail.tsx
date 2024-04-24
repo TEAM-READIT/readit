@@ -22,7 +22,7 @@ const Detail = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const group = location.state?.group; // 전달된 그룹 정보
-	console.log(group);
+
 	const handleClickGroup = (group: GroupProps) => {
 		navigate('/group', { state: { group } });
 	};
