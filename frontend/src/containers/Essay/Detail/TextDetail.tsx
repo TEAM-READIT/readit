@@ -14,26 +14,25 @@ interface Article {
 const TextDetail = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const article = location.state?.article; 
-	console.log(article);
+	const article = location.state?.article;
 
 	const handleArticle = (article: Article) => {
 		navigate('/viewer', { state: { article } });
 	};
 	return (
 		<>
-			<div className='w-full flex justify-center flex-col items-center h-screen'>
+			<div className='w-full flex justify-center flex-col items-center h-full'>
 				<Headers />
 				<div className='flex flex-col w-3/5 h-full justify-start  items-center '>
 					<EssayDetailHeader />
-					<Card className='w-3/5 p-10'>
+					<Card className='w-full p-5'>
 						<div className='flex flex-col gap-y-5'>
 							<div className='flex flex-row justify-between items-center'>
 								<div className='text-2xl font-bold'>
-									{article.title.length <= 28 ? (
+									{article.title.length <= 40 ? (
 										<div>{article.title} </div>
 									) : (
-										<div>{article.title.slice(0, 29)}...</div>
+										<div>{article.title.slice(0, 40)}...</div>
 									)}
 								</div>
 								<Button className='bg-green-500 flex items-center gap-2' onClick={() => handleArticle(article)}>
@@ -49,10 +48,10 @@ const TextDetail = () => {
 								<div>{article.categoryName}</div>
 							</div>
 							<div className='w-full flex justify-start whitespace-pre-wrap'>
-								{article.content.length <= 750 ? (
+								{article.content.length <= 1355 ? (
 									<div className='text-start pt-5'>{article.content} </div>
 								) : (
-									<div className='text-start pt-5'>{article.content.slice(0, 750)}...</div>
+									<div className='text-start pt-5'>{article.content.slice(0, 1355)}...</div>
 								)}
 							</div>
 						</div>
