@@ -22,10 +22,10 @@ public class RefreshToken extends BaseTimeEntity {
     @Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long memberId;
+    private Integer memberId;
     private String token;
 
-    public RefreshToken(Long memberId, String token) {
+    public RefreshToken(Integer memberId, String token) {
         this.memberId = memberId;
         this.token = token;
     }

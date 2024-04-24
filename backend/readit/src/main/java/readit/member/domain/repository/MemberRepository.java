@@ -6,10 +6,10 @@ import readit.member.domain.MemberType;
 
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Integer> {
     Optional<Member> findByEmailAndMemberType(String email, MemberType memberType);
 
-    default Member getById(Long memberId) {
+    default Member getById(Integer memberId) {
         return findById(memberId).orElseThrow();
     }
 }

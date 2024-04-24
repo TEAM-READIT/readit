@@ -23,7 +23,7 @@ public class JwtProvider {
         this.refreshTokenExpirationTime = jwtCredentials.getRefreshTokenExpirationTime();
     }
 
-    public String createAccessToken(Long memberId) {
+    public String createAccessToken(Integer memberId) {
         return createToken(memberId.toString(), accessTokenExpirationTime, key);
     }
 

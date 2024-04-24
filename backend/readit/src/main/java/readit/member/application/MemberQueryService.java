@@ -12,7 +12,7 @@ import readit.member.domain.repository.MemberRepository;
 public class MemberQueryService {
     private final MemberRepository memberRepository;
 
-    public Member findById(Long id) {
+    public Member findById(Integer id) {
         return memberRepository.getById(id);
     }
 }

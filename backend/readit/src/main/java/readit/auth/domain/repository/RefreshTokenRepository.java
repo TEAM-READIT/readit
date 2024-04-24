@@ -13,5 +13,5 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
         return findByToken(token).orElseThrow(RefreshTokenNotFoundException::new);
     }
 
-    void deleteByMemberId(Long memberId);
+    void deleteByMemberId(Integer memberId);
 }
