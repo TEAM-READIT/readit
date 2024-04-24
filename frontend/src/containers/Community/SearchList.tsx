@@ -86,7 +86,7 @@ const SearchList = () => {
 							<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>{group.tag}</div>
 						</div>
 						<div className='flex flex-col h-4/5 text-start font-bold gap-y-2'>
-							<div className='text-xl border-gray-200 border-b'>
+							<div className='text-l border-gray-200 border-b'>
 								{group.title.length <= 13 ? <div>{group.title} </div> : <div>{group.title.slice(0, 12)}...</div>}
 							</div>
 							<div className='text-sm'>

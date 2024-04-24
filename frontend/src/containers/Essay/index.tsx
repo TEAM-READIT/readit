@@ -6,13 +6,17 @@ import SearchList from './SearchList';
 const Essay = () => {
 	return (
 		<>
-			<div className='w-full flex justify-center flex-col items-center h-screen'>
+			<div className='w-full h-full flex justify-center flex-col items-center'>
 				<Headers />
-				<div className='flex flex-col w-3/5 h-full justify-start  items-center '>
+				<div className='flex flex-col w-3/5 justify-start items-center '>
 					<EssayHeader />
-					<div className='flex w-full h-full flex-row justify-start gap-x-5'>
+				</div>
+				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
+					<div className='h-auto w-1/6 px-10'>
 						<SearchFilter />
-            <SearchList/>
+					</div>
+					<div className='flex w-3/5 h-auto flex-col justify-start gap-5 '>
+						<SearchList />
 					</div>
 				</div>
 			</div>

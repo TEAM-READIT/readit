@@ -11,7 +11,7 @@ const EssayHeader = () => {
 							<Link to='/'>홈</Link>
 						</BreadcrumbItem>
 						<BreadcrumbItem>
-							<Link to='/essay'>글</Link>
+							<div className='hover:cursor-pointer'>글</div>
 						</BreadcrumbItem>
 					</Breadcrumb>
 					<div className='flex flex-row justify-between items-center w-full py-0.5'>

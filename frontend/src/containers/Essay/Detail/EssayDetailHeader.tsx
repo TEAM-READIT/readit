@@ -15,7 +15,7 @@ const EssayDetailHeader = () => {
 							<Link to='/essay'>글</Link>
 						</BreadcrumbItem>
 						<BreadcrumbItem>
-							<Link to='/text'>글 상세 페이지</Link>
+							<div className='hover:cursor-pointer'>글 상세 페이지</div>
 						</BreadcrumbItem>
 					</Breadcrumb>
 					<div className='flex flex-row justify-between items-center w-full'>
@@ -29,7 +29,6 @@ const EssayDetailHeader = () => {
 									<span>목록으로 이동</span>
 								</div>
 							</Button>
-              
 						</div>
 					</div>
 				</div>

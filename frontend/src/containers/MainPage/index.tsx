@@ -12,7 +12,6 @@ const IndexPage = () => {
 	const navigate = useNavigate();
 	const { login, accessToken, logout } = useAuthStore();
 	const searchParams = new URLSearchParams(window.location.search);
-	console.log(searchParams);
 	const code = searchParams.get('code');
 
 	useEffect(() => {

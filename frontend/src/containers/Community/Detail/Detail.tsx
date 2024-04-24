@@ -3,43 +3,41 @@ import Headers from '../../../components/Headers';
 import CommunityDetailHeader from './CommunityDetailHeaders';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-
-
 interface GroupProps {
-	id: number;
+	communityId: number;
 	title: string;
-	tag: string;
-	detail: string;
-	date: string;
-	// enddate:string;
-	clicked: number;
-	writer: string;
-	participant: number;
-	maxparticipant: number;
+	categoryName: string;
+	content: string;
+	startAt: Date;
+	endAt: Date;
+	hits: number;
+	writerName: string;
+	participants: number;
+	maxparticipants: number;
 }
 
 const Detail = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const group = location.state?.group; // 전달된 그룹 정보
-
-	const handleClickGroup = (group: GroupProps) => {
-		navigate('/group', { state: { group } });
+	const community = location.state?.community;
+	console.log(community);
+	const handleClickGroup = (community: GroupProps) => {
+		navigate('/group', { state: { community } });
 	};
 	return (
 		<>
-			<div className='w-full flex justify-center flex-col items-center h-screen'>
+			<div className='w-full flex justify-center flex-col items-center h-full'>
 				<Headers />
 				<div className='flex flex-col w-3/5 h-full justify-start  items-center '>
 					<CommunityDetailHeader />
-					<Card className='w-3/5 p-10'>
+					<Card className='w-full p-10'>
 						<div className='flex flex-col gap-y-10'>
 							<div className='flex flex-row justify-between items-center'>
-								<div className='text-2xl font-bold'>{group.title}</div>
+								<div className='text-2xl font-bold'>{community.title}</div>
 								<Button className='bg-green-500 '>
 									<div className='flex items-center gap-2'>
 										<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-										<span onClick={() => handleClickGroup(group)}>모임 가입하기</span>
+										<span onClick={() => handleClickGroup(community)}>모임 가입하기</span>
 									</div>
 								</Button>
 							</div>
@@ -53,36 +51,36 @@ const Detail = () => {
 											/>
 										</svg>
 									</span>
-									<span className='font-semibold'>{group.writer}</span>
+									<span className='font-semibold'>{community.writerName}</span>
 								</div>
 								<div className='flex flex-row gap-1 items-center justify-center'>
 									<span className='material-symbols-outlined'>person</span>
 									<span>
-										{group.participant}/{group.maxparticipant}
+										{community.currentParticipants}/{community.maxParticipants}
 									</span>
 								</div>
 								<div className='flex flex-row gap-1 items-center justify-center'>
 									<span className='material-symbols-outlined'>visibility</span>
-									<span>{group.clicked}</span>
+									<span>{community.hits}</span>
 								</div>
 							</div>
 
 							<div>
 								<div className='flex flex-row gap-x-3'>
 									<div className='font-bold'>모임 주제 |</div>
-									<div>{group.tag}</div>
+									<div>{community.categoryName}</div>
 								</div>
-								<div className='flex flex-row gap-x-3'>
+								{/* <div className='flex flex-row gap-x-3'>
 									<div className='font-bold'>모임 시작일 |</div>
-									<div>{group.tag}</div>
+									<div>{community.startAt}</div>
 								</div>
 								<div className='flex flex-row gap-x-3'>
 									<div className='font-bold'>모집 기간 |</div>
-									<div>{group.tag}</div>
-								</div>
+									<div>{community.endAt}</div>
+								</div> */}
 							</div>
 						</div>
-						<div className='text-start text-xl pt-5 h-auto '>{group.detail}</div>
+						<div className='text-start text-xl pt-5 h-auto '>{community.content}</div>
 					</Card>
 				</div>
 			</div>
