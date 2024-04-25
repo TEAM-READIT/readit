@@ -9,7 +9,7 @@ import java.time.Duration;
 
 @Configuration
 public class RestTemplateConfig {
-    private static final int TIMEOUT_SECONDS = 2;
+    private static final int TIMEOUT_SECONDS = 60;
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
