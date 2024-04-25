@@ -25,7 +25,7 @@ public class NaverOAuthTokenClient implements OAuthTokenClient {
     private static final String ACCESS_TOKEN_URI = "https://nid.naver.com/oauth2.0/token";
     private static final String GRANT_TYPE = "authorization_code";
     private final RestTemplate restTemplate;
-    private static final String State = "deer4";
+    private static final String State = "readit123";
     private final NaverCredentials naverCredentials;
 
     @Override
