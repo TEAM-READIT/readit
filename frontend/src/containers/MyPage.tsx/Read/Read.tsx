@@ -21,12 +21,18 @@ const Read = () => {
 	return (
 		<>
 			<div className='flex flex-col w-full'>
-				<div className='p-10 text-2xl font-bold flex'>내가 읽은 글</div>
+				<div className='flex flex-row justify-between items-center pr-10'>
+					<div className='p-10 text-2xl font-bold flex'>내가 읽은 글</div>
+					<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'>
+						<span className='material-symbols-outlined text-[1.2rem]'>add</span>
+						<span>더보기</span>
+					</Button>
+				</div>
 				<div className='px-10 h-full flex flex-col justify-between gap-y-5'>
 					{articles.map((article, index) => (
 						<div
 							key={index}
-							className='border border-black w-full flex flex-row items-center justify-between p-10 rounded-xl'
+							className='border border-gray-300 w-full flex flex-row items-center justify-between p-5 rounded-xl'
 						>
 							<div className='flex flex-col gap-5'>
 								<div className='font-bold text-xl'>{article.title}</div>
