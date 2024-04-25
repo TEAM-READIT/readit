@@ -9,23 +9,34 @@ import TextDetail from './containers/Essay/Detail/TextDetail.tsx';
 import Recruit from './containers/Community/Recruit/index.tsx';
 import { ViewerPage } from './containers/Viewer/ViewerPage.tsx';
 import Group from './containers/Group/index.tsx';
-
+import Challenge from './containers/Challenge/index.tsx';
+import { KakaoCallback } from './containers/MainPage/Login/KaKao.tsx';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { NaverCallback } from './containers/MainPage/Login/Naver.tsx';
+import { GoogleCallback } from './containers/MainPage/Login/Google.tsx';
 function App() {
+	const queryClient = new QueryClient();
 	return (
 		<>
-			<BrowserRouter>
-				<Routes>
-					<Route path='/' element={<MainPage />} />
-					<Route path='/community' element={<Community />} />
-					<Route path='/detail' element={<Detail />} />
-					<Route path='/recruit' element={<Recruit />} />
-					<Route path='/text' element={<TextDetail />} />
-					<Route path='/essay' element={<Essay />} />
-					<Route path='/group' element={<Group />} />
-					<Route path='/mypage' element={<MyPage />} />
-					<Route path='/viewer' element={<ViewerPage />} />
-				</Routes>
-			</BrowserRouter>
+			<QueryClientProvider client={queryClient}>
+				<BrowserRouter>
+					<Routes>
+						<Route path='/' element={<MainPage />} />
+						<Route path='/community' element={<Community />} />
+						<Route path='/detail' element={<Detail />} />
+						<Route path='/challenge' element={<Challenge />} />
+						<Route path='/recruit' element={<Recruit />} />
+						<Route path='/text' element={<TextDetail />} />
+						<Route path='/essay' element={<Essay />} />
+						<Route path='/group' element={<Group />} />
+						<Route path='/mypage' element={<MyPage />} />
+						<Route path='/viewer' element={<ViewerPage />} />
+						<Route path='/readit' element={<KakaoCallback />} />
+						<Route path='/login/oauth2/code/naver' element={<NaverCallback />} />
+						<Route path='/lobby' element={<GoogleCallback/>} />
+					</Routes>
+				</BrowserRouter>
+			</QueryClientProvider>
 		</>
 	);
 }

@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useAuthStore } from '../store/auth';
 import { useNavigate } from 'react-router-dom';
-import Login from '../containers/MainPage/Login';
+import Login from '../containers/MainPage/Login/Login';
 import useModal from '../hooks/useModal';
 import useStore from '../store';
 import ProfileImg from '../assets/images/skawkaks.png';
 
 const Headers = () => {
-	const { accessToken, logout } = useAuthStore();
+	// const { accessToken, logout } = useAuthStore();
 	const { setModal } = useStore();
 	const navigate = useNavigate();
 	const [isOpen, open, close] = useModal();
@@ -40,14 +40,14 @@ const Headers = () => {
 						Readit
 					</div>
 					<div className='flex flex-row justify-between gap-8 font-bold text-xl hover:cursor-pointer items-center'>
-						{accessToken ? (
+						{/* {accessToken ? ( */}
 							<>
-								<div>챌린지</div>
+								<div onClick={() => navigate('/challenge')}>챌린지</div>
 								<div onClick={() => navigate('/essay')}>글</div>
 								<div onClick={() => navigate('/community')}>커뮤니티</div>
 								<div onClick={() => navigate('/mypage')}>마이페이지</div>
 							</>
-						) : (
+						{/* ) : (
 							<>
 								<div onClick={open}>챌린지</div>
 								<div onClick={open}>글</div>
@@ -67,7 +67,7 @@ const Headers = () => {
 						) : (
 							<div onClick={open}>로그인</div>
 							// <div onClick={() => navigate('/login')}>로그인</div>
-						)}
+						)} */}
 					</div>
 				</div>
 			</div>
