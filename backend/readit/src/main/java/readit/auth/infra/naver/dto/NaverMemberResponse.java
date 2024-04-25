@@ -1,4 +1,5 @@
-package readit.auth.infra.kakao.dto;
+package readit.auth.infra.naver.dto;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,57 +16,45 @@ import readit.member.domain.MemberType;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class KakaoMemberResponse implements OAuthMemberResponse {
+public class NaverMemberResponse implements OAuthMemberResponse {
 
-    @JsonProperty("kakao_account")
-    private KakaoAccount kakaoAccount;
+    @JsonProperty("response")
+    private NaverAcount naverAcount;
 
     @Getter
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class KakaoAccount{
-        private Profile profile;
+    public static class NaverAcount{
         private String email;
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Profile {
-
-        @JsonProperty("thumbnail_image_url")
-        private String picture;
         private String nickname;
+        @JsonProperty("profile_image")
+        private String picture;
     }
 
     @Override
     public String getEmail() {
-        return kakaoAccount.getEmail();
+        return naverAcount.getEmail();
     }
 
     @Override
     public String getNickName() {
-        return kakaoAccount.getProfile().getNickname();
+        return naverAcount.getNickname();
     }
 
     @Override
     public String getPicture() {
-        return kakaoAccount.getProfile().getPicture();
+        return naverAcount.getPicture();
     }
 
     @Override
     public Member toMember() {
-        return Member.builder().name(getNickName()).email(getEmail()).profile(getPicture()).memberType(getMemberType()).challengeScore(1000)
-                .build();
+        return Member.builder().name(getNickName()).email(getEmail()).profile(getPicture()).memberType(getMemberType()).challengeScore(1000).build();
     }
 
     @Override
     public MemberType getMemberType() {
-        return MemberType.kakao;
+        return MemberType.naver;
     }
-
 }
