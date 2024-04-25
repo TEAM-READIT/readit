@@ -23,7 +23,7 @@ const CommunityHeader = () => {
 							<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
 								<div className='flex items-center gap-2'>
 									<span className='material-symbols-outlined text-[1.2rem]'>add</span>
-									<span onClick={()=>navigate('/recruit')}>새 모집 글 작성</span>
+									<span onClick={() => navigate('/recruit')}>새 모집 글 작성</span>
 								</div>
 							</Button>
 						</div>
