@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import readit.viewer.application.ChatGPTService;
+import readit.viewer.application.DictionarySearchService;
 import readit.viewer.domain.dto.GPTMessage;
 import readit.viewer.domain.dto.GPTRequestDto;
+import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.dto.response.WordListResponse;
 
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ public class ViewerController {
     private final ChatGPTService chatGPTService;
     @Value("${openai.model}")
     private String model;
+
+    private final DictionarySearchService dictionarySearchService;
 
     @GetMapping("/{articleId}")
     public WordListResponse getArticleViewer(@PathVariable Integer articleId) throws JsonProcessingException {
@@ -65,6 +69,16 @@ public class ViewerController {
                 .build();
 
         return wordListResponse;
+    }
+
+    @GetMapping("/word/{word}")
+    public Word searchMeaning(@PathVariable String word) {
+        Word wordResponse = Word.builder()
+                .word(word)
+                .definition(dictionarySearchService.search(word))
+                .build();
+
+        return wordResponse;
     }
 
 }
