@@ -1,11 +1,10 @@
 package readit.viewer.domain.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-
-@Builder
-@Getter
-public class GPTMessage {
-    private String role;
-    private String content;
+public record GPTMessage (
+        String role,
+        String content
+) {
+    public static GPTMessage of(String role, String content) {
+        return new GPTMessage(role, content);
+    }
 }

@@ -13,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import readit.common.config.ChatGPTConfig;
 import readit.common.config.RestTemplateConfig;
-import readit.viewer.domain.dto.ChatCompletion;
-import readit.viewer.domain.dto.Choice;
-import readit.viewer.domain.dto.GPTRequestDto;
-import readit.viewer.domain.dto.Word;
+import readit.viewer.domain.dto.*;
 
 import java.util.*;
 
@@ -30,7 +27,10 @@ public class ChatGPTService {
     @Value("${openai.model}")
     private String model;
 
-    public List<Word> prompt(GPTRequestDto gptRequestDto) throws JsonProcessingException {
+    public List<Word> prompt(List<GPTMessage> messages)  {
+
+        // todo: temperature 값 비교하면서 최적화하기
+        GPTRequestDto gptRequestDto = GPTRequestDto.of(model, messages, 2000, 0.5F);
         log.debug("[+] 프롬프트를 수행합니다.");
 
         Map<String, Object> result;
@@ -54,6 +54,7 @@ public class ChatGPTService {
         ChatCompletion chatCompletion;
 
         try {
+            System.out.println(response.getBody());
             chatCompletion = om.readValue((String) response.getBody(), ChatCompletion.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -88,6 +89,9 @@ public class ChatGPTService {
             for (int i = 0; i < words.size(); i++) {
                 wordList.add(new Word(words.get(i), meanings.get(i)));
             }
+
+            System.out.println("여기까지 옴");
+            System.out.println(wordList.get(0).toString());
 
         } else {
             log.info("ERROR: CONTENT_NOT_EXISTS");

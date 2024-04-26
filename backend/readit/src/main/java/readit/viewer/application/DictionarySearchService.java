@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import readit.common.config.RestTemplateConfig;
 import readit.viewer.domain.dto.DictionarySearchResult;
 import readit.viewer.domain.dto.Item;
+import readit.viewer.domain.dto.Word;
 import readit.viewer.exception.JsonParsingException;
 
 import java.net.URLEncoder;
@@ -25,10 +26,11 @@ public class DictionarySearchService {
     @Value("${dictionary.api-key}")
     private String apiKey;
 
-   public String search(String keyword) {
+   public Word search(String keyword) {
        String word = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
        String url = "https://stdict.korean.go.kr/api/search.do?key=" + apiKey
                + "&req_type=json&type_search=search&q=" + word;
+       String meaning = "";
 
        ResponseEntity<String> response = restTemplateConfig.restTemplate(new RestTemplateBuilder())
                .exchange(
@@ -40,12 +42,14 @@ public class DictionarySearchService {
        try {
            ObjectMapper om = new ObjectMapper();
            DictionarySearchResult responseBody = om.readValue(response.getBody(), DictionarySearchResult.class);
-           return parseDefinition(responseBody);
+           meaning =  parseDefinition(responseBody);
        } catch (JsonProcessingException e) {
            throw new JsonParsingException();
        } catch (IllegalArgumentException e) {
-           return "검색 결과가 없습니다.";
+           meaning = "검색 결과가 없습니다.";
        }
+
+       return Word.of(word, meaning);
    }
 
    private String parseDefinition(DictionarySearchResult result) {
