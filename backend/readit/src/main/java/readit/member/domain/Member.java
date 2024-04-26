@@ -29,5 +29,5 @@ public class Member extends BaseTimeEntity {
     private MemberType memberType;
 
     @Column(nullable = false)
-    private Integer challengeScore = 1000;
+    private Integer challengeScore;
 }
