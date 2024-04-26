@@ -1,10 +1,8 @@
 package readit.viewer.domain.dto;
 
-import lombok.Getter;
-
-@Getter
-public class Sense {
-    private String definition;
-    private String link;
-    private String type;
+public record Sense(
+        String definition,
+        String link,
+        String type
+) {
 }

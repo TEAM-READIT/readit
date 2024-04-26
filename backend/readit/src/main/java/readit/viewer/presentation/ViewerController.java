@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,13 +73,9 @@ public class ViewerController {
     }
 
     @GetMapping("/word/{word}")
-    public Word searchMeaning(@PathVariable String word) {
-        Word wordResponse = Word.builder()
-                .word(word)
-                .definition(dictionarySearchService.search(word))
-                .build();
+    public ResponseEntity<Word> searchMeaning(@PathVariable String word) {
 
-        return wordResponse;
+        return ResponseEntity.ok(Word.of(word, dictionarySearchService.search(word)));
     }
 
 }

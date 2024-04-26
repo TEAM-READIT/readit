@@ -1,11 +1,11 @@
 package readit.viewer.domain.dto;
 
-import lombok.Builder;
-import lombok.Getter;
 
-@Getter
-@Builder
-public class Word {
-    private String word;
-    private String definition;
+public record Word(
+        String word,
+        String definition
+) {
+    public static Word of(String word, String definition) {
+        return new Word(word, definition);
+    }
 }

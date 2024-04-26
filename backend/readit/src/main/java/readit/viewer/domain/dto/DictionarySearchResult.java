@@ -1,12 +1,5 @@
 package readit.viewer.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+public record DictionarySearchResult(Channel channel) {
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class DictionarySearchResult {
-    private Channel channel;
 }

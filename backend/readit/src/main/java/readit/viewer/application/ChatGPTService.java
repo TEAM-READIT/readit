@@ -40,7 +40,6 @@ public class ChatGPTService {
 
         ObjectMapper om = new ObjectMapper();
 
-
         // [STEP2] 통신을 위한 RestTemplate을 구성합니다.
         HttpEntity<GPTRequestDto> requestEntity = new HttpEntity<>(gptRequestDto, headers);
         ResponseEntity<String> response = restTemplateConfig.restTemplate(new RestTemplateBuilder())
@@ -87,11 +86,7 @@ public class ChatGPTService {
 
             // 결과 출력
             for (int i = 0; i < words.size(); i++) {
-                Word word = Word.builder()
-                        .word(words.get(i))
-                        .definition(meanings.get(i))
-                        .build();
-                wordList.add(word);
+                wordList.add(new Word(words.get(i), meanings.get(i)));
             }
 
         } else {

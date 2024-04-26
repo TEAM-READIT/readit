@@ -1,15 +1,15 @@
 package readit.viewer.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 
-@Getter
-public class Item {
-    @JsonProperty("sup_no")
-    private String supNo;
-    private String word;
-    @JsonProperty("target_code")
-    private String targetCode;
-    private Sense sense;
-    private String pos;
+public record Item(
+        @JsonProperty("sup_no")
+        String supNo,
+        String word,
+        @JsonProperty("target_code")
+        String targetCode,
+        Sense sense,
+        String pos
+) {
+
 }
