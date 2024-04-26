@@ -1,11 +1,11 @@
 import { Breadcrumb, BreadcrumbItem } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 
-const ReadDetailHeaders = () => {
+const GroupDetailHeaders = () => {
 	return (
 		<>
-			<div className='flex flex-row w-full justify-between px-5 pb-10 items-center'>
-
+			<div className='flex flex-col w-3/5 h-full justify-start  items-center '>
+				<div className='flex flex-row w-full justify-between px-5 items-center'>
 					<div className=' w-full'>
 						<Breadcrumb className='pb-8'>
 							<BreadcrumbItem>
@@ -15,13 +15,14 @@ const ReadDetailHeaders = () => {
 								<Link to='/mypage'>마이 페이지</Link>
 							</BreadcrumbItem>
 							<BreadcrumbItem>
-								<div className='hover:cursor-pointer'>내가 읽은 글</div>
+								<div className='hover:cursor-pointer'>참여중인 모임</div>
 							</BreadcrumbItem>
 						</Breadcrumb>
 					</div>
 				</div>
+			</div>
 		</>
 	);
 };
 
-export default ReadDetailHeaders;
+export default GroupDetailHeaders;

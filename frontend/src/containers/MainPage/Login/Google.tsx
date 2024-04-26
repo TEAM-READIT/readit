@@ -12,7 +12,6 @@ export const GoogleCallback = () => {
 
 	const code = new URL(document.location.toString()).searchParams.get('code');
 	const encodedCode = encodeURIComponent(code!);
-	console.log(encodedCode);
 
 	const googleLogin = useMutation(async () => {
 		const response = await fetch(`http://${baseUrl}/auth/login/google?code=${encodedCode}`, {
