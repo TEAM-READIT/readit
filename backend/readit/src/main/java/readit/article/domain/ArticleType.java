@@ -1,5 +1,5 @@
 package readit.article.domain;
 
-public enum Type {
+public enum ArticleType {
     EPIGRAPHY,NEWS
 }

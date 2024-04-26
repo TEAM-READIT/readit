@@ -3,23 +3,26 @@ package readit.article.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import readit.common.entity.BaseTimeEntity;
+import static lombok.EqualsAndHashCode.Include;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Article extends BaseTimeEntity {
     @Id
+    @Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private ArticleType type;
 
     @Column(nullable = false)
     private String content;
