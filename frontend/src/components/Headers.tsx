@@ -18,20 +18,6 @@ const Headers = () => {
 			setModal(false);
 		}
 	}, [isOpen]);
-	const filters = [
-		{
-			name: '제목',
-			value: 'title',
-		},
-		{
-			name: '작성자',
-			value: 'writerName',
-		},
-		{
-			name: '내용',
-			value: 'content',
-		},
-	];
 	return (
 		<>
 			<div className='flex justify-center w-full '>
