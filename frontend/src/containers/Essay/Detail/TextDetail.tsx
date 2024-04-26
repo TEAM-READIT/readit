@@ -2,21 +2,14 @@ import { Button, Card } from 'flowbite-react';
 import Headers from '../../../components/Headers';
 import EssayDetailHeader from './EssayDetailHeader';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {articleList} from '../../../types/articleProps';
 
-interface Article {
-	articleId: number;
-	title: string;
-	type: string;
-	content: string;
-	categoryName: string;
-	hits: number;
-}
 const TextDetail = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const article = location.state?.article;
 
-	const handleArticle = (article: Article) => {
+	const handleArticle = (article: articleList) => {
 		navigate('/viewer', { state: { article } });
 	};
 	return (

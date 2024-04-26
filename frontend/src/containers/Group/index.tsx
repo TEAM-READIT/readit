@@ -12,8 +12,8 @@ import Articles from './Articles';
 
 const Group = () => {
 	const location = useLocation();
-	const community = location.state?.community;
-	// console.log(community);
+	const communityId = location.state?.communityId;
+	// console.log(communityId);
 	// communityId로 get 요청 보내기
 	const [isOpen, open, close] = useModal();
 
@@ -87,8 +87,6 @@ const Group = () => {
 				score: 55,
 				feedback: '잘 요약했어요',
 			},
-
-
 		],
 		chatList: [
 			{
@@ -108,20 +106,18 @@ const Group = () => {
 		],
 	};
 
-return (
-	<div className='w-full h-screen flex flex-col items-center'>
-		<Headers />
-		<div className='flex flex-col w-3/5 h-full items-start'>
-			<GroupHeader myGroup={myGroup} />
-			<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
-				<Articles myGroup={myGroup} />
-				<Card className='w-2/5 h-full'></Card>
+	return (
+		<div className='w-full h-screen flex flex-col items-center'>
+			<Headers />
+			<div className='flex flex-col w-3/5 h-full items-start'>
+				<GroupHeader myGroup={myGroup} />
+				<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
+					<Articles myGroup={myGroup} />
+					<Card className='w-2/5 h-full'></Card>
+				</div>
 			</div>
+			{isOpen && <MemberDetail close={close} />}
 		</div>
-		{isOpen && <MemberDetail close={close} />}
-	</div>
-);
-
-
+	);
 }
 export default Group;
