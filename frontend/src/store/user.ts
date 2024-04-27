@@ -3,7 +3,7 @@ import userProp from '../types/userProps';
 
 
 
-const useStore = create<userProp>((set) => ({
+const userStore = create<userProp>((set) => ({
 	email: '',
 	setEmail: (email: string) => set({ email }),
 	id: 0,
@@ -14,4 +14,4 @@ const useStore = create<userProp>((set) => ({
 	setProfileImageUrl: (profileImageUrl: string) => set({ profileImageUrl }),
 }));
 
-export default useStore;
+export default userStore;

@@ -1,26 +1,9 @@
-import { Button, Card } from 'flowbite-react';
 import Headers from '../../components/Headers';
 import { useEffect, useState } from 'react';
 import Rank from './Rank';
 import Content from './Content';
 import Problems from './Problems';
-
-interface ChallengeProps {
-	articleId: number;
-	content: string;
-	problemList: problemListProps[];
-}
-
-interface problemListProps {
-	problemNumber: number;
-	problem: string;
-	optionList: optionListProps[];
-}
-
-interface optionListProps {
-	optionNumber: number;
-	option: string;
-}
+import { ChallengeProps } from '../../types/challengeProps';
 
 
 const Challenge = () => {
@@ -98,7 +81,6 @@ const Challenge = () => {
 			},
 		],
 	};
-	console.log(problems.problemList);
 	return (
 		<>
 			<div className='w-full h-screen flex flex-col items-center border overflow-hidden'>
@@ -106,7 +88,7 @@ const Challenge = () => {
 				<div className='flex flex-row w-full h-full items-start justify-center gap-10'>
 					<Rank />
 					<Content content={problems.content} />
-					<Problems problemList={problems.problemList} />
+					<Problems articleId={problems.articleId} problemList={problems.problemList} />
 				</div>
 			</div>
 		</>

@@ -12,10 +12,9 @@ interface LoginProps {
 
 const Login = ({ close }: LoginProps) => {
 	const navigate = useNavigate();
-	const { login, accessToken, logout } = useAuthStore();
+	const { login } = useAuthStore();
 	const searchParams = new URLSearchParams(window.location.search);
 	const code = searchParams.get('code');
-	const clientId = import.meta.env.VITE_APP_PUBLIC_GOOGLE_REST_API_KEY;
 	useEffect(() => {
 		if (code) {
 			login(code);

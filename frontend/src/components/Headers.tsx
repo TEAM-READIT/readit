@@ -5,11 +5,15 @@ import Login from '../containers/MainPage/Login/Login';
 import useModal from '../hooks/useModal';
 import useStore from '../store';
 import ProfileImg from '../assets/images/skawkaks.png';
+import { useMutation } from 'react-query';
+import userStore from '../store/user';
 
 const Headers = () => {
-	// const { accessToken, logout } = useAuthStore();
+	const { accessToken, logout } = useAuthStore();
+	const { id } = userStore();
 	const { setModal } = useStore();
 	const navigate = useNavigate();
+
 	const [isOpen, open, close] = useModal();
 	useEffect(() => {
 		if (isOpen) {
@@ -18,6 +22,32 @@ const Headers = () => {
 			setModal(false);
 		}
 	}, [isOpen]);
+
+	// 로그아웃
+	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	const requestBody = {
+		id: id,
+	};
+	const logoutPost = useMutation(async () => {
+		const response = await fetch(`${baseUrl}/oauth/logout`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(requestBody),
+		});
+		return response.json();
+	});
+	const handlelogout = async () => {
+		try {
+			const data = await logoutPost.mutateAsync();
+			logout()
+		} catch (error) {
+			console.error('로그아웃 실패', error);
+		}
+	};
+
 	return (
 		<>
 			<div className='flex justify-center w-full '>
@@ -27,12 +57,12 @@ const Headers = () => {
 					</div>
 					<div className='flex flex-row justify-between gap-8 font-bold text-xl hover:cursor-pointer items-center'>
 						{/* {accessToken ? ( */}
-							<>
-								<div onClick={() => navigate('/challenge')}>챌린지</div>
-								<div onClick={() => navigate('/essay')}>글</div>
-								<div onClick={() => navigate('/community')}>커뮤니티</div>
-								<div onClick={() => navigate('/mypage')}>마이페이지</div>
-							</>
+						<>
+							<div onClick={() => navigate('/challenge')}>챌린지</div>
+							<div onClick={() => navigate('/essay')}>글</div>
+							<div onClick={() => navigate('/community')}>커뮤니티</div>
+							<div onClick={() => navigate('/mypage')}>마이페이지</div>
+						</>
 						{/* ) : (
 							<>
 								<div onClick={open}>챌린지</div>
@@ -44,7 +74,7 @@ const Headers = () => {
 						{accessToken ? (
 							<div
 								onClick={() => {
-									logout();
+									handlelogout();
 									navigate('/');
 								}}
 							>

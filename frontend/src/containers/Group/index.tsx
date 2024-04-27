@@ -2,19 +2,32 @@ import { useLocation } from 'react-router-dom';
 import Headers from '../../components/Headers';
 import GroupHeader from './GroupHeader';
 import ProfileImage from '../../assets/images/profile.png';
-import { Card } from 'flowbite-react';
+import { Button, Card } from 'flowbite-react';
 import useModal from '../../hooks/useModal';
 import MemberDetail from './MemberDetail';
 
-import {communityProps} from '../../types/gropProps';
+import { communityProps } from '../../types/gropProps';
 import Articles from './Articles';
 
-
 const Group = () => {
+	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const location = useLocation();
 	const communityId = location.state?.communityId;
-	// console.log(communityId);
-	// communityId로 get 요청 보내기
+	// const [myGroup, setMyGroup] = useState<communityProps>();
+	// // 모임 세부 정보 받아오기
+	// const groupData = async () => {
+	// 	const data = await fetch(`${baseUrl}/community/${communityId}`).then((response) => response.json());
+	// 	return data;
+	// };
+
+	// useEffect(() => {
+	// 	groupData()
+	// 		.then((res) => setMyGroup(res))
+	// 		.catch((err) => {
+	// 			console.log(' 모임 세부 정보 받아오기 에러');
+	// 		});
+	// }, []);
+
 	const [isOpen, open, close] = useModal();
 
 	const myGroup: communityProps = {
@@ -94,7 +107,7 @@ const Group = () => {
 				memberName: '오영주',
 				memberProfile: '123',
 				sendDate: new Date(),
-				content: '가나다',
+				content: '가나다라마바사가나다라마바사',
 			},
 			{
 				memberId: 2,
@@ -103,21 +116,119 @@ const Group = () => {
 				sendDate: new Date(),
 				content: '라마바사',
 			},
+			{
+				memberId: 2,
+				memberName: '박현춘',
+				memberProfile: '123',
+				sendDate: new Date(),
+				content: '라마바사',
+			},
+			{
+				memberId: 2,
+				memberName: '박현춘',
+				memberProfile: '123',
+				sendDate: new Date(),
+				content: '라마바사',
+			},
+			{
+				memberId: 2,
+				memberName: '박현춘',
+				memberProfile: '123',
+				sendDate: new Date(),
+				content: '라마바사',
+			},
+			{
+				memberId: 2,
+				memberName: '박현춘',
+				memberProfile: '123',
+				sendDate: new Date(),
+				content: '라마바사',
+			},
+			{
+				memberId: 2,
+				memberName: '박현춘',
+				memberProfile: '123',
+				sendDate: new Date(),
+				content: '라마바사',
+			},
+			{
+				memberId: 2,
+				memberName: '박현춘',
+				memberProfile: '123',
+				sendDate: new Date(),
+				content: '라마바사',
+			},
+			{
+				memberId: 1,
+				memberName: '오영주',
+				memberProfile: '123',
+				sendDate: new Date(),
+				content: '가나다라마바사가나다라마바사',
+			},
 		],
 	};
-
-	return (
-		<div className='w-full h-screen flex flex-col items-center'>
-			<Headers />
-			<div className='flex flex-col w-3/5 h-full items-start'>
-				<GroupHeader myGroup={myGroup} />
-				<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
-					<Articles myGroup={myGroup} />
-					<Card className='w-2/5 h-full'></Card>
+return (
+	<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
+		<Headers />
+		<div className='flex flex-col w-3/5 h-full items-start'>
+			<GroupHeader myGroup={myGroup} />
+			<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
+				<Articles myGroup={myGroup} open={open} />
+				<div className='w-2/5 flex flex-col'>
+					<div className='h-[550px] overflow-y-auto'>
+						<div className='flex flex-col gap-5'>
+							{myGroup.chatList.map((chat, index) => (
+								<div key={index}>
+									{chat.memberId === 1 ? (
+										<div className='flex flex-row gap-x-2'>
+											<img src={ProfileImage} alt='사용자프로필' className='w-16 aspect-auto' />
+											<div className='flex flex-col items-start'>
+												<div className='text-lg font-bold'>{chat.memberName}</div>
+												<div className='flex flex-row items-center gap-x-2'>
+													<div className='bg-white border border-gray-500 text-sm w-full p-2 rounded-xl'>
+														{chat.content}
+													</div>
+													<span className='text-sm'>
+														{chat.sendDate.getHours()}:{chat.sendDate.getMinutes() < 10 ? '0' : ''}
+														{chat.sendDate.getMinutes()}
+													</span>
+												</div>
+											</div>
+										</div>
+									) : (
+										<>
+											<div className='flex flex-row gap-x-2 justify-end'>
+												<div className='flex flex-col items-end'>
+													<div className='text-lg font-bold'>{chat.memberName}</div>
+													<div className='flex flex-row items-center gap-x-2'>
+														<span className='text-sm'>
+															{chat.sendDate.getHours()}:{chat.sendDate.getMinutes() < 10 ? '0' : ''}
+															{chat.sendDate.getMinutes()}
+														</span>
+														<div className='bg-white border border-gray-500 text-sm w-full p-2 rounded-xl'>
+															{chat.content}
+														</div>
+													</div>
+												</div>
+												<img src={ProfileImage} alt='사용자프로필' className='w-16 aspect-auto' />
+											</div>
+										</>
+									)}
+								</div>
+							))}
+						</div>
+					</div>
+					<div className='flex flex-row h-full w-full items-center gap-5'>
+						<input type='text' className='rounded-xl w-5/6' />
+						<Button className='border w-1/6 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'>전송</Button>
+					</div>
 				</div>
 			</div>
-			{isOpen && <MemberDetail close={close} />}
 		</div>
-	);
-}
+
+		{isOpen && <MemberDetail close={close} />}
+	</div>
+);
+
+};
 export default Group;

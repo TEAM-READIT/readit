@@ -42,7 +42,7 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 								</span>
 								<span className='font-semibold'>{myGroup.writerName}</span>
 								<div className='flex gap-2'>
-									<span className='material-symbols-outlined hover:cursor-pointer' onClick={()=>open()}>person</span>
+									<span className='material-symbols-outlined hover:cursor-pointer'>person</span>
 									<span>
 										{myGroup.currentParticipants} / {myGroup.maxParticipants}
 									</span>
@@ -59,27 +59,12 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 					</div>
 				</div>
 			</div>
-			<div className='w-full px-5 pb-5'>
+			<div className='w-full px-5 '>
 				<div className='flex flex-row w-full p-5 text-xl font-bold bg-[#E1EDFF] rounded-xl'>
 					📢 공지 : {myGroup.notice}
 				</div>
 			</div>
-			{isOpen ? 
-			<div className=' w-full px-5 pt-5 flex flex-row justify-start gap-20 items-center'>
-				<div className='flex flex-row gap-x-2'>
-					{myGroup.memberList.map((member, index) => (
-						<div key={index}>
-							{/* <img src='member.profile' alt='사용자프로필' className='w-16 aspect-auto' /> */}
-							<img src={ProfileImage} alt='사용자프로필' className='w-16 aspect-auto' />
-							<div>{member.memberName}</div>
-							<div>
-								{member.readCount} / {myGroup.articleCount}
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-					: null}
+			
 		</>
 	);
 };

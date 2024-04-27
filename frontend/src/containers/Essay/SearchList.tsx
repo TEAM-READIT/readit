@@ -1,13 +1,16 @@
 import { Card } from 'flowbite-react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {articleList} from '../../types/articleProps';
 import { useEffect, useState } from 'react';
 
 const SearchList = (totalArticles: {totalArticles:articleList[]}) => {
 	const location = useLocation();
-
-	const articles: articleList[] = location.state?.articles;
-
+	const navigate = useNavigate();
+	const handleCardClick = (article: articleList) => {
+		navigate('/text', { state: { article } });
+	};
+	const articles = totalArticles.totalArticles
+	
 	return (
 		<>
 			<div className='flex flex-row w-full h-full justify-start p-3 gap-5 flex-wrap '>
@@ -15,6 +18,7 @@ const SearchList = (totalArticles: {totalArticles:articleList[]}) => {
 					<Card
 						key={index}
 						className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+						onClick={()=>handleCardClick(article)}
 					>
 						<div className='flex flex-row justify-between text-center text-sm'>
 							<div>👀 {article.hits}</div>

@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/auth';
-import useStore from '../../../store/user';
+import userStore from '../../../store/user';
 
 export const GoogleCallback = () => {
 	const navigate = useNavigate();
 	const { login, accessToken, logout } = useAuthStore();
-	const { setEmail, setId, setName, setProfileImageUrl } = useStore();
+	const { setEmail, setId, setName, setProfileImageUrl } = userStore();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 
 	const code = new URL(document.location.toString()).searchParams.get('code');
@@ -30,6 +30,7 @@ export const GoogleCallback = () => {
 			login(data.accessToken);
 			const userdata = data.authResponse;
 			setEmail(userdata.email);
+			setId(userdata.id)
 			setName(userdata.name);
 			setProfileImageUrl(userdata.profileImageUrl);
 			navigate('/');
