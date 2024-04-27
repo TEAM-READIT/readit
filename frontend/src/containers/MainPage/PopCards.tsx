@@ -13,7 +13,7 @@ const PopCards = () => {
 	const [popArticles, setPopArticle] = useState<PoparticleList>();
 	// 인기있는 아티클 받아오기
 	const popArticleData = async () => {
-		const data = await fetch(`${baseUrl}/article`).then((response) => response.json());
+		const data = await fetch(`${baseUrl}/article/hot`).then((response) => response.json());
 		return data;
 	};
 

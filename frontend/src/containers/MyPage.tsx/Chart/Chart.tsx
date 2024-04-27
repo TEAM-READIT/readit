@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -17,15 +16,46 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineEleme
 
 import { Line } from 'react-chartjs-2';
 
+interface scoreList {
+	type: string;
+	score: number;
+}
+
+
 const Chart = () => {
+		const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+
+	const [scoreList, setScoreList] = useState<scoreList[]>();
+	// 글 요약 점수 통계 받아오기
+	const scoreData = async () => {
+		const data = await fetch(`${baseUrl}/article/statistics`).then((response) => response.json());
+		return data;
+	};
+
+	useEffect(() => {
+		scoreData()
+			.then((res) => setScoreList(res))
+			.catch((err) => {
+				console.log('글 요약 점수 받아오는거 에러');
+			});
+	}, []);
+
 	const [graphData, setGraphData] = useState<ChartData<'line', number[], unknown>>({
 		labels: [],
 		datasets: [],
 	});
 
 	useEffect(() => {
+		// {scoreList?.map((index,scores)=>(
+		// 	if(scores.type == '뉴스'){
+		// 		liter.push(scores.score)
+		// 	}
+		// ))}
+
+
+
 		const liter = [10, 20, 40, 10, 30, 40, 50];
-		const news = [20, 30, 40, 50, 20, 30, 60,100];
+		const news = [20, 30, 40, 50, 20, 30, 60, 100];
 
 		const faceColor = 'rgba(255, 165, 0, 1)';
 		const pronunciationColor = 'rgba(154, 205, 50, 1)';
