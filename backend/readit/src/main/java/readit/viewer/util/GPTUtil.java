@@ -1,7 +1,12 @@
-package readit.viewer.application;
+package readit.viewer.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,17 +15,19 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import readit.common.config.ChatGPTConfig;
 import readit.common.config.RestTemplateConfig;
-import readit.viewer.domain.dto.*;
-
-import java.util.*;
+import readit.viewer.domain.dto.ChatCompletion;
+import readit.viewer.domain.dto.Choice;
+import readit.viewer.domain.dto.GPTMessage;
+import readit.viewer.domain.dto.GPTPrompt;
+import readit.viewer.domain.dto.Word;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
-public class ChatGPTService {
+public class GPTUtil {
     private final ChatGPTConfig chatGPTConfig;
     private final RestTemplateConfig restTemplateConfig;
 
@@ -30,7 +37,7 @@ public class ChatGPTService {
     public List<Word> prompt(List<GPTMessage> messages)  {
 
         // todo: temperature 값 비교하면서 최적화하기
-        GPTRequestDto gptRequestDto = GPTRequestDto.of(model, messages, 2000, 0.5F);
+        GPTPrompt gptPrompt = GPTPrompt.of(model, messages, 2000, 0.5F);
         log.debug("[+] 프롬프트를 수행합니다.");
 
         Map<String, Object> result;
@@ -41,7 +48,7 @@ public class ChatGPTService {
         ObjectMapper om = new ObjectMapper();
 
         // [STEP2] 통신을 위한 RestTemplate을 구성합니다.
-        HttpEntity<GPTRequestDto> requestEntity = new HttpEntity<>(gptRequestDto, headers);
+        HttpEntity<GPTPrompt> requestEntity = new HttpEntity<>(gptPrompt, headers);
         ResponseEntity<String> response = restTemplateConfig.restTemplate(new RestTemplateBuilder())
                 .exchange(
                         "https://api.openai.com/v1/chat/completions",
@@ -54,7 +61,6 @@ public class ChatGPTService {
         ChatCompletion chatCompletion;
 
         try {
-            System.out.println(response.getBody());
             chatCompletion = om.readValue((String) response.getBody(), ChatCompletion.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -90,14 +96,10 @@ public class ChatGPTService {
                 wordList.add(new Word(words.get(i), meanings.get(i)));
             }
 
-            System.out.println("여기까지 옴");
-            System.out.println(wordList.get(0).toString());
-
         } else {
             log.info("ERROR: CONTENT_NOT_EXISTS");
         }
 
         return wordList;
     }
-
 }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import readit.viewer.application.DictionarySearchService;
 import readit.viewer.application.ViewerService;
 import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.dto.response.WordListResponse;
@@ -19,7 +18,6 @@ import readit.viewer.domain.dto.response.WordListResponse;
 public class ViewerController {
 
     private final ViewerService viewerService;
-    private final DictionarySearchService dictionarySearchService;
 
     @GetMapping("/{articleId}")
     public ResponseEntity<WordListResponse> getArticleViewer(@PathVariable Integer articleId) {
@@ -28,7 +26,7 @@ public class ViewerController {
 
     @GetMapping("/word/{word}")
     public ResponseEntity<Word> searchMeaning(@PathVariable String word) {
-        return ResponseEntity.ok(dictionarySearchService.search(word));
+        return ResponseEntity.ok(viewerService.dictionarySearch(word));
     }
 
 }
