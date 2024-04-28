@@ -93,8 +93,8 @@ const SearchList = () => {
 								{community.categoryName}
 							</div>
 						</div>
-						<div className='flex flex-col h-4/5 text-start font-bold gap-y-2'>
-							<div className='text-l border-gray-200 border-b'>
+						<div className='flex flex-col h-4/5 text-start  gap-y-2'>
+							<div className='text-l border-gray-200 border-b font-bold'>
 								{community.title.length <= 13 ? (
 									<div>{community.title} </div>
 								) : (

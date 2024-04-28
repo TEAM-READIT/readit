@@ -42,7 +42,7 @@ const Headers = () => {
 	const handlelogout = async () => {
 		try {
 			const data = await logoutPost.mutateAsync();
-			logout()
+			logout();
 		} catch (error) {
 			console.error('로그아웃 실패', error);
 		}

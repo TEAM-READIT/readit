@@ -18,7 +18,7 @@ const SearchList = (totalArticles: {totalArticles:articleList[]}) => {
 					<Card
 						key={index}
 						className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
-						onClick={()=>handleCardClick(article)}
+						onClick={() => handleCardClick(article)}
 					>
 						<div className='flex flex-row justify-between text-center text-sm'>
 							<div>👀 {article.hits}</div>
@@ -28,15 +28,15 @@ const SearchList = (totalArticles: {totalArticles:articleList[]}) => {
 								</div>
 							) : null}
 						</div>
-						<div className='flex flex-col h-4/5 text-start font-bold gap-y-2'>
-							<div className='text-l border-gray-200 border-b'>
+						<div className='flex flex-col h-4/5 text-start gap-y-2'>
+							<div className='text-l border-gray-200 border-b  font-bold'>
 								{article.title.length <= 15 ? <div>{article.title} </div> : <div>{article.title.slice(0, 15)}...</div>}
 							</div>
 							<div className='text-sm'>
-								{article.content.length <= 130 ? (
+								{article.content.length <= 120 ? (
 									<div>{article.content} </div>
 								) : (
-									<div>{article.content.slice(0, 130)}...</div>
+									<div>{article.content.slice(0, 120)}...</div>
 								)}
 							</div>
 						</div>

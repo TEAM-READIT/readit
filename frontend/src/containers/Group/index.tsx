@@ -8,6 +8,7 @@ import MemberDetail from './MemberDetail';
 
 import { communityProps } from '../../types/gropProps';
 import Articles from './Articles';
+import { useMutation } from 'react-query';
 
 const Group = () => {
 	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -27,7 +28,29 @@ const Group = () => {
 	// 			console.log(' 모임 세부 정보 받아오기 에러');
 	// 		});
 	// }, []);
+// 	const chatBody = {
+// 		memberId:
+// 		content: 
+// }
+// const chatPost = useMutation(async () => {
+// 	const response = await fetch(`${baseUrl}/community/chat`, {
+// 		method: 'POST',
+// 		headers: {
+// 			Authorization: `Bearer ${accessToken}`,
+// 			'Content-Type': 'application/json',
+// 		},
+// 		body: JSON.stringify(chatBody),
+// 	});
+// 	return response.json();
+// });
+// const handleSendingChat = async () => {
+// 	try {
+// 		const data = await chatPost.mutateAsync();
 
+// 	} catch (error) {
+// 		console.error('채팅 보내기 실패', error);
+// 	}
+// };
 	const [isOpen, open, close] = useModal();
 
 	const myGroup: communityProps = {
