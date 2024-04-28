@@ -9,11 +9,13 @@ import MemberDetail from './MemberDetail';
 import { communityProps } from '../../types/gropProps';
 import Articles from './Articles';
 import { useMutation } from 'react-query';
+import Chat from './Chat';
 
 const Group = () => {
 	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const location = useLocation();
 	const communityId = location.state?.communityId;
+	console.log(communityId)
 	// const [myGroup, setMyGroup] = useState<communityProps>();
 	// // 모임 세부 정보 받아오기
 	// const groupData = async () => {
@@ -28,29 +30,7 @@ const Group = () => {
 	// 			console.log(' 모임 세부 정보 받아오기 에러');
 	// 		});
 	// }, []);
-// 	const chatBody = {
-// 		memberId:
-// 		content: 
-// }
-// const chatPost = useMutation(async () => {
-// 	const response = await fetch(`${baseUrl}/community/chat`, {
-// 		method: 'POST',
-// 		headers: {
-// 			Authorization: `Bearer ${accessToken}`,
-// 			'Content-Type': 'application/json',
-// 		},
-// 		body: JSON.stringify(chatBody),
-// 	});
-// 	return response.json();
-// });
-// const handleSendingChat = async () => {
-// 	try {
-// 		const data = await chatPost.mutateAsync();
 
-// 	} catch (error) {
-// 		console.error('채팅 보내기 실패', error);
-// 	}
-// };
 	const [isOpen, open, close] = useModal();
 
 	const myGroup: communityProps = {
@@ -197,55 +177,7 @@ return (
 			<GroupHeader myGroup={myGroup} />
 			<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
 				<Articles myGroup={myGroup} open={open} />
-				<div className='w-2/5 flex flex-col'>
-					<div className='h-[550px] overflow-y-auto'>
-						<div className='flex flex-col gap-5'>
-							{myGroup.chatList.map((chat, index) => (
-								<div key={index}>
-									{chat.memberId === 1 ? (
-										<div className='flex flex-row gap-x-2'>
-											<img src={ProfileImage} alt='사용자프로필' className='w-16 aspect-auto' />
-											<div className='flex flex-col items-start'>
-												<div className='text-lg font-bold'>{chat.memberName}</div>
-												<div className='flex flex-row items-center gap-x-2'>
-													<div className='bg-white border border-gray-500 text-sm w-full p-2 rounded-xl'>
-														{chat.content}
-													</div>
-													<span className='text-sm'>
-														{chat.sendDate.getHours()}:{chat.sendDate.getMinutes() < 10 ? '0' : ''}
-														{chat.sendDate.getMinutes()}
-													</span>
-												</div>
-											</div>
-										</div>
-									) : (
-										<>
-											<div className='flex flex-row gap-x-2 justify-end'>
-												<div className='flex flex-col items-end'>
-													<div className='text-lg font-bold'>{chat.memberName}</div>
-													<div className='flex flex-row items-center gap-x-2'>
-														<span className='text-sm'>
-															{chat.sendDate.getHours()}:{chat.sendDate.getMinutes() < 10 ? '0' : ''}
-															{chat.sendDate.getMinutes()}
-														</span>
-														<div className='bg-white border border-gray-500 text-sm w-full p-2 rounded-xl'>
-															{chat.content}
-														</div>
-													</div>
-												</div>
-												<img src={ProfileImage} alt='사용자프로필' className='w-16 aspect-auto' />
-											</div>
-										</>
-									)}
-								</div>
-							))}
-						</div>
-					</div>
-					<div className='flex flex-row h-full w-full items-center gap-5'>
-						<input type='text' className='rounded-xl w-5/6' />
-						<Button className='border w-1/6 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'>전송</Button>
-					</div>
-				</div>
+				<Chat myGroup={myGroup} />
 			</div>
 		</div>
 

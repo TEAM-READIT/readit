@@ -169,10 +169,16 @@ const Chart = () => {
 		<>
 			<div className='w-2/3 h-1/3 flex flex-col'>
 				<div className='flex flex-row'>
-					<div className={`text-2xl text-${mode == summary ? 'black' : 'gray-500'} font-bold flex justify-start p-5`} onClick={() => setMode(summary)}>
+					<div
+						className={`text-2xl text-${mode == summary ? 'black' : 'gray-500'} font-bold flex justify-start p-5 hover:cursor-pointer`}
+						onClick={() => setMode(summary)}
+					>
 						요약 점수 변화
 					</div>
-					<div className={`text-2xl text-${mode == summary ? 'gray-500' : 'black'} font-bold flex justify-start p-5`} onClick={() =>setMode(challenge)}>
+					<div
+						className={`text-2xl text-${mode == summary ? 'gray-500' : 'black'} font-bold flex justify-start p-5 hover:cursor-pointer`}
+						onClick={() => setMode(challenge)}
+					>
 						챌린지 점수 변화
 					</div>
 				</div>

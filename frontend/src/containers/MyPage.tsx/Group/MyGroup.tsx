@@ -7,6 +7,8 @@ const MyGroup = () => {
 	const navigate = useNavigate();
 	const handleCommunity = (communityList: communityList[]) => {
 		navigate('/mypage/group', { state: { communityList } });
+	};	const handleMyCommunity = (communityId: number) => {
+		navigate('/group', { state: { communityId } });
 	};
 
 	// const [communityList, setCommunityList] = useState<communityList[]>();
@@ -97,7 +99,9 @@ const MyGroup = () => {
 									</div>
 								</div>
 							</div>
-							<Button className='bg-primary-500 border border-black'>모임 페이지 이동하기</Button>
+							<Button className='bg-primary-500 border border-black' onClick={() => handleMyCommunity(community.communityId)}>
+								모임 페이지 이동하기
+							</Button>
 						</div>
 					))}
 				</div>

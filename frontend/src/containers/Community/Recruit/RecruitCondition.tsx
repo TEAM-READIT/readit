@@ -5,7 +5,7 @@ const RecruitCondition = () => {
 
   return (
 		<>
-			<div className='flex flex-row flex-wrap'>
+			<div className='flex flex-row w-full'>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
 					<div className='flex justify-start'>모집 구분</div>
 					<select name='category' className='select'>
