@@ -1,30 +1,27 @@
-import { Button, Card } from 'flowbite-react';
 import Headers from '../../components/Headers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Rank from './Rank';
 import Content from './Content';
 import Problems from './Problems';
-
-interface ChallengeProps {
-	articleId: number;
-	content: string;
-	problemList: problemListProps[];
-}
-
-interface problemListProps {
-	problemNumber: number;
-	problem: string;
-	optionList: optionListProps[];
-}
-
-interface optionListProps {
-	optionNumber: number;
-	option: string;
-}
+import { ChallengeProps } from '../../types/challengeProps';
 
 
 const Challenge = () => {
+	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	// const [problems, setProblems] = useState<ChallengeProps>();
+	// // 챌린지 문제 받아오기
+	// const challengeData = async () => {
+	// 	const data = await fetch(`${baseUrl}/challenge`).then((response) => response.json());
+	// 	return data;
+	// };
 
+	// useEffect(() => {
+	// 	challengeData()
+	// 		.then((res) => setChallenge(res))
+	// 		.catch((err) => {
+	// 			console.log('챌린지 문제 받아오는거 에러');
+	// 		});
+	// }, []);
 	const problems: ChallengeProps = {
 		articleId: 22,
 		content:
@@ -84,15 +81,14 @@ const Challenge = () => {
 			},
 		],
 	};
-	console.log(problems.problemList)
 	return (
 		<>
 			<div className='w-full h-screen flex flex-col items-center border overflow-hidden'>
 				<Headers />
 				<div className='flex flex-row w-full h-full items-start justify-center gap-10'>
 					<Rank />
-					<Content content={problems.content}/>
-					<Problems problemList={problems.problemList}/>
+					<Content content={problems.content} />
+					<Problems articleId={problems.articleId} problemList={problems.problemList} />
 				</div>
 			</div>
 		</>

@@ -1,35 +1,25 @@
 import { Card } from "flowbite-react";
+import { scoreRanking } from "../../types/challengeProps";
 
-interface ChallengeProps {
-	articleId: number;
-	content: string;
-	problemList: problemListProps[];
-}
-
-interface problemListProps {
-	problemNumber: number;
-	problem: string;
-	optionList: optionListProps[];
-}
-
-interface optionListProps {
-	optionNumber: number;
-	option: string;
-}
-
-interface memberRanking {
-	name: string;
-	profile: string;
-}
-
-interface scoreRanking {
-	memberList: memberRanking[];
-	myRank: number;
-}
 
 const Rank = () => {
-//TODO: 여기서 rank get 호출
-  const ranking: scoreRanking = {
+	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	// const [ranking, setRanking] = useState<scoreRanking>();
+	// // 챌린지 랭킹 받아오기
+	// const challengeRankData = async () => {
+	// 	const data = await fetch(`${baseUrl}/challenge/rank`).then((response) => response.json());
+	// 	return data;
+	// };
+
+	// useEffect(() => {
+	// 	challengeRankData()
+	// 		.then((res) => setRanking(res))
+	// 		.catch((err) => {
+	// 			console.log('챌린지 랭킹 받아오는거 에러');
+	// 		});
+	// }, []);
+
+	const ranking: scoreRanking = {
 		myRank: 1,
 		memberList: [
 			{
@@ -54,8 +44,6 @@ const Rank = () => {
 			},
 		],
 	};
-
-
 
 	return (
 		<>

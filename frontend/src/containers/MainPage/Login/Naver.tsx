@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/auth';
-import useStore from '../../../store/user';
+import userStore from '../../../store/user';
 
 export const NaverCallback = () => {
 	const navigate = useNavigate();
 	const { login, accessToken, logout } = useAuthStore();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const code = new URL(document.location.toString()).searchParams.get('code');
-	const { setEmail, setName, setProfileImageUrl } = useStore();
+	const { setEmail, setId,setName, setProfileImageUrl } = userStore();
 
 	const naverLogin = useMutation(async () => {
 		const response = await fetch(`http://${baseUrl}/auth/login/naver?code=${code}`, {
@@ -28,6 +28,7 @@ export const NaverCallback = () => {
 			login(data.accessToken);
 			const userdata = data.authResponse;
 			setEmail(userdata.email);
+			setId(userdata.id)
 			setName(userdata.name);
 			setProfileImageUrl(userdata.profileImageUrl);
 			navigate('/');

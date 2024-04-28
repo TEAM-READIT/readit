@@ -1,7 +1,7 @@
 import ProfileImg from '../../../assets/images/skawkaks.png';
-import useStore from '../../../store/user';
+import userStore from '../../../store/user';
 const Profile = () => {
-	const { name, email, profileImageUrl } = useStore();
+	const { name, email, profileImageUrl } = userStore();
 	return (
 		<>
 			<div className='w-1/2 flex flex-col justify-center items-center gap-5 h-1/3'>

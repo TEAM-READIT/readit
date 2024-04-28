@@ -1,21 +1,30 @@
 import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
-
-interface groupListProps {
-	communityId: number;
-	categoryName: string;
-	title: string;
-	startAt: Date;
-	hits: number;
-	content: string;
-}
+import communityList from '../../../types/communityProps';
 
 const MyGroup = () => {
+	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
-	const handleCommunity = (communityList: groupListProps[]) => {
+	const handleCommunity = (communityList: communityList[]) => {
 		navigate('/mypage/group', { state: { communityList } });
 	};
-	const communityList: groupListProps[] = [
+
+	// const [communityList, setCommunityList] = useState<communityList[]>();
+	// // 내가 속한 모임 받아오기
+	// const myCommunityData = async () => {
+	// 	const data = await fetch(`${baseUrl}/community/myCommunity`).then((response) => response.json());
+	// 	return data;
+	// };
+
+	// useEffect(() => {
+	// 	myCommunityData()
+	// 		.then((res) => setCommunityList(res))
+	// 		.catch((err) => {
+	// 			console.log('내가 읽은 글 받아오는거 에러');
+	// 		});
+	// }, []);
+
+	const communityList: communityList[] = [
 		{
 			communityId: 1,
 			categoryName: '시사',
@@ -54,6 +63,12 @@ const MyGroup = () => {
 			hits: 523,
 		},
 	];
+	// 날짜순으로 정렬
+	const sortedCommunityList = communityList.sort((a, b) => b.startAt.getTime() - a.startAt.getTime());
+
+	// 상위 3개만 추출
+	const top3Communities = sortedCommunityList.slice(0, 3);
+
 	return (
 		<>
 			<div className='flex flex-col w-full'>
@@ -68,7 +83,7 @@ const MyGroup = () => {
 					</Button>
 				</div>
 				<div className='px-10 h-full flex flex-col justify-between gap-y-5'>
-					{communityList.map((community, index) => (
+					{top3Communities.map((community, index) => (
 						<div
 							key={index}
 							className='border border-gray-300 w-full flex flex-row items-center justify-between p-5 rounded-xl'

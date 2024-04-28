@@ -20,7 +20,7 @@ const Detail = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const community = location.state?.community;
-	console.log(community);
+	// console.log(community);
 	const handleClickGroup = (community: GroupProps) => {
 		navigate('/group', { state: { community } });
 	};

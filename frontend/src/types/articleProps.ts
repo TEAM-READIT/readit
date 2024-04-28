@@ -11,7 +11,7 @@ interface articleList {
 	memoList?:memo[]
 }
 
-interface PoparticleList {
+interface PopArticleList {
 	all: articleList[];
 	news: articleList[];
 	epigraphy: articleList[];
@@ -24,4 +24,4 @@ interface memo {
 	content:string;
 }
 
-export type { articleList, PoparticleList };
+export type { articleList, PopArticleList };

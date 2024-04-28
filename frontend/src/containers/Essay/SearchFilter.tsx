@@ -16,22 +16,24 @@ const SearchFilter = ({ handleFilterChange }: SearchFilterProps) => {
 			isMember: isMember,
 			categoryName: category,
 		};
-		let filtered = '?';
+		let filtered = '';
 		if (searchType != '' && keyword) {
-			filtered += `${searchType}=${keyword}`;
+			filtered += `${searchType}=${keyword}$`;
 		}
 		if (filter.hits) {
-			filtered += `hits=true`;
+			filtered += `hits=true$`;
 		}
 		if (filter.isMember) {
-			filtered += `isMember=true`;
+			filtered += `isMember=true$`;
 		}
 		if (filter.categoryName != '') {
-			filtered += `categoryName=${category}`;
+			filtered += `categoryName=${category}$`;
 		}
+		// 마지막 & 제거
+			filtered = filtered.slice(0, -1);
+		
 		handleFilterChange(filtered);
 	};
-
 	return (
 		<>
 			<div className='w-full h-full'>
@@ -42,7 +44,6 @@ const SearchFilter = ({ handleFilterChange }: SearchFilterProps) => {
 								<p className='font-semibold text-md border-b-2 border-gray-200 mb-2 pb-1'>검색 필터</p>
 								<div className='flex flex-col gap-4'>
 									<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
-										<option value=''>검색 유형 선택</option>
 										<option value='title'>제목</option>
 										<option value='content'>내용</option>
 										<option value='writerName'>작성자</option>
@@ -70,6 +71,7 @@ const SearchFilter = ({ handleFilterChange }: SearchFilterProps) => {
 										<option value='자유주제'>자유주제</option>
 									</select>
 								</div>
+
 								<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
 									<div className='flex items-center gap-2' onClick={handleApplyFilter}>
 										<span className='material-symbols-outlined text-[1.2rem]'>search</span>
