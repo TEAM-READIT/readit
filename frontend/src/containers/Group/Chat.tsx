@@ -25,7 +25,7 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 	// const handleSendingChat = async () => {
 	// 	try {
 	// 		const data = await chatPost.mutateAsync();
-
+				
 	// 	} catch (error) {
 	// 		console.error('채팅 보내기 실패', error);
 	// 	}
