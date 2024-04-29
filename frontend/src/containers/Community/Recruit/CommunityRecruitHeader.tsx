@@ -1,9 +1,7 @@
-import { Breadcrumb, BreadcrumbItem, Button } from 'flowbite-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Breadcrumb, BreadcrumbItem } from 'flowbite-react';
+import { Link } from 'react-router-dom';
 
 const CommunityRecruitHeader = () => {
-	const navigate = useNavigate();
-
 	return (
 		<>
 			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>

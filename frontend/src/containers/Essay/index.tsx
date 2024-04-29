@@ -9,10 +9,8 @@ import { useLocation } from 'react-router-dom';
 const Essay = () => {
 	const location = useLocation();
 	const categoryName = location.state?.categoryName;
-	console.log(categoryName);
 	const communityId = location.state?.communityId;
-	console.log(communityId)
-	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	// const [totalArticles, setTotalArticle] = useState<articleList[]>();
 	//전체 아티클 조회
 	// const totalArticleData = async (filter: string) => {
@@ -21,7 +19,7 @@ const Essay = () => {
 	// };
 	// 검색 필터 변경 시 다시 받아오기
 	const handleFilterChange = (filter: string) => {
-		console.log(filter);
+		console.log('filter:', filter);
 		totalArticleData(filter)
 			.then((res) => setTotalArticle(res))
 			.catch((err) => {

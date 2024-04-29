@@ -3,11 +3,13 @@ import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { articleList } from '../../types/articleProps';
+import { useAuthStore } from '../../store/auth';
 
 const EssayHeader = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
 	const [link, setLink] = useState<string>('');
+	const { accessToken } = useAuthStore();
 
 	// 링크로 검색하기
 	const requestBody = {
@@ -18,6 +20,8 @@ const EssayHeader = () => {
 		const response = await fetch(`${baseUrl}/article/link`, {
 			method: 'POST',
 			headers: {
+				Authorization: `Bearer ${accessToken}`,
+
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(requestBody),

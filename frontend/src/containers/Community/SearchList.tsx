@@ -3,63 +3,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import communityList from '../../types/communityProps';
 
-const SearchList = () => {
+const SearchList = ({ totalCommunity }: { totalCommunity: communityList[] }) => {
 	const navigate = useNavigate();
-
-
-	const popCommunity: communityList[] = [
-		{
-			communityId: 1,
-			hit: 523,
-			writerName: '오영주',
-			maxParticipants: 4,
-			currentParticipants: 2,
-			categoryName: '시사',
-			title: 'Seeking Partners',
-			content:
-				'To join, Please share a shor introduction about yourself and the topics you are passionate about presenting. Our goal is to create whatever i dont get what theyre talking bout',
-
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-
-		{
-			communityId: 2,
-			hit: 523,
-			writerName: '박현춘',
-			maxParticipants: 8,
-			currentParticipants: 1,
-			categoryName: '취업',
-			title: '함께 취업 발표 준비합시다',
-			content: '취업 발표 연습을 위해 함께 연습할 동료를 찾고 있습니다.',
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-		{
-			communityId: 3,
-			title: '저와 같이 심도 있는 토론 하실분 ',
-			hit: 523,
-			writerName: '박현춘',
-			maxParticipants: 8,
-			currentParticipants: 1,
-			categoryName: '경제',
-			content: '집에서 집에 가고 싶다고 말하는 것은 무슨 의미인지 의문이 생겼습니다.',
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-		{
-			communityId: 4,
-			title: '제 37회 정기 독서토론',
-			categoryName: '연애',
-			writerName: '박현춘',
-			maxParticipants: 8,
-			currentParticipants: 1,
-			content: '회원님들 들어와주세요',
-			hit: 523,
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-	];
 
 	const handleCardClick = (community: communityList) => {
 		navigate('/detail', { state: { community } });
@@ -67,7 +12,7 @@ const SearchList = () => {
 	return (
 		<>
 			<div className='flex flex-row w-full h-full justify-start p-3 gap-5 flex-wrap '>
-				{popCommunity.map((community, index) => (
+				{totalCommunity.map((community, index) => (
 					<Card
 						key={index}
 						className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
