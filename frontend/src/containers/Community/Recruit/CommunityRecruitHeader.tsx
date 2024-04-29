@@ -6,7 +6,7 @@ const CommunityRecruitHeader = () => {
 
 	return (
 		<>
-			<div className='flex flex-row w-full justify-between px-5 pb-10 items-center'>
+			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>
 				<div className=' w-full'>
 					<Breadcrumb className='pb-8'>
 						<BreadcrumbItem>
@@ -21,14 +21,6 @@ const CommunityRecruitHeader = () => {
 					</Breadcrumb>
 					<div className='flex flex-row justify-between items-center w-full'>
 						<h1 className='text-3xl font-semibold leading-tight text-gray-700'>모집 글 작성</h1>
-						<div className='flex gap-3'>
-							<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
-								<div className='flex items-center gap-2'>
-									<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-									<span onClick={() => navigate('/recruit')}>모집 글 작성</span>
-								</div>
-							</Button>
-						</div>
 					</div>
 				</div>
 			</div>

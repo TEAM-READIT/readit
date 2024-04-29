@@ -58,7 +58,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 									<div className='font-bold text-lg'>{problem.problem}</div>
 									<br />
 									{problem.optionList.map((option, optionidx) => (
-										<div key={optionidx} className='flex flex-row gap-x-2'>
+										<div key={optionidx} className='flex flex-row gap-x-2 hover:cursor-pointer'>
 											<div onClick={() => handleAnswerSelection(index, optionidx)}>{option.optionNumber}.</div>
 											<div>{option.option}</div>
 										</div>

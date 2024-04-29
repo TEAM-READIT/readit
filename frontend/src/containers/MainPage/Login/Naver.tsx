@@ -12,7 +12,7 @@ export const NaverCallback = () => {
 	const { setEmail, setId,setName, setProfileImageUrl } = userStore();
 
 	const naverLogin = useMutation(async () => {
-		const response = await fetch(`http://${baseUrl}/auth/login/naver?code=${code}`, {
+		const response = await fetch(`${baseUrl}/auth/login/naver?code=${code}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

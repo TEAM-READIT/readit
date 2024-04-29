@@ -6,12 +6,11 @@ interface groupListProps {
 	categoryName: string;
 	title: string;
 	startAt: Date;
-  hits: number;
-  content: string;
+	hit: number;
+	content: string;
 }
 
-
-const SearchList = ({ communityList }: { communityList: groupListProps[]}) => {
+const SearchList = ({ communityList }: { communityList: groupListProps[] }) => {
 	const navigate = useNavigate();
 	const handleCardClick = (communityId: number) => {
 		navigate('/group', { state: { communityId } });
@@ -26,7 +25,7 @@ const SearchList = ({ communityList }: { communityList: groupListProps[]}) => {
 						onClick={() => handleCardClick(community.communityId)}
 					>
 						<div className='flex flex-row justify-between text-center text-sm'>
-							<div>👀 {community.hits}</div>
+							<div>👀 {community.hit}</div>
 							<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
 								{community.categoryName}
 							</div>

@@ -14,7 +14,7 @@ export const GoogleCallback = () => {
 	const encodedCode = encodeURIComponent(code!);
 
 	const googleLogin = useMutation(async () => {
-		const response = await fetch(`http://${baseUrl}/auth/login/google?code=${encodedCode}`, {
+		const response = await fetch(`${baseUrl}/auth/login/google?code=${encodedCode}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

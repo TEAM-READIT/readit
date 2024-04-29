@@ -1,13 +1,13 @@
 interface communityList {
 	communityId: number;
-	hits: number;
+	hit: number;
 	writerName?: string;
 	maxParticipants?: number;
 	currentParticipants?: number;
 	categoryName: string;
 	title: string;
 	content: string;
-	startAt: Date;
+	startAt?: Date;
 	endAt?: Date;
 }
 

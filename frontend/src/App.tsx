@@ -16,6 +16,7 @@ import { NaverCallback } from './containers/MainPage/Login/Naver.tsx';
 import { GoogleCallback } from './containers/MainPage/Login/Google.tsx';
 import ReadDetail from './containers/MyPage.tsx/Read/ReadDetail.tsx';
 import GroupDetail from './containers/MyPage.tsx/Group/GroupDeatail.tsx';
+import ReadDetailModal from './components/ReadDetailModal.tsx';
 function App() {
 	const queryClient = new QueryClient();
 	return (
@@ -35,7 +36,7 @@ function App() {
 						<Route path='/mypage/read' element={<ReadDetail />} />
 						<Route path='/mypage/group' element={<GroupDetail />} />
 						<Route path='/viewer' element={<ViewerPage />} />
-
+						<Route path='/summary' element={<ReadDetailModal />} />
 						<Route path='/readit' element={<KakaoCallback />} />
 						<Route path='/login/oauth2/code/naver' element={<NaverCallback />} />
 						<Route path='/lobby' element={<GoogleCallback />} />

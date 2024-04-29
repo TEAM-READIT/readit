@@ -2,15 +2,16 @@ import { Button, Card } from 'flowbite-react';
 import Headers from '../../../components/Headers';
 import EssayDetailHeader from './EssayDetailHeader';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {articleList} from '../../../types/articleProps';
+import { articleList } from '../../../types/articleProps';
 
 const TextDetail = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const article = location.state?.article;
+	const communityId = location.state?.communityId;
 
-	const handleArticle = (article: articleList) => {
-		navigate('/viewer', { state: { article } });
+	const handleArticle = (article: articleList, communityId:number|null) => {
+		navigate('/viewer', { state: { article, communityId } });
 	};
 	return (
 		<>
@@ -28,7 +29,10 @@ const TextDetail = () => {
 										<div>{article.title.slice(0, 40)}...</div>
 									)}
 								</div>
-								<Button className='bg-green-500 flex items-center gap-2' onClick={() => handleArticle(article)}>
+								<Button
+									className='bg-green-500 flex items-center gap-2'
+									onClick={() => handleArticle(article, communityId)}
+								>
 									<span className='material-symbols-outlined'>done</span>
 									<span>글 읽으러 가기</span>
 								</Button>
@@ -36,7 +40,7 @@ const TextDetail = () => {
 							<div className='flex flex-row gap-5 items-center justify-end'>
 								<div className='flex flex-row gap-1 items-center justify-center'>
 									<span className='material-symbols-outlined'>visibility</span>
-									<span>{article.hits}</span>
+									<span>{article.hit}</span>
 								</div>
 								<div>{article.categoryName}</div>
 							</div>
