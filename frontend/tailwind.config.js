@@ -2,7 +2,13 @@
 module.exports = {
 	content: ['./src/**/*.{js,jsx,ts,tsx}', 'index.html', 'node_modules/flowbite-react/lib/esm/**/*.js'],
 	theme: {
-		extend: {},
+		extend: {
+			cursor: {
+				pencil: 'url(../src/assets/cursor/pencil.cur), pointer',
+				highlight: 'url(../src/assets/cursor/highlight.cur), pointer',
+				eraser: 'url(../src/assets/cursor/eraser.cur), pointer',
+			}
+		},
 		fontFamily: {
 			nanumSquareNeo: ['NanumSquareNeo'],
 			snowTimes: ['SnowTimes'],
