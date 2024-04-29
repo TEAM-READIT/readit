@@ -3,12 +3,12 @@ package readit.viewer.presentation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import readit.auth.dto.AuthCredentials;
+import readit.auth.presentation.Auth;
 import readit.viewer.application.ViewerService;
 import readit.viewer.domain.dto.Word;
+import readit.viewer.domain.dto.request.TempSaveRequest;
 import readit.viewer.domain.dto.response.WordListResponse;
 
 @Slf4j
@@ -29,4 +29,14 @@ public class ViewerController {
         return ResponseEntity.ok(viewerService.dictionarySearch(word));
     }
 
+    @PostMapping("/temp/{articleId}")
+    public ResponseEntity<Void> saveTemp(@PathVariable Integer articleId,
+                                         @RequestBody TempSaveRequest request,
+    @Auth AuthCredentials authCredentials) {
+        Integer memberId = authCredentials.id();
+
+        memberId = 1;
+        viewerService.saveTemp(articleId, memberId, request);
+        return ResponseEntity.ok().build();
+    }
 }

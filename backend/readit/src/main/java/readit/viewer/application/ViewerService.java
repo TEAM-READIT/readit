@@ -9,28 +9,33 @@ import readit.article.domain.Article;
 import readit.article.domain.repository.ArticleRepository;
 import readit.viewer.domain.dto.GPTMessage;
 import readit.viewer.domain.dto.Word;
+import readit.viewer.domain.dto.request.TempSaveRequest;
 import readit.viewer.domain.dto.response.WordListResponse;
+import readit.viewer.domain.entity.MemberArticle;
+import readit.viewer.domain.entity.Memo;
+import readit.viewer.domain.repository.MemberArticleRepository;
+import readit.viewer.domain.repository.MemoRepository;
 import readit.viewer.exception.JsonParsingException;
+import readit.viewer.exception.ValueMissingException;
 import readit.viewer.util.DictionaryUtil;
 import readit.viewer.util.GPTUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ViewerService {
     private final ArticleRepository articleRepository;
+    private final MemberArticleRepository memberArticleRepository;
+    private final MemoRepository memoRepository;
     private final GPTUtil gptUtil;
     private final DictionaryUtil dictionaryUtil;
 
     public WordListResponse loadArticle(Integer articleId) {
-        // todo: 사용자가 읽은 글을 눌렀는지 안 읽은 글을 눌렀는지 체크 (-> memberArticleRepository)
-        // todo: 읽은 글이면 읽은 글에서 메모까지 묶어서 불러 오기
-
-
-        // 일단 안 읽은 글이라고 가정
+        // 글 불러오기
         Article article = articleRepository.getReferenceById(articleId);
         log.info(article.toString());
         List<GPTMessage> messages = new ArrayList<>();
@@ -62,13 +67,49 @@ public class ViewerService {
             }
 
             return wordListResponse;
+        } else {
+            return new WordListResponse(new ArrayList<>());
         }
-
-        // todo: 지우기
-        return new WordListResponse(gptUtil.prompt(messages));
     }
 
     public Word dictionarySearch(String keyword) {
         return dictionaryUtil.search(keyword);
+    }
+
+    public void saveTemp(Integer articleId, Integer memberId, TempSaveRequest request) {
+        // 읽은 글에 있는 지 확인
+        Optional<MemberArticle> optionalMemberArticle = memberArticleRepository.findMemberArticleByArticleIdAndMemberId(articleId, memberId);
+
+        // 이미 읽은 글이면 기존 데이터에 업데이트
+        if (optionalMemberArticle.isPresent()) {
+            // 요약 저장
+            memberArticleRepository.updateSummaryById(optionalMemberArticle.get().getId(), request.summary());
+            // 메모 저장
+            for (Memo memo : request.memoList()) {
+                memo.includeMemberArticle(optionalMemberArticle.get());
+            }
+            memoRepository.saveAll(request.memoList());
+            log.info("--- 삐빅 이미 저장했던 글입니다---");
+        } else {
+            Optional<Article> optionalArticle = Optional.ofNullable(articleRepository.findById(articleId)
+                    .orElseThrow(() -> new ValueMissingException()));
+
+            // 읽은 글에 없으면 새로 저장
+            Article article = optionalArticle.get();
+            MemberArticle newMemberArticle = MemberArticle.builder()
+                    .memberId(memberId)
+                    .article(article)
+                    .type(article.getType())
+                    .summary(request.summary())
+                    .build();
+
+            MemberArticle saveMemberArticle = memberArticleRepository.save(newMemberArticle);
+            for (Memo memo : request.memoList()) {
+                memo.includeMemberArticle(saveMemberArticle);
+            }
+            memoRepository.saveAll(request.memoList());
+
+            log.info("--- 삐빅 처음 저장하는 글입니다 ---");
+        }
     }
 }
