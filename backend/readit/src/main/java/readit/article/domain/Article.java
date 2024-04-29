@@ -24,6 +24,7 @@ public class Article extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ArticleType type;
 
+
     @Column(nullable = false, columnDefinition = "text")
     private String content;
 
@@ -44,4 +45,9 @@ public class Article extends BaseTimeEntity {
 
     @Column(nullable = false)
     private Integer hit;
+
+    private void increaseHit(){
+        this.hit++;
+    }
+
 }

@@ -5,6 +5,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.domain.Article;
+import readit.article.domain.ArticleType;
+
+import java.util.List;
+
 
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
     @Transactional
@@ -17,5 +21,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
     @Query("UPDATE Article a SET a.hasWord = true WHERE a.id = :articleId")
     void updateHasWordToTrue(Integer articleId);
 
+    List<Article> findTop3ByOrderByHitDesc();
+    List<Article> findTop3ByTypeOrderByHitDesc(ArticleType type);
 
 }
