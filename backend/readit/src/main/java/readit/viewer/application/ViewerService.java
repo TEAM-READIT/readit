@@ -1,5 +1,7 @@
 package readit.viewer.application;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -8,11 +10,12 @@ import readit.article.domain.repository.ArticleRepository;
 import readit.viewer.domain.dto.GPTMessage;
 import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.dto.response.WordListResponse;
+import readit.viewer.exception.JsonParsingException;
+import readit.viewer.util.DictionaryUtil;
+import readit.viewer.util.GPTUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import readit.viewer.util.DictionaryUtil;
-import readit.viewer.util.GPTUtil;
 
 @Slf4j
 @Service
@@ -26,18 +29,15 @@ public class ViewerService {
         // todo: 사용자가 읽은 글을 눌렀는지 안 읽은 글을 눌렀는지 체크 (-> memberArticleRepository)
         // todo: 읽은 글이면 읽은 글에서 메모까지 묶어서 불러 오기
 
+
         // 일단 안 읽은 글이라고 가정
         Article article = articleRepository.getReferenceById(articleId);
         log.info(article.toString());
         List<GPTMessage> messages = new ArrayList<>();
 
-        // todo: 어려운 단어가 있는 지 체크 (hasWord)
-        if (article.getHasWord()) {
-            // todo: 어려운 단어가 있으면 그대로 불러 오기
-
-
-        } else {
-            // todo: 어려운 단어가 없으면 chatgpt한테 요청하기
+        // 어려운 단어 저장되어 있는지 확인
+        if (!article.getHasWord()) {
+            // 어려운 단어가 없으면 chatgpt한테 요청하기
 
             StringBuilder sb = new StringBuilder();
             sb.append(article.getContent());
@@ -47,9 +47,21 @@ public class ViewerService {
 
             messages.add(GPTMessage.of("user", sb.toString()));
 
-            // todo: 어려운 단어 DB에 저장하기
+            // ChatGPT 프롬프트 요청 및 응답 받아옴
+            WordListResponse wordListResponse = new WordListResponse(gptUtil.prompt(messages));
 
-            return new WordListResponse(gptUtil.prompt(messages));
+            // 어려운 단어 DB에 저장
+            try {
+                // todo: object mapper singleton으로 변경
+                ObjectMapper om = new ObjectMapper();
+                String jsonData = om.writeValueAsString(wordListResponse);
+                articleRepository.updateWordsByArticleId(article.getId(), jsonData);
+                articleRepository.updateHasWordToTrue(article.getId());
+            } catch (JsonProcessingException e) {
+                throw new JsonParsingException();
+            }
+
+            return wordListResponse;
         }
 
         // todo: 지우기

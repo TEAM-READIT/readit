@@ -39,7 +39,7 @@ public class Article extends BaseTimeEntity {
     @Column(nullable = false)
     private Boolean hasWord;
 
-    @Column
+    @Column(columnDefinition = "text")
     private String words;
 
     @Column(nullable = false)
