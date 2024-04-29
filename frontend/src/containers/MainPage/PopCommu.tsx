@@ -28,7 +28,7 @@ const PopCommu = () => {
 	const popCommunity: communityList[] = [
 		{
 			communityId: 1,
-			hits: 523,
+			hit: 523,
 			writerName: '오영주',
 			maxParticipants: 4,
 			currentParticipants: 2,
@@ -43,7 +43,7 @@ const PopCommu = () => {
 
 		{
 			communityId: 2,
-			hits: 523,
+			hit: 523,
 			writerName: '박현춘',
 			maxParticipants: 8,
 			currentParticipants: 1,
@@ -56,7 +56,7 @@ const PopCommu = () => {
 		{
 			communityId: 3,
 			title: '저와 같이 심도 있는 토론 하실분 ',
-			hits: 523,
+			hit: 523,
 			writerName: '박현춘',
 			maxParticipants: 8,
 			currentParticipants: 1,
@@ -73,7 +73,7 @@ const PopCommu = () => {
 			maxParticipants: 8,
 			currentParticipants: 1,
 			content: '회원님들 들어와주세요',
-			hits: 523,
+			hit: 523,
 			startAt: new Date(),
 			endAt: new Date(),
 		},
@@ -81,7 +81,7 @@ const PopCommu = () => {
 
 	return (
 		<>
-			<div className='flex flex-col w-full items-center pb-10'>
+			<div className='flex flex-col w-full items-center pb-32'>
 				<div className='flex flex-row w-full h-28 items-center text-gray-400 font-bold text-2xl text-end gap-x-16'>
 					<div className='text-black hover:cursor-pointer'>
 						<div>🔥 이번 주 리딧 인기 모임</div>
@@ -107,7 +107,7 @@ const PopCommu = () => {
 										<div>{community.title.slice(0, 35)}...</div>
 									)}
 								</div>
-								<div className='text-end text-sm'>👀 조회수 {community.hits}</div>
+								<div className='text-end text-sm'>👀 조회수 {community.hit}</div>
 							</Card>
 						))}
 					</>

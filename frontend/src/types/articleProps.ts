@@ -4,24 +4,26 @@ interface articleList {
 	content: string;
 	type: string;
 	categoryName?: string;
-	hits: number;
+	hit?: number;
 	reporter?: string;
 	completedAt?: Date;
 	modifiedAt?: Date;
-	memoList?:memo[]
+	memoList?: memo[];
+	score?: number;
+	summary?: string;
 }
 
 interface PopArticleList {
-	all: articleList[];
-	news: articleList[];
-	epigraphy: articleList[];
+	articleList: articleList[];
+	epigraphyList: articleList[];
+	newsList: articleList[];
 }
 
 interface memo {
 	startIndex: number;
 	endIndex: number;
-	color:string;
-	content:string;
+	color: string;
+	content: string;
 }
 
 export type { articleList, PopArticleList };

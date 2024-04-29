@@ -1,12 +1,13 @@
 interface communityProps {
-	hits: number;
-	writerName: String;
+	communityId: number;
+	hit: number;
+	writerName: string;
 	maxParticipants: number;
 	currentParticipants: number;
 	articleCount: number;
-	notice: String;
-	categoryName: String;
-	title: String;
+	notice: string;
+	categoryName: string;
+	title: string;
 	endAt: Date;
 	memberList: memberProps[];
 	articleList: articleProps[];
@@ -15,31 +16,31 @@ interface communityProps {
 
 interface memberProps {
 	memberId: number;
-	memberName: String;
-	profile: String;
+	memberName: string;
+	profile: string;
 	readCount: number;
 }
 
 interface articleProps {
-	memberName: String;
-	profile: String;
+	memberName: string;
+	profile: string;
 	articleId: number;
-	title: String;
-	content: String;
-	categoryName: String;
-	type: String;
+	title: string;
+	content: string;
+	categoryName: string;
+	type: string;
 	completedAt: Date;
-	summary: String;
+	summary: string;
 	score: number;
-	feedback: String;
+	feedback: string;
 }
 
 interface chatProps {
 	memberId: number;
-	memberName: String;
-	memberProfile: String;
+	memberName: string;
+	memberProfile: string;
 	sendDate: Date;
-	content: String;
+	content: string;
 }
 
 export type { communityProps, articleProps };

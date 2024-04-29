@@ -8,11 +8,11 @@ const SearchFilter = ({ handleFilterChange }: SearchFilterProps) => {
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
-	const [isHits, setIsHits] = useState<boolean>(false);
+	const [ishit, setIshit] = useState<boolean>(false);
 	const [isMember, setIsMember] = useState<boolean>(false);
 	const handleApplyFilter = () => {
 		const filter = {
-			hits: isHits,
+			hit: ishit,
 			isMember: isMember,
 			categoryName: category,
 		};
@@ -20,8 +20,8 @@ const SearchFilter = ({ handleFilterChange }: SearchFilterProps) => {
 		if (searchType != '' && keyword) {
 			filtered += `${searchType}=${keyword}$`;
 		}
-		if (filter.hits) {
-			filtered += `hits=true$`;
+		if (filter.hit) {
+			filtered += `hit=true$`;
 		}
 		if (filter.isMember) {
 			filtered += `isMember=true$`;
@@ -30,8 +30,8 @@ const SearchFilter = ({ handleFilterChange }: SearchFilterProps) => {
 			filtered += `categoryName=${category}$`;
 		}
 		// 마지막 & 제거
-			filtered = filtered.slice(0, -1);
-		
+		filtered = filtered.slice(0, -1);
+
 		handleFilterChange(filtered);
 	};
 	return (

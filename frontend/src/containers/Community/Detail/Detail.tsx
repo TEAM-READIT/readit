@@ -10,7 +10,7 @@ interface GroupProps {
 	content: string;
 	startAt: Date;
 	endAt: Date;
-	hits: number;
+	hit: number;
 	writerName: string;
 	participants: number;
 	maxparticipants: number;
@@ -61,7 +61,7 @@ const Detail = () => {
 								</div>
 								<div className='flex flex-row gap-1 items-center justify-center'>
 									<span className='material-symbols-outlined'>visibility</span>
-									<span>{community.hits}</span>
+									<span>{community.hit}</span>
 								</div>
 							</div>
 

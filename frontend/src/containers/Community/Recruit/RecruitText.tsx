@@ -23,7 +23,7 @@ const RecruitText = () => {
 					<textarea
 						id='textarea'
 						className='w-full h-full'
-						placeholder='내용을 입력하세요.'
+						placeholder='내용을 입력하세요!'
 						onChange={(e) => setContent(e.target.value)}
 					></textarea>
 

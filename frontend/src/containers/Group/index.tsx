@@ -1,21 +1,16 @@
 import { useLocation } from 'react-router-dom';
 import Headers from '../../components/Headers';
 import GroupHeader from './GroupHeader';
-import ProfileImage from '../../assets/images/profile.png';
-import { Button, Card } from 'flowbite-react';
-import useModal from '../../hooks/useModal';
-import MemberDetail from './MemberDetail';
-
 import { communityProps } from '../../types/gropProps';
 import Articles from './Articles';
-import { useMutation } from 'react-query';
 import Chat from './Chat';
+import { useState } from 'react';
 
 const Group = () => {
 	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	const location = useLocation();
-	const communityId = location.state?.communityId;
-	console.log(communityId)
+	// const location = useLocation();
+	// const communityId = location.state?.communityId;
+	// console.log(communityId)
 	// const [myGroup, setMyGroup] = useState<communityProps>();
 	// // 모임 세부 정보 받아오기
 	// const groupData = async () => {
@@ -31,10 +26,10 @@ const Group = () => {
 	// 		});
 	// }, []);
 
-	const [isOpen, open, close] = useModal();
 
 	const myGroup: communityProps = {
-		hits: 523,
+		communityId: 123,
+		hit: 523,
 		writerName: '오영주',
 		maxParticipants: 4,
 		currentParticipants: 2,
@@ -170,20 +165,18 @@ const Group = () => {
 			},
 		],
 	};
-return (
-	<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
-		<Headers />
-		<div className='flex flex-col w-3/5 h-full items-start'>
-			<GroupHeader myGroup={myGroup} />
-			<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
-				<Articles myGroup={myGroup} open={open} />
-				<Chat myGroup={myGroup} />
+	return (
+		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
+			<Headers />
+			<div className='flex flex-col w-3/5 h-full items-start'>
+				<GroupHeader myGroup={myGroup} />
+				<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
+					<Articles myGroup={myGroup}/>
+					<Chat myGroup={myGroup} />
+				</div>
 			</div>
+
 		</div>
-
-		{isOpen && <MemberDetail close={close} />}
-	</div>
-);
-
+	);
 };
 export default Group;

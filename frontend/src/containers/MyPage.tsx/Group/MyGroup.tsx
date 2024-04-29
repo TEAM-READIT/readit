@@ -7,7 +7,8 @@ const MyGroup = () => {
 	const navigate = useNavigate();
 	const handleCommunity = (communityList: communityList[]) => {
 		navigate('/mypage/group', { state: { communityList } });
-	};	const handleMyCommunity = (communityId: number) => {
+	};
+	const handleMyCommunity = (communityId: number) => {
 		navigate('/group', { state: { communityId } });
 	};
 
@@ -32,7 +33,7 @@ const MyGroup = () => {
 			categoryName: '시사',
 			title: 'Seeking Partners',
 			startAt: new Date(),
-			hits: 523,
+			hit: 523,
 			content:
 				'To join, Please share a shor introduction about yourself and the topics you are passionate about presenting. Our goal is to create whatever i dont get what theyre talking bout',
 		},
@@ -44,7 +45,7 @@ const MyGroup = () => {
 			content: '취업 발표 연습을 위해 함께 연습할 동료를 찾고 있습니다.',
 
 			startAt: new Date(),
-			hits: 523,
+			hit: 523,
 		},
 		{
 			communityId: 3,
@@ -53,7 +54,7 @@ const MyGroup = () => {
 
 			categoryName: '경제',
 			startAt: new Date(),
-			hits: 523,
+			hit: 523,
 		},
 		{
 			communityId: 4,
@@ -62,7 +63,7 @@ const MyGroup = () => {
 
 			categoryName: '연애',
 			startAt: new Date(),
-			hits: 523,
+			hit: 523,
 		},
 	];
 	// 날짜순으로 정렬
@@ -99,7 +100,10 @@ const MyGroup = () => {
 									</div>
 								</div>
 							</div>
-							<Button className='bg-primary-500 border border-black' onClick={() => handleMyCommunity(community.communityId)}>
+							<Button
+								className='bg-primary-500 border border-black'
+								onClick={() => handleMyCommunity(community.communityId)}
+							>
 								모임 페이지 이동하기
 							</Button>
 						</div>

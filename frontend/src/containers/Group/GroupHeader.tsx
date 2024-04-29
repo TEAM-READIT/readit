@@ -1,13 +1,13 @@
 import { Breadcrumb, BreadcrumbItem, Button } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { communityProps } from '../../types/gropProps';
-import ProfileImage from '../../assets/images/profile.png';
-import useModal from '../../hooks/useModal';
 
 const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 	const navigate = useNavigate();
-	const [isOpen, open, close] = useModal();
-
+	const handleRead4Commu = (categoryName:string, communityId:number) => {
+		navigate('/essay', { state: { categoryName, communityId } });
+		console.log(categoryName)
+	};
 	return (
 		<>
 			<div className='flex flex-row w-full justify-between px-5 pb-10 items-center'>
@@ -52,7 +52,7 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 						<div className='flex gap-3'>
 							<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
 								<div className='flex items-center gap-2'>
-									<span onClick={() => navigate('/recruit')}>글 읽으러 가기</span>
+									<span onClick={() => handleRead4Commu(myGroup.categoryName, myGroup.communityId)}>글 읽으러 가기</span>
 								</div>
 							</Button>
 						</div>
@@ -64,7 +64,6 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 					📢 공지 : {myGroup.notice}
 				</div>
 			</div>
-			
 		</>
 	);
 };

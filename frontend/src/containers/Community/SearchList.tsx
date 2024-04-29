@@ -1,28 +1,16 @@
 import { Card } from 'flowbite-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-interface Community {
-	communityId: number;
-	hits: number;
-	writerName: string;
-	maxParticipants: number;
-	currentParticipants: number;
-	categoryName: string;
-	title: String;
-	content: String;
-	startAt: Date;
-	endAt: Date;
-}
+import communityList from '../../types/communityProps';
 
 const SearchList = () => {
 	const navigate = useNavigate();
 
 
-	const popCommunity: Community[] = [
+	const popCommunity: communityList[] = [
 		{
 			communityId: 1,
-			hits: 523,
+			hit: 523,
 			writerName: '오영주',
 			maxParticipants: 4,
 			currentParticipants: 2,
@@ -37,7 +25,7 @@ const SearchList = () => {
 
 		{
 			communityId: 2,
-			hits: 523,
+			hit: 523,
 			writerName: '박현춘',
 			maxParticipants: 8,
 			currentParticipants: 1,
@@ -50,7 +38,7 @@ const SearchList = () => {
 		{
 			communityId: 3,
 			title: '저와 같이 심도 있는 토론 하실분 ',
-			hits: 523,
+			hit: 523,
 			writerName: '박현춘',
 			maxParticipants: 8,
 			currentParticipants: 1,
@@ -67,13 +55,13 @@ const SearchList = () => {
 			maxParticipants: 8,
 			currentParticipants: 1,
 			content: '회원님들 들어와주세요',
-			hits: 523,
+			hit: 523,
 			startAt: new Date(),
 			endAt: new Date(),
 		},
 	];
 
-	const handleCardClick = (community: Community) => {
+	const handleCardClick = (community: communityList) => {
 		navigate('/detail', { state: { community } });
 	};
 	return (
@@ -88,7 +76,7 @@ const SearchList = () => {
 						}}
 					>
 						<div className='flex flex-row justify-between text-center text-sm'>
-							<div>👀 {community.hits}</div>
+							<div>👀 {community.hit}</div>
 							<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
 								{community.categoryName}
 							</div>
