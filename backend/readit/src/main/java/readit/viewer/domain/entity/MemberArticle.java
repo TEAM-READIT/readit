@@ -41,4 +41,13 @@ public class MemberArticle extends BaseTimeEntity {
     private String feedback;
 
     private LocalDateTime completedAt;
+
+    public static MemberArticle create(Article article, Integer memberId, String summary) {
+        return MemberArticle.builder()
+                .memberId(memberId)
+                .article(article)
+                .type(article.getType())
+                .summary(summary)
+                .build();
+    }
 }

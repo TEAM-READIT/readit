@@ -1,5 +1,6 @@
 package readit.viewer.presentation;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class ViewerController {
 
     @PostMapping("/temp/{articleId}")
     public ResponseEntity<Void> saveTemp(@PathVariable Integer articleId,
-                                         @RequestBody TempSaveRequest request,
+                                         @RequestBody @Valid TempSaveRequest request,
     @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
 
