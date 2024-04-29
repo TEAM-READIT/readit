@@ -7,8 +7,7 @@ import DownArrow from '../../assets/images/down-arrow.png';
 import Pencil from '../../assets/images/pencil.png';
 import Highlight from '../../assets/images/highlight.png';
 import Eraser from '../../assets/images/eraser.png';
-import { DictionarySearch } from './Dictionary/DictionarySearch';
-import { SearchWord } from './Dictionary/SearchWord';
+import { DictionarySearch } from './DictionarySearch';
 import { TextBox } from './Summary/TextBox';
 import { Memos } from './Memo/Memos';
 import { Button } from 'flowbite-react';
@@ -46,7 +45,6 @@ export const ViewerPage = () => {
 								<div className='w-full h-5/6 border-solid border-2 p-[1vw]'>
 									<div className='w-full h-full'>
 										<DictionarySearch />
-										<SearchWord />
 									</div>
 								</div>
 								<div className='flex items-center justify-center w-full h-1/6 border-solid border-2 gap-[15%]'>
