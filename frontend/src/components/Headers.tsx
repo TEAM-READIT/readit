@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Login from '../containers/MainPage/Login/Login';
 import useModal from '../hooks/useModal';
 import useStore from '../store';
-import ProfileImg from '../assets/images/skawkaks.png';
 import { useMutation } from 'react-query';
 import userStore from '../store/user';
 

@@ -1,5 +1,4 @@
 import { Card } from 'flowbite-react';
-import { articleList } from '../types/articleProps';
 import { useLocation } from 'react-router-dom';
 import Headers from './Headers';
 import ReadDetailModalHeaders from './ReadDetailModalHeaders';

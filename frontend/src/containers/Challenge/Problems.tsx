@@ -58,15 +58,17 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 									<div className='font-bold text-lg'>{problem.problem}</div>
 									<br />
 									{problem.optionList.map((option, optionidx) => (
-										<div key={optionidx} className='flex flex-row gap-x-2 hover:cursor-pointer'>
-											<div onClick={() => handleAnswerSelection(index, optionidx)}>{option.optionNumber}.</div>
+										<div
+											key={optionidx}
+											className='flex flex-row gap-x-2 hover:cursor-pointer'
+											onClick={() => handleAnswerSelection(index, optionidx)}
+										>
+											<div>{option.optionNumber}.</div>
 											<div>{option.option}</div>
 										</div>
 									))}
 									<div className='flex flex-row justify-end'>
-										{myAnswer[index] && ( // Check if answer exists for this problem
-											<div>내가 선택한 답: {myAnswer[index].answerNumber}</div>
-										)}
+										{myAnswer[index] && <div>내가 선택한 답: {myAnswer[index].answerNumber}</div>}
 									</div>
 								</div>
 							))}
