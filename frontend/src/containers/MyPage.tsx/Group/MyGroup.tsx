@@ -67,7 +67,7 @@ const MyGroup = () => {
 		},
 	];
 	// 날짜순으로 정렬
-	const sortedCommunityList = communityList.sort((a, b) => b.startAt.getTime() - a.startAt.getTime());
+	const sortedCommunityList = communityList.sort((a, b) => b.startAt!.getTime() - a.startAt!.getTime());
 
 	// 상위 3개만 추출
 	const top3Communities = sortedCommunityList.slice(0, 3);
@@ -94,8 +94,8 @@ const MyGroup = () => {
 							<div className='flex flex-col gap-5'>
 								<div className='font-bold text-xl text-start'>{community.title}</div>
 								<div className='flex flex-row justify-start gap-5'>
-									<div className='text-gray-500'>{community.startAt.toLocaleString()}</div>
-									<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
+									<div className='text-gray-500'>{community.startAt!.toLocaleString()}</div>
+									<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm flex flex-row justify-center items-center'>
 										#{community.categoryName}
 									</div>
 								</div>
