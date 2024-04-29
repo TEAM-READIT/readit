@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import readit.article.application.ArticleService;
 import readit.article.dto.GetPopularArticleResponse;
 
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -22,5 +21,4 @@ public class ArticleController {
         GetPopularArticleResponse popularArticleResponses = articleService.getPopularArticles();
         return ResponseEntity.ok(popularArticleResponses);
     }
-
 }

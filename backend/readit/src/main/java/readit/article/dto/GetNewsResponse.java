@@ -6,8 +6,8 @@ public record GetNewsResponse(
         Integer id,
         String title,
         String content,
-        String articleType,
-        String category,
+        String type,
+        String categoryName,
         Integer hit,
         String reporter
 ) {

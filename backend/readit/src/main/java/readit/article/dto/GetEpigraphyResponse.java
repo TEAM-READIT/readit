@@ -6,8 +6,8 @@ public record GetEpigraphyResponse(
         Integer id,
         String title,
         String content,
-        String articleType,
-        String category,
+        String type,
+        String categoryName,
         Integer hit
 ) {
     public static GetEpigraphyResponse from(Article article){
