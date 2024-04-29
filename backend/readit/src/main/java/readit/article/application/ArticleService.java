@@ -19,9 +19,9 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public GetPopularArticleResponse getPopularArticles(){
-        List<Article> articleList = articleRepository.findHotArticle();
-        List<Article> epigraphyList = articleRepository.findHotArticleByType(ArticleType.EPIGRAPHY);
-        List<Article> newsList = articleRepository.findHotArticleByType(ArticleType.NEWS);
+        List<Article> articleList = articleRepository.findTop3ByOrderByHitDesc();
+        List<Article> epigraphyList = articleRepository.findTop3ByTypeOrderByHitDesc(ArticleType.EPIGRAPHY);
+        List<Article> newsList = articleRepository.findTop3ByTypeOrderByHitDesc(ArticleType.NEWS);
 
         return GetPopularArticleResponse.from(articleList,epigraphyList,newsList);
     }

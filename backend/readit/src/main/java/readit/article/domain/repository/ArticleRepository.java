@@ -6,11 +6,7 @@ import readit.article.domain.ArticleType;
 
 import java.util.List;
 
-public interface ArticleRepository extends JpaRepository<Article,Integer>, CustomArticleRepository {
-
-}
-
-interface CustomArticleRepository {
-    List<Article> findHotArticle();
-    List<Article> findHotArticleByType(ArticleType articleType);
+public interface ArticleRepository extends JpaRepository<Article,Integer> {
+    List<Article> findTop3ByOrderByHitDesc();
+    List<Article> findTop3ByTypeOrderByHitDesc(ArticleType type);
 }
