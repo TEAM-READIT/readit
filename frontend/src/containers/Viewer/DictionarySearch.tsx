@@ -56,7 +56,7 @@ export const DictionarySearch = () => {
 				<div className=''>{dictionaryData?.definition}</div>
 				<div>
 					{history
-						?.slice(0, 3)
+						?.slice(0, -1)
 						.reverse()
 						.map((word, index) => (
 							<div key={index} className='flex flex-col py-2'>
