@@ -1,6 +1,7 @@
 package readit.article.infra;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -12,7 +13,9 @@ import static org.springframework.http.HttpMethod.GET;
 @Component
 @RequiredArgsConstructor
 public class FastAPIClient {
-    private static final String FAST_API_URI = "http://70.12.247.250:8888/fetch/link";
+
+    @Value("${fastAPI.uri}")
+    private final String FAST_API_URI;
     private final RestTemplate restTemplate;
 
     public FastAPIArticleResponse getArticle(String link){
