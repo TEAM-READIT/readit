@@ -66,11 +66,8 @@ const MyGroup = () => {
 			hit: 523,
 		},
 	];
-	// 날짜순으로 정렬
-	const sortedCommunityList = communityList.sort((a, b) => b.startAt.getTime() - a.startAt.getTime());
-
 	// 상위 3개만 추출
-	const top3Communities = sortedCommunityList.slice(0, 3);
+	const top3Communities = communityList.reverse().slice(0, 3);
 
 	return (
 		<>
@@ -94,7 +91,7 @@ const MyGroup = () => {
 							<div className='flex flex-col gap-5'>
 								<div className='font-bold text-xl text-start'>{community.title}</div>
 								<div className='flex flex-row justify-start gap-5'>
-									<div className='text-gray-500'>{community.startAt.toLocaleString()}</div>
+									<div className='text-gray-500'>{community.startAt!.toLocaleString()}</div>
 									<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
 										#{community.categoryName}
 									</div>

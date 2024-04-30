@@ -9,19 +9,15 @@ const RecruitCondition = () => {
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
 					<div className='flex justify-start'>모집 구분</div>
 					<select name='category' className='select'>
-						<option value=''> 카테고리 선택</option>
-						<option value='IT'>IT</option>
-						<option value='인문'>인문</option>
-						<option value='언어'>언어</option>
+						<option value=''>카테고리 선택</option>
+						<option value='비문학'>비문학</option>
+						<option value='정치'>정치</option>
+						<option value='경제'>경제</option>
 						<option value='사회'>사회</option>
-						<option value='역사'>역사</option>
-						<option value='과학'>과학</option>
-						<option value='디자인'>디자인</option>
-						<option value='교육'>교육</option>
-						<option value='의예'>의예</option>
-						<option value='예체능'>예체능</option>
-						<option value='자기소개'>자기소개</option>
-						<option value='자유주제'>자유주제</option>
+						<option value='생활/문화'>생활/문화</option>
+						<option value='IT/과학'>IT/과학</option>
+						<option value='세계'>세계</option>
+						<option value='오피니언'>오피니언</option>
 					</select>
 				</div>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>

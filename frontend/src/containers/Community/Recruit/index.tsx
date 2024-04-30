@@ -11,7 +11,6 @@ const Recruit = () => {
 				<div className='flex flex-col w-3/5 h-full items-center '>
 					<CommunityRecruitHeader />
 					<div className='flex w-full h-full flex-col gap-5'>
-						<RecruitCondition />
 						<RecruitText />
 					</div>
 				</div>
