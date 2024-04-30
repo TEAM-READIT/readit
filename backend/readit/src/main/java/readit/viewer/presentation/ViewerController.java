@@ -8,8 +8,8 @@ import readit.auth.dto.AuthCredentials;
 import readit.auth.presentation.Auth;
 import readit.viewer.application.ViewerService;
 import readit.viewer.domain.dto.Word;
-import readit.viewer.domain.dto.request.TempSaveRequest;
-import readit.viewer.domain.dto.response.WordListResponse;
+import readit.viewer.domain.dto.request.PostTempSaveRequest;
+import readit.viewer.domain.dto.response.GetWordListResponse;
 
 @Slf4j
 @RestController
@@ -20,7 +20,7 @@ public class ViewerController {
     private final ViewerService viewerService;
 
     @GetMapping("/{articleId}")
-    public ResponseEntity<WordListResponse> getArticleViewer(@PathVariable Integer articleId) {
+    public ResponseEntity<GetWordListResponse> getArticleViewer(@PathVariable Integer articleId) {
         // todo: add auth
         return ResponseEntity.ok(viewerService.loadArticleWithWords(articleId));
     }
@@ -33,7 +33,7 @@ public class ViewerController {
 
     @PostMapping("/temp/{articleId}")
     public ResponseEntity<Void> saveTemp(@PathVariable Integer articleId,
-                                         @RequestBody TempSaveRequest request,
+                                         @RequestBody PostTempSaveRequest request,
     @Auth AuthCredentials authCredentials) {
         // todo: add memberId
         Integer memberId = authCredentials.id();
