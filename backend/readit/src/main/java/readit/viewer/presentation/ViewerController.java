@@ -10,6 +10,8 @@ import readit.viewer.application.ViewerService;
 import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.dto.request.PostTempSaveRequest;
 import readit.viewer.domain.dto.response.GetWordListResponse;
+import readit.viewer.domain.dto.response.SubmissionResponse;
+
 
 @Slf4j
 @RestController
@@ -40,5 +42,16 @@ public class ViewerController {
         memberId = 1;
         viewerService.saveTemp(articleId, memberId, request);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/submission/{articleId}")
+    public ResponseEntity<SubmissionResponse> submitSummary(@PathVariable Integer articleId,
+                                                            @RequestBody PostTempSaveRequest request,
+                                                            @Auth AuthCredentials authCredentials) {
+        // todo: add memberId
+        Integer memberId = authCredentials.id();
+        memberId = 1;
+        viewerService.saveTemp(articleId, memberId, request);
+        return ResponseEntity.ok(viewerService.submitSummary(articleId, memberId, request.summary()));
     }
 }
