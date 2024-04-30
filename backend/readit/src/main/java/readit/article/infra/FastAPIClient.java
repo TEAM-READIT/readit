@@ -15,7 +15,7 @@ import static org.springframework.http.HttpMethod.GET;
 public class FastAPIClient {
 
     @Value("${fastAPI.uri}")
-    private final String FAST_API_URI;
+    private String FAST_API_URI;
     private final RestTemplate restTemplate;
 
     public FastAPIArticleResponse getArticle(String link){

@@ -115,7 +115,7 @@ public class ViewerService {
     public SubmissionResponse submitSummary(Integer articleId, Integer memberId, String summary) {
         Article article = articleRepository.getReferenceById(articleId);
 
-        String promptMessage = buildPromptMessageForSummary(article.getContent());
+        String promptMessage = buildPromptMessageForSummary(article.getContent(), summary);
 
         SubmissionResponse response = gptUtil.promptSummary(buildGPTMessage(promptMessage));
 
@@ -134,11 +134,14 @@ public class ViewerService {
         return response;
     }
 
-    private String buildPromptMessageForSummary(String content) {
+    private String buildPromptMessageForSummary(String content, String summary) {
         StringBuilder sb = new StringBuilder();
+        sb.append("글: ");
         sb.append(content);
-        sb.append("\n 이 글에 대해서 아래와 같이 요약했는데 잘 요약했는 지 100점 만점으로 점수를 구하고 잘한점과 못한점을 알려줘. \n");
-        sb.append("점수: xx점 \n 잘한 점: \n 못한 점: \n");
+        sb.append("\n 위 글에 대해서 아래와 같이 요약했는데 잘 요약했는 지 100점 만점으로 점수를 구하고 잘한점과 못한점을 알려줘. \n");
+        sb.append("요약: ");
+        sb.append(summary);
+        sb.append("\n 점수: xx점 \n 잘한 점: \n 못한 점: \n");
         sb.append("이 형태를 유지해서 답해줘.");
         return sb.toString();
     }
