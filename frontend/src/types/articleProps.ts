@@ -1,5 +1,5 @@
 interface articleList {
-	articleId: number;
+	articleId?: number;
 	title: string;
 	content: string;
 	type: string;

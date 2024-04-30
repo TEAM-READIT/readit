@@ -32,14 +32,14 @@ export const ViewerPage = () => {
 
 	return (
 		<>
-			<div className='w-full flex justify-center flex-col items-center'>
+			<div className='w-full h-screen flex flex-col items-center border overflow-hidden'>
 				<Headers />
 				<div className='relative flex'>
 					<div
 						className={`relative flex flex-col w-${isRightOpen ? '4/5' : 'full'} h-screen transition-all duration-300 ease-in-out`}
 					>
 						<div
-							className={`relative flex w-full h-${isBottomOpen ? '2/3' : 'full'} transition-all duration-300 ease-in-out`}
+							className={`relative flex w-full h-${isBottomOpen ? '3/5' : '4/6'} transition-all duration-300 ease-in-out`}
 						>
 							<div className='relative flex flex-col w-1/5 h-full'>
 								<div className='w-full h-5/6 border-solid overflow-auto border-2 p-[1vw]'>
