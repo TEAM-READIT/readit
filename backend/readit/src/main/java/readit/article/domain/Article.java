@@ -45,4 +45,5 @@ public class Article extends BaseTimeEntity {
     private void increaseHit(){
         this.hit++;
     }
+
 }
