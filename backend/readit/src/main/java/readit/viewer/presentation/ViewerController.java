@@ -1,6 +1,5 @@
 package readit.viewer.presentation;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,20 +21,22 @@ public class ViewerController {
 
     @GetMapping("/{articleId}")
     public ResponseEntity<WordListResponse> getArticleViewer(@PathVariable Integer articleId) {
-        return ResponseEntity.ok(viewerService.loadArticle(articleId));
+        // todo: add auth
+        return ResponseEntity.ok(viewerService.loadArticleWithWords(articleId));
     }
 
     @GetMapping("/word/{word}")
     public ResponseEntity<Word> searchMeaning(@PathVariable String word) {
+        // todo: add auth
         return ResponseEntity.ok(viewerService.dictionarySearch(word));
     }
 
     @PostMapping("/temp/{articleId}")
     public ResponseEntity<Void> saveTemp(@PathVariable Integer articleId,
-                                         @RequestBody @Valid TempSaveRequest request,
+                                         @RequestBody TempSaveRequest request,
     @Auth AuthCredentials authCredentials) {
+        // todo: add memberId
         Integer memberId = authCredentials.id();
-
         memberId = 1;
         viewerService.saveTemp(articleId, memberId, request);
         return ResponseEntity.ok().build();
