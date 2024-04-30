@@ -24,19 +24,23 @@ public class Article extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ArticleType type;
 
-    @Column(nullable = false,columnDefinition = "text")
+
+    @Column(nullable = false, columnDefinition = "text")
     private String content;
 
     @Column(nullable = false)
     private String title;
 
+    @Column
     private String reporter;
 
+    @Column
     private String sourceUrl;
 
     @Column(nullable = false)
     private Boolean hasWord;
 
+    @Column(columnDefinition = "text")
     private String words;
 
     @Column(nullable = false)
