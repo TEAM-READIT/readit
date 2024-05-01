@@ -15,7 +15,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import readit.common.config.ChatGPTConfig;
 import readit.common.config.RestTemplateConfig;
 import readit.viewer.domain.dto.ChatCompletion;
@@ -29,11 +31,11 @@ import readit.viewer.domain.dto.Word;
 @RequiredArgsConstructor
 public class GPTUtil {
     private final ChatGPTConfig chatGPTConfig;
-    private final RestTemplateConfig restTemplateConfig;
-
+    private final RestTemplate restTemplate;
     @Value("${openai.model}")
     private String model;
 
+    @Async
     public List<Word> prompt(List<GPTMessage> messages)  {
 
         // todo: temperature 값 비교하면서 최적화하기
@@ -49,7 +51,7 @@ public class GPTUtil {
 
         // [STEP2] 통신을 위한 RestTemplate을 구성합니다.
         HttpEntity<GPTPrompt> requestEntity = new HttpEntity<>(gptPrompt, headers);
-        ResponseEntity<String> response = restTemplateConfig.restTemplate(new RestTemplateBuilder())
+        ResponseEntity<String> response = restTemplate
                 .exchange(
                         "https://api.openai.com/v1/chat/completions",
                         HttpMethod.POST,
