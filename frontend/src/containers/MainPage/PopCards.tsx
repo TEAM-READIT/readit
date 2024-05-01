@@ -6,9 +6,14 @@ import { articleList, PopArticleList } from '../../types/articleProps';
 const PopCards = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
+	const hits = async (articleId: number) => {
+		const data = await fetch(`${baseUrl}/article/hits/${articleId}`).then((response) => response.json());
+		return data;
+	};
 	// 아티클 담아서 상세 페이지로 보내주기
 	const handleCardClick = (article: articleList) => {
 		navigate('/text', { state: { article } });
+		hits(article.articleId!)
 	};
 	const [popArticles, setPopArticle] = useState<PopArticleList>();
 	// 인기있는 아티클 받아오기
@@ -168,7 +173,7 @@ const PopCards = () => {
 							{popArticles?.newsList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border'
+									className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 									onClick={() => handleCardClick(article)}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
@@ -197,7 +202,7 @@ const PopCards = () => {
 							{popArticles?.epigraphyList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border'
+									className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 									onClick={() => handleCardClick(article)}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>

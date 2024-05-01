@@ -70,7 +70,7 @@ const MyGroup = () => {
 	const sortedCommunityList = communityList.sort((a, b) => b.startAt!.getTime() - a.startAt!.getTime());
 
 	// 상위 3개만 추출
-	const top3Communities = sortedCommunityList.slice(0, 3);
+	const top3Communities = communityList.reverse().slice(0, 3);
 
 	return (
 		<>
