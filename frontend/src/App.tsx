@@ -17,6 +17,7 @@ import { GoogleCallback } from './containers/MainPage/Login/Google.tsx';
 import ReadDetail from './containers/MyPage.tsx/Read/ReadDetail.tsx';
 import GroupDetail from './containers/MyPage.tsx/Group/GroupDeatail.tsx';
 import ReadDetailModal from './components/ReadDetailModal.tsx';
+import Essay02 from './containers/Essay/test02.tsx';
 function App() {
 	const queryClient = new QueryClient();
 	return (
