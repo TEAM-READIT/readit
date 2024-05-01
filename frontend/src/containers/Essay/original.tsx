@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { articleList } from '../../types/articleProps';
 import { useLocation } from 'react-router-dom';
 
-const Essay = () => {
+const Essay01 = () => {
 	const location = useLocation();
 	const categoryName = location.state?.categoryName;
 	const communityId = location.state?.communityId;
@@ -124,4 +124,4 @@ const Essay = () => {
 	);
 };
 
-export default Essay;
+export default Essay01;
