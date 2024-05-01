@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from './containers/MainPage';
 import Community from './containers/Community';
 import MyPage from './containers/MyPage.tsx';
