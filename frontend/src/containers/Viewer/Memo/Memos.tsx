@@ -36,7 +36,7 @@ export const Memos = () => {
 	return (
 		<>
         {MemoData.map((myMemo, index) => (
-            <div className='w-[80%] h-auto py-[4%] px-[7%] mx-[10%] mt-[15%] bg-yellow-200 shadow-md'>
+            <div key={index} className='w-[80%] h-auto py-[4%] px-[7%] mx-[10%] mt-[15%] bg-yellow-200 shadow-md'>
                 <div className="p-[5%]">{myMemo.content}</div>
             </div>
         ))}

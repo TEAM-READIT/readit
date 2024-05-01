@@ -1,45 +1,28 @@
 import { Breadcrumb, BreadcrumbItem, Button } from 'flowbite-react';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { articleList } from '../../types/articleProps';
-import { useAuthStore } from '../../store/auth';
 
 const EssayHeader = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
 	const [link, setLink] = useState<string>('');
-	const { accessToken } = useAuthStore();
-
+	const [linkdata, setLinkData] = useState<articleList>();
 	// 링크로 검색하기
-	const requestBody = {
-		link: link,
-	};
 
-	const linkPost = useMutation(async () => {
-		const response = await fetch(`${baseUrl}/article/link`, {
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
-
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(requestBody),
-		});
-		return response.json();
-	});
-	const handleLinkData = async () => {
-		try {
-			const data = await linkPost.mutateAsync();
-			handleLink(data);
-		} catch (error) {
-			console.log('링크로 기사 불러오기 실패');
-		}
+	const fetchlinkData = async () => {
+		const data = await fetch(`${baseUrl}/article/link?url=${link}`).then((response) => response.json());
+		return data;
 	};
 
 	// 뷰어로 데이터 넘기기
-	const handleLink = (data: articleList) => {
-		navigate('/viewer', { state: data });
+	const handleLink = () => {
+		fetchlinkData()
+			.then((res) => setLinkData(res))
+			.catch((err) => {
+				console.log('챌린지 문제 받아오는거 에러');
+			});
+		navigate('/viewer', { state: { linkdata } });
 	};
 	return (
 		<>
@@ -63,7 +46,12 @@ const EssayHeader = () => {
 								className='input w-full h-full'
 								onChange={(e) => setLink(e.target.value)}
 							/>
-							<span className='material-symbols-outlined hover:cursor-pointer' onClick={handleLinkData}>
+							<span
+								className='material-symbols-outlined hover:cursor-pointer'
+								onClick={() => {
+									handleLink();
+								}}
+							>
 								search
 							</span>
 						</div>
