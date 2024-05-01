@@ -2,34 +2,41 @@ import { Button } from "flowbite-react";
 import { communityProps } from "../../types/gropProps";
 import ProfileImage from '../../assets/images/profile.png'
 import { useEffect, useRef, useState } from "react";
+import { useMutation } from "react-query";
+import { useAuthStore } from "../../store/auth";
 
 const Chat = ({ myGroup }: { myGroup: communityProps }) => {
+	const { accessToken } = useAuthStore();
 	const [chatValue, setChatValue] = useState<string>('채팅 보내기');
-	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	// 채팅 보내기
-	// 	const chatBody = {
-	// 		memberId:
-	// 		content: chatValue,
-	// }
-	// const chatPost = useMutation(async () => {
-	// 	const response = await fetch(`${baseUrl}/community/chat`, {
-	// 		method: 'POST',
-	// 		headers: {
-	// 			Authorization: `Bearer ${accessToken}`,
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 		body: JSON.stringify(chatBody),
-	// 	});
-	// 	return response.json();
-	// });
-	// const handleSendingChat = async () => {
-	// 	try {
-	// 		const data = await chatPost.mutateAsync();
+		const chatBody = {
+			memberId: myGroup.myId,
+			content: chatValue,
+	}
+	const chatPost = useMutation(async () => {
+		const response = await fetch(`${baseUrl}/community/chat`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(chatBody),
+		});
+		console.log(chatBody)
+		return response.json();
+	});
+	const handleSendingChat = async () => {
+		try {
+			const data = await chatPost.mutateAsync();
 				
-	// 	} catch (error) {
-	// 		console.error('채팅 보내기 실패', error);
-	// 	}
-	// };
+		} catch (error) {
+			console.error('채팅 보내기 실패');
+		}
+	};
+	useEffect(() => {
+		
+	},[handleSendingChat])
 	const chatContainerRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
 		if (chatContainerRef.current) {
@@ -50,7 +57,7 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 										<div className='flex flex-col items-start'>
 											<div className='text-lg font-bold'>{chat.memberName}</div>
 											<div className='flex flex-row items-center gap-x-2'>
-												<div className='bg-white border border-gray-500 text-sm w-full p-2 rounded-xl'>
+												<div className='bg-white border border-gray-500 text-sm w-full p-2 rounded-xl text-start'>
 													{chat.content}
 												</div>
 												<span className='text-sm'>
@@ -70,7 +77,7 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 														{chat.sendDate.getHours()}:{chat.sendDate.getMinutes() < 10 ? '0' : ''}
 														{chat.sendDate.getMinutes()}
 													</span>
-													<div className='bg-yellow-200 border border-gray-500 text-sm w-full p-2 rounded-xl'>
+													<div className='bg-yellow-200 border border-gray-500 text-sm w-full p-2 rounded-xl text-start'>
 														{chat.content}
 													</div>
 												</div>
@@ -91,7 +98,12 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 						className='rounded-xl w-5/6 input'
 						onChange={(e) => setChatValue(e.target.value)}
 					/>
-					<Button className='border w-1/6 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'>전송</Button>
+					<Button
+						className='border w-1/6 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
+						onClick={handleSendingChat}
+					>
+						전송
+					</Button>
 				</div>
 			</div>
 		</>

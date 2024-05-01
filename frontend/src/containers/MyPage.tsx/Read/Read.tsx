@@ -19,7 +19,7 @@ const Read = () => {
 	// const [articles, setArticles] = useState<articleList[]>();
 	// // 내가 읽은 글 받아오기
 	// const myArticleData = async () => {
-	// 	const data = await fetch(`${baseUrl}/myArticle`).then((response) => response.json());
+	// 	const data = await fetch(`${baseUrl}/article/myArticle`).then((response) => response.json());
 	// 	return data;
 	// };
 

@@ -5,6 +5,7 @@ interface communityProps {
 	maxParticipants: number;
 	currentParticipants: number;
 	articleCount: number;
+	myId?: number;
 	notice: string;
 	categoryName: string;
 	title: string;
