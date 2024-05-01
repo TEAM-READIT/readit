@@ -2,6 +2,8 @@ import { Button, Card } from 'flowbite-react';
 import Headers from '../../../components/Headers';
 import CommunityDetailHeader from './CommunityDetailHeaders';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import { useAuthStore } from '../../../store/auth';
 
 interface GroupProps {
 	communityId: number;
@@ -17,12 +19,33 @@ interface GroupProps {
 }
 
 const Detail = () => {
+	const { accessToken } = useAuthStore();
+	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const location = useLocation();
 	const navigate = useNavigate();
 	const community = location.state?.community;
 	// console.log(community);
+
+	const communityPost = useMutation(async () => {
+		const response = await fetch(`${baseUrl}/community/${community.communityId}`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json',
+			},
+		});
+		return response.json();
+	});
+	const handleJoin = async () => {
+		try {
+			const data = await communityPost.mutateAsync();
+		} catch (error) {
+			console.error('모임 가입하기 실패', error);
+		}
+	};
 	const handleClickGroup = (community: GroupProps) => {
 		navigate('/group', { state: { community } });
+		handleJoin();
 	};
 	return (
 		<>

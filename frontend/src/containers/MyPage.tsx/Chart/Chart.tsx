@@ -128,6 +128,7 @@ const Chart = () => {
 		};
 		const faceColor = 'rgba(255, 165, 0, 1)';
 		const pronunciationColor = 'rgba(154, 205, 50, 1)';
+		const challengeColor = 'rgba(55,117,255,1)'
 		const xlist = new Array(arraylength()).fill('');
 		xlist[0] = '이전';
 		xlist[xlist.length - 1] = '현재';
@@ -138,8 +139,8 @@ const Chart = () => {
 				{
 					label: '점수',
 					data: challengescore,
-					borderColor: faceColor,
-					backgroundColor: faceColor,
+					borderColor: challengeColor,
+					backgroundColor: challengeColor,
 					fill: false,
 				},
 			],

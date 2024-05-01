@@ -17,6 +17,8 @@ import { GoogleCallback } from './containers/MainPage/Login/Google.tsx';
 import ReadDetail from './containers/MyPage.tsx/Read/ReadDetail.tsx';
 import GroupDetail from './containers/MyPage.tsx/Group/GroupDeatail.tsx';
 import ReadDetailModal from './components/ReadDetailModal.tsx';
+import Essay02 from './containers/Essay/test02.tsx';
+import Essay01 from './containers/Essay/original.tsx';
 function App() {
 	const queryClient = new QueryClient();
 	return (
@@ -30,7 +32,7 @@ function App() {
 						<Route path='/challenge' element={<Challenge />} />
 						<Route path='/recruit' element={<Recruit />} />
 						<Route path='/text' element={<TextDetail />} />
-						<Route path='/essay' element={<Essay />} />
+						<Route path='/essay' element={<Essay01 />} />
 						<Route path='/group' element={<Group />} />
 						<Route path='/mypage' element={<MyPage />} />
 						<Route path='/mypage/read' element={<ReadDetail />} />

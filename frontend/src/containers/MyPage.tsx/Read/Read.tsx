@@ -19,7 +19,7 @@ const Read = () => {
 	// const [articles, setArticles] = useState<articleList[]>();
 	// // 내가 읽은 글 받아오기
 	// const myArticleData = async () => {
-	// 	const data = await fetch(`${baseUrl}/myArticle`).then((response) => response.json());
+	// 	const data = await fetch(`${baseUrl}/article/myArticle`).then((response) => response.json());
 	// 	return data;
 	// };
 
@@ -144,11 +144,11 @@ const Read = () => {
 								<div className='flex flex-row justify-start gap-5'>
 									{/* <div className='text-gray-500'>{article.completedAt}</div> */}
 									<div className='text-gray-500'>여기에 날짜 </div>
-									<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm '>
+									<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm flex flex-row justify-center items-center'>
 										#{article.type}
 									</div>
 									{article.categoryName ? (
-										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
+										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm flex flex-row justify-center items-center'>
 											#{article.categoryName}
 										</div>
 									) : null}

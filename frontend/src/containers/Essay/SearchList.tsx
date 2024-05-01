@@ -1,13 +1,18 @@
 import { Card } from 'flowbite-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { articleList } from '../../types/articleProps';
-import { useEffect, useState } from 'react';
 
 const SearchList = ({ totalArticles, communityId }: { totalArticles: articleList[]; communityId: number | null }) => {
-	const location = useLocation();
+	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
-	const handleCardClick = (article: articleList, communityId:number|null) => {
+	const hits = async (articleId: number) => {
+		const data = await fetch(`${baseUrl}/article/hits/${articleId}`).then((response) => response.json());
+		return data;
+	};
+
+	const handleCardClick = (article: articleList, communityId: number | null) => {
 		navigate('/text', { state: { article, communityId } });
+		hits(article.articleId!);
 	};
 	const articles = totalArticles;
 

@@ -51,7 +51,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 		<>
 			<div className='h-full w-1/3 flex flex-col'>
 				<div className='flex h-4/5 py-20 '>
-					<Card className='w-full'>
+					<Card className='w-full overflow-auto'>
 						<div className=' flex flex-col text-start gap-y-10 p-3'>
 							{problemList.map((problem, index) => (
 								<div key={index}>

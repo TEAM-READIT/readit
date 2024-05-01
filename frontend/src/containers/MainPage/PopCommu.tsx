@@ -4,11 +4,20 @@ import { useNavigate } from 'react-router-dom';
 import communityList from '../../types/communityProps';
 
 const PopCommu = () => {
-	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
+	
+		// 커뮤니티 조회수 
+		const hits = async (communityId: number) => {
+			const data = await fetch(`${baseUrl}/article/hits/${communityId}`).then((response) => response.json());
+			return data;
+		};
+	
+	// 커뮤니티 상세 페이지 이동 && 조회수 올리기
 	const handleCardClick = (community: communityList) => {
 		console.log(community);
 		navigate('/detail', { state: { community } });
+		hits(community.communityId!);
 	};
 	// const [popCommunity, setPopCommunity] = useState<communityList[]>();
 	// //인기 있는 모임 받아오기
