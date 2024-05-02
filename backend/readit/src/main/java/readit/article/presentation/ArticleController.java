@@ -7,6 +7,7 @@ import readit.article.application.ArticleService;
 import readit.article.dto.response.GetMemberArticleListResponse;
 import readit.article.dto.response.GetPopularArticleResponse;
 import readit.article.dto.response.GetArticleFromLinkResponse;
+import readit.article.dto.response.GetStatsResponse;
 import readit.auth.dto.AuthCredentials;
 import readit.auth.presentation.Auth;
 
@@ -32,7 +33,13 @@ public class ArticleController {
 
     @GetMapping("/myarticle")
     public ResponseEntity<GetMemberArticleListResponse> getMyArticle(@Auth AuthCredentials authCredentials){
-        GetMemberArticleListResponse articleResponse = articleService.getMyArticle(1);
+        GetMemberArticleListResponse articleResponse = articleService.getMyArticle(authCredentials.id());
         return ResponseEntity.ok(articleResponse);
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<GetStatsResponse> getStats(@Auth AuthCredentials authCredentials){
+        GetStatsResponse statsResponse = articleService.getStats(authCredentials.id());
+        return ResponseEntity.ok(statsResponse);
     }
 }

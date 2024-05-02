@@ -28,10 +28,6 @@ public class MemberArticle extends BaseTimeEntity {
     @JoinColumn(name = "article_id", referencedColumnName = "id")
     private Article article;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ArticleType type;
-
     @Column(length = 500)
     private String summary;
 
@@ -46,7 +42,6 @@ public class MemberArticle extends BaseTimeEntity {
         return MemberArticle.builder()
                 .memberId(memberId)
                 .article(article)
-                .type(article.getType())
                 .summary(summary)
                 .build();
     }

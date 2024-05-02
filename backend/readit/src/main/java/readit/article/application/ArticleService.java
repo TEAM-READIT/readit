@@ -8,10 +8,7 @@ import readit.article.domain.ArticleType;
 import readit.article.domain.Category;
 import readit.article.domain.repository.ArticleRepository;
 import readit.article.domain.repository.CategoryRepository;
-import readit.article.dto.response.FastAPIArticleResponse;
-import readit.article.dto.response.GetMemberArticleListResponse;
-import readit.article.dto.response.GetPopularArticleResponse;
-import readit.article.dto.response.GetArticleFromLinkResponse;
+import readit.article.dto.response.*;
 import readit.article.exception.ArticleNotFoundException;
 import readit.article.exception.MemberArticleNotFoundException;
 import readit.article.infra.FastAPIClient;
@@ -51,12 +48,22 @@ public class ArticleService {
         return GetArticleFromLinkResponse.from(response);
     }
 
+    @Transactional(readOnly = true)
     public GetMemberArticleListResponse getMyArticle(Integer id){
         List<MemberArticle> memberArticleList = memberArticleRepository.findMemberArticleByMemberId(id);
         if(memberArticleList==null || memberArticleList.isEmpty()){
             throw new MemberArticleNotFoundException();
         }
         return GetMemberArticleListResponse.from(memberArticleList);
+    }
+
+    @Transactional(readOnly = true)
+    public GetStatsResponse getStats(Integer id){
+        List<MemberArticle> memberArticleList =  memberArticleRepository.findMemberArticleByMemberId(id);
+        if(memberArticleList==null || memberArticleList.isEmpty()){
+            throw new MemberArticleNotFoundException();
+        }
+        return GetStatsResponse.from(memberArticleList);
     }
 
     public void saveArticleFromLink(FastAPIArticleResponse response){
