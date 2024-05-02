@@ -17,7 +17,6 @@ import { useMutation, useQuery } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import useModal from '../../hooks/useModal';
 import { articleList } from '../../types/articleProps';
-import { FakeLayer } from './TextArea/FakeLayer';
 interface FeedBackProps {
 	score: number;
 	feedback: string;
@@ -150,7 +149,7 @@ export const ViewerPage = () => {
 		navigate('/');
 	};
 
-	console.log(requestbody)
+	console.log('requestbody',requestbody)
 
 	return (
 		<>
@@ -173,13 +172,7 @@ export const ViewerPage = () => {
 										article={article}
 										setIsMemoOpen={setIsMemoOpen}
 									/>
-									{/* <FakeLayer
-										highlightedRanges={highlightedRanges}
-										setHighlightedRanges={setHighlightedRanges}
-										color={color}
-										article={article}
-										setIsMemoOpen={setIsMemoOpen}
-									/> */}
+									
 								</div>
 							</div>
 						</div>

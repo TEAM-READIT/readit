@@ -29,9 +29,9 @@ useEffect(() => {
 		const selection = window.getSelection();
 		if (selection!.rangeCount > 0) {
 			const range = selection!.getRangeAt(0);
-			// const span = document.createElement('span');
-			// span.style.backgroundColor = `${color}`;
-			// range.surroundContents(span);
+			const span = document.createElement('span');
+			span.style.backgroundColor = `${color}`;
+			range.surroundContents(span);
 			selection!.removeAllRanges();
 		}
 	});
@@ -43,10 +43,10 @@ useEffect(() => {
 		if (selection!.rangeCount > 0) {
 			const range = selection!.getRangeAt(0);
 			const startIndex = range.startOffset;
-			// const span = document.createElement('span');
+			const span = document.createElement('span');
 			const endIndex = range.endOffset;
-			// span.style.backgroundColor = `${color}`;
-			// range.surroundContents(span);
+			span.style.backgroundColor = `${color}`;
+			range.surroundContents(span);
 			setHighlightedRanges([...highlightedRanges, { startIndex, endIndex, color }]);
 			setIsMemoOpen(true);
 		}
@@ -58,21 +58,9 @@ useEffect(() => {
 				<>
 					<div className='text-2xl font-bold m-[3%]'>{article.title}</div>
 					<div className='text-start mx-[2%] mb-[3%]' onMouseUp={handleMouseUp}>
-						{highlightedRanges?.length > 0 ? (
-							<>
-								{highlightedRanges.map((hi, index) => (
-									<div key={index}>
-											{article.content.slice(0, hi.startIndex)}
-										<div className={`bg-${hi.color}-200`}>
-											{article.content.slice(hi.startIndex, hi.endIndex + 1)}
-										</div>
-											{article.content.slice(hi.endIndex + 1, )}
-									</div>
-								))}
-							</>
-						) : (
+						
 							<>{article.content}</>
-						)}
+
 					</div>
 				</>
 			) : (
