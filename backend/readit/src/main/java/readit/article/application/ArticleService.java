@@ -8,11 +8,15 @@ import readit.article.domain.ArticleType;
 import readit.article.domain.Category;
 import readit.article.domain.repository.ArticleRepository;
 import readit.article.domain.repository.CategoryRepository;
-import readit.article.dto.FastAPIArticleResponse;
-import readit.article.dto.GetPopularArticleResponse;
-import readit.article.dto.GetArticleFromLinkResponse;
+import readit.article.dto.response.FastAPIArticleResponse;
+import readit.article.dto.response.GetMemberArticleListResponse;
+import readit.article.dto.response.GetPopularArticleResponse;
+import readit.article.dto.response.GetArticleFromLinkResponse;
 import readit.article.exception.ArticleNotFoundException;
+import readit.article.exception.MemberArticleNotFoundException;
 import readit.article.infra.FastAPIClient;
+import readit.viewer.domain.entity.MemberArticle;
+import readit.viewer.domain.repository.MemberArticleRepository;
 
 import java.util.List;
 
@@ -23,6 +27,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
+    private final MemberArticleRepository memberArticleRepository;
     private final FastAPIClient fastAPIClient;
 
     @Transactional(readOnly = true)
@@ -44,6 +49,14 @@ public class ArticleService {
         FastAPIArticleResponse response = fastAPIClient.getArticle(link);
         saveArticleFromLink(response);
         return GetArticleFromLinkResponse.from(response);
+    }
+
+    public GetMemberArticleListResponse getMyArticle(Integer id){
+        List<MemberArticle> memberArticleList = memberArticleRepository.findMemberArticleByMemberId(id);
+        if(memberArticleList==null || memberArticleList.isEmpty()){
+            throw new MemberArticleNotFoundException();
+        }
+        return GetMemberArticleListResponse.from(memberArticleList);
     }
 
     public void saveArticleFromLink(FastAPIArticleResponse response){

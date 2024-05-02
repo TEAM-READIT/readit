@@ -1,4 +1,4 @@
-package readit.article.dto;
+package readit.article.dto.response;
 
 import readit.article.domain.Article;
 import readit.article.domain.ArticleType;

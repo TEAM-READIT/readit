@@ -1,23 +1,25 @@
-package readit.article.dto;
+package readit.article.dto.response;
 
 import readit.article.domain.Article;
 
-public record GetEpigraphyResponse(
+public record GetNewsResponse(
         Integer id,
         String title,
         String content,
         String type,
         String categoryName,
-        Integer hit
+        Integer hit,
+        String reporter
 ) {
-    public static GetEpigraphyResponse from(Article article){
-        return new GetEpigraphyResponse(
+    public static GetNewsResponse from(Article article){
+        return new GetNewsResponse(
                 article.getId(),
                 article.getTitle(),
                 article.getContent(),
                 article.getType().toString(),
                 article.getCategory().getName(),
-                article.getHit()
+                article.getHit(),
+                article.getReporter()
         );
     }
 }

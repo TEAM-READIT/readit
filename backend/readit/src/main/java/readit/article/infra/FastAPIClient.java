@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import readit.article.dto.FastAPIArticleResponse;
+import readit.article.dto.response.FastAPIArticleResponse;
 import readit.article.exception.ArticleNotFoundException;
 import readit.article.infra.config.FastAPIURI;
 

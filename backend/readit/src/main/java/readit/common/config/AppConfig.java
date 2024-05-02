@@ -8,6 +8,7 @@ import readit.auth.infra.kakao.config.KakaoCredentials;
 import readit.auth.infra.naver.config.NaverCredentials;
 import readit.viewer.config.GPTCredentials;
 
+
 @Configuration
 @EnableConfigurationProperties({
         JwtCredentials.class,

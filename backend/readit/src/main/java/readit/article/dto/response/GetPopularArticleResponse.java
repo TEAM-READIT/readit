@@ -1,9 +1,8 @@
-package readit.article.dto;
+package readit.article.dto.response;
 
 import readit.article.domain.Article;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
