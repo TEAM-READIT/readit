@@ -8,7 +8,6 @@ import java.util.List;
 public record GetMemberArticleResponse(
     Integer id,
     String title,
-
     String content,
     String type,
     String categoryName,

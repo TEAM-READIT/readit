@@ -1,6 +1,5 @@
 package readit.article.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import readit.common.entity.BaseTimeEntity;
