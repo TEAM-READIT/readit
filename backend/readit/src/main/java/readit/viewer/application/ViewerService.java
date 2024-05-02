@@ -15,6 +15,7 @@ import readit.viewer.domain.entity.MemberArticle;
 import readit.viewer.domain.entity.Memo;
 import readit.viewer.domain.repository.MemberArticleRepository;
 import readit.viewer.domain.repository.MemoRepository;
+import readit.viewer.exception.AsynchronousException;
 import readit.viewer.exception.ValueMissingException;
 import readit.viewer.util.DictionaryUtil;
 import readit.viewer.util.GPTUtil;
@@ -22,6 +23,8 @@ import readit.viewer.util.GPTUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Service
@@ -50,7 +53,14 @@ public class ViewerService {
     private GetWordListResponse getDifficultWords(Article article) {
         List<GPTMessage> messages = new ArrayList<>();
         messages.add(GPTMessage.of("user", buildPromptMessageForDifficultWord(article.getContent())));
-        List<Word> response = gptUtil.promptWords(messages);
+
+        List<Word> response = null;
+        CompletableFuture<List<Word>> future = gptUtil.promptWords(messages);
+        try {
+            response = future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            throw new AsynchronousException();
+        }
 
         GetWordListResponse getWordListResponse = new GetWordListResponse(response);
         saveWords(article, getWordListResponse);
@@ -117,7 +127,14 @@ public class ViewerService {
 
         String promptMessage = buildPromptMessageForSummary(article.getContent(), summary);
 
-        SubmissionResponse response = gptUtil.promptSummary(buildGPTMessage(promptMessage));
+        CompletableFuture<SubmissionResponse> future = gptUtil.promptSummary(buildGPTMessage(promptMessage));
+
+        SubmissionResponse response = null;
+        try {
+            response = future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            throw new AsynchronousException();
+        }
 
         Optional<MemberArticle> optionalMemberArticle = Optional.ofNullable(
                 memberArticleRepository.findMemberArticleByArticleIdAndMemberId(articleId, memberId)
