@@ -25,16 +25,6 @@ export const MainText = ({
 	const linkdata = location.state?.linkdata;
 
 	useEffect(() => {
-		highlightedRanges.forEach((range) => {
-			const selection = window.getSelection();
-			if (selection!.rangeCount > 0) {
-				const range = selection!.getRangeAt(0);
-				const span = document.createElement('span');
-				span.style.backgroundColor = `${color}`;
-				range.surroundContents(span);
-				selection!.removeAllRanges();
-			}
-		});
 	}, [highlightedRanges]);
 
 	const handleMouseUp = () => {
@@ -42,15 +32,15 @@ export const MainText = ({
 		if (selection!.rangeCount > 0) {
 			const range = selection!.getRangeAt(0);
 			const startIndex = range.startOffset;
-			const span = document.createElement('span');
+			// const span = document.createElement('span');
 			const endIndex = range.endOffset;
-			span.style.backgroundColor = `${color}`;
-			range.surroundContents(span);
+			// span.style.backgroundColor = `${color}`;
+			// range.surroundContents(span);
 			setHighlightedRanges([...highlightedRanges, { startIndex, endIndex, color }]);
 			setIsMemoOpen(true);
 		}
 	};
-	
+	console.log(highlightedRanges)
 	return (
 		<div className='w-full h-full border-solid border-2 shadow-md bg-white overflow-y-auto'>
 			{article ? (

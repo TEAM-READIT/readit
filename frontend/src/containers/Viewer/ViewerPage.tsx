@@ -173,13 +173,13 @@ export const ViewerPage = () => {
 										article={article}
 										setIsMemoOpen={setIsMemoOpen}
 									/>
-									<FakeLayer
+									{/* <FakeLayer
 										highlightedRanges={highlightedRanges}
 										setHighlightedRanges={setHighlightedRanges}
 										color={color}
 										article={article}
 										setIsMemoOpen={setIsMemoOpen}
-									/>
+									/> */}
 								</div>
 							</div>
 						</div>
