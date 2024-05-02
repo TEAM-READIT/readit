@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
-from config.ArticleParser import ArticleParser
+from config.article_parser import ArticleParser
 from schemas.schemas import NewsResponse
 
 def fetch_news_data(url: str) -> NewsResponse:
