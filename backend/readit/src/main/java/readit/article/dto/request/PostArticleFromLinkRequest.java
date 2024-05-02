@@ -1,4 +1,4 @@
-package readit.article.dto;
+package readit.article.dto.request;
 
 public record PostArticleFromLinkRequest(
         String link

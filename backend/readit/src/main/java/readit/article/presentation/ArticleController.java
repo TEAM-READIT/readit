@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import readit.article.application.ArticleService;
-import readit.article.dto.GetPopularArticleResponse;
-import readit.article.dto.GetArticleFromLinkResponse;
+import readit.article.dto.response.GetMemberArticleListResponse;
+import readit.article.dto.response.GetPopularArticleResponse;
+import readit.article.dto.response.GetArticleFromLinkResponse;
+import readit.auth.dto.AuthCredentials;
+import readit.auth.presentation.Auth;
 
 
 @RestController
@@ -24,6 +27,12 @@ public class ArticleController {
     @GetMapping("/link")
     public ResponseEntity<GetArticleFromLinkResponse> getArticleFromLink(@RequestParam String url){
         GetArticleFromLinkResponse articleResponse = articleService.getArticleFromLink(url);
+        return ResponseEntity.ok(articleResponse);
+    }
+
+    @GetMapping("/myarticle")
+    public ResponseEntity<GetMemberArticleListResponse> getMyArticle(@Auth AuthCredentials authCredentials){
+        GetMemberArticleListResponse articleResponse = articleService.getMyArticle(1);
         return ResponseEntity.ok(articleResponse);
     }
 }

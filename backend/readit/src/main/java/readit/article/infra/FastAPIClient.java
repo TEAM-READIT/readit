@@ -1,13 +1,12 @@
 package readit.article.infra;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import readit.article.config.FastAPICredentials;
-import readit.article.dto.FastAPIArticleResponse;
+import readit.article.dto.response.FastAPIArticleResponse;
 import readit.article.exception.ArticleNotFoundException;
 import static org.springframework.http.HttpMethod.GET;
 
