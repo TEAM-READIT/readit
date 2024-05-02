@@ -27,15 +27,16 @@ class ArticleCrawler(object):
     def save_to_db(self, results):
         with EngineConnection().create_session() as session:
             try:
-                current_items = []
+                current_titles = set(result['title'] for result in results if result['title'])
+                existing_articles = session.query(Article).filter(Article.title.in_(current_titles)).all()
+                existing_titles = set(article.title for article in existing_articles)
+
                 for result in results:
-                    if result['title'] not in current_items:
-                        current_items.append(result['title'])
-                        if not session.query(Article).filter_by(title=result['title']).first():
-                            new_article = Article(**result)
-                            session.add(new_article)
+                    if result['title'] not in existing_titles:
+                        new_article = Article(**result)
+                        session.add(new_article)
                 session.commit()
-                print(f"Data committed to the database successfully.")
+                print("Data committed to the database successfully.")
             except Exception as e:
                 session.rollback()
                 print(f"Database error: {e}, rolling back transaction")
