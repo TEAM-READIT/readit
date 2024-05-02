@@ -40,7 +40,7 @@ const Headers = () => {
 	});
 	const handlelogout = async () => {
 		try {
-			const data = await logoutPost.mutateAsync();
+			await logoutPost.mutateAsync();
 			logout();
 		} catch (error) {
 			console.error('로그아웃 실패', error);
@@ -81,7 +81,6 @@ const Headers = () => {
 							</div>
 						) : (
 							<div onClick={open}>로그인</div>
-							// <div onClick={() => navigate('/login')}>로그인</div>
 						)} */}
 					</div>
 				</div>
