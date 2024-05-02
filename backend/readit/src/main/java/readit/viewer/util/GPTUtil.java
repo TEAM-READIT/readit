@@ -10,7 +10,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import readit.common.config.ChatGPTConfig;
 import readit.common.config.RestTemplateConfig;
 import readit.viewer.domain.dto.*;
@@ -26,17 +28,19 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class GPTUtil {
     private final ChatGPTConfig chatGPTConfig;
-    private final RestTemplateConfig restTemplateConfig;
-
+    private final RestTemplate restTemplate;
     @Value("${openai.model}")
     private String model;
 
+
     // 어려운 단어 리스트 추출 프롬프트 요청
+    @Async
     public List<Word> promptWords(List<GPTMessage> messages) {
         String response = sendPromptAndGetResponse(messages);
         return extractWordsFromContent(parseResponse(response));
     }
 
+    @Async
     // 요약 평가 프롬프트 요청
     public SubmissionResponse promptSummary(List<GPTMessage> messages) {
         String response = sendPromptAndGetResponse(messages);
@@ -48,11 +52,14 @@ public class GPTUtil {
         GPTPrompt gptPrompt = GPTPrompt.of(model, messages, 2000, 0.5F);
         HttpHeaders headers = chatGPTConfig.httpHeaders();
         HttpEntity<GPTPrompt> requestEntity = new HttpEntity<>(gptPrompt, headers);
-        ResponseEntity<String> response = restTemplateConfig.restTemplate(new RestTemplateBuilder())
-                .exchange("https://api.openai.com/v1/chat/completions",
+
+        ResponseEntity<String> response = restTemplate
+                .exchange(
+                        "https://api.openai.com/v1/chat/completions",
                         HttpMethod.POST,
                         requestEntity,
                         String.class);
+
 
         return response.getBody();
     }

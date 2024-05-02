@@ -13,6 +13,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import readit.common.config.RestTemplateConfig;
 import readit.viewer.domain.dto.DictionarySearchResult;
 import readit.viewer.domain.dto.Item;
@@ -24,7 +25,7 @@ import readit.viewer.exception.JsonParsingException;
 @Component
 @RequiredArgsConstructor
 public class DictionaryUtil {
-    private final RestTemplateConfig restTemplateConfig;
+    private final RestTemplate restTemplate;
     @Value("${dictionary.api-key}")
     private String apiKey;
 
@@ -33,7 +34,7 @@ public class DictionaryUtil {
         String url = "https://stdict.korean.go.kr/api/search.do?key=" + apiKey
                 + "&req_type=json&type_search=search&q=" + word;
 
-        ResponseEntity<String> response = restTemplateConfig.restTemplate(new RestTemplateBuilder())
+        ResponseEntity<String> response = restTemplate
                 .exchange(
                         url,
                         HttpMethod.GET,
