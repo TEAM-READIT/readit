@@ -17,7 +17,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import useModal from '../../hooks/useModal';
 import { articleList } from '../../types/articleProps';
-
+import { FakeLayer } from './TextArea/FakeLayer';
 interface FeedBackProps {
 	score: number;
 	feedback: string;
@@ -154,7 +154,7 @@ export const ViewerPage = () => {
 
 	return (
 		<>
-			<div className='w-full h-screen flex flex-col items-center border overflow-hidden'>
+			<div className=' z-50 w-full h-screen flex flex-col items-center border overflow-hidden'>
 				<Headers />
 				<div className='relative flex'>
 					<div
@@ -165,8 +165,15 @@ export const ViewerPage = () => {
 						>
 							<DictionarySearch setColor={setColor} />
 							<div className='w-4/5 h-full border-solid border-2 px-[5%] pt-[3%] pb-[5%]'>
-								<div className='w-full h-full overflow-y-auto'>
+								<div className='w-full h-full relative'>
 									<MainText
+										highlightedRanges={highlightedRanges}
+										setHighlightedRanges={setHighlightedRanges}
+										color={color}
+										article={article}
+										setIsMemoOpen={setIsMemoOpen}
+									/>
+									<FakeLayer
 										highlightedRanges={highlightedRanges}
 										setHighlightedRanges={setHighlightedRanges}
 										color={color}
