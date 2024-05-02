@@ -86,7 +86,7 @@ const Challenge = () => {
 			<div className='w-full h-screen flex flex-col items-center border overflow-hidden'>
 				<Headers />
 				<div className='flex flex-row w-full h-full items-start justify-center gap-10'>
-					<Rank />
+					{/* <Rank /> */}
 					<Content content={problems.content} />
 					<Problems articleId={problems.articleId} problemList={problems.problemList} />
 				</div>
