@@ -5,17 +5,17 @@ import { useAuthStore } from '../../store/auth';
 import { problemListProps, answerList } from '../../types/challengeProps';
 
 const Problems = ({ articleId, problemList }: { problemList: problemListProps[]; articleId: number }) => {
-	// 챌린지 답 POST
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
-	// 백에서 받아올 정답 
 	const [answer, setAnswer] = useState<answerList[]>([]);
-	// 내가 선택한 답 
 	const [myAnswer, setMyAnswer] = useState<answerList[]>([]);
+	const [selectedOptions, setSelectedOptions] = useState<number[]>([]); // 추가된 state
+
 	const requestBody = {
 		articleId: articleId,
 		answerList: myAnswer,
 	};
+
 	const answerPost = useMutation(async () => {
 		const response = await fetch(`${baseUrl}/challenge`, {
 			method: 'POST',
@@ -27,6 +27,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 		});
 		return response.json();
 	});
+
 	const handleAnswer = async () => {
 		try {
 			const data = await answerPost.mutateAsync();
@@ -36,7 +37,6 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 		}
 	};
 
-	// 정답 고르는 함수
 	const handleAnswerSelection = (problemIndex: number, optionIndex: number) => {
 		setMyAnswer((prevState) => {
 			const updatedAnswer = [...prevState];
@@ -46,7 +46,17 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 			};
 			return updatedAnswer;
 		});
+		setSelectedOptions((prevState) => {
+			const updatedSelectedOptions = [...prevState];
+			updatedSelectedOptions[problemIndex] = optionIndex;
+			return updatedSelectedOptions;
+		});
 	};
+
+	const isOptionSelected = (problemIndex: number, optionIndex: number) => {
+		return selectedOptions[problemIndex] === optionIndex;
+	};
+
 	return (
 		<>
 			<div className='h-full w-1/3 flex flex-col'>
@@ -60,10 +70,15 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 									{problem.optionList.map((option, optionidx) => (
 										<div
 											key={optionidx}
-											className='flex flex-row gap-x-2 hover:cursor-pointer'
+											className={`flex flex-row gap-x-2 hover:cursor-pointer ${
+												isOptionSelected(index, optionidx) ? 'bg-yellow-100' : ''
+											}`}
 											onClick={() => handleAnswerSelection(index, optionidx)}
+											style={{ paddingRight: '5px' }}
 										>
-											<div>{option.optionNumber}.</div>
+											<div className='relative'>{option.optionNumber}.
+											{isOptionSelected(index, optionidx) && <div className='absolute left-0 top-0'>✔</div>}
+											</div>
 											<div>{option.option}</div>
 										</div>
 									))}
