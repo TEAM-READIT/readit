@@ -35,7 +35,7 @@ export const MainText = ({
 
 		const newContent = applyHighlights(article.content);
 
-		console.log('selectionRanges ------>' + selectionRanges);
+		console.log('selectionRanges ------>', selectionRanges);
 		// console.log("newContent ------>" + newContent);
 
 		if (articleRef.current) {
@@ -49,8 +49,8 @@ export const MainText = ({
 
 		const container = articleRef.current;
 		if (container && selection.containsNode(container, true)) {
-			let start = selection.anchorOffset;
-			let end = selection.focusOffset;
+			let start: number = selection.anchorOffset;
+			let end: number = selection.focusOffset;
 
 			if (start > end) [start, end] = [end, start];
 
@@ -68,7 +68,11 @@ export const MainText = ({
 		selectionRanges.forEach((range) => {
 			if (range.start < splits.length && range.end <= splits.length) {
 				splits[range.start] = `<span style="background-color: yellow;">${splits[range.start]}`;
-				splits[range.end] = `</span>`;
+			} if (range.end < splits.length) {
+				splits[range.end] = `${splits[range.end]}</span>`;
+			}
+			 else {
+				splits[splits.length - 1] += `</span>`;
 			}
 		});
 		return splits.join('');
