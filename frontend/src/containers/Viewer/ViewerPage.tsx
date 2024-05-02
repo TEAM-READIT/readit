@@ -16,7 +16,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import useModal from '../../hooks/useModal';
-
+import { articleList } from '../../types/articleProps';
 interface FeedBackProps {
 	score: number;
 	feedback: string;
@@ -27,12 +27,20 @@ interface wordListProps{
 	definition: string;
 }
 
+interface MainTextProps {
+	startIndex: number
+	endIndex: number
+}
+
+
+
 export const ViewerPage = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
 	const [isRightOpen, setRightOpen] = useState(true);
 	const [isBottomOpen, setBottomOpen] = useState(true);
 	const location = useLocation();
+	const range: MainTextProps[] = [];
 	const article = location.state?.article;
 	const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
 	const navigate = useNavigate();
@@ -136,7 +144,7 @@ export const ViewerPage = () => {
 
 							<div className='w-4/5 h-full border-solid border-2 px-[5%] pt-[3%] pb-[5%]'>
 								<div className='w-full h-full overflow-y-auto'>
-									<MainText />
+									<MainText article={article} range={range}/>
 								</div>
 							</div>
 						</div>
