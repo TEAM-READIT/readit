@@ -15,8 +15,8 @@ public class CommunityService {
 
     private final CommunityRepository communityRepository;
 
-    public void createCommunity(GetCreateCommunityRequest request) {
-
+    public void createCommunity(GetCreateCommunityRequest request, Integer memberId) {
+        communityRepository.save(GetCreateCommunityRequest.toEntity(request, memberId));
     }
 
 }

@@ -46,4 +46,5 @@ public class Community extends BaseTimeEntity {
 
     @Column(nullable = false)
     private Integer articleCount;
+
 }
