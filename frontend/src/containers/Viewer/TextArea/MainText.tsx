@@ -6,18 +6,15 @@ interface MainTextProps {
 	color: string;
 	startIndex: number;
 	endIndex: number;
-	content:string;
 }
 
 export const MainText = ({
-	content,
 	color,
 	article,
 	setIsMemoOpen,
 	highlightedRanges,
 	setHighlightedRanges,
 }: {
-	content: string;
 	color: string;
 	article: articleList;
 	setIsMemoOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,12 +46,11 @@ export const MainText = ({
 			const endIndex = range.endOffset;
 			span.style.backgroundColor = `${color}`;
 			range.surroundContents(span);
-			setHighlightedRanges([...highlightedRanges, { startIndex, endIndex, color, content }]);
+			setHighlightedRanges([...highlightedRanges, { startIndex, endIndex, color }]);
 			setIsMemoOpen(true);
 		}
 	};
-
-	console.log(highlightedRanges);
+	
 	return (
 		<div className='w-full h-full border-solid border-2 shadow-md bg-white overflow-y-auto'>
 			{article ? (

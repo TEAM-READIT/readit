@@ -17,6 +17,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import useModal from '../../hooks/useModal';
 import { articleList } from '../../types/articleProps';
+
 interface FeedBackProps {
 	score: number;
 	feedback: string;
@@ -26,16 +27,24 @@ interface wordListProps {
 	word: string;
 	definition: string;
 }
+interface SummaryProps {
+  color: string;
+  content: string;
+  startIndex: number;
+  endIndex: number;
+}
 
+interface RequestBody {
+  memoList: SummaryProps[];
+  summary: string; // summary의 타입에 따라 수정해야 합니다.
+}
 interface MainTextProps {
-	content:string;
 	color: string;
 	startIndex: number;
 	endIndex: number;
 }
-interface Range {
-	start: number;
-	end: number;
+interface MemoProps{
+	content: string;
 }
 export const ViewerPage = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -44,7 +53,6 @@ export const ViewerPage = () => {
 	const [isBottomOpen, setBottomOpen] = useState(true);
 	const [color, setColor] = useState<string>('yellow'); // 형광펜 색갈 지정 지금은 딕셔너리 안에 있는데 추후에 빼야할 수도 있어요
 	const location = useLocation();
-	const range: Range[] = [];
 		const [highlightedRanges, setHighlightedRanges] = useState<MainTextProps[]>([]);
 
 	const article = location.state?.article;
@@ -57,37 +65,43 @@ export const ViewerPage = () => {
 	const [summary, setSummary] = useState<string>('');
 	// 피드백
 	const [feedback, setFeedback] = useState<FeedBackProps>();
-	const [content, setContent] = useState<string>('');
 	// 오른쪽 슬라이드 상태 값
 	const toggleRight = () => {
 		setRightOpen(!isRightOpen);
 	};
-
+	const [newMemo, setNewMemo] = useState<string[]>([]); // 메모 저장할 곳 
 	// 하단 슬라이드 상태 값
 	const toggleBottom = () => {
 		setBottomOpen(!isBottomOpen);
 	};
 
 	// 모르는 단어 불러오기
-	const { data } = useQuery('article', async () => {
-		const response = await fetch(`${baseUrl}/viewer/${article.articleId}`);
-		const data = await response.json();
-		setWordList(data);
-		return data;
-	});
+	// const { data } = useQuery('article', async () => {
+	// 	const response = await fetch(`${baseUrl}/viewer/${article.articleId}`);
+	// 	const data = await response.json();
+	// 	setWordList(data);
+	// 	return data;
+	// });
 
 	// 제출 POST
-	const requestbody = {
-		memoList: [
-			{
-				color: 'string',
-				content: 'string',
-				startIndex: 'number',
-				endIndex: 'number',
-			},
-		],
+	const requestbody: RequestBody = {
+		memoList: [],
 		summary: summary,
 	};
+
+	// highlightedRanges 순회
+	for (let i = 0; i < highlightedRanges.length; i++) {
+		const { color, startIndex, endIndex } = highlightedRanges[i];
+
+		// memoList에 객체 추가
+		requestbody.memoList.push({
+			color: color,
+			content: newMemo[i],
+			startIndex: startIndex,
+			endIndex: endIndex,
+		});
+	}
+
 	const summarySubmit = useMutation(async () => {
 		const response = await fetch(`${baseUrl}/viewer/submission/${article.articleId}`, {
 			method: 'POST',
@@ -136,6 +150,8 @@ export const ViewerPage = () => {
 		navigate('/');
 	};
 
+	console.log(requestbody)
+
 	return (
 		<>
 			<div className='w-full h-screen flex flex-col items-center border overflow-hidden'>
@@ -156,7 +172,6 @@ export const ViewerPage = () => {
 										color={color}
 										article={article}
 										setIsMemoOpen={setIsMemoOpen}
-										content={content}
 									/>
 								</div>
 							</div>
@@ -187,9 +202,10 @@ export const ViewerPage = () => {
 								color={color}
 								setIsMemoOpen={setIsMemoOpen}
 								isMemoOpen={isMemoOpen}
-								setContent={setContent}
-								highlightedRanges
-							={highlightedRanges}/>
+								highlightedRanges={highlightedRanges}
+								newMemo={newMemo}
+								setNewMemo={setNewMemo}
+							/>
 							<div className='flex flex-row items-center w-full'>
 								<div className='w-1/2 m-[10%]'>
 									<Button className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500'>
