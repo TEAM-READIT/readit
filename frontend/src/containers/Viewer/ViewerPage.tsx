@@ -28,6 +28,7 @@ interface wordListProps{
 }
 
 interface MainTextProps {
+	color: string;
 	startIndex: number
 	endIndex: number
 }
@@ -46,6 +47,7 @@ export const ViewerPage = () => {
 	const navigate = useNavigate();
 	const [wordList, setWordList] = useState<wordListProps[]>()
 	const [isOpen, open, close] = useModal();
+	const [hightlightColor, setHighlightColor] = useState<string>('')
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
 	// 피드백
@@ -144,7 +146,7 @@ export const ViewerPage = () => {
 
 							<div className='w-4/5 h-full border-solid border-2 px-[5%] pt-[3%] pb-[5%]'>
 								<div className='w-full h-full overflow-y-auto'>
-									<MainText article={article} range={range}/>
+									<MainText article={article} range={range} hightlightColor={hightlightColor}/>
 								</div>
 							</div>
 						</div>

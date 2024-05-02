@@ -7,11 +7,20 @@ interface Range {
 }
 
 interface MainTextProps {
-	startIndex: number
-	endIndex: number
+	color: string;
+	startIndex: number;
+	endIndex: number;
 }
 
-export const MainText = ({ article, range }: { article: articleList; range: MainTextProps[] }) => {
+export const MainText = ({
+	article,
+	range,
+	hightlightColor,
+}: {
+	article: articleList;
+	range: MainTextProps[];
+	hightlightColor: string;
+}) => {
 	const location = useLocation(); // React Router hook을 사용하여 현재 경로의 위치 정보를 가져옵니다.
 	const [selectionRanges, setSelectionRanges] = useState<Range[]>([]); // 선택된 텍스트 범위를 저장할 상태를 초기화합니다. 이 배열은 시작점과 끝점을 가진 객체들의 배열입니다.
 	const articleRef = useRef<HTMLDivElement>(null); // article 내용을 포함하는 div 요소의 참조를 저장합니다.
