@@ -5,16 +5,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import readit.article.config.FastAPICredentials;
 import readit.article.dto.response.FastAPIArticleResponse;
 import readit.article.exception.ArticleNotFoundException;
+import readit.article.infra.config.FastAPIURI;
+
 import static org.springframework.http.HttpMethod.GET;
 
 @Component
 @RequiredArgsConstructor
 public class FastAPIClient {
 
-    private final FastAPICredentials fastAPICredentials;
+    private final FastAPIURI FAST_API_URI;
     private final RestTemplate restTemplate;
 
     public FastAPIArticleResponse getArticle(String link){
@@ -25,7 +26,7 @@ public class FastAPIClient {
     private ResponseEntity<FastAPIArticleResponse> getFastAPIArticle(String link) {
         try {
             return restTemplate.exchange(
-                    fastAPICredentials.getUri() + "?url=" + link,
+                    FAST_API_URI + "?url=" + link,
                     GET,
                     null,
                     FastAPIArticleResponse.class
