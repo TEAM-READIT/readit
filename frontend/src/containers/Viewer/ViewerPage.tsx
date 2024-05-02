@@ -32,31 +32,29 @@ interface MainTextProps {
 	startIndex: number;
 	endIndex: number;
 }
-
+interface Range {
+	start: number;
+	end: number;
+}
 export const ViewerPage = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
 	const [isRightOpen, setRightOpen] = useState(true);
 	const [isBottomOpen, setBottomOpen] = useState(true);
+	const [color, setColor] = useState<string>('yellow'); // 형광펜 색갈 지정 지금은 딕셔너리 안에 있는데 추후에 빼야할 수도 있어요
 	const location = useLocation();
-	const range: MainTextProps[] = [];
+	const range: Range[] = [];
 	const article = location.state?.article;
 	const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
 	const navigate = useNavigate();
 	const [wordList, setWordList] = useState<wordListProps[]>();
 	const [isOpen, open, close] = useModal();
-	const [isMemoOpen, setIsMemoOpen]=useState<boolean>(false)
-	const [hightlightColor, setHighlightColor] = useState<string>('');
+	const [isMemoOpen, setIsMemoOpen] = useState<boolean>(false);
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
 	// 피드백
 	const [feedback, setFeedback] = useState<FeedBackProps>();
-
-
-
-
-
-
+	const [memoContent, setMemoContent] = useState<string>('');
 	// 오른쪽 슬라이드 상태 값
 	const toggleRight = () => {
 		setRightOpen(!isRightOpen);
@@ -146,15 +144,10 @@ export const ViewerPage = () => {
 						<div
 							className={`relative flex w-full ${isBottomOpen ? 'h-3/5' : 'h-[88%]'} transition-all duration-300 ease-in-out`}
 						>
-							<DictionarySearch />
+							<DictionarySearch setColor={setColor} />
 							<div className='w-4/5 h-full border-solid border-2 px-[5%] pt-[3%] pb-[5%]'>
 								<div className='w-full h-full overflow-y-auto'>
-									<MainText
-										article={article}
-										range={range}
-										hightlightColor={hightlightColor}
-										setIsMemoOpen={setIsMemoOpen}
-									/>
+									<MainText color={color} article={article} setIsMemoOpen={setIsMemoOpen} />
 								</div>
 							</div>
 						</div>
@@ -180,7 +173,12 @@ export const ViewerPage = () => {
 						<div
 							className={`w-11/12 h-full transition-all duration-300 ease-in-out ${isRightOpen ? 'block' : 'hidden'}`}
 						>
-							<Memos isMemoOpen={isMemoOpen} setIsMemoOpen={setIsMemoOpen} />
+							<Memos
+								setIsMemoOpen={setIsMemoOpen}
+								isMemoOpen={isMemoOpen}
+								memoContent={memoContent}
+								setMemoContent={setMemoContent}
+							/>
 							<div className='flex flex-row items-center w-full'>
 								<div className='w-1/2 m-[10%]'>
 									<Button className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500'>

@@ -9,7 +9,7 @@ interface Dictionary {
 	definition: string;
 }
 
-export const DictionarySearch = () => {
+export const DictionarySearch = ({ setColor }: { setColor: React.Dispatch<React.SetStateAction<string>> }) => {
 	const [isOpen, open, close] = useModal();
 	const [searchWord, setSearchWord] = useState('');
 	const [history, setHistory] = useState<Dictionary[]>([]); // history 배열을 useState를 이용하여 관리
@@ -87,11 +87,28 @@ export const DictionarySearch = () => {
 						<img src={Highlight} onClick={open} />
 						{isOpen ? (
 							<div className='absolute bottom-10 -left-5 border border-gray rounded-xl flex flex-col bg-gray-200 p-2 gap-2 '>
-								<span className='material-symbols-outlined flex justify-end text-sm' onClick={close}>close</span>{' '}
 								<div className='flex flex-row gap-2'>
-									<div className='w-8 aspect-square bg-yellow-200 border border-yellow-400 rounded-xl'></div>
-									<div className='w-8 aspect-square bg-pink-200  border border-pink-400 rounded-xl'></div>
-									<div className='w-8 aspect-square bg-red-200 border border-red-400 rounded-xl'></div>
+									<div
+										className='w-8 aspect-square bg-yellow-200 border border-yellow-400 rounded-xl'
+										onClick={() => {
+											setColor(`yellow`);
+											close();
+										}}
+									></div>
+									<div
+										className='w-8 aspect-square bg-pink-200  border border-pink-400 rounded-xl'
+										onClick={() => {
+											setColor(`pink`);
+											close();
+										}}
+									></div>
+									<div
+										className='w-8 aspect-square bg-red-200 border border-red-400 rounded-xl'
+										onClick={() => {
+											setColor(`skyblue`);
+											close();
+										}}
+									></div>
 								</div>
 							</div>
 						) : null}
