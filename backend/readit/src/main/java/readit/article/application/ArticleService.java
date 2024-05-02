@@ -57,6 +57,7 @@ public class ArticleService {
         return GetMemberArticleListResponse.from(memberArticleList);
     }
 
+    @Transactional(readOnly = true)
     public GetStatsResponse getStats(Integer id){
         List<MemberArticle> memberArticleList =  memberArticleRepository.findMemberArticleByMemberId(id);
         if(memberArticleList==null || memberArticleList.isEmpty()){
