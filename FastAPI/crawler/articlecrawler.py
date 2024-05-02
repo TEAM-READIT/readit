@@ -66,14 +66,14 @@ class ArticleCrawler(object):
         elif len(start) == 3:
             start_year, start_month, start_day = start
 
-        if len(end) == 1:  # Input Only Year
+        if len(end) == 1:
             end_year = end[0]
             end_month = 12
             end_day = 31
-        elif len(end) == 2:  # Input Year and month
+        elif len(end) == 2:
             end_year, end_month = end
             end_day = calendar.monthrange(end_year, end_month)[1]
-        elif len(end) == 3:  # Input Year, month and day
+        elif len(end) == 3:
             end_year, end_month, end_day = end
 
         args = [start_year, start_month, start_day, end_year, end_month, end_day]
@@ -134,10 +134,7 @@ class ArticleCrawler(object):
                         month = "0" + str(month)
                     if len(str(day)) == 1:
                         day = "0" + str(day)
-                    # 날짜
                     url = category_url + str(year) + str(month) + str(day)
-
-                    # page=10000을 입력할 경우 페이지가 존재하지 않기 때문에 page=totalpage로 이동 됨 (Redirect)
                     totalpage = ArticleParser.find_news_totalpage(url + "&page=10000")
                     for page in range(1, totalpage + 1):
                         made_urls.append(url + "&page=" + str(page))
@@ -169,11 +166,9 @@ class ArticleCrawler(object):
                 post_urls.append(line.a.get('href'))
             del temp_post
 
-            for content_url in post_urls:  # 기사 url
-                # 크롤링 대기 시간
+            for content_url in post_urls:
                 sleep(0.01)
 
-                # 기사 HTML 가져옴
                 request_content = requests.get(content_url)
 
                 try:
@@ -255,8 +250,8 @@ class ArticleCrawler(object):
             saver_thread = threading.Thread(target=self.periodic_save, args=(result_list,))
             saver_thread.start()
 
-            printer_thread = threading.Thread(target=self.periodic_print, args=(result_list,))
-            printer_thread.start()
+            # printer_thread = threading.Thread(target=self.periodic_print, args=(result_list,))
+            # printer_thread.start()
 
             for category_name in self.selected_categories:
                 proc = Process(target=self.crawling, args=(category_name, result_list))
@@ -267,7 +262,7 @@ class ArticleCrawler(object):
                 proc.join()
 
             saver_thread.join()
-            printer_thread.join()
+            # printer_thread.join()
 
             self.results = list(result_list)
 
