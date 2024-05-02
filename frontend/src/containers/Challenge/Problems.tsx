@@ -59,10 +59,10 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 
 	return (
 		<>
-			<div className='h-full w-1/3 flex flex-col'>
+			<div className='h-full w-1/4 flex flex-col'>
 				<div className='flex h-4/5 py-20 '>
-					<Card className='w-full overflow-auto'>
-						<div className=' flex flex-col text-start gap-y-10 p-3'>
+					<Card className='w-full py-10 '>
+						<div className=' flex flex-col text-start gap-y-10 overflow-auto'>
 							{problemList.map((problem, index) => (
 								<div key={index}>
 									<div className='font-bold text-lg'>{problem.problem}</div>
@@ -70,14 +70,15 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 									{problem.optionList.map((option, optionidx) => (
 										<div
 											key={optionidx}
-											className={`flex flex-row gap-x-2 hover:cursor-pointer ${
+											className={`flex flex-row gap-x-2 hover:cursor-pointer text-sm ${
 												isOptionSelected(index, optionidx) ? 'bg-yellow-100' : ''
 											}`}
 											onClick={() => handleAnswerSelection(index, optionidx)}
 											style={{ paddingRight: '5px' }}
 										>
-											<div className='relative'>{option.optionNumber}.
-											{isOptionSelected(index, optionidx) && <div className='absolute left-0 top-0'>✔</div>}
+											<div className='relative'>
+												{option.optionNumber}.
+												{isOptionSelected(index, optionidx) && <div className='absolute left-0 top-0'>✔</div>}
 											</div>
 											<div>{option.option}</div>
 										</div>

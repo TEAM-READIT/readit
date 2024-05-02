@@ -22,18 +22,16 @@ interface FeedBackProps {
 	feedback: string;
 }
 
-interface wordListProps{
+interface wordListProps {
 	word: string;
 	definition: string;
 }
 
 interface MainTextProps {
 	color: string;
-	startIndex: number
-	endIndex: number
+	startIndex: number;
+	endIndex: number;
 }
-
-
 
 export const ViewerPage = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -45,13 +43,20 @@ export const ViewerPage = () => {
 	const article = location.state?.article;
 	const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
 	const navigate = useNavigate();
-	const [wordList, setWordList] = useState<wordListProps[]>()
+	const [wordList, setWordList] = useState<wordListProps[]>();
 	const [isOpen, open, close] = useModal();
-	const [hightlightColor, setHighlightColor] = useState<string>('')
+	const [isMemoOpen, setIsMemoOpen]=useState<boolean>(false)
+	const [hightlightColor, setHighlightColor] = useState<string>('');
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
 	// 피드백
 	const [feedback, setFeedback] = useState<FeedBackProps>();
+
+
+
+
+
+
 	// 오른쪽 슬라이드 상태 값
 	const toggleRight = () => {
 		setRightOpen(!isRightOpen);
@@ -63,13 +68,12 @@ export const ViewerPage = () => {
 	};
 
 	// 모르는 단어 불러오기
-	const { data } = useQuery('article', async () =>{
-		const response = await fetch(`${baseUrl}/viewer/${article.articleId}`)
+	const { data } = useQuery('article', async () => {
+		const response = await fetch(`${baseUrl}/viewer/${article.articleId}`);
 		const data = await response.json();
-		setWordList(data)
-		return data
-	})
-
+		setWordList(data);
+		return data;
+	});
 
 	// 제출 POST
 	const requestbody = {
@@ -143,10 +147,14 @@ export const ViewerPage = () => {
 							className={`relative flex w-full ${isBottomOpen ? 'h-3/5' : 'h-[88%]'} transition-all duration-300 ease-in-out`}
 						>
 							<DictionarySearch />
-
 							<div className='w-4/5 h-full border-solid border-2 px-[5%] pt-[3%] pb-[5%]'>
 								<div className='w-full h-full overflow-y-auto'>
-									<MainText article={article} range={range} hightlightColor={hightlightColor}/>
+									<MainText
+										article={article}
+										range={range}
+										hightlightColor={hightlightColor}
+										setIsMemoOpen={setIsMemoOpen}
+									/>
 								</div>
 							</div>
 						</div>
@@ -172,9 +180,7 @@ export const ViewerPage = () => {
 						<div
 							className={`w-11/12 h-full transition-all duration-300 ease-in-out ${isRightOpen ? 'block' : 'hidden'}`}
 						>
-							<div className='w-full h-4/5 overflow-y-auto'>
-								<Memos />
-							</div>
+							<Memos isMemoOpen={isMemoOpen} setIsMemoOpen={setIsMemoOpen} />
 							<div className='flex flex-row items-center w-full'>
 								<div className='w-1/2 m-[10%]'>
 									<Button className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500'>
