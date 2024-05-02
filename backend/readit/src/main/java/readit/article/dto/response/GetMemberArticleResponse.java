@@ -15,6 +15,7 @@ public record GetMemberArticleResponse(
     Integer hit,
     Integer score,
     String summary,
+    String feedback,
     LocalDateTime completedAt
 ) {
     public static GetMemberArticleResponse from(MemberArticle memberArticle){
@@ -22,12 +23,13 @@ public record GetMemberArticleResponse(
                 memberArticle.getId(),
                 memberArticle.getArticle().getTitle(),
                 memberArticle.getArticle().getContent(),
-                memberArticle.getType().toString(),
+                memberArticle.getArticle().getType().toString(),
                 memberArticle.getArticle().getCategory().getName(),
                 memberArticle.getArticle().getReporter(),
                 memberArticle.getArticle().getHit(),
                 memberArticle.getScore(),
                 memberArticle.getSummary(),
+                memberArticle.getFeedback(),
                 memberArticle.getCompletedAt()
         );
     }
