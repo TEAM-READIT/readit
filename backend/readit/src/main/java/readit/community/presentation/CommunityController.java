@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import readit.auth.dto.AuthCredentials;
 import readit.auth.presentation.Auth;
 import readit.community.application.CommunityService;
-import readit.community.domain.dto.GetCreateCommunityRequest;
+import readit.community.domain.dto.request.GetCreateCommunityRequest;
+import readit.community.domain.dto.request.PostChatRequest;
 
 
 @Slf4j
@@ -46,6 +47,16 @@ public class CommunityController {
         Integer memberId = authCredentials.id();
         memberId = 1;
         communityService.createCommunity(request, memberId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/chat")
+    public ResponseEntity<Void> sendChat(@Valid @RequestBody PostChatRequest request,
+                                         @Auth AuthCredentials authCredentials) {
+        // todo: add auth
+        Integer memberId = authCredentials.id();
+        memberId = 1;
+        communityService.sendChat(request, memberId);
         return ResponseEntity.ok().build();
     }
 }

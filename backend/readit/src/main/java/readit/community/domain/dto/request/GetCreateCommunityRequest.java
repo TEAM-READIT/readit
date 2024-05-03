@@ -1,9 +1,10 @@
-package readit.community.domain.dto;
+package readit.community.domain.dto.request;
 
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
 import readit.article.domain.CategoryType;
 import readit.community.domain.entity.Community;
+
+import java.time.LocalDate;
 
 @NotNull
 public record GetCreateCommunityRequest(

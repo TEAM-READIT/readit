@@ -54,15 +54,11 @@ public class Community extends BaseTimeEntity {
     private List<Participants> participants = new ArrayList<>();
 
     public Participants joinParticipant(Member member) {
-        // Participants 엔티티 생성
         Participants participant = Participants.builder()
-                .community(this) // 현재 Community를 Participants에 설정
-                .member(member) // 참가할 Member를 Participants에 설정
+                .community(this)
+                .member(member)
                 .build();
-
-        // Participants를 community의 participants 목록에 추가
         participants.add(participant);
-
         return participant;
     }
 }
