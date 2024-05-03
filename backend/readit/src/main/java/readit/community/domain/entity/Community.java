@@ -1,5 +1,6 @@
 package readit.community.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import readit.article.domain.Category;
@@ -38,9 +39,11 @@ public class Community extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer maxParticipants;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     @Column(nullable = false)
     private LocalDate startAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     @Column(nullable = false)
     private LocalDate endAt;
 
@@ -52,6 +55,9 @@ public class Community extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "community")
     private List<Participants> participants = new ArrayList<>();
+
+    @Column(nullable = false)
+    private Integer hits;
 
     public Participants joinParticipant(Member member) {
         Participants participant = Participants.builder()

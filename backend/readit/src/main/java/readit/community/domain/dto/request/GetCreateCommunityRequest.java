@@ -26,6 +26,7 @@ public record GetCreateCommunityRequest(
                 .startAt(getCreateCommunityRequest.startAt)
                 .endAt(getCreateCommunityRequest.endAt)
                 .articleCount(getCreateCommunityRequest.articleCount)
+                .hits(0)
                 .build();
     }
 }

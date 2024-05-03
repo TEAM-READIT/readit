@@ -10,6 +10,7 @@ import readit.auth.presentation.Auth;
 import readit.community.application.CommunityService;
 import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
+import readit.community.domain.dto.response.GetCommunityDetailResponse;
 
 
 @Slf4j
@@ -19,6 +20,16 @@ import readit.community.domain.dto.request.PostChatRequest;
 public class CommunityController {
 
     private final CommunityService communityService;
+
+    @GetMapping("/{communityId}")
+    public ResponseEntity<GetCommunityDetailResponse> getCommunityDetails(@PathVariable Integer communityId,
+                                                                          @Auth AuthCredentials authCredentials) {
+        // todo: add auth
+        Integer memberId = authCredentials.id();
+        memberId = 1;
+        GetCommunityDetailResponse response = communityService.getCommunityDetail(communityId, memberId);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/{communityId}")
     public ResponseEntity<Void> joinCommunity(@PathVariable Integer communityId,
