@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ParticipantsRepository extends JpaRepository<Participants, Integer> {
 
     Optional<Participants> findByMemberIdAndCommunityId(Integer memberId, Integer communityId);
+    int deleteByMemberIdAndCommunityId(Integer memberId, Integer communityId);
 }

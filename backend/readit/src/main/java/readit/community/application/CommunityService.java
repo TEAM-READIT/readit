@@ -11,6 +11,7 @@ import readit.community.domain.repository.CommunityRepository;
 import readit.community.domain.repository.ParticipantsRepository;
 import readit.community.exception.AlreadyJoinedCommunityException;
 import readit.community.exception.CommunityFullException;
+import readit.community.exception.DeletionFailedException;
 import readit.member.domain.Member;
 import readit.member.domain.repository.MemberRepository;
 import readit.viewer.exception.ValueMissingException;
@@ -56,6 +57,13 @@ public class CommunityService {
         } else {
             throw new CommunityFullException();
         }
+    }
+
+    public void leaveCommunity(Integer communityId, Integer memberId) {
+        if (participantsRepository.deleteByMemberIdAndCommunityId(memberId, communityId) != 1) {
+            throw new DeletionFailedException();
+        };
+        // todo: 커뮤니티 삭제 기능 구현 or 정원 0명 되면 자동 삭제
     }
 
 }

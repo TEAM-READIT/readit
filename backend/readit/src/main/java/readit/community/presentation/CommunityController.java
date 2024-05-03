@@ -29,6 +29,16 @@ public class CommunityController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{communityId}")
+    public ResponseEntity<Void> leaveCommunity(@PathVariable Integer communityId,
+                                               @Auth AuthCredentials authCredentials) {
+        // todo: add auth
+        Integer memberId = authCredentials.id();
+        memberId = 1;
+        communityService.leaveCommunity(communityId, memberId);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Void> createCommunity(@Valid @RequestBody GetCreateCommunityRequest request,
                                                 @Auth AuthCredentials authCredentials) {
