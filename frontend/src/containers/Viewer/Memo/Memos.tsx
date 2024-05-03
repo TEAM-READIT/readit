@@ -1,72 +1,62 @@
+import { useEffect, useState } from "react";
+
 interface MemoList {
 	color: string;
-	content: string;
 	startIndex: number;
 	endIndex: number;
 }
 
+interface MemoProps {
+	content: string;
+}
+
 export const Memos = ({
-	memoContent,
-	setMemoContent,
+	newMemo,
+	setNewMemo,
+	highlightedRanges,
+	color,
 	isMemoOpen,
 	setIsMemoOpen,
 }: {
-	memoContent: string;
-	setMemoContent:React.Dispatch<React.SetStateAction<string>>
+	newMemo: string[];
+	setNewMemo: React.Dispatch<React.SetStateAction<string[]>>;
+	highlightedRanges: MemoList[];
+	color: string;
 	isMemoOpen: boolean;
 	setIsMemoOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+	const handleKeyDown = (e: React.KeyboardEvent) => {
+		if (e.key === 'Enter') {
+			handleNewMemo();
+			setIsMemoOpen(false);
+		}
+	};
+	useEffect(() => {}, [handleKeyDown]);
+	const [memo, setMemo] = useState('');
 
-		const handleKeyDown = (e: React.KeyboardEvent) => {
-			if (e.key === 'Enter') {
-				setIsMemoOpen(false);
-			}
-		};
+	const handleNewMemo = () => {
 
-	const MemoData: MemoList[] = [
-		{
-			color: '#ffffff',
-			content: '유동 IP 주소는 DHCP라는 프로토콜에 의해 부여된다.',
-			startIndex: 1,
-			endIndex: 2,
-		},
-		{
-			color: '#ffffff',
-			content:
-				'DNS(도메인 네임 시스템) 스푸핑은 인터넷 사용자가 어떤 사이트에 접속하려 할 때 사용자를 위조 사이트로 접속시키는 행위를 말한다.',
-			startIndex: 1,
-			endIndex: 2,
-		},
-		{
-			color: '#ffffff',
-			content:
-				'클라이언트가 네임서버에 특정 IP 주소를 묻는 질의 패킷을 보 낼 때, 공격자에도 패킷이 전달되고 공격자는 위조 사이트의 IP 주소가 적힌 응답 패킷을 클라이언트에 보낸다.',
-			startIndex: 1,
-			endIndex: 2,
-		},
-		{
-			color: '#ffffff',
-			content:
-				'공격자가 보낸 응답 패킷이 네임서버가 보낸 응답 패킷보다 클라이언트 에 먼저 도착하고 클라이언트는 공격자가 보낸 응답 패킷을 옳은 패킷으로 인식하여 위조 사이트로 연결된다.',
-			startIndex: 1,
-			endIndex: 2,
-		},
-	];
+		setNewMemo([...newMemo, memo]);
+	};
 
 	return (
 		<>
 			<div className='overflow-auto h-4/5 pb-10'>
-				{MemoData.map((myMemo, index) => (
-					<div key={index} className='w-[80%] h-auto py-[4%] px-[7%] mx-[10%] mt-[15%] bg-yellow-200 shadow-md '>
-						<div className='p-[5%]'>{myMemo.content}</div>
+				{highlightedRanges.map((myMemo, index) => (
+					<div
+						key={index}
+						className={`w-[80%] h-auto py-[4%] px-[7%] mx-[10%] mt-[15%] bg-${myMemo.color}-200 shadow-md text-start`}
+					>
+						<div className='p-[5%]'>{newMemo[index]}</div>
 					</div>
 				))}
 			</div>
 			{isMemoOpen ? (
 				<textarea
-					className='absolute z-50 top-10 left-10  bg-yellow-200 shadow-md w-[300px] h-[300px]'
-					value={memoContent}
-					onChange={(e) => setMemoContent(e.target.value)}
+					className={`absolute z-50 top-10 left-10  bg-${color}-200 shadow-md w-[300px] h-[300px] text-start`}
+					onChange={(e) => {
+						setMemo(e.target.value);
+					}}
 					onKeyDown={handleKeyDown}
 				></textarea>
 			) : null}

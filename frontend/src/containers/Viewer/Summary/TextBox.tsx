@@ -74,6 +74,7 @@ export const TextBox = ({ setSummary }: TextBoxProps) => {
 							></textarea>
 						</div>
 					</div>
+					
 				</div>
 			</form>
 		</>

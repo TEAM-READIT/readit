@@ -26,15 +26,24 @@ interface wordListProps {
 	word: string;
 	definition: string;
 }
+interface SummaryProps {
+  color: string;
+  content: string;
+  startIndex: number;
+  endIndex: number;
+}
 
+interface RequestBody {
+  memoList: SummaryProps[];
+  summary: string; // summary의 타입에 따라 수정해야 합니다.
+}
 interface MainTextProps {
 	color: string;
 	startIndex: number;
 	endIndex: number;
 }
-interface Range {
-	start: number;
-	end: number;
+interface MemoProps{
+	content: string;
 }
 export const ViewerPage = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -43,7 +52,8 @@ export const ViewerPage = () => {
 	const [isBottomOpen, setBottomOpen] = useState(true);
 	const [color, setColor] = useState<string>('yellow'); // 형광펜 색갈 지정 지금은 딕셔너리 안에 있는데 추후에 빼야할 수도 있어요
 	const location = useLocation();
-	const range: Range[] = [];
+		const [highlightedRanges, setHighlightedRanges] = useState<MainTextProps[]>([]);
+
 	const article = location.state?.article;
 	const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
 	const navigate = useNavigate();
@@ -54,37 +64,43 @@ export const ViewerPage = () => {
 	const [summary, setSummary] = useState<string>('');
 	// 피드백
 	const [feedback, setFeedback] = useState<FeedBackProps>();
-	const [memoContent, setMemoContent] = useState<string>('');
 	// 오른쪽 슬라이드 상태 값
 	const toggleRight = () => {
 		setRightOpen(!isRightOpen);
 	};
-
+	const [newMemo, setNewMemo] = useState<string[]>([]); // 메모 저장할 곳 
 	// 하단 슬라이드 상태 값
 	const toggleBottom = () => {
 		setBottomOpen(!isBottomOpen);
 	};
 
 	// 모르는 단어 불러오기
-	const { data } = useQuery('article', async () => {
-		const response = await fetch(`${baseUrl}/viewer/${article.articleId}`);
-		const data = await response.json();
-		setWordList(data);
-		return data;
-	});
+	// const { data } = useQuery('article', async () => {
+	// 	const response = await fetch(`${baseUrl}/viewer/${article.articleId}`);
+	// 	const data = await response.json();
+	// 	setWordList(data);
+	// 	return data;
+	// });
 
 	// 제출 POST
-	const requestbody = {
-		memoList: [
-			{
-				color: 'string',
-				content: 'string',
-				startIndex: 'number',
-				endIndex: 'number',
-			},
-		],
+	const requestbody: RequestBody = {
+		memoList: [],
 		summary: summary,
 	};
+
+	// highlightedRanges 순회
+	for (let i = 0; i < highlightedRanges.length; i++) {
+		const { color, startIndex, endIndex } = highlightedRanges[i];
+
+		// memoList에 객체 추가
+		requestbody.memoList.push({
+			color: color,
+			content: newMemo[i],
+			startIndex: startIndex,
+			endIndex: endIndex,
+		});
+	}
+
 	const summarySubmit = useMutation(async () => {
 		const response = await fetch(`${baseUrl}/viewer/submission/${article.articleId}`, {
 			method: 'POST',
@@ -133,9 +149,11 @@ export const ViewerPage = () => {
 		navigate('/');
 	};
 
+	console.log('requestbody',requestbody)
+
 	return (
 		<>
-			<div className='w-full h-screen flex flex-col items-center border overflow-hidden'>
+			<div className=' z-50 w-full h-screen flex flex-col items-center border overflow-hidden'>
 				<Headers />
 				<div className='relative flex'>
 					<div
@@ -146,8 +164,15 @@ export const ViewerPage = () => {
 						>
 							<DictionarySearch setColor={setColor} />
 							<div className='w-4/5 h-full border-solid border-2 px-[5%] pt-[3%] pb-[5%]'>
-								<div className='w-full h-full overflow-y-auto'>
-									<MainText color={color} article={article} setIsMemoOpen={setIsMemoOpen} />
+								<div className='w-full h-full relative'>
+									<MainText
+										highlightedRanges={highlightedRanges}
+										setHighlightedRanges={setHighlightedRanges}
+										color={color}
+										article={article}
+										setIsMemoOpen={setIsMemoOpen}
+									/>
+									
 								</div>
 							</div>
 						</div>
@@ -174,10 +199,12 @@ export const ViewerPage = () => {
 							className={`w-11/12 h-full transition-all duration-300 ease-in-out ${isRightOpen ? 'block' : 'hidden'}`}
 						>
 							<Memos
+								color={color}
 								setIsMemoOpen={setIsMemoOpen}
 								isMemoOpen={isMemoOpen}
-								memoContent={memoContent}
-								setMemoContent={setMemoContent}
+								highlightedRanges={highlightedRanges}
+								newMemo={newMemo}
+								setNewMemo={setNewMemo}
 							/>
 							<div className='flex flex-row items-center w-full'>
 								<div className='w-1/2 m-[10%]'>
