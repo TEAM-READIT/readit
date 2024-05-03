@@ -9,7 +9,7 @@ interface Dictionary {
 	definition: string;
 }
 
-export const DictionarySearch = ({ setColor }: { setColor: React.Dispatch<React.SetStateAction<string>> }) => {
+export const DictionarySearch = () => {
 	const [isOpen, open, close] = useModal();
 	const [searchWord, setSearchWord] = useState('');
 	const [history, setHistory] = useState<Dictionary[]>([]); // history 배열을 useState를 이용하여 관리
@@ -79,44 +79,7 @@ export const DictionarySearch = ({ setColor }: { setColor: React.Dispatch<React.
 						</div>
 					</div>
 				</div>
-				<div className='flex items-center justify-center w-full p-2 border-solid border gap-[15%]'>
-					<button type='button'>
-						<img src={Pencil} />
-					</button>
-					<button className='relative' type='button'>
-						<img src={Highlight} onClick={open} />
-						{isOpen ? (
-							<div className='absolute bottom-10 -left-5 border border-gray rounded-xl flex flex-col bg-gray-200 p-2 gap-2 '>
-								<div className='flex flex-row gap-2'>
-									<div
-										className='w-8 aspect-square bg-yellow-200 border border-yellow-400 rounded-xl'
-										onClick={() => {
-											setColor(`yellow`);
-											close();
-										}}
-									></div>
-									<div
-										className='w-8 aspect-square bg-pink-200  border border-pink-400 rounded-xl'
-										onClick={() => {
-											setColor(`pink`);
-											close();
-										}}
-									></div>
-									<div
-										className='w-8 aspect-square bg-red-200 border border-red-400 rounded-xl'
-										onClick={() => {
-											setColor(`skyblue`);
-											close();
-										}}
-									></div>
-								</div>
-							</div>
-						) : null}
-					</button>
-					<button type='button'>
-						<img src={Eraser} />
-					</button>
-				</div>
+
 			</div>
 		</>
 	);
