@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import readit.article.domain.Article;
 import readit.article.domain.ArticleType;
 import readit.article.domain.Category;
+import readit.article.domain.repository.ArticleQueryRepository;
 import readit.article.domain.repository.ArticleRepository;
 import readit.article.domain.repository.CategoryRepository;
 import readit.article.dto.response.*;
@@ -13,7 +14,9 @@ import readit.article.exception.ArticleNotFoundException;
 import readit.article.exception.MemberArticleNotFoundException;
 import readit.article.infra.FastAPIClient;
 import readit.viewer.domain.entity.MemberArticle;
+import readit.viewer.domain.entity.Memo;
 import readit.viewer.domain.repository.MemberArticleRepository;
+import readit.viewer.domain.repository.MemoRepository;
 
 import java.util.List;
 
@@ -23,8 +26,10 @@ import java.util.List;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final ArticleQueryRepository articleQueryRepository;
     private final CategoryRepository categoryRepository;
     private final MemberArticleRepository memberArticleRepository;
+    private final MemoRepository memoRepository;
     private final FastAPIClient fastAPIClient;
 
     @Transactional(readOnly = true)
@@ -64,6 +69,18 @@ public class ArticleService {
             throw new MemberArticleNotFoundException();
         }
         return GetStatsResponse.from(memberArticleList);
+    }
+
+    @Transactional(readOnly = true)
+    public GetSearchListResponse getSearchList(String category, String title, String content, String reporter, Boolean isMemberArticle, Boolean hit, Integer cursor, Integer limit){
+        if(isMemberArticle){
+            List<Article> searchList = articleQueryRepository.findArticleWithFilter(category,title,content,reporter,hit,cursor,limit);
+            return GetSearchListResponse.from(searchList,null);
+        } else {
+            List<MemberArticle> searchList = articleQueryRepository.findMemberArticleWithFilter(category,title,content,reporter,hit,cursor,limit);
+            List<Memo> memoList = memoRepository.findAllByMemberArticle_Id();
+            return GetSearchListResponse.from(searchList,memoList);
+        }
     }
 
     public void saveArticleFromLink(FastAPIArticleResponse response){

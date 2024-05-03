@@ -8,6 +8,7 @@ import readit.article.dto.response.GetMemberArticleListResponse;
 import readit.article.dto.response.GetPopularArticleResponse;
 import readit.article.dto.response.GetArticleFromLinkResponse;
 import readit.article.dto.response.GetStatsResponse;
+import readit.article.dto.response.*;
 import readit.auth.dto.AuthCredentials;
 import readit.auth.presentation.Auth;
 
@@ -41,5 +42,18 @@ public class ArticleController {
     public ResponseEntity<GetStatsResponse> getStats(@Auth AuthCredentials authCredentials){
         GetStatsResponse statsResponse = articleService.getStats(authCredentials.id());
         return ResponseEntity.ok(statsResponse);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<GetSearchListResponse> getSearchList(@RequestParam String category,
+                                                                 @RequestParam String title,
+                                                                 @RequestParam String content,
+                                                                 @RequestParam String reporter,
+                                                                 @RequestParam Boolean isMemberArticle,
+                                                                 @RequestParam Boolean hit,
+                                                                 @RequestParam Integer cursor,
+                                                                 @RequestParam  Integer limit){
+        GetSearchListResponse searchListResponse = articleService.getSearchList(category,title,content,reporter,isMemberArticle,hit,cursor,limit);
+        return ResponseEntity.ok(searchListResponse);
     }
 }
