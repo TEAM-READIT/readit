@@ -3,6 +3,7 @@ package readit.community.domain.dto.response;
 import lombok.Builder;
 import readit.community.domain.dto.CommunityDetailArticle;
 import readit.community.domain.dto.CommunityDetailMember;
+import readit.community.domain.dto.SimpChatDto;
 import readit.community.domain.entity.Chat;
 import readit.community.domain.entity.Community;
 import readit.member.domain.Member;
@@ -25,7 +26,7 @@ public record GetCommunityDetailResponse(
         LocalDate endAt,
         List<CommunityDetailMember> memberList,
         List<CommunityDetailArticle> articleList,
-        List<Chat> chatList
+        List<SimpChatDto> chatList
 ) {
     public static GetCommunityDetailResponse of(Community community,
                                                 Integer memberId,
@@ -33,7 +34,7 @@ public record GetCommunityDetailResponse(
                                                 Integer currentParticipants,
                                                 List<CommunityDetailMember> memberList,
                                                 List<CommunityDetailArticle> articleList,
-                                                List<Chat> chatList
+                                                List<SimpChatDto> chatList
                                                 ) {
         return GetCommunityDetailResponse.builder()
                 .writerName(writer.getName())

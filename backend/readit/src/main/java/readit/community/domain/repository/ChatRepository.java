@@ -6,5 +6,5 @@ import readit.community.domain.entity.Chat;
 import java.util.List;
 
 public interface ChatRepository extends JpaRepository<Chat, Integer> {
-    List<Chat> findByCommunityId(Integer communityId);
+    List<Chat> findAllByCommunityId(Integer communityId);
 }

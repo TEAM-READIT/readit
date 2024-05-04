@@ -1,11 +1,13 @@
 package readit.community.application;
 
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.community.domain.dto.CommunityDetailArticle;
 import readit.community.domain.dto.CommunityDetailMember;
+import readit.community.domain.dto.SimpChatDto;
 import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
 import readit.community.domain.dto.response.GetCommunityDetailResponse;
@@ -108,6 +110,7 @@ public class CommunityService {
 
         // todo: memberArticle에서 이번주(월요일~일요일)안에 읽은거만 가져와서 보여주기
         List<MemberArticle> memberArticles = memberArticleRepository.findByCommunityIdAndCompletedAtBetween(communityId, thisWeek[0], thisWeek[1]);
+        log.info(memberArticles.toString());
         List<CommunityDetailArticle> articleList = memberArticles.stream()
                 .map(memberArticle -> {
                     // MemberArticle에서 memberId 가져오기
@@ -124,11 +127,14 @@ public class CommunityService {
                 })
                 .toList();
 
-        // todo: currentParticipants (Participants에서 현재 사이즈 가져오기)
+        // currentParticipants : Participants에서 현재 사이즈 가져오기
         int currentParticipants = community.getParticipants().size();
 
-        // todo: chatList 가져오기
-        List<Chat> chatList = chatRepository.findByCommunityId(communityId);
+        // chatList 가져오기
+        List<SimpChatDto> simpChatDtoList = chatRepository.findAllByCommunityId(communityId)
+                .stream()
+                .map(SimpChatDto::from)
+                .toList();
 
         return GetCommunityDetailResponse.of(community,
                 memberId,
@@ -136,7 +142,7 @@ public class CommunityService {
                 currentParticipants,
                 memberList,
                 articleList,
-                chatList);
+                simpChatDtoList);
     }
 
 }

@@ -1,5 +1,6 @@
 package readit.community.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import readit.common.entity.BaseTimeEntity;
@@ -17,11 +18,12 @@ public class Chat extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "community_id", referencedColumnName = "id")
+    @JsonIgnore
     private Community community;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", referencedColumnName = "id",
             foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member member;
