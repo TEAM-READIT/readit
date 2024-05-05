@@ -10,7 +10,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 	const [answer, setAnswer] = useState<answerList[]>([]);
 	const [myAnswer, setMyAnswer] = useState<answerList[]>([]);
 	const [selectedOptions, setSelectedOptions] = useState<number[]>([]); // 추가된 state
-
+	console.log(answer)
 	const requestBody = {
 		articleId: articleId,
 		answerList: myAnswer,
@@ -65,7 +65,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 						<div className=' flex flex-col text-start gap-y-10 overflow-auto'>
 							{problemList.map((problem, index) => (
 								<div key={index}>
-									<div className='font-bold text-lg'>{problem.problem}</div>
+									<div className='font-bold'>{problem.problem}</div>
 									<br />
 									{problem.optionList.map((option, optionidx) => (
 										<div

@@ -6,7 +6,7 @@ const RecruitText = () => {
 	const [content, setContent] = useState('');
 	const [category, setCategory] = useState('')
 	const [participant, setParticipant] = useState('')
-	const [startDate, setStartDate] = useState<Date|null>(null)
+	// const [startDate, setStartDate] = useState<Date|null>(null)
 
 	console.log(participant)
 	console.log(title)

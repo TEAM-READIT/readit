@@ -1,6 +1,5 @@
 import Headers from '../../../components/Headers';
 import CommunityRecruitHeader from './CommunityRecruitHeader';
-import RecruitCondition from './RecruitCondition';
 import RecruitText from './RecruitText';
 
 const Recruit = () => {

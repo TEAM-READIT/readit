@@ -6,7 +6,7 @@ import userStore from '../../../store/user';
 
 export const GoogleCallback = () => {
 	const navigate = useNavigate();
-	const { login, accessToken, logout } = useAuthStore();
+	const { login } = useAuthStore();
 	const { setEmail, setId, setName, setProfileImageUrl } = userStore();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 

@@ -26,7 +26,7 @@ const PopCards = () => {
 	useEffect(() => {
 		popArticleData()
 			.then((res) => setPopArticle(res))
-			.catch((err) => {
+			.catch((_err) => {
 				console.log('아티클 받아오는거 에러');
 			});
 	}, []);

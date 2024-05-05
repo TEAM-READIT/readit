@@ -1,16 +1,16 @@
 
 
 import Headers from '../../components/Headers';
-import SearchFilter from './SearchFilter';
+// import SearchFilter from './SearchFilter';
 import EssayHeader from './EssayHeader';
 import SearchList from './SearchList';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { articleList } from '../../types/articleProps';
 import { useLocation } from 'react-router-dom';
 
 const Essay01 = () => {
 	const location = useLocation();
-	const categoryName = location.state?.categoryName;
+	// const categoryName = location.state?.categoryName;
 	const communityId = location.state?.communityId;
 	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	// const [totalArticles, setTotalArticle] = useState<articleList[]>();
@@ -20,14 +20,14 @@ const Essay01 = () => {
 	// 	return data;
 	// };
 	// 검색 필터 변경 시 다시 받아오기
-	const handleFilterChange = (filter: string) => {
-		console.log('filter:', filter);
-		totalArticleData(filter)
-			.then((res) => setTotalArticle(res))
-			.catch((err) => {
-				console.log('전체 글 목록 조회 or 필터링 된 글 불러오기 실패');
-			});
-	};
+	// const handleFilterChange = (filter: string) => {
+	// 	console.log('filter:', filter);
+	// 	totalArticleData(filter)
+	// 		.then((res) => setTotalArticle(res))
+	// 		.catch((err) => {
+	// 			console.log('전체 글 목록 조회 or 필터링 된 글 불러오기 실패');
+	// 		});
+	// };
 
 	// useEffect(() => {
 	// 	totalArticleData('')
@@ -169,7 +169,9 @@ const Essay01 = () => {
 
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
-						<SearchFilter handleFilterChange={handleFilterChange} />
+						{/* <SearchFilter
+							handleFilterChange={handleFilterChange}
+						/> */}
 					</div>
 					<div className='flex w-3/5 h-auto flex-col justify-start gap-5 '>
 						{totalArticles ? <SearchList communityId={communityId} totalArticles={totalArticles} /> : null}

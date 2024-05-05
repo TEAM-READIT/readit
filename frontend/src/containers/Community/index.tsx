@@ -8,20 +8,20 @@ import communityList from '../../types/communityProps';
 const Community = () => {
 	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	// const [totalCommunity, setTotalCommunity] = useState<communityList[]>();
-	//전체 커뮤니티 조회
+	// // 전체 커뮤니티 조회
 	// const totalCommunityData = async (filter: string) => {
 	// 	const data = await fetch(`${baseUrl}/community/list?${filter}`).then((response) => response.json());
 	// 	return data;
 	// };
-	// 검색 필터 변경 시 다시 받아오기
-	const handleFilterChange = (filter: string) => {
-		console.log(filter);
-		totalCommunityData(filter)
-			.then((res) => setTotalCommunity(res))
-			.catch((err) => {
-				console.log('전체 글 목록 조회 or 필터링 된 글 불러오기 실패');
-			});
-	};
+	// // 검색 필터 변경 시 다시 받아오기
+	// const handleFilterChange = (filter: string) => {
+	// 	console.log(filter);
+	// 	totalCommunityData(filter)
+	// 		.then((res) => setTotalCommunity(res))
+	// 		.catch((err) => {
+	// 			console.log('전체 글 목록 조회 or 필터링 된 글 불러오기 실패');
+	// 		});
+	// };
 
 	// useEffect(() => {
 	// 	totalArticleData('')
@@ -92,7 +92,9 @@ const totalCommunity: communityList[] = [
 				</div>
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
-						<SearchFilter handleFilterChange={handleFilterChange} />{' '}
+						<SearchFilter
+							// handleFilterChange={handleFilterChange}
+						/>
 					</div>
 					<div className='flex w-3/5 h-auto flex-col justify-start gap-5 '>
 						<SearchList totalCommunity={totalCommunity}/>

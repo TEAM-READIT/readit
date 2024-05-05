@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import communityList from '../../../types/communityProps';
 
 const MyGroup = () => {
-	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
 	const handleCommunity = (communityList: communityList[]) => {
 		navigate('/mypage/group', { state: { communityList } });
@@ -67,7 +67,7 @@ const MyGroup = () => {
 		},
 	];
 	// 날짜순으로 정렬
-	const sortedCommunityList = communityList.sort((a, b) => b.startAt!.getTime() - a.startAt!.getTime());
+	// const sortedCommunityList = communityList.sort((a, b) => b.startAt!.getTime() - a.startAt!.getTime());
 
 	// 상위 3개만 추출
 	const top3Communities = communityList.reverse().slice(0, 3);
@@ -76,7 +76,7 @@ const MyGroup = () => {
 		<>
 			<div className='flex flex-col w-full'>
 				<div className='flex flex-row justify-between items-center pr-10'>
-					<div className='p-10 text-2xl font-bold flex'>참여 중인 모임</div>
+					<div className='p-10 text-xl font-bold flex'>참여 중인 모임</div>
 					<Button
 						className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
 						onClick={() => handleCommunity(communityList)}
@@ -92,7 +92,7 @@ const MyGroup = () => {
 							className='border border-gray-300 w-full flex flex-row items-center justify-between p-5 rounded-xl'
 						>
 							<div className='flex flex-col gap-5'>
-								<div className='font-bold text-xl text-start'>{community.title}</div>
+								<div className='font-bold text-lg text-start'>{community.title}</div>
 								<div className='flex flex-row justify-start gap-5'>
 									<div className='text-gray-500'>{community.startAt!.toLocaleString()}</div>
 									<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm flex flex-row justify-center items-center'>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -16,22 +16,22 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineEleme
 
 import { Line } from 'react-chartjs-2';
 
-interface scoreList {
-	type: string;
-	score: number;
-}
+// interface scoreList {
+// 	type: string;
+// 	score: number;
+// }
 
-interface ChallengeScoreList {
-	date: Date;
-	score: number;
-}
+// interface ChallengeScoreList {
+// 	date: Date;
+// 	score: number;
+// }
 
 const Chart = () => {
-	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const summary = 0b0;
 	const challenge = 0b1;
 	const [mode, setMode] = useState(summary);
-	const [scoreList, setScoreList] = useState<scoreList[]>();
+	// const [scoreList, setScoreList] = useState<scoreList[]>();
 	// const [challengeScoreList, setChallengeScoreList] = useState<ChallengeScoreList[]>();
 
 	// // 글 요약 점수 통계 받아오기
@@ -105,13 +105,13 @@ const Chart = () => {
 		// const news: number[] = [];
 		const challengescore: number[] = [];
 		const challengeXlist: string[] = [];
-		scoreList?.forEach((scores) => {
-			if (scores.type === '뉴스') {
-				liter.push(scores.score);
-			} else {
-				news.push(scores.score);
-			}
-		});
+		// scoreList?.forEach((scores) => {
+		// 	if (scores.type === '뉴스') {
+		// 		liter.push(scores.score);
+		// 	} else {
+		// 		news.push(scores.score);
+		// 	}
+		// });
 		challengeScoreList?.forEach((score) => {
 			challengescore.push(score.score);
 			challengeXlist.push(score.date.toLocaleDateString());
@@ -171,13 +171,13 @@ const Chart = () => {
 			<div className='w-2/3 h-1/3 flex flex-col'>
 				<div className='flex flex-row'>
 					<div
-						className={`text-2xl text-${mode == summary ? 'black' : 'gray-500'} font-bold flex justify-start p-5 hover:cursor-pointer`}
+						className={`text-xl text-${mode == summary ? 'black' : 'gray-500'} font-bold flex justify-start p-5 hover:cursor-pointer`}
 						onClick={() => setMode(summary)}
 					>
 						요약 점수 변화
 					</div>
 					<div
-						className={`text-2xl text-${mode == summary ? 'gray-500' : 'black'} font-bold flex justify-start p-5 hover:cursor-pointer`}
+						className={`text-xl text-${mode == summary ? 'gray-500' : 'black'} font-bold flex justify-start p-5 hover:cursor-pointer`}
 						onClick={() => setMode(challenge)}
 					>
 						챌린지 점수 변화

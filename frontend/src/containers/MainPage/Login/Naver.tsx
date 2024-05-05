@@ -6,7 +6,7 @@ import userStore from '../../../store/user';
 
 export const NaverCallback = () => {
 	const navigate = useNavigate();
-	const { login, accessToken, logout } = useAuthStore();
+	const { login } = useAuthStore();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const code = new URL(document.location.toString()).searchParams.get('code');
 	const { setEmail, setId,setName, setProfileImageUrl } = userStore();

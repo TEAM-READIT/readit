@@ -95,6 +95,11 @@ const SearchList = () => {
 		},
 	];
 
+	const handleCard = (article:Article) => {
+		navigate('/summary', {state: {article}})
+	}
+
+
 	return (
 		<>
 			<div className='flex flex-row w-full h-full justify-start p-3 gap-5 flex-wrap '>
@@ -102,6 +107,7 @@ const SearchList = () => {
 					<Card
 						key={index}
 						className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+						onClick={() => handleCard(article)}
 					>
 						<div className='flex flex-row justify-between text-center text-sm'>
 							<div>👀 {article.hit}</div>

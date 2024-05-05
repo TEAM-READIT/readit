@@ -1,7 +1,7 @@
 import { Button, Card } from 'flowbite-react';
 import Headers from '../../../components/Headers';
 import EssayDetailHeader from './EssayDetailHeader';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { articleList } from '../../../types/articleProps';
 
 const TextDetail = () => {
@@ -13,6 +13,13 @@ const TextDetail = () => {
 	const handleArticle = (article: articleList, communityId:number|null) => {
 		navigate('/viewer', { state: { article, communityId } });
 	};
+
+	const linechange = (text: string) => {
+		return text.replace(/\n/g, '\n\n');
+	};
+
+	const realarticle = linechange(article.content);
+
 	return (
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-full'>
@@ -46,9 +53,9 @@ const TextDetail = () => {
 							</div>
 							<div className='w-full flex justify-start whitespace-pre-wrap'>
 								{article.content.length <= 1355 ? (
-									<div className='text-start pt-5'>{article.content} </div>
+									<div className='text-start pt-5'>{realarticle} </div>
 								) : (
-									<div className='text-start pt-5'>{article.content.slice(0, 1355)}...</div>
+									<div className='text-start pt-5'>{realarticle.slice(0, 1355)}...</div>
 								)}
 							</div>
 						</div>
