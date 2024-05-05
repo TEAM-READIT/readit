@@ -1,16 +1,11 @@
 import { useState } from 'react';
-import Pencil from '../../assets/images/pencil.png';
-import Highlight from '../../assets/images/highlight.png';
-import Eraser from '../../assets/images/eraser.png';
-import pencilCursor from '../../assets/images/google.png';
-import useModal from '../../hooks/useModal';
+
 interface Dictionary {
 	word: string;
 	definition: string;
 }
 
 export const DictionarySearch = () => {
-	const [isOpen, open, close] = useModal();
 	const [searchWord, setSearchWord] = useState('');
 	const [history, setHistory] = useState<Dictionary[]>([]); // history 배열을 useState를 이용하여 관리
 	// const dictionaryData: Dictionary = {
@@ -36,16 +31,13 @@ export const DictionarySearch = () => {
 			.then((res) => {
 				setDictionaryData(res), setHistory((prevHistory) => [...prevHistory, res]);
 			})
-			.catch((err) => {
+			.catch((_err) => {
 				console.log('단어 검색하는거 에러');
 			});
 		console.log(history);
 	};
 
-	const changeCursorPencil = () => {
-		console.log('ㅋㅋ');
-		document.body.style.cursor = `url(${pencilCursor}), auto`;
-	};
+
 
 	return (
 		<>

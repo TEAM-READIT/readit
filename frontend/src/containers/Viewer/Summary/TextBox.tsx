@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface TextBoxProps {
 	setSummary: React.Dispatch<React.SetStateAction<string>>;
 }

@@ -1,5 +1,4 @@
 import { Card } from 'flowbite-react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import communityList from '../../types/communityProps';
 

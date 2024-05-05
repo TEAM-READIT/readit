@@ -6,7 +6,7 @@ import userStore from '../../../store/user';
 
 export const KakaoCallback = () => {
 	const navigate = useNavigate();
-	const { login, accessToken, logout } = useAuthStore();
+	const { login} = useAuthStore();
   const { setEmail, setId, setName, setProfileImageUrl } = userStore();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const code = new URL(document.location.toString()).searchParams.get('code');

@@ -1,31 +1,33 @@
-import { Button, Card, Dropdown } from 'flowbite-react';
+import { Button, Card } from 'flowbite-react';
 import { useState } from 'react';
 interface SearchFilterProps {
 	handleFilterChange: (filter: string) => void;
 }
 
-const SearchFilter = ({ handleFilterChange }: SearchFilterProps) => {
+const SearchFilter = (
+	{ handleFilterChange }: SearchFilterProps
+) => {
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
-	const [ishit, setIshit] = useState<boolean>(false);
-	const [isMember, setIsMember] = useState<boolean>(false);
+	// const [ishit, setIshit] = useState<boolean>(false);
+	// const [isMember, setIsMember] = useState<boolean>(false);
 	const handleApplyFilter = () => {
 		const filter = {
-			hit: ishit,
-			isMember: isMember,
+			// hit: ishit,
+			// isMember: isMember,
 			categoryName: category,
 		};
 		let filtered = '';
 		if (searchType != '' && keyword) {
 			filtered += `${searchType}=${keyword}$`;
 		}
-		if (filter.hit) {
-			filtered += `hit=true$`;
-		}
-		if (filter.isMember) {
-			filtered += `isMember=true$`;
-		}
+		// if (filter.hit) {
+		// 	filtered += `hit=true$`;
+		// }
+		// if (filter.isMember) {
+		// 	filtered += `isMember=true$`;
+		// }
 		if (filter.categoryName != '') {
 			filtered += `categoryName=${category}$`;
 		}

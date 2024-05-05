@@ -1,10 +1,10 @@
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import Headers from '../../components/Headers';
 import GroupHeader from './GroupHeader';
 import { communityProps } from '../../types/gropProps';
 import Articles from './Articles';
 import Chat from './Chat';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 const Group = () => {
 	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;

@@ -2,9 +2,9 @@ import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import { articleList } from '../../../types/articleProps';
 import { useEffect, useState } from 'react';
-import useModal from '../../../hooks/useModal';
-import ReadDetailModal from '../../../components/ReadDetailModal';
-import useStore from '../../../store';
+// import useModal from '../../../hooks/useModal';
+// import ReadDetailModal from '../../../components/ReadDetailModal';
+// import useStore from '../../../store';
 
 const Read = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -26,7 +26,7 @@ const Read = () => {
 	useEffect(() => {
 		myArticleData()
 			.then((res) => setArticles(res.articleList))
-			.catch((err) => {
+			.catch((_err) => {
 				console.log('내가 읽은 글 받아오는거 에러');
 			});
 	}, []);
@@ -41,7 +41,7 @@ const Read = () => {
 		<>
 			<div className='flex flex-col w-full'>
 				<div className='flex flex-row justify-between items-center pr-10'>
-					<div className='p-10 text-2xl font-bold flex'>내가 읽은 글</div>
+					<div className='p-10 text-xl font-bold flex'>내가 읽은 글</div>
 
 					<Button
 						className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
@@ -60,7 +60,7 @@ const Read = () => {
 									className='border border-gray-300 w-full flex flex-row items-center justify-between p-5 rounded-xl'
 								>
 									<div className='flex flex-col gap-5'>
-										<div className='font-bold text-xl text-start'>{article.title}</div>
+										<div className='font-bold text-lg text-start'>{article.title}</div>
 										<div className='flex flex-row justify-start gap-5'>
 											{/* <div className='text-gray-500'>{article.completedAt}</div> */}
 											<div className='text-gray-500'>

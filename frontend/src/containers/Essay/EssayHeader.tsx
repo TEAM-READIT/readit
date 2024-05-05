@@ -1,4 +1,4 @@
-import { Breadcrumb, BreadcrumbItem, Button } from 'flowbite-react';
+import { Breadcrumb, BreadcrumbItem } from 'flowbite-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { articleList } from '../../types/articleProps';
@@ -19,7 +19,7 @@ const EssayHeader = () => {
 	const handleLink = () => {
 		fetchlinkData()
 			.then((res) => setLinkData(res))
-			.catch((err) => {
+			.catch((_err) => {
 				console.log('챌린지 문제 받아오는거 에러');
 			});
 		navigate('/viewer', { state: { linkdata } });

@@ -32,7 +32,7 @@ const Essay = () => {
 	};
 
 	// 무한스크롤
-	const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
 		'articles',
 		({ pageParam = page }) =>
 			totalArticleData(pageParam, filter)
@@ -41,7 +41,7 @@ const Essay = () => {
 					console.log(err);
 				}),
 		{
-			getNextPageParam: (lastPage, allPages) => {
+			getNextPageParam: (_lastPage, allPages) => {
 				const nextPage = allPages.length + 1;
 				return nextPage;
 			},

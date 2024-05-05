@@ -1,6 +1,6 @@
 import Headers from '../../components/Headers';
-import { useEffect, useState } from 'react';
-import Rank from './Rank';
+// import { useEffect, useState } from 'react';
+// import Rank from './Rank';
 import Content from './Content';
 import Problems from './Problems';
 import { ChallengeProps } from '../../types/challengeProps';
