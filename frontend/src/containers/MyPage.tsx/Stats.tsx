@@ -14,12 +14,9 @@ const Stats = () => {
 						<Chart />
 					</div>
 				</Card>
-				<Card>
-					<Read />
-				</Card>
-				<Card>
-					<MyGroup />
-				</Card>
+				<Read />
+
+				<MyGroup />
 			</div>
 		</>
 	);

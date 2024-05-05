@@ -1,6 +1,6 @@
 import Headers from '../../components/Headers';
 // import { useEffect, useState } from 'react';
-// import Rank from './Rank';
+import Rank from './Rank';
 import Content from './Content';
 import Problems from './Problems';
 import { ChallengeProps } from '../../types/challengeProps';
@@ -83,10 +83,10 @@ const Challenge = () => {
 	};
 	return (
 		<>
-			<div className='w-full h-screen flex flex-col items-center border overflow-hidden'>
+			<div className='w-full h-screen flex flex-col items-center  overflow-hidden'>
 				<Headers />
-				<div className='flex flex-row w-full h-full items-start justify-center gap-10'>
-					{/* <Rank /> */}
+				<Rank />
+				<div className='flex flex-row w-full h-full items-start justify-center gap-10 '>
 					<Content content={problems.content} />
 					<Problems articleId={problems.articleId} problemList={problems.problemList} />
 				</div>

@@ -47,6 +47,7 @@ const Detail = () => {
 		navigate('/group', { state: { community } });
 		handleJoin();
 	};
+	console.log(community.startAt.toLocaleString())
 	return (
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-full'>
@@ -93,17 +94,17 @@ const Detail = () => {
 									<div className='font-bold'>모임 주제 |</div>
 									<div>{community.categoryName}</div>
 								</div>
-								{/* <div className='flex flex-row gap-x-3'>
+								<div className='flex flex-row gap-x-3'>
 									<div className='font-bold'>모임 시작일 |</div>
-									<div>{community.startAt}</div>
+									<div>{community.startAt.toLocaleDateString()}</div>
 								</div>
 								<div className='flex flex-row gap-x-3'>
 									<div className='font-bold'>모집 기간 |</div>
-									<div>{community.endAt}</div>
-								</div> */}
+									<div>~ {community.endAt.toLocaleDateString()}</div>
+								</div>
 							</div>
 						</div>
-						<div className='text-start text-xl pt-5 h-auto '>{community.content}</div>
+						<div className='text-start pt-5 h-auto '>{community.content}</div>
 					</Card>
 				</div>
 			</div>

@@ -140,7 +140,7 @@ export const MainText = ({
 	const realarticle = linechange(article.content);
 	return (
 		<>
-			<div className=' w-full h-full border-solid border-2 shadow-md bg-white overflow-y-auto whitespace-pre-wrap px-3'>
+			<div className=' w-full h-full border-solid border-t-2 border-b-2 bg-white overflow-y-auto whitespace-pre-wrap px-3'>
 				{openMenu ? (
 					<>
 						{position && (

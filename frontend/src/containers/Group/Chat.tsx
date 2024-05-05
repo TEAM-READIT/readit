@@ -46,21 +46,21 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 
 	return (
 		<>
-			<div className='w-2/5 flex flex-col gap-5'>
+			<div className='w-2/5 flex flex-col gap-5 pt-3'>
 				<div className='h-[530px] overflow-y-auto bg-blue-200 rounded-xl p-5' ref={chatContainerRef}>
 					<div className='flex flex-col gap-5'>
 						{myGroup.chatList.map((chat, index) => (
 							<div key={index}>
 								{chat.memberId === 1 ? (
 									<div className='flex flex-row gap-x-2'>
-										<img src={ProfileImage} alt='사용자프로필' className='w-16 aspect-auto' />
+										<img src={ProfileImage} alt='사용자프로필' className='w-12 h-12 aspect-square' />
 										<div className='flex flex-col items-start'>
-											<div className='text-lg font-bold'>{chat.memberName}</div>
+											<div className=''>{chat.memberName}</div>
 											<div className='flex flex-row items-center gap-x-2'>
-												<div className='bg-white border border-gray-500 text-sm w-full p-2 rounded-xl text-start'>
+												<div className='bg-white border border-gray-500 text-xs w-full p-2 rounded-xl text-start'>
 													{chat.content}
 												</div>
-												<span className='text-sm'>
+												<span className='text-xs'>
 													{chat.sendDate.getHours()}:{chat.sendDate.getMinutes() < 10 ? '0' : ''}
 													{chat.sendDate.getMinutes()}
 												</span>
@@ -71,18 +71,18 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 									<>
 										<div className='flex flex-row gap-x-2 justify-end'>
 											<div className='flex flex-col items-end'>
-												<div className='text-lg font-bold'>{chat.memberName}</div>
+												<div className=''>{chat.memberName}</div>
 												<div className='flex flex-row items-center gap-x-2'>
-													<span className='text-sm'>
+													<span className='text-xs'>
 														{chat.sendDate.getHours()}:{chat.sendDate.getMinutes() < 10 ? '0' : ''}
 														{chat.sendDate.getMinutes()}
 													</span>
-													<div className='bg-yellow-200 border border-gray-500 text-sm w-full p-2 rounded-xl text-start'>
+													<div className='bg-yellow-200 border border-gray-500 text-xs w-full p-2 rounded-xl text-start'>
 														{chat.content}
 													</div>
 												</div>
 											</div>
-											<img src={ProfileImage} alt='사용자프로필' className='w-16 aspect-auto' />
+											<img src={ProfileImage} alt='사용자프로필' className='w-12 h-12 aspect-auto' />
 										</div>
 									</>
 								)}
@@ -94,7 +94,7 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 					<input
 						type='text'
 						name='chat'
-						placeholder=''
+						placeholder='메시지를 입력하세요'
 						className='rounded-xl w-5/6 input'
 						onChange={(e) => setChatValue(e.target.value)}
 					/>

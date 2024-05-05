@@ -10,7 +10,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 	const [answer, setAnswer] = useState<answerList[]>([]);
 	const [myAnswer, setMyAnswer] = useState<answerList[]>([]);
 	const [selectedOptions, setSelectedOptions] = useState<number[]>([]); // 추가된 state
-	console.log(answer)
+	console.log(answer);
 	const requestBody = {
 		articleId: articleId,
 		answerList: myAnswer,
@@ -59,45 +59,47 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 
 	return (
 		<>
-			<div className='h-full w-1/4 flex flex-col'>
-				<div className='flex h-4/5 py-20 '>
-					<Card className='w-full py-10 '>
-						<div className=' flex flex-col text-start gap-y-10 overflow-auto'>
-							{problemList.map((problem, index) => (
-								<div key={index}>
-									<div className='font-bold'>{problem.problem}</div>
-									<br />
-									{problem.optionList.map((option, optionidx) => (
-										<div
-											key={optionidx}
-											className={`flex flex-row gap-x-2 hover:cursor-pointer text-sm ${
-												isOptionSelected(index, optionidx) ? 'bg-yellow-100' : ''
-											}`}
-											onClick={() => handleAnswerSelection(index, optionidx)}
-											style={{ paddingRight: '5px' }}
-										>
-											<div className='relative'>
-												{option.optionNumber}.
-												{isOptionSelected(index, optionidx) && <div className='absolute left-0 top-0'>✔</div>}
+			<div className='h-full w-1/3 flex flex-col'>
+				<div className='flex h-4/5'>
+					<Card className='w-full'>
+						<div className='flex flex-col justify-between h-full py-20'>
+							<div className=' flex flex-col text-start gap-y-10 overflow-auto'>
+								{problemList.map((problem, index) => (
+									<div key={index}>
+										<div className='font-bold'>{problem.problem}</div>
+										<br />
+										{problem.optionList.map((option, optionidx) => (
+											<div
+												key={optionidx}
+												className={`flex flex-row gap-x-2 hover:cursor-pointer ${
+													isOptionSelected(index, optionidx) ? 'bg-yellow-100' : ''
+												}`}
+												onClick={() => handleAnswerSelection(index, optionidx)}
+												style={{ paddingRight: '5px' }}
+											>
+												<div className='relative'>
+													{option.optionNumber}.
+													{isOptionSelected(index, optionidx) && <div className='absolute left-0 top-0'>✔</div>}
+												</div>
+												<div>{option.option}</div>
 											</div>
-											<div>{option.option}</div>
+										))}
+										<div className='flex flex-row justify-end'>
+											{myAnswer[index] && <div>내가 선택한 답: {myAnswer[index].answerNumber}</div>}
 										</div>
-									))}
-									<div className='flex flex-row justify-end'>
-										{myAnswer[index] && <div>내가 선택한 답: {myAnswer[index].answerNumber}</div>}
 									</div>
-								</div>
-							))}
+								))}
+							</div>
+							<div className='flex justify-end'>
+								<Button
+									className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
+									onClick={handleAnswer}
+								>
+									제출하기
+								</Button>
+							</div>
 						</div>
 					</Card>
-				</div>
-				<div className='flex justify-end'>
-					<Button
-						className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
-						onClick={handleAnswer}
-					>
-						제출하기
-					</Button>
 				</div>
 			</div>
 		</>
