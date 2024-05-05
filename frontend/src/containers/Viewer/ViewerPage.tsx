@@ -116,8 +116,6 @@ export const ViewerPage = () => {
 		navigate('/');
 	};
 
-	console.log('requestbody',requestbody)
-
 	return (
 		<>
 			<div className=' z-50 w-full h-screen flex flex-col items-center  overflow-hidden'>
