@@ -25,7 +25,10 @@ public class DateUtil {
         LocalDateTime startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).atStartOfDay();
 
         // 이번 주의 종료일(일요일) 계산
-        LocalDateTime endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).atStartOfDay();
+        LocalDateTime endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).atStartOfDay()
+                .withHour(23) // 시간 설정: 23시
+                .withMinute(59) // 분 설정: 59분
+                .withSecond(59); // 초 설정: 59초;
 
         // 결과를 LocalDate 배열로 반환
         return new LocalDateTime[] { startOfWeek, endOfWeek };

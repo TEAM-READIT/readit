@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import readit.community.domain.dto.ArticleDetail;
 import readit.community.domain.dto.CommunityDetailArticle;
 import readit.community.domain.dto.CommunityDetailMember;
 import readit.community.domain.dto.SimpChatDto;
@@ -107,10 +108,9 @@ public class CommunityService {
                     return CommunityDetailMember.of(member, readCount);
                 })
                 .toList();
-
-        // todo: memberArticle에서 이번주(월요일~일요일)안에 읽은거만 가져와서 보여주기
+        
         List<MemberArticle> memberArticles = memberArticleRepository.findByCommunityIdAndCompletedAtBetween(communityId, thisWeek[0], thisWeek[1]);
-        log.info(memberArticles.toString());
+
         List<CommunityDetailArticle> articleList = memberArticles.stream()
                 .map(memberArticle -> {
                     // MemberArticle에서 memberId 가져오기
@@ -122,8 +122,9 @@ public class CommunityService {
                             .findFirst()
                             .orElseThrow(ValueMissingException::new);
 
+                    ArticleDetail articleDetail = ArticleDetail.of(memberArticle);
                     // CommunityDetailArticle 생성
-                    return CommunityDetailArticle.of(matchingMember, memberArticle);
+                    return CommunityDetailArticle.of(matchingMember, articleDetail);
                 })
                 .toList();
 

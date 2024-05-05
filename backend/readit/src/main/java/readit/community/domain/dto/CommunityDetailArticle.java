@@ -6,13 +6,13 @@ import readit.viewer.domain.entity.MemberArticle;
 @Builder
 public record CommunityDetailArticle(
         CommunityDetailMember member,
-        MemberArticle memberArticle
+        ArticleDetail articleDetail
 ) {
     public static CommunityDetailArticle of(CommunityDetailMember member,
-                                            MemberArticle memberArticle) {
+                                            ArticleDetail articleDetail) {
         return CommunityDetailArticle.builder()
                 .member(member)
-                .memberArticle(memberArticle)
+                .articleDetail(articleDetail)
                 .build();
     }
 }
