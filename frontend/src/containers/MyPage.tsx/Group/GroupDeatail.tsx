@@ -11,7 +11,7 @@ const ReadDetail = () => {
 		<>
 			<div className='w-full h-full flex justify-center flex-col items-center'>
 				<Headers />
-				<div className='flex flex-col w-3/5 justify-start items-center '>
+				<div className='flex flex-col w-full justify-start items-center '>
 					<GroupDetailHeaders />
 				</div>
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>

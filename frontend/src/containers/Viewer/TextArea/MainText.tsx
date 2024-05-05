@@ -1,7 +1,6 @@
 import {
 	useState,
 	// useEffect, useRef
-
 } from 'react';
 import { useLocation } from 'react-router-dom';
 import { articleList } from '../../../types/articleProps';
@@ -39,11 +38,13 @@ export const MainText = ({
 	const handleBold = () => {
 		if (selectedRange) {
 			const span = document.createElement('span');
+
 			span.style.fontWeight = 'bold';
 			selectedRange.surroundContents(span);
 			setOpenMenu(false);
 		}
 	};
+
 	const setColor = (color: string) => {
 		if (selectedRange) {
 			const span = document.createElement('span');
@@ -54,7 +55,9 @@ export const MainText = ({
 	};
 	const handleMouseUp = () => {
 		const selection = window.getSelection();
-		if (selection!.rangeCount > 0) {
+		if (selection!.rangeCount > 0 && selection?.type === 'Range') {
+			setOpenMemo(false);
+			close();
 			const range = selection!.getRangeAt(0);
 			setSelectedRange(range);
 			setOpenMenu(true);
@@ -64,13 +67,15 @@ export const MainText = ({
 			const buttonY = rect.top - 30;
 
 			setPosition({
-				x: buttonX - 520,
+				x: buttonX - 420,
 				y: buttonY - 150,
 				width: rect.width,
 				height: rect.height,
 			});
 
 			// setIsMemoOpen(true);
+		} else {
+			setOpenMenu(false);
 		}
 	};
 	const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -87,12 +92,12 @@ export const MainText = ({
 		if (selectedRange) {
 			// 원래 텍스트를 감싸는 span 엘리먼트 생성
 			const spanOriginal = document.createElement('span');
-			spanOriginal.className = 'hover:cursor-pointer shadow-xl border-b border-black'; // 클래스 추가
+			spanOriginal.className = 'hover:cursor-pointer border-b border-black'; // 클래스 추가
 
 			// 메모를 감싸는 span 엘리먼트 생성
 			const spanMemoWrapper = document.createElement('span');
 			spanMemoWrapper.className =
-				'memo-wrapper z-50 text-black bg-white shadow-xl h-[30px] max-w-[500px] absolute rounded-lg text-center px-10 border border-black'; // 클래스 추가
+				'memo-wrapper z-50 text-black bg-white shadow-xl h-[30px] max-w-[500px] absolute rounded-lg text-center px-10 border '; // 클래스 추가
 
 			// 메모를 표시하는 span 엘리먼트 생성
 			const spanMemo = document.createElement('span');
@@ -111,7 +116,7 @@ export const MainText = ({
 			spanOriginal.addEventListener('mouseenter', (e) => {
 				// 화면 중앙에 메모 표시
 				spanMemoWrapper.style.visibility = 'visible';
-							spanMemoWrapper.style.display = '';
+				spanMemoWrapper.style.display = '';
 
 				const mouseX = e.clientX;
 				const mouseY = e.clientY;
@@ -145,7 +150,7 @@ export const MainText = ({
 					<>
 						{position && (
 							<div
-								className='absolute top-0 left-0 w-[100px] h-[40px] bg-white text-black rounded m-0 border border-black items-center justify-center'
+								className='absolute top-14 left-36 - w-[100px] h-[40px] bg-white text-black rounded m-0 border border-black items-center justify-center'
 								style={{ transform: `translate3d(${position.x}px, ${position.y}px, 0)` }}
 							>
 								<div className='flex flex-row justify-between p-2 items-center'>
@@ -162,23 +167,22 @@ export const MainText = ({
 									{openMemo ? (
 										<>
 											<textarea
-												className={`absolute z-50 top-10 left-10 shadow-md w-[300px] h-[100px] text-start`}
+												className={`absolute z-40 top-10 left-0 shadow-md w-[280px] h-[120px] text-start`}
 												onChange={(e) => {
 													setMemo(e.target.value);
 												}}
 												onKeyDown={handleKeyDown}
+											></textarea>
+											<span
+												className='absolute text-sm aspect-square top-10 z-50 left-64 rounded bg-whit material-symbols-outlined hover:cursor-pointer'
+												onClick={() => setOpenMemo(false)}
 											>
-											</textarea>
-												<span
-													className='text-sm aspect-square absolute -top-3 right-0  rounded bg-whit material-symbols-outlined hover:cursor-pointer'
-													onClick={close}
-												>
-													close
-												</span>
+												close
+											</span>
 										</>
 									) : null}
 									{isOpen ? (
-										<div className='absolute bottom-10 left-10 border border-gray rounded-xl flex flex-col bg-white p-2 gap-2 opacity-100'>
+										<div className='absolute bottom-10 left-10 border border-gray rounded-xl flex flex-col bg-white p-3 gap-2 opacity-100'>
 											<div className='flex flex-row gap-2'>
 												<div
 													className='w-8 aspect-square bg-yellow-200 border border-yellow-400 rounded-xl hover:cursor-pointer'
@@ -201,12 +205,6 @@ export const MainText = ({
 														close();
 													}}
 												></div>
-												<span
-													className='text-sm aspect-square absolute -top-3 right-0  rounded bg-whit material-symbols-outlined hover:cursor-pointer'
-													onClick={close}
-												>
-													close
-												</span>
 											</div>
 										</div>
 									) : null}

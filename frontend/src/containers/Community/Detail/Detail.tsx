@@ -47,7 +47,6 @@ const Detail = () => {
 		navigate('/group', { state: { community } });
 		handleJoin();
 	};
-	console.log(community.startAt.toLocaleString())
 	return (
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-full'>

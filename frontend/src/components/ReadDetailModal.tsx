@@ -6,7 +6,6 @@ import ReadDetailModalHeaders from './ReadDetailModalHeaders';
 const ReadDetailModal = () => {
 	const location = useLocation();
 	const article = location.state?.article;
-	console.log(article);
 	return (
 		<>
 			<div className='w-full h-full flex justify-center flex-col items-center'>
