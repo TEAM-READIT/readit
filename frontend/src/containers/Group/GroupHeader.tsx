@@ -10,7 +10,7 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 	};
 	return (
 		<>
-			<div className='flex flex-row w-full justify-between px-5 pb-10 items-center'>
+			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>
 				<div className=' w-full'>
 					<Breadcrumb className='pb-8'>
 						<BreadcrumbItem>
@@ -25,7 +25,7 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 					</Breadcrumb>
 					<div className='flex flex-row justify-between items-center w-full'>
 						<div className='flex flex-row items-center gap-x-5'>
-							<div className='text-3xl font-semibold leading-tight text-gray-700'>{myGroup.title}</div>
+							<div className='text-xl font-semibold leading-tight text-gray-700'>{myGroup.title}</div>
 							<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
 								#{myGroup.categoryName}
 							</div>
@@ -60,8 +60,11 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 				</div>
 			</div>
 			<div className='w-full px-5 '>
-				<div className='flex flex-row w-full p-5 text-xl font-bold bg-[#E1EDFF] rounded-xl'>
-					📢 공지 : {myGroup.notice}
+				<div className='flex flex-row w-full p-3 text bg-[#E1EDFF] rounded-xl'>
+					<div className='font-bold'>
+					📢 공지
+					</div>
+					: {myGroup.notice}
 				</div>
 			</div>
 		</>

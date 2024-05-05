@@ -41,12 +41,12 @@ export const DictionarySearch = () => {
 
 	return (
 		<>
-			<div className={`relative flex flex-col w-1/5 h-full justify-between`}>
+			<div className={`relative flex flex-col w-1/6 h-full justify-between`}>
 				<div className='w-full h-full border-solid overflow-auto border p-[1vw]'>
 					<div className='flex w-full justify-center items-center pt-5'>
 						<input
 							type='search'
-							className='w-[90%] m-[0.5vw] block rounded border border-solid border-neutral-200 bg-transparent bg-clip-padding py-[0.2rem] font-normal leading-[1.6] text-surface outline-none transition duration-200 ease-in-out placeholder:text-neutral-500 focus:z-[3] focus:border-primary focus:shadow-inset focus:outline-none motion-reduce:transition-none dark:border-white/10 dark:text-white dark:placeholder:text-neutral-200 dark:autofill:shadow-autofill dark:focus:border-primary'
+							className='text-sm w-[90%] m-[0.5vw] block rounded border border-solid border-neutral-200 bg-transparent bg-clip-padding py-[0.2rem] font-normal leading-[1.6] text-surface outline-none transition duration-200 ease-in-out placeholder:text-neutral-500 focus:z-[3] focus:border-primary focus:shadow-inset focus:outline-none motion-reduce:transition-none dark:border-white/10 dark:text-white dark:placeholder:text-neutral-200 dark:autofill:shadow-autofill dark:focus:border-primary'
 							placeholder='검색할 단어 입력'
 							onChange={(e) => setSearchWord(e.target.value)}
 							onKeyDown={handleKeyDown}

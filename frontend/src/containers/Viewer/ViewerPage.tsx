@@ -120,24 +120,22 @@ export const ViewerPage = () => {
 
 	return (
 		<>
-			<div className=' z-50 w-full h-screen flex flex-col items-center border overflow-hidden'>
+			<div className=' z-50 w-full h-screen flex flex-col items-center  overflow-hidden'>
 				<Headers />
-				<div className='relative flex'>
+				<div className='relative flex w-full'>
 					<div
-						className={`relative flex flex-col w-4/5 h-screen transition-all duration-300 ease-in-out`}
+						className={` relative flex flex-col w-5/6 h-screen transition-all duration-300 ease-in-out`}
 					>
 						<div
 							className={`relative flex w-full ${isBottomOpen ? 'h-3/5' : 'h-[88%]'} transition-all duration-300 ease-in-out`}
 						>
 							<DictionarySearch/>
-							<div className='w-4/5 h-full border-solid border-2 px-[5%] pt-[3%] pb-[5%]'>
 								<div className='w-full h-full relative'>
 									<MainText
 										setMemos={setMemos}
 										article={article}
 									/>
 									
-								</div>
 							</div>
 						</div>
 						<div
@@ -147,14 +145,14 @@ export const ViewerPage = () => {
 								<img src={isBottomOpen ? DownArrow : UpArrow} />
 							</div>
 							<div
-								className={`w-full h-full p-[1vw] transition-all duration-300 ease-in-out border-solid border-2 ${isBottomOpen ? 'block' : 'hidden'}`}
+								className={`w-full h-full p-[1vw] transition-all duration-300 ease-in-out border-solid  ${isBottomOpen ? 'block' : 'hidden'}`}
 							>
 								<TextBox setSummary={setSummary} />
 							</div>
 						</div>
 					</div>
 					<div
-						className='relative flex h-screen transition-all duration-300 ease-in-out border-solid border-2 w-1/5'
+						className='relative flex h-screen transition-all duration-300 ease-in-out border-solid border-2 w-1/6'
 					>
 
 						<div
