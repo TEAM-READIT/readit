@@ -44,16 +44,27 @@ public class ArticleController {
         return ResponseEntity.ok(statsResponse);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<GetSearchListResponse> getSearchList(@RequestParam String category,
-                                                                 @RequestParam String title,
-                                                                 @RequestParam String content,
-                                                                 @RequestParam String reporter,
-                                                                 @RequestParam Boolean isMemberArticle,
-                                                                 @RequestParam Boolean hit,
-                                                                 @RequestParam Integer cursor,
-                                                                 @RequestParam  Integer limit){
-        GetSearchListResponse searchListResponse = articleService.getSearchList(category,title,content,reporter,isMemberArticle,hit,cursor,limit);
+    @GetMapping("/search/myarticle")
+    public ResponseEntity<GetMemberArticleSearchResponse> getMyArticles(@RequestParam(required = false) String category,
+                                                                        @RequestParam(required = false) String title,
+                                                                        @RequestParam(required = false) String content,
+                                                                        @RequestParam(required = false) String reporter,
+                                                                        @RequestParam(required = false) Boolean hit,
+                                                                        @RequestParam(required = false) Integer cursor,
+                                                                        @RequestParam(defaultValue = "8")  Integer limit){
+        GetMemberArticleSearchResponse searchListResponse = articleService.getMyArticleSearchList(category,title,content,reporter,hit,cursor,limit);
+        return ResponseEntity.ok(searchListResponse);
+    }
+
+    @GetMapping("/search/article")
+    public ResponseEntity<GetArticleSearchResponse> getArticles(@RequestParam(required = false) String category,
+                                                                @RequestParam(required = false) String title,
+                                                                @RequestParam(required = false) String content,
+                                                                @RequestParam(required = false) String reporter,
+                                                                @RequestParam(required = false) Boolean hit,
+                                                                @RequestParam(required = false) Integer cursor,
+                                                                @RequestParam(defaultValue = "8")  Integer limit){
+        GetArticleSearchResponse searchListResponse = articleService.getArticleSearchList(category,title,content,reporter,hit,cursor,limit);
         return ResponseEntity.ok(searchListResponse);
     }
 }

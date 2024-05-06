@@ -38,6 +38,9 @@ public class MemberArticle extends BaseTimeEntity {
 
     private LocalDateTime completedAt;
 
+    @Column(length = 500)
+    private String content;
+
     public static MemberArticle create(Article article, Integer memberId, String summary) {
         return MemberArticle.builder()
                 .memberId(memberId)
