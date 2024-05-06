@@ -25,13 +25,11 @@ public class KakaoOAuthMemberInfoClient implements OAuthMemberInfoClient {
                 .bodyToMono(KakaoMemberResponse.class)
                 .switchIfEmpty(Mono.error(new MemberNotFoundException()))
                 .handle((kakaoMemberResponse, sink) -> {
-                    if(kakaoMemberResponse == null) {
+                    if (kakaoMemberResponse == null) {
                         sink.error(new MemberNotFoundException());
                         return;
                     }
-                    sink.next(KakaoMemberResponse.builder()
-                            .kakaoAccount(kakaoMemberResponse.getKakaoAccount())
-                            .build());
+                    sink.next(kakaoMemberResponse);
                 });
     }
 }
