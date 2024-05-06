@@ -11,6 +11,7 @@ import readit.community.application.CommunityService;
 import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
 import readit.community.domain.dto.response.GetCommunityDetailResponse;
+import readit.community.domain.dto.response.GetHotCommunityResponse;
 
 
 @Slf4j
@@ -69,5 +70,11 @@ public class CommunityController {
         memberId = 1;
         communityService.sendChat(request, memberId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/hot")
+    public ResponseEntity<GetHotCommunityResponse> getHotCommunityList() {
+        GetHotCommunityResponse response = communityService.getHotCommunityList();
+        return ResponseEntity.ok(response);
     }
 }

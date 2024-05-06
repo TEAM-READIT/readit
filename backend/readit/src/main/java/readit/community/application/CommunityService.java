@@ -1,17 +1,20 @@
 package readit.community.application;
 
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.community.domain.dto.ArticleDetail;
+import readit.community.domain.dto.CommunityDetail;
 import readit.community.domain.dto.CommunityDetailArticle;
 import readit.community.domain.dto.CommunityDetailMember;
 import readit.community.domain.dto.SimpChatDto;
 import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
 import readit.community.domain.dto.response.GetCommunityDetailResponse;
+import readit.community.domain.dto.response.GetHotCommunityResponse;
 import readit.community.domain.entity.Chat;
 import readit.community.domain.entity.Community;
 import readit.community.domain.entity.Participants;
@@ -108,7 +111,7 @@ public class CommunityService {
                     return CommunityDetailMember.of(member, readCount);
                 })
                 .toList();
-        
+
         List<MemberArticle> memberArticles = memberArticleRepository.findByCommunityIdAndCompletedAtBetween(communityId, thisWeek[0], thisWeek[1]);
 
         List<CommunityDetailArticle> articleList = memberArticles.stream()
@@ -146,4 +149,20 @@ public class CommunityService {
                 simpChatDtoList);
     }
 
+    public GetHotCommunityResponse getHotCommunityList() {
+        List<Community> communityList = communityRepository.findTop8ByOrderByHitsDesc();
+        log.info(communityList.get(0).toString());
+
+        List<CommunityDetail> communityDetailList = communityList.stream()
+                .map(community -> {
+                    Member member = memberRepository.findById(community.getWriterId())
+                            .orElseThrow(ValueMissingException::new);
+                    return CommunityDetail.from(member, community);
+                })
+                .toList();
+
+        return GetHotCommunityResponse.builder()
+                .communityList(communityDetailList)
+                .build();
+    }
 }
