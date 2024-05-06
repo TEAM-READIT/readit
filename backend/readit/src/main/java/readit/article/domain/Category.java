@@ -16,4 +16,11 @@ public class Category {
 
     @Column(nullable = false)
     private String name;
+
+    public static Category from(CategoryType type) {
+        return Category.builder()
+                .id(type.getNumber())
+                .name(type.getKrName())
+                .build();
+    }
 }
