@@ -2,6 +2,7 @@ package readit.auth.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 import readit.auth.application.dto.OAuthMemberResponse;
 import readit.auth.domain.OAuthClients;
 import readit.auth.dto.TokenDto;
@@ -12,8 +13,8 @@ public class AuthServiceFacade {
     private final AuthService authService;
     private final OAuthClients oAuthClient;
 
-    public TokenDto login(String authCode, String redirectUri, String provider) {
-        OAuthMemberResponse oAuthMemberResponse = oAuthClient.request(authCode, redirectUri, provider);
+    public Mono<TokenDto> login(String authCode, String redirectUri, String provider) {
+        Mono<OAuthMemberResponse> oAuthMemberResponse = oAuthClient.request(authCode, redirectUri, provider);
         return authService.login(oAuthMemberResponse);
     }
 
