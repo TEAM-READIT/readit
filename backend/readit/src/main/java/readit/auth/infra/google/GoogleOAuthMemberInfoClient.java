@@ -23,11 +23,12 @@ public class GoogleOAuthMemberInfoClient implements OAuthMemberInfoClient {
                 .retrieve()
                 .onStatus(httpStatus -> httpStatus.is4xxClientError(), clientResponse -> Mono.error(new MemberNotFoundException()))
                 .bodyToMono(GoogleMemberResponse.class)
-                .map(googleMemberResponse -> {
+                .handle((googleMemberResponse, sink) -> {
                     if (googleMemberResponse == null) {
-                        throw new MemberNotFoundException();
+                        sink.error(new MemberNotFoundException());
+                        return;
                     }
-                    return googleMemberResponse;
+                    sink.next(googleMemberResponse);
                 });
     }
 }
