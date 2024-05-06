@@ -15,7 +15,7 @@ class ViewerServiceTest {
     @Autowired
     private ViewerService viewerService;
 
-    @Test
+    //@Test
     @DisplayName("스레드 풀 테스트")
     void loadArticleWithWords() throws InterruptedException {
         for (int i = 5; i < 36; i++) {

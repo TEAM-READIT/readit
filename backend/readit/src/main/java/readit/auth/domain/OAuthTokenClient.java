@@ -1,5 +1,7 @@
 package readit.auth.domain;
 
+import reactor.core.publisher.Mono;
+
 public interface OAuthTokenClient {
-    String getAccessToken(String authCode, String redirectUri);
+    Mono<String> getAccessToken(String authCode, String redirectUri);
 }
