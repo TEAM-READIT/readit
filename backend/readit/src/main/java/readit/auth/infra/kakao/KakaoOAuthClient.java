@@ -2,6 +2,7 @@ package readit.auth.infra.kakao;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 import readit.auth.application.dto.OAuthMemberResponse;
 import readit.auth.domain.OAuthClient;
 import readit.auth.domain.OAuthMemberInfoClient;
@@ -16,9 +17,9 @@ public class KakaoOAuthClient implements OAuthClient {
     private final OAuthMemberInfoClient kakaoOAuthMemberInfoClient;
 
     @Override
-    public OAuthMemberResponse request(String authCode, String redirectUri) {
-        String accessToken = kakaoOAuthTokenClient.getAccessToken(authCode, redirectUri);
-        return kakaoOAuthMemberInfoClient.getMember(accessToken);
+    public Mono<OAuthMemberResponse> request(String authCode, String redirectUri) {
+        return kakaoOAuthTokenClient.getAccessToken(authCode, redirectUri)
+                .flatMap(accessToken -> kakaoOAuthMemberInfoClient.getMember(accessToken));
     }
 
     @Override

@@ -1,7 +1,8 @@
 package readit.auth.domain;
 
+import reactor.core.publisher.Mono;
 import readit.auth.application.dto.OAuthMemberResponse;
 
 public interface OAuthMemberInfoClient {
-    OAuthMemberResponse getMember(String accessToken);
+    Mono<OAuthMemberResponse> getMember(String accessToken);
 }

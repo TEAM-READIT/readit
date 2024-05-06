@@ -1,5 +1,6 @@
 package readit.article.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import readit.common.entity.BaseTimeEntity;
@@ -19,6 +20,7 @@ public class Article extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonIgnore
     private Category category;
 
     @Enumerated(EnumType.STRING)
