@@ -2,6 +2,7 @@ package readit.auth.infra.google;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 import readit.auth.application.dto.OAuthMemberResponse;
 import readit.auth.domain.OAuthClient;
 import readit.auth.domain.OAuthMemberInfoClient;
@@ -15,9 +16,9 @@ public class GoogleOAuthClient implements OAuthClient {
     private final OAuthMemberInfoClient googleOAuthMemberInfoClient;
 
     @Override
-    public OAuthMemberResponse request(String authCode, String redirectUri) {
-        String accessToken = googleOAuthTokenClient.getAccessToken(authCode, redirectUri);
-        return googleOAuthMemberInfoClient.getMember(accessToken);
+    public Mono<OAuthMemberResponse> request(String authCode, String redirectUri) {
+        return googleOAuthTokenClient.getAccessToken(authCode, redirectUri)
+                .flatMap(accessToken -> googleOAuthMemberInfoClient.getMember(accessToken));
     }
 
     @Override
