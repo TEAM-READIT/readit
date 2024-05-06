@@ -62,7 +62,7 @@ public class ViewerService {
             throw new AsynchronousException();
         }
 
-        GetWordListResponse getWordListResponse = new GetWordListResponse(response);
+        GetWordListResponse getWordListResponse = GetWordListResponse.from(response);
         saveWords(article, getWordListResponse);
 
         return getWordListResponse;

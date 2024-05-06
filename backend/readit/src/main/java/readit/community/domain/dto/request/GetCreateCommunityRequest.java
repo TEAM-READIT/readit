@@ -3,7 +3,6 @@ package readit.community.domain.dto.request;
 import jakarta.validation.constraints.NotNull;
 import readit.article.domain.CategoryType;
 import readit.community.domain.entity.Community;
-
 import java.time.LocalDate;
 
 @NotNull
@@ -17,6 +16,7 @@ public record GetCreateCommunityRequest(
         LocalDate endAt
 ) {
     public static Community toEntity(GetCreateCommunityRequest getCreateCommunityRequest, Integer memberId){
+
         return Community.builder()
                 .category(CategoryType.getCategoryByKrName(getCreateCommunityRequest.categoryName))
                 .writerId(memberId)
