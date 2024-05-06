@@ -87,4 +87,10 @@ public class CommunityController {
         GetMyCommunityResponse response = communityService.getMyCommunityList(memberId);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/hits/{communityId}")
+    public ResponseEntity<Void> increaseHits(@PathVariable Integer communityId) {
+        communityService.increaseHits(communityId);
+        return ResponseEntity.ok().build();
+    }
 }

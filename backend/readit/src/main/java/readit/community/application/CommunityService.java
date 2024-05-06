@@ -1,7 +1,5 @@
 package readit.community.application;
 
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -97,6 +95,7 @@ public class CommunityService {
         chatRepository.save(Chat.create(optionalCommunity.get(), optionalMember.get(), request.content()));
     }
 
+    @Transactional(readOnly = true)
     public GetCommunityDetailResponse getCommunityDetail(Integer communityId, Integer memberId) {
         Optional<Community> optionalCommunity = Optional.ofNullable(communityRepository.findById(communityId)
                 .orElseThrow(ValueMissingException::new));
@@ -151,6 +150,7 @@ public class CommunityService {
                 simpChatDtoList);
     }
 
+    @Transactional(readOnly = true)
     public GetHotCommunityResponse getHotCommunityList() {
         List<Community> communityList = communityRepository.findTop8ByOrderByHitsDesc();
 
@@ -167,6 +167,7 @@ public class CommunityService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public GetMyCommunityResponse getMyCommunityList(Integer memberId) {
         List<Community> communityList = communityRepository.findAllByMemberId(memberId);
         List<MyCommunityDetail> myCommunityList = communityList.stream()
@@ -176,5 +177,9 @@ public class CommunityService {
         return GetMyCommunityResponse.builder()
                 .communityList(myCommunityList)
                 .build();
+    }
+
+    public void increaseHits(Integer communityId) {
+        communityRepository.increaseHitsById(communityId);
     }
 }
