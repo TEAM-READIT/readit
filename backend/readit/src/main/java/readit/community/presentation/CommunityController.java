@@ -1,5 +1,7 @@
 package readit.community.presentation;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,51 +26,42 @@ public class CommunityController {
     private final CommunityService communityService;
 
     @GetMapping("/{communityId}")
+    @Operation(summary = "글 조회", description = "글 조회 기능입니다.")
     public ResponseEntity<GetCommunityDetailResponse> getCommunityDetails(@PathVariable Integer communityId,
-                                                                          @Auth AuthCredentials authCredentials) {
-        // todo: add auth
+                                                                          @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-        memberId = 1;
         GetCommunityDetailResponse response = communityService.getCommunityDetail(communityId, memberId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{communityId}")
     public ResponseEntity<Void> joinCommunity(@PathVariable Integer communityId,
-                                              @Auth AuthCredentials authCredentials) {
-        // todo: add auth
+                                              @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-        memberId = 1;
         communityService.joinCommunity(communityId, memberId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{communityId}")
     public ResponseEntity<Void> leaveCommunity(@PathVariable Integer communityId,
-                                               @Auth AuthCredentials authCredentials) {
-        // todo: add auth
+                                               @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-        memberId = 1;
         communityService.leaveCommunity(communityId, memberId);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/create")
     public ResponseEntity<Void> createCommunity(@Valid @RequestBody GetCreateCommunityRequest request,
-                                                @Auth AuthCredentials authCredentials) {
-        // todo: add auth
+                                                @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-        memberId = 1;
         communityService.createCommunity(request, memberId);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/chat")
     public ResponseEntity<Void> sendChat(@Valid @RequestBody PostChatRequest request,
-                                         @Auth AuthCredentials authCredentials) {
-        // todo: add auth
+                                         @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-        memberId = 1;
         communityService.sendChat(request, memberId);
         return ResponseEntity.ok().build();
     }
@@ -80,10 +73,8 @@ public class CommunityController {
     }
 
     @GetMapping("/myCommunity")
-    public ResponseEntity<GetMyCommunityResponse> getMyCommunityList(@Auth AuthCredentials authCredentials) {
-        // todo: add auth
+    public ResponseEntity<GetMyCommunityResponse> getMyCommunityList(@Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-        memberId = 1;
         GetMyCommunityResponse response = communityService.getMyCommunityList(memberId);
         return ResponseEntity.ok(response);
     }
