@@ -28,9 +28,7 @@ public class NaverOAuthMemberInfoClient implements OAuthMemberInfoClient {
                         sink.error(new MemberNotFoundException());
                         return;
                     }
-                    sink.next(NaverMemberResponse.builder()
-                            .naverAcount(naverMemberResponse.getNaverAcount())
-                            .build());
+                    sink.next(naverMemberResponse);
                 });
     }
 }

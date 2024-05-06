@@ -1,38 +1,31 @@
 package readit.article.infra;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import readit.article.dto.response.FastAPIArticleResponse;
 import readit.article.exception.ArticleNotFoundException;
 import readit.article.infra.config.FastAPIURI;
 
-import static org.springframework.http.HttpMethod.GET;
 
 @Component
 @RequiredArgsConstructor
 public class FastAPIClient {
 
     private final FastAPIURI FAST_API_URI;
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
     public FastAPIArticleResponse getArticle(String link){
-        ResponseEntity<FastAPIArticleResponse> response = getFastAPIArticle(link);
-        return response.getBody();
+        return getFastAPIArticle(link)
+                .block();
     }
 
-    private ResponseEntity<FastAPIArticleResponse> getFastAPIArticle(String link) {
-        try {
-            return restTemplate.exchange(
-                    FAST_API_URI + "?url=" + link,
-                    GET,
-                    null,
-                    FastAPIArticleResponse.class
-            );
-        } catch (HttpClientErrorException e) {
-            throw new ArticleNotFoundException();
-        }
+    private Mono<FastAPIArticleResponse> getFastAPIArticle(String link) {
+        return webClient.get()
+                .uri(FAST_API_URI + "?url=" + link)
+                .retrieve()
+                .bodyToMono(FastAPIArticleResponse.class)
+                .onErrorMap(Exception.class, ex -> new ArticleNotFoundException());
     }
 }
