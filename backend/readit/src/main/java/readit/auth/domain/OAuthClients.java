@@ -1,6 +1,7 @@
 package readit.auth.domain;
 
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 import readit.auth.application.dto.OAuthMemberResponse;
 import readit.member.domain.MemberType;
 
@@ -16,7 +17,7 @@ public class OAuthClients {
         clients.forEach(client -> values.put(client.getMemberType(), client));
     }
 
-    public OAuthMemberResponse request(String authCode, String redirectUri, String provider) {
+    public Mono<OAuthMemberResponse> request(String authCode, String redirectUri, String provider) {
         MemberType memberType = MemberType.valueOf(provider);
         OAuthClient oAuthClient = values.get(memberType);
         return oAuthClient.request(authCode, redirectUri);

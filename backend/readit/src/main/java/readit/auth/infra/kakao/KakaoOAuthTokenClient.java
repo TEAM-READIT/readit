@@ -1,22 +1,15 @@
 package readit.auth.infra.kakao;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import readit.auth.domain.OAuthTokenClient;
 import readit.auth.exception.TokenMissingException;
 import readit.auth.infra.kakao.config.KakaoCredentials;
 import readit.auth.infra.kakao.dto.KakaoTokenResponse;
-
-import static java.util.Objects.requireNonNull;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 
 @Component
 @RequiredArgsConstructor
@@ -24,23 +17,27 @@ public class KakaoOAuthTokenClient implements OAuthTokenClient {
     private static final String ACCESS_TOKEN_URI = "https://kauth.kakao.com/oauth/token";
     private static final String GRANT_TYPE = "authorization_code";
 
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
     private final KakaoCredentials kakaoCredentials;
 
     @Override
-    public String getAccessToken(String authCode, String redirectUri) {
-        HttpHeaders header = createRequestHeader();
+    public Mono<String> getAccessToken(String authCode, String redirectUri) {
         MultiValueMap<String, String> body = createRequestBodyWithAuthCode(authCode, redirectUri);
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, header);
-        ResponseEntity<KakaoTokenResponse> kakaoTokenResponse = getKakaoToken(request);
 
-        return requireNonNull(requireNonNull(kakaoTokenResponse.getBody())).accessToken();
-    }
-
-    private HttpHeaders createRequestHeader() {
-        HttpHeaders header = new HttpHeaders();
-        header.setContentType(APPLICATION_FORM_URLENCODED);
-        return header;
+        return webClient.post()
+                .uri(ACCESS_TOKEN_URI)
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .bodyValue(body)
+                .retrieve()
+                .onStatus(httpStatus -> httpStatus.is4xxClientError(), clientResponse -> Mono.error(new TokenMissingException()))
+                .bodyToMono(KakaoTokenResponse.class)
+                .handle((kakaoTokenResponse, sink) -> {
+                    if (kakaoTokenResponse == null || kakaoTokenResponse.accessToken() == null) {
+                        sink.error(new TokenMissingException());
+                        return;
+                    }
+                    sink.next(kakaoTokenResponse.accessToken());
+                });
     }
 
     private MultiValueMap<String, String> createRequestBodyWithAuthCode(String authCode, String redirectUri) {
@@ -51,18 +48,5 @@ public class KakaoOAuthTokenClient implements OAuthTokenClient {
         body.add("client_secret", kakaoCredentials.getClientSecret());
         body.add("code", authCode);
         return body;
-    }
-
-    private ResponseEntity<KakaoTokenResponse> getKakaoToken(HttpEntity<MultiValueMap<String, String>> request) {
-        try {
-            return restTemplate.exchange(
-                    ACCESS_TOKEN_URI,
-                    POST,
-                    request,
-                    KakaoTokenResponse.class
-            );
-        } catch (HttpClientErrorException e) {
-            throw new TokenMissingException();
-        }
     }
 }
