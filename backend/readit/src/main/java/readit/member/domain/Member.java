@@ -3,6 +3,11 @@ package readit.member.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import readit.common.entity.BaseTimeEntity;
+import readit.community.domain.entity.Participants;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static lombok.EqualsAndHashCode.Include;
 
 @Entity
@@ -30,4 +35,7 @@ public class Member extends BaseTimeEntity {
 
     @Column(nullable = false)
     private Integer challengeScore;
+
+    @OneToMany(mappedBy = "member")
+    private List<Participants> participants = new ArrayList<>();
 }

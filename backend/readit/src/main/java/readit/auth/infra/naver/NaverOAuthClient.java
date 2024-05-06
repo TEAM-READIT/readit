@@ -2,6 +2,7 @@ package readit.auth.infra.naver;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 import readit.auth.application.dto.OAuthMemberResponse;
 import readit.auth.domain.OAuthClient;
 import readit.auth.domain.OAuthMemberInfoClient;
@@ -13,15 +14,15 @@ import readit.member.domain.MemberType;
 public class NaverOAuthClient implements OAuthClient {
     private final OAuthTokenClient naverOAuthTokenClient;
     private final OAuthMemberInfoClient naverOAuthMemberInfoClient;
+
     @Override
-    public OAuthMemberResponse request(String authCode, String redirectUri) {
-        String accessToken = naverOAuthTokenClient.getAccessToken(authCode, redirectUri);
-        return naverOAuthMemberInfoClient.getMember(accessToken);
+    public Mono<OAuthMemberResponse> request(String authCode, String redirectUri) {
+        return naverOAuthTokenClient.getAccessToken(authCode, redirectUri)
+                .flatMap(accessToken -> naverOAuthMemberInfoClient.getMember(accessToken));
     }
 
     @Override
     public MemberType getMemberType() {
         return MemberType.naver;
     }
-
 }

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 import readit.auth.application.AuthServiceFacade;
 import readit.auth.dto.*;
 import readit.auth.infra.kakao.config.KakaoCredentials;
@@ -26,18 +27,19 @@ public class AuthController {
     private final AuthServiceFacade authServiceFacade;
     private final MemberQueryService memberQueryService;
     private final KakaoCredentials kaKaoCredentials;
+
     @Operation(summary = "로그인", description = "로그인")
     @PostMapping("/login/{provider}")
-    public ResponseEntity<LoginResponse> login(
+    public Mono<ResponseEntity<LoginResponse>> login(
             @Parameter(description = "인가 코드", required = true, schema = @Schema(type = "string")) @RequestParam("code") String authCode,
             @PathVariable String provider
     ) {
-        TokenDto tokenDto = authServiceFacade.login(authCode, kaKaoCredentials.getRedirectUri(), provider);
-
-        String memberId = jwtProvider.getPayload(tokenDto.accessToken());
-        Member member = memberQueryService.findById(Integer.valueOf(memberId));
-
-        return ResponseEntity.ok(LoginResponse.of(tokenDto, member));
+        return authServiceFacade.login(authCode, kaKaoCredentials.getRedirectUri(), provider)
+                .map(tokenDto -> {
+                    String memberId = jwtProvider.getPayload(tokenDto.accessToken());
+                    Member member = memberQueryService.findById(Integer.valueOf(memberId));
+                    return ResponseEntity.ok(LoginResponse.of(tokenDto, member));
+                });
     }
 
     @Operation(summary = "토큰 갱신", description = "액세스 토큰 갱신")

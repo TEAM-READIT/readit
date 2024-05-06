@@ -1,5 +1,6 @@
 package readit.viewer.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import readit.article.domain.Article;
@@ -24,8 +25,9 @@ public class MemberArticle extends BaseTimeEntity {
 
     private Integer communityId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "article_id", referencedColumnName = "id")
+    @JsonIgnore
     private Article article;
 
     @Column(length = 500)
