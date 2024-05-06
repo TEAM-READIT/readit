@@ -10,11 +10,13 @@ import readit.community.domain.dto.ArticleDetail;
 import readit.community.domain.dto.CommunityDetail;
 import readit.community.domain.dto.CommunityDetailArticle;
 import readit.community.domain.dto.CommunityDetailMember;
+import readit.community.domain.dto.MyCommunityDetail;
 import readit.community.domain.dto.SimpChatDto;
 import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
 import readit.community.domain.dto.response.GetCommunityDetailResponse;
 import readit.community.domain.dto.response.GetHotCommunityResponse;
+import readit.community.domain.dto.response.GetMyCommunityResponse;
 import readit.community.domain.entity.Chat;
 import readit.community.domain.entity.Community;
 import readit.community.domain.entity.Participants;
@@ -151,7 +153,6 @@ public class CommunityService {
 
     public GetHotCommunityResponse getHotCommunityList() {
         List<Community> communityList = communityRepository.findTop8ByOrderByHitsDesc();
-        log.info(communityList.get(0).toString());
 
         List<CommunityDetail> communityDetailList = communityList.stream()
                 .map(community -> {
@@ -163,6 +164,17 @@ public class CommunityService {
 
         return GetHotCommunityResponse.builder()
                 .communityList(communityDetailList)
+                .build();
+    }
+
+    public GetMyCommunityResponse getMyCommunityList(Integer memberId) {
+        List<Community> communityList = communityRepository.findAllByMemberId(memberId);
+        List<MyCommunityDetail> myCommunityList = communityList.stream()
+                .map(MyCommunityDetail::from)
+                .toList();
+
+        return GetMyCommunityResponse.builder()
+                .communityList(myCommunityList)
                 .build();
     }
 }

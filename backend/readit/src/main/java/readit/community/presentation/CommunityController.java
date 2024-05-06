@@ -12,6 +12,7 @@ import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
 import readit.community.domain.dto.response.GetCommunityDetailResponse;
 import readit.community.domain.dto.response.GetHotCommunityResponse;
+import readit.community.domain.dto.response.GetMyCommunityResponse;
 
 
 @Slf4j
@@ -75,6 +76,15 @@ public class CommunityController {
     @GetMapping("/hot")
     public ResponseEntity<GetHotCommunityResponse> getHotCommunityList() {
         GetHotCommunityResponse response = communityService.getHotCommunityList();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/myCommunity")
+    public ResponseEntity<GetMyCommunityResponse> getMyCommunityList(@Auth AuthCredentials authCredentials) {
+        // todo: add auth
+        Integer memberId = authCredentials.id();
+        memberId = 1;
+        GetMyCommunityResponse response = communityService.getMyCommunityList(memberId);
         return ResponseEntity.ok(response);
     }
 }

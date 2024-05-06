@@ -16,7 +16,7 @@ public record CommunityDetail(
         Integer currentParticipants,
         String categoryName,
         String title,
-        String notice,
+        String content,
         Integer articleCount,
         Integer hits,
         LocalDate startAt,
@@ -32,7 +32,7 @@ public record CommunityDetail(
                 .currentParticipants(community.getParticipants().size()) // 현재 참가자 수
                 .categoryName(community.getCategory().getName()) // 카테고리 이름
                 .title(community.getTitle())
-                .notice(community.getNotice())
+                .content(community.getContent())
                 .articleCount(community.getArticleCount())
                 .hits(community.getHits())
                 .startAt(community.getStartAt())
