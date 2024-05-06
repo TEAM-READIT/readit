@@ -1,14 +1,9 @@
 package readit.community.domain.dto;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-import lombok.Builder;
-import readit.community.domain.dto.response.GetHotCommunityResponse;
 import readit.community.domain.entity.Community;
 import readit.member.domain.Member;
 
-@Builder
 public record CommunityDetail(
         String writerName,
         String writerProfile,
@@ -23,20 +18,20 @@ public record CommunityDetail(
         LocalDate endAt
 ) {
 
-    public static CommunityDetail from(Member member, Community community) {
-        // 이 부분에서 CommunityDetail 레코드를 빌드합니다.
-        return CommunityDetail.builder()
-                .writerName(member.getName())
-                .writerProfile(member.getProfile())
-                .maxParticipants(community.getMaxParticipants())
-                .currentParticipants(community.getParticipants().size()) // 현재 참가자 수
-                .categoryName(community.getCategory().getName()) // 카테고리 이름
-                .title(community.getTitle())
-                .content(community.getContent())
-                .articleCount(community.getArticleCount())
-                .hits(community.getHits())
-                .startAt(community.getStartAt())
-                .endAt(community.getEndAt())
-                .build();
+    public static CommunityDetail of(Member writer, Community community) {
+
+        return new CommunityDetail(
+                writer.getName(),
+                writer.getProfile(),
+                community.getMaxParticipants(),
+                community.getParticipants().size(),
+                community.getCategory().getName(),
+                community.getTitle(),
+                community.getContent(),
+                community.getArticleCount(),
+                community.getHits(),
+                community.getStartAt(),
+                community.getEndAt()
+        );
     }
 }
