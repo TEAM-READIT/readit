@@ -4,7 +4,6 @@ import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.util.StringUtils;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
@@ -88,7 +87,7 @@ public class ArticleQueryRepository {
 
     public BooleanExpression eqMemberArticleCursor(Boolean hit, Integer cursor,Integer hitCursor){
         if(hit){
-            return Optional.ofNullable(cursor)
+            return Optional.ofNullable(hitCursor)
                     .map(memberArticle.article.hit::loe)
                     .orElse(null);
         } else{

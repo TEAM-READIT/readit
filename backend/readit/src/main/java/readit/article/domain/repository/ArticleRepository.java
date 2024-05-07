@@ -15,8 +15,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
     List<Article> findTop3ByTypeOrderByHitDesc(ArticleType type);
 
     default Article getById(Integer id){
-        return findById(id)
-                .orElseThrow(ArticleNotFoundException::new);
+        return findById(id).orElse(null);
     }
 
     @Query("UPDATE Article a SET a.words = :words WHERE a.id = :articleId")

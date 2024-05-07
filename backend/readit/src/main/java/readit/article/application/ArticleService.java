@@ -74,15 +74,21 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public GetMemberArticleSearchResponse getMyArticleSearchList(String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
-        Article article = articleRepository.getById(cursor);
-        Page<MemberArticle> searchList = articleQueryRepository.findMemberArticleWithFilter(article.getHit(),category,title,content,reporter,hit,cursor,limit);
+        MemberArticle memberArticle = memberArticleRepository.getById(cursor);
+        Integer hitCursor = Optional.ofNullable(memberArticle)
+                .map(m -> memberArticle.getArticle().getHit())
+                .orElse(null);;
+        Page<MemberArticle> searchList = articleQueryRepository.findMemberArticleWithFilter(hitCursor,category,title,content,reporter,hit,cursor,limit);
         return GetMemberArticleSearchResponse.from(searchList);
     }
 
     @Transactional(readOnly = true)
     public GetArticleSearchResponse getArticleSearchList(String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
         Article article = articleRepository.getById(cursor);
-        Page<Article> searchList = articleQueryRepository.findArticleWithFilter(article.getHit(),category,title,content,reporter,hit,cursor,limit);
+        Integer hitCursor = Optional.ofNullable(article)
+                .map(Article::getHit)
+                .orElse(null);;
+        Page<Article> searchList = articleQueryRepository.findArticleWithFilter(hitCursor,category,title,content,reporter,hit,cursor,limit);
         return GetArticleSearchResponse.from(searchList);
     }
 
