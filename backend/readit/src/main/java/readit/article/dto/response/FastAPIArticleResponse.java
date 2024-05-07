@@ -13,16 +13,17 @@ public record FastAPIArticleResponse(
 
 ) {
     public static Article toEntity(FastAPIArticleResponse fastAPIArticleResponse, Category category){
-        return Article
-                .builder()
-                .category(category)
-                .type(ArticleType.NEWS)
-                .content(fastAPIArticleResponse.content())
-                .title(fastAPIArticleResponse.title())
-                .reporter(fastAPIArticleResponse.reporter())
-                .sourceUrl(fastAPIArticleResponse.sourceUrl())
-                .hasWord(false)
-                .hit(0)
-                .build();
+        return new Article(
+                null,
+                category,
+                ArticleType.NEWS,
+                fastAPIArticleResponse.content(),
+                fastAPIArticleResponse.title(),
+                fastAPIArticleResponse.reporter(),
+                fastAPIArticleResponse.sourceUrl(),
+                false,
+                null,
+                0
+        );
     }
 }
