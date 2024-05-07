@@ -29,6 +29,7 @@ public class Community extends BaseTimeEntity {
     @JsonIgnore
     private Category category;
 
+    // todo: Member로 바꾸기
     @Column(nullable = false)
     private Integer writerId;
 

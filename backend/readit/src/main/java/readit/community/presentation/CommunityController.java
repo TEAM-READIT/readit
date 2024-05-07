@@ -29,7 +29,8 @@ public class CommunityController {
     @Operation(summary = "커뮤니티 상세 조회", description = "커뮤니티 상세 조회 기능입니다.")
     public ResponseEntity<GetCommunityDetailResponse> getCommunityDetails(@PathVariable Integer communityId,
                                                                           @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
-        Integer memberId = authCredentials.id();
+        Integer memberId = 1;
+//        memberId = 1;
         GetCommunityDetailResponse response = communityService.getCommunityDetail(communityId, memberId);
         return ResponseEntity.ok(response);
     }
@@ -39,6 +40,7 @@ public class CommunityController {
     public ResponseEntity<Void> joinCommunity(@PathVariable Integer communityId,
                                               @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
+//        memberId = 1;
         communityService.joinCommunity(communityId, memberId);
         return ResponseEntity.ok().build();
     }
@@ -48,6 +50,7 @@ public class CommunityController {
     public ResponseEntity<Void> leaveCommunity(@PathVariable Integer communityId,
                                                @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
+//        memberId = 1;
         communityService.leaveCommunity(communityId, memberId);
         return ResponseEntity.ok().build();
     }
@@ -57,6 +60,7 @@ public class CommunityController {
     public ResponseEntity<Void> createCommunity(@Valid @RequestBody GetCreateCommunityRequest request,
                                                 @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
+//        memberId = 1;
         communityService.createCommunity(request, memberId);
         return ResponseEntity.ok().build();
     }
@@ -66,6 +70,7 @@ public class CommunityController {
     public ResponseEntity<Void> sendChat(@Valid @RequestBody PostChatRequest request,
                                          @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
+//        memberId = 1;
         communityService.sendChat(request, memberId);
         return ResponseEntity.ok().build();
     }
@@ -81,6 +86,7 @@ public class CommunityController {
     @Operation(summary = "내 커뮤니티 조회", description = "내 커뮤니티 조회 기능입니다.")
     public ResponseEntity<GetMyCommunityResponse> getMyCommunityList(@Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
+//        memberId = 1;
         GetMyCommunityResponse response = communityService.getMyCommunityList(memberId);
         return ResponseEntity.ok(response);
     }

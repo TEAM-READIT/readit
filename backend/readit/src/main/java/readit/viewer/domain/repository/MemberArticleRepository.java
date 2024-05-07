@@ -20,11 +20,14 @@ public interface MemberArticleRepository extends JpaRepository<MemberArticle, In
     @Query("UPDATE MemberArticle ma SET ma.score = :score, ma.feedback = :feedback WHERE ma.id = :id")
     void updateScoreAndFeedbackById(Integer id, Integer score, String feedback);
 
-    int countByCommunityIdAndMemberIdAndCompletedAtBetween(
+    @Query("SELECT count(ma) FROM MemberArticle ma " +
+            "WHERE ma.id = :communityId AND ma.memberId = :memberId AND ma.completedAt BETWEEN :start AND :end")
+    int countMyArticleThisWeek(
             Integer communityId, Integer memberId, LocalDateTime start, LocalDateTime end
     );
 
-    List<MemberArticle> findByCommunityIdAndCompletedAtBetween(
+    @Query("SELECT ma FROM MemberArticle ma WHERE ma.id = :communityId AND ma.completedAt BETWEEN :start AND :end")
+    List<MemberArticle> findByCommunityIdInThisWeek(
             Integer communityId,
             LocalDateTime start,
             LocalDateTime end

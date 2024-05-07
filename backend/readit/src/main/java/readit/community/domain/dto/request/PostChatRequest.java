@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record PostChatRequest(
         Integer communityId,
-        @NotNull String content
+        @NotNull(message = "내용은 Null 일 수 없습니다.")
+        String content
 ) {
 }

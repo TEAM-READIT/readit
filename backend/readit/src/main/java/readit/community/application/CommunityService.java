@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.community.domain.dto.CommunityDetail;
-import readit.community.domain.dto.CommunityDetailArticle;
 import readit.community.domain.dto.CommunityDetailMember;
-import readit.community.domain.dto.SimpChatDto;
 import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
 import readit.community.domain.dto.response.GetCommunityDetailResponse;
@@ -31,7 +29,6 @@ import readit.viewer.exception.ValueMissingException;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -48,16 +45,13 @@ public class CommunityService {
 
     public void createCommunity(GetCreateCommunityRequest request, Integer memberId) {
         Community community = communityRepository.save(GetCreateCommunityRequest.toEntity(request, memberId));
-        Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findById(memberId)
-                .orElseThrow(ValueMissingException::new));
-        Participants participants = Participants.create(community, optionalMember.get());
+        Member member = memberRepository.getById(memberId);
+        Participants participants = Participants.create(community, member);
         participantsRepository.save(participants);
     }
 
     public void joinCommunity(Integer communityId, Integer memberId) {
-        Optional<Community> optionalCommunity = Optional.ofNullable(communityRepository.findById(communityId)
-                .orElseThrow(ValueMissingException::new));
-        Community community = optionalCommunity.get();
+        Community community = communityRepository.getById(communityId);
 
         // 이미 가입한 커뮤니티일 때
         if (participantsRepository.findByMemberIdAndCommunityId(memberId, communityId).isPresent()) {
@@ -66,10 +60,8 @@ public class CommunityService {
 
         // 최대 정원보다 적을 때
         if (community.getParticipants().size() < community.getMaxParticipants()) {
-            Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findById(memberId)
-                    .orElseThrow(ValueMissingException::new));
-
-            Participants participants = community.joinParticipant(optionalMember.get());
+            Member member = memberRepository.getById(memberId);
+            Participants participants = community.joinParticipant(member);
             participantsRepository.save(participants);
         } else {
             throw new CommunityFullException();
@@ -87,51 +79,43 @@ public class CommunityService {
     }
 
     public void sendChat(PostChatRequest request, Integer memberId) {
-        Optional<Community> optionalCommunity = Optional.ofNullable(communityRepository.findById(request.communityId())
-                .orElseThrow(ValueMissingException::new));
-        Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findById(memberId)
-                .orElseThrow(ValueMissingException::new));
-
-        chatRepository.save(Chat.create(optionalCommunity.get(), optionalMember.get(), request.content()));
+        Community community = communityRepository.getById(request.communityId());
+        Member member = memberRepository.getById(memberId);
+        chatRepository.save(Chat.create(community, member, request.content()));
     }
 
     @Transactional(readOnly = true)
     public GetCommunityDetailResponse getCommunityDetail(Integer communityId, Integer memberId) {
-        Optional<Community> optionalCommunity = Optional.ofNullable(communityRepository.findById(communityId)
-                .orElseThrow(ValueMissingException::new));
-        Community community = optionalCommunity.get();
+        Community community = communityRepository.getById(communityId);
+        Member writerMember = memberRepository.getById(memberId);
 
-        Optional<Member> optionalWriterMember = Optional.ofNullable(memberRepository.findById(community.getWriterId())
-                .orElseThrow(ValueMissingException::new));
-
-        LocalDateTime[] thisWeek = dateUtil.getCurrentWeek();
-        List<CommunityDetailMember> memberList = community.getParticipants().stream()
-                .map(participant -> {
-                    Member member = participant.getMember();
-                    int readCount = memberArticleRepository.countByCommunityIdAndMemberIdAndCompletedAtBetween(communityId, member.getId(), thisWeek[0], thisWeek[1]);
-                    return CommunityDetailMember.of(member, readCount);
-                })
-                .toList();
-
-        List<MemberArticle> memberArticles = memberArticleRepository.findByCommunityIdAndCompletedAtBetween(communityId, thisWeek[0], thisWeek[1]);
-
-        List<CommunityDetailArticle> articleList = memberArticles.stream()
-                .map(memberArticle -> {
-                    return CommunityDetailArticle.of(memberArticle, memberList);
-                })
-                .toList();
-
-        List<SimpChatDto> simpChatDtoList = chatRepository.findAllByCommunityId(communityId)
-                .stream()
-                .map(SimpChatDto::from)
-                .toList();
+        List<CommunityDetailMember> memberList = createCommunityDetailMemberList(community, DateUtil.startOfWeek, DateUtil.endOfWeek);
+        List<MemberArticle> memberArticles = memberArticleRepository.findByCommunityIdInThisWeek(communityId, DateUtil.startOfWeek, DateUtil.endOfWeek);
+        List<Chat> chatList = chatRepository.findAllByCommunityId(communityId);
 
         return GetCommunityDetailResponse.of(community,
                 memberId,
-                optionalWriterMember.get(),
+                writerMember,
                 memberList,
-                articleList,
-                simpChatDtoList);
+                memberArticles,
+                chatList);
+    }
+
+    private List<CommunityDetailMember> createCommunityDetailMemberList(
+                                                                        Community community,
+                                                                        LocalDateTime startOfWeek,
+                                                                        LocalDateTime endOfWeek) {
+        return community.getParticipants().stream()
+                .map(participant -> CommunityDetailMember.of(
+                        participant.getMember(),
+                        memberArticleRepository.countMyArticleThisWeek(community.getId(),
+                                participant.getMember().getId(),
+                                startOfWeek,
+                                endOfWeek
+                        )
+                    )
+                )
+                .toList();
     }
 
     @Transactional(readOnly = true)
