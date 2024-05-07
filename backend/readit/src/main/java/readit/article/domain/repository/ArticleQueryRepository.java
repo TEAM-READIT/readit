@@ -58,43 +58,43 @@ public class ArticleQueryRepository {
     }
 
     public BooleanExpression eqArticleCursor(Boolean hit, Integer cursor,Integer hitCursor){
-        if(hit){
-            return Optional.ofNullable(hitCursor)
-                    .map(article.hit::loe)
-                    .orElse(null);
-        } else{
-            return Optional.ofNullable(cursor)
-                    .map(article.id::gt)
-                    .orElse(null);
-        }
+        return Optional.ofNullable(hit)
+                .flatMap(isHit -> {
+                    if (isHit) {
+                        return Optional.ofNullable(hitCursor).map(article.hit::loe);
+                    } else {
+                        return Optional.ofNullable(cursor).map(article.id::gt);
+                    }
+                })
+                .orElse(null);
     }
 
     public BooleanExpression eqArticleHitCursor(Boolean hit, Integer cursor){
-        if(hit){
-            return Optional.ofNullable(cursor)
-                    .map(article.id::gt)
-                    .orElse(null);
-        } else return null;
+        return Optional.ofNullable(hit)
+                .filter(Boolean::booleanValue)
+                .flatMap(h -> Optional.ofNullable(cursor))
+                .map(article.id::gt)
+                .orElse(null);
     }
 
     public BooleanExpression eqMemberArticleHitCursor(Boolean hit, Integer cursor){
-        if(hit){
-            return Optional.ofNullable(cursor)
-                    .map(memberArticle.article.id::gt)
-                    .orElse(null);
-        } else return null;
+        return Optional.ofNullable(hit)
+                .filter(Boolean::booleanValue)
+                .flatMap(h -> Optional.ofNullable(cursor))
+                .map(memberArticle.article.id::gt)
+                .orElse(null);
     }
 
     public BooleanExpression eqMemberArticleCursor(Boolean hit, Integer cursor,Integer hitCursor){
-        if(hit){
-            return Optional.ofNullable(hitCursor)
-                    .map(memberArticle.article.hit::loe)
-                    .orElse(null);
-        } else{
-            return Optional.ofNullable(cursor)
-                    .map(memberArticle.article.id::gt)
-                    .orElse(null);
-        }
+        return Optional.ofNullable(hit)
+                .flatMap(isHit -> {
+                    if (isHit) {
+                        return Optional.ofNullable(hitCursor).map(memberArticle.article.hit::loe);
+                    } else {
+                        return Optional.ofNullable(cursor).map(memberArticle.article.id::gt);
+                    }
+                })
+                .orElse(null);
     }
 
     public OrderSpecifier<?> sortArticleByHit(Boolean hit){
