@@ -2,7 +2,6 @@ import { Card } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import communityList from '../../types/communityProps';
-import Community from '../Community';
 
 const PopCommu = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -11,13 +10,12 @@ const PopCommu = () => {
 
 	// 커뮤니티 조회수
 	const hits = async (communityId: number) => {
-		const data = await fetch(`${baseUrl}/article/hits/${communityId}`).then((response) => response.json());
+		const data = await fetch(`${baseUrl}/community/hits/${communityId}`).then((response) => response.json());
 		return data;
 	};
 
 	// 커뮤니티 상세 페이지 이동 && 조회수 올리기
 	const handleCardClick = (community: communityList) => {
-		console.log(community);
 		navigate('/detail', { state: { community } });
 		hits(community.communityId!);
 	};
@@ -36,10 +34,7 @@ const PopCommu = () => {
 			});
 	}, []);
 
-	console.log(popCommunity);
-	const communityLst = popCommunity?.communityList
-	console.log(communityLst)
-	
+	const communitys = popCommunity?.communityList
 	return (
 		<>
 			<div className='flex flex-col w-full items-center pb-32'>
@@ -60,7 +55,7 @@ const PopCommu = () => {
 					<>
 						{page == 1 ? (
 							<>
-								{communityLst?.slice(0, 4).map((community, index) => (
+								{communitys?.slice(0, 4).map((community, index) => (
 									<Card
 										key={index}
 										className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
@@ -85,7 +80,7 @@ const PopCommu = () => {
 						) : (
 							<>
 								{' '}
-								{communityLst?.slice(4, 8).map((community, index) => (
+								{communitys?.slice(4, 8).map((community, index) => (
 									<Card
 										key={index}
 										className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'

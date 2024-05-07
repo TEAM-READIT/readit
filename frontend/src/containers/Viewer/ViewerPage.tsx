@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Headers from '../../components/Headers';
 import UpArrow from '../../assets/images/up-arrow.png';
 import DownArrow from '../../assets/images/down-arrow.png';
@@ -8,29 +8,23 @@ import { Memos } from './Memo/Memos';
 import { Button, Card } from 'flowbite-react';
 import { MainText } from './TextArea/MainText';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-	useMutation,
-	// useQuery
-} from 'react-query';
+import { useMutation } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import useModal from '../../hooks/useModal';
-// import { articleList } from '../../types/articleProps';
 interface FeedBackProps {
 	score: number;
 	feedback: string;
 }
 
-// interface wordListProps {
-// 	word: string;
-// 	definition: string;
-// }
-
-
-interface RequestBody {
-  content: string;
-  summary: string; 
+interface wordListProps {
+	word: string;
+	definition: string;
 }
 
+interface RequestBody {
+	content: string;
+	summary: string;
+}
 
 export const ViewerPage = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -41,7 +35,8 @@ export const ViewerPage = () => {
 	const article = location.state?.article;
 	// const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
 	const navigate = useNavigate();
-	// const [wordList, setWordList] = useState<wordListProps[]>();
+	const [wordList, setWordList] = useState<wordListProps[]>();
+	console.log(wordList);
 	const [isOpen, open, close] = useModal();
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
@@ -52,21 +47,40 @@ export const ViewerPage = () => {
 	const toggleBottom = () => {
 		setBottomOpen(!isBottomOpen);
 	};
+	const id = article.id;
+	console.log(id);
+	console.log(article);
 
-	// 모르는 단어 불러오기
-	// const { data } = useQuery('article', async () => {
-	// 	const response = await fetch(`${baseUrl}/viewer/${article.articleId}`);
-	// 	const data = await response.json();
-	// 	setWordList(data);
-	// 	return data;
-	// });
+	// 어려운 단어 불러오기
+	const fetchWord = async () => {
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/viewer/${id}`, {
+			headers: headers,
+		});
+		const data = await response.json();
+		return data;
+	};
 
+	// 안읽은 글 호출 함수
+	const fetchUnreadData = async () => {
+		try {
+			const data = await fetchWord();
+			setWordList(data);
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	};
+
+	useEffect(() => {
+		fetchUnreadData();
+	}, []);
 	// 제출 POST
 	const requestbody: RequestBody = {
 		content: '',
 		summary: summary,
 	};
-
 
 	const summarySubmit = useMutation(async () => {
 		const response = await fetch(`${baseUrl}/viewer/submission/${article.articleId}`, {
@@ -121,19 +135,13 @@ export const ViewerPage = () => {
 			<div className=' z-50 w-full h-screen flex flex-col items-center  overflow-hidden'>
 				<Headers />
 				<div className='relative flex w-full'>
-					<div
-						className={` relative flex flex-col w-5/6 h-screen transition-all duration-300 ease-in-out`}
-					>
+					<div className={` relative flex flex-col w-5/6 h-screen transition-all duration-300 ease-in-out`}>
 						<div
 							className={`relative flex w-full ${isBottomOpen ? 'h-3/5' : 'h-[88%]'} transition-all duration-300 ease-in-out`}
 						>
-							<DictionarySearch/>
-								<div className='w-full h-full relative'>
-									<MainText
-										setMemos={setMemos}
-										article={article}
-									/>
-									
+							<DictionarySearch />
+							<div className='w-full h-full relative'>
+								<MainText setMemos={setMemos} article={article} />
 							</div>
 						</div>
 						<div
@@ -149,30 +157,22 @@ export const ViewerPage = () => {
 							</div>
 						</div>
 					</div>
-					<div
-						className='relative flex h-screen transition-all duration-300 ease-in-out border-solid border-2 w-1/6'
-					>
-
-						<div
-							className='w-full h-full transition-all duration-300 ease-in-out block '
-						>
+					<div className='relative flex h-screen transition-all duration-300 ease-in-out border-solid border-2 w-1/6'>
+						<div className='w-full h-full transition-all duration-300 ease-in-out block '>
 							<div className='overflow-y-auto overflow-x-hidden h-[85%] p-10'>
-								
-							<Memos
-								memos={memos}
-								/>
-								</div>
+								<Memos memos={memos} />
+							</div>
 							<div className='flex flex-row items-center w-full justify-center px-10 gap-5  '>
-									<Button className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500'>
-										<div className='flex items-center'>
-											<span onClick={handleTempSubmit}>임시 저장</span>
-										</div>
-									</Button>
-									<Button className='w-full border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'>
-										<div className='flex items-center'>
-											<span onClick={handleSubmit}>제출</span>
-										</div>
-									</Button>
+								<Button className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500'>
+									<div className='flex items-center'>
+										<span onClick={handleTempSubmit}>임시 저장</span>
+									</div>
+								</Button>
+								<Button className='w-full border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'>
+									<div className='flex items-center'>
+										<span onClick={handleSubmit}>제출</span>
+									</div>
+								</Button>
 							</div>
 						</div>
 					</div>
