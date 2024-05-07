@@ -16,6 +16,7 @@ public record GetCommunityDetailResponse(
         List<CommunityDetailArticle> articleList,
         List<SimpChatDto> chatList
 ) {
+
     public static GetCommunityDetailResponse of(Community community,
                                                 Integer memberId,
                                                 Member writer,

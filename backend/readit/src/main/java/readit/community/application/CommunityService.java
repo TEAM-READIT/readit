@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import readit.community.domain.dto.ArticleDetail;
 import readit.community.domain.dto.CommunityDetail;
 import readit.community.domain.dto.CommunityDetailArticle;
 import readit.community.domain.dto.CommunityDetailMember;
-import readit.community.domain.dto.MyCommunityDetail;
 import readit.community.domain.dto.SimpChatDto;
 import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
@@ -59,7 +57,6 @@ public class CommunityService {
     public void joinCommunity(Integer communityId, Integer memberId) {
         Optional<Community> optionalCommunity = Optional.ofNullable(communityRepository.findById(communityId)
                 .orElseThrow(ValueMissingException::new));
-
         Community community = optionalCommunity.get();
 
         // 이미 가입한 커뮤니티일 때
@@ -71,8 +68,8 @@ public class CommunityService {
         if (community.getParticipants().size() < community.getMaxParticipants()) {
             Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findById(memberId)
                     .orElseThrow(ValueMissingException::new));
-            Member member = optionalMember.get();
-            Participants participants = community.joinParticipant(member);
+
+            Participants participants = community.joinParticipant(optionalMember.get());
             participantsRepository.save(participants);
         } else {
             throw new CommunityFullException();
@@ -83,7 +80,10 @@ public class CommunityService {
         if (participantsRepository.deleteByMemberIdAndCommunityId(memberId, communityId) != 1) {
             throw new DeletionFailedException();
         };
-        // todo: 커뮤니티 삭제 기능 구현 or 정원 0명 되면 자동 삭제
+
+        if (communityRepository.countParticipantsByCommunityId(communityId) == 0) {
+            communityRepository.deleteById(communityId);
+        }
     }
 
     public void sendChat(PostChatRequest request, Integer memberId) {
@@ -117,25 +117,10 @@ public class CommunityService {
 
         List<CommunityDetailArticle> articleList = memberArticles.stream()
                 .map(memberArticle -> {
-                    // MemberArticle에서 memberId 가져오기
-                    Integer communityMemberId = memberArticle.getMemberId();
-
-                    // memberList에서 해당 memberId에 해당하는 CommunityDetailMember 찾기
-                    CommunityDetailMember matchingMember = memberList.stream()
-                            .filter(member -> member.memberId().equals(communityMemberId))
-                            .findFirst()
-                            .orElseThrow(ValueMissingException::new);
-
-                    ArticleDetail articleDetail = ArticleDetail.from(memberArticle);
-                    // CommunityDetailArticle 생성
-                    return CommunityDetailArticle.of(matchingMember, articleDetail);
+                    return CommunityDetailArticle.of(memberArticle, memberList);
                 })
                 .toList();
 
-        // currentParticipants : Participants에서 현재 사이즈 가져오기
-        int currentParticipants = community.getParticipants().size();
-
-        // chatList 가져오기
         List<SimpChatDto> simpChatDtoList = chatRepository.findAllByCommunityId(communityId)
                 .stream()
                 .map(SimpChatDto::from)
@@ -152,30 +137,24 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public GetHotCommunityResponse getHotCommunityList() {
         List<Community> communityList = communityRepository.findTop8ByOrderByHitsDesc();
+        List<CommunityDetail> communityDetailList = mapToCommunityDetails(communityList);
+        return GetHotCommunityResponse.from(communityDetailList);
+    }
 
-        List<CommunityDetail> communityDetailList = communityList.stream()
+    private List<CommunityDetail> mapToCommunityDetails(List<Community> communityList) {
+        return communityList.stream()
                 .map(community -> {
                     Member member = memberRepository.findById(community.getWriterId())
                             .orElseThrow(ValueMissingException::new);
                     return CommunityDetail.of(member, community);
                 })
                 .toList();
-
-        return GetHotCommunityResponse.builder()
-                .communityList(communityDetailList)
-                .build();
     }
 
     @Transactional(readOnly = true)
     public GetMyCommunityResponse getMyCommunityList(Integer memberId) {
         List<Community> communityList = communityRepository.findAllByMemberId(memberId);
-        List<MyCommunityDetail> myCommunityList = communityList.stream()
-                .map(MyCommunityDetail::from)
-                .toList();
-
-        return GetMyCommunityResponse.builder()
-                .communityList(myCommunityList)
-                .build();
+        return GetMyCommunityResponse.from(communityList);
     }
 
     public void increaseHits(Integer communityId) {
