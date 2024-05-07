@@ -10,9 +10,8 @@ import { useAuthStore } from '../../store/auth';
 
 const Essay = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	const { accessToken } = useAuthStore();
-
 	const [filter, setFilter] = useState<string>('');
+	const { accessToken } = useAuthStore();
 	const observerRef = useRef(null);
 	const location = useLocation();
 	// const categoryName = location.state?.categoryName;
@@ -20,7 +19,7 @@ const Essay = () => {
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
 	const limit = 12;
-	const [page, setPage] = useState<number | undefined>(0);
+	const [page, setPage] = useState<number>(0);
 	const [totalArticles, setTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
 
 	// 데이터를 가져오는 함수
@@ -31,7 +30,6 @@ const Essay = () => {
 		const response = await fetch(`${baseUrl}/article/search/article?${filter}&cursor=${page}&limit=${limit}`, {
 			headers: headers,
 		});
-		console.log(`${baseUrl}/article/search/article?${filter}&cursor=${page}&limit=${limit}`);
 		const data = await response.json();
 		return data;
 	};
@@ -57,7 +55,10 @@ const Essay = () => {
 	useEffect(() => {
 		if (totalArticles) {
 			const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
-			setPage(lastArticleId);
+			setPage(lastArticleId!);
+		} else {
+			setPage(1);
+			console.log('마지막 인덱스 없어요');
 		}
 	}, [totalArticles]);
 
@@ -96,16 +97,25 @@ const Essay = () => {
 		return () => observer.unobserve(element);
 	}, [fetchNextPage, hasNextPage, handleObserver]);
 
+
+
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
-	useEffect(() => {
+const fetchData = async () => {
+	try {
 		setPage(1);
-		totalArticleData(1, filter)
-			.then((res) => {
-				setTotalArticle(res);
-			})
-			.catch((_err) => {
-			});
-	}, [filter]);
+		const data = await totalArticleData(1, filter);
+		setTotalArticle(data);
+	} catch (error) {
+		console.error('Error fetching data:', error);
+	}
+};
+
+useEffect(() => {
+	fetchData();
+	console.log('fetchData 이후에 바뀐 total', totalArticles)
+}, [filter]);
+
+
 	return (
 		<>
 			<div className='w-full h-full flex justify-center flex-col items-center'>

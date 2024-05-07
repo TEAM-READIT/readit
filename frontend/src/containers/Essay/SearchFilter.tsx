@@ -31,7 +31,6 @@ const SearchFilter = ({ setFilter }: SearchFilterProps) => {
 		}
 		// 마지막 & 제거
 		filtered = filtered.slice(0, -1);
-		console.log(filtered)
 		setFilter(filtered);
 	};
 	return (

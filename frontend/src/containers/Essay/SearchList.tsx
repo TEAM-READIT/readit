@@ -28,6 +28,17 @@ const SearchList = ({
 		return data;
 	};
 
+	// 필터가 변경될 때마다 호출되는 useEffect
+	useEffect(() => {
+		console.log('필터가 변경되었습니다.', filter);
+		console.log('변경된 totalArticles:', totalArticles.articleList);
+		
+		setArticles(totalArticles.articleList); // 새로운 배열 생성하여 상태 업데이트
+	}, [filter]);
+
+	useEffect(() => {
+		console.log('여기서 값이 바꼈을 때 다시 렌더링');
+	}, [setArticles]);
 
 	const handleCardClick = (article: articleList, communityId: number | null) => {
 		navigate('/text', { state: { article, communityId } });
