@@ -70,19 +70,19 @@ public class ArticleQueryRepository {
     }
 
     public BooleanExpression eqArticleHitCursor(Boolean hit, Integer cursor){
-        if(hit){
-            return Optional.ofNullable(cursor)
-                    .map(article.id::gt)
-                    .orElse(null);
-        } else return null;
+        return Optional.ofNullable(hit)
+                .filter(Boolean::booleanValue)
+                .flatMap(h -> Optional.ofNullable(cursor))
+                .map(article.id::gt)
+                .orElse(null);
     }
 
     public BooleanExpression eqMemberArticleHitCursor(Boolean hit, Integer cursor){
-        if(hit){
-            return Optional.ofNullable(cursor)
-                    .map(memberArticle.article.id::gt)
-                    .orElse(null);
-        } else return null;
+        return Optional.ofNullable(hit)
+                .filter(Boolean::booleanValue)
+                .flatMap(h -> Optional.ofNullable(cursor))
+                .map(memberArticle.article.id::gt)
+                .orElse(null);
     }
 
     public BooleanExpression eqMemberArticleCursor(Boolean hit, Integer cursor,Integer hitCursor){
