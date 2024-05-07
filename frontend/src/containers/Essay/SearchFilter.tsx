@@ -1,18 +1,18 @@
-import { Button, Card } from 'flowbite-react';
+import { Card, Checkbox } from 'flowbite-react';
 import { useState } from 'react';
 interface SearchFilterProps {
 	setFilter: React.Dispatch<React.SetStateAction<string>>;
+	setIsMember: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SearchFilter = ({ setFilter }: SearchFilterProps) => {
+const SearchFilter = ({ setFilter, setIsMember }: SearchFilterProps) => {
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
-	// const [ishit, setIshit] = useState<boolean>(false);
-	// const [isMember, setIsMember] = useState<boolean>(false);
+	const [ishit, setIshit] = useState<boolean>(false);
 	const handleApplyFilter = () => {
 		const filter = {
-			// hit: ishit,
+			hit: ishit,
 			// isMember: isMember,
 			categoryName: category,
 		};
@@ -20,9 +20,9 @@ const SearchFilter = ({ setFilter }: SearchFilterProps) => {
 		if (searchType != '' && keyword) {
 			filtered += `${searchType}=${keyword}$`;
 		}
-		// if (filter.hit) {
-		// 	filtered += `hit=true$`;
-		// }
+		if (filter.hit) {
+			filtered += `hit=true$`;
+		}
 		// if (filter.isMember) {
 		// 	filtered += `isMember=true$`;
 		// }
@@ -42,6 +42,12 @@ const SearchFilter = ({ setFilter }: SearchFilterProps) => {
 							<div className='w-full flex flex-col gap-y-5'>
 								<p className='font-semibold text-md border-b-2 border-gray-200 mb-2 pb-1'>검색 필터</p>
 								<div className='flex flex-col gap-4'>
+									<div className='flex flex-row items-center gap-10'>
+										<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수</div>
+									</div>
+									<div className='flex flex-row items-center gap-10'>
+										<Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div>
+									</div>
 									<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
 										<option value='title'>제목</option>
 										<option value='content'>내용</option>
@@ -67,7 +73,7 @@ const SearchFilter = ({ setFilter }: SearchFilterProps) => {
 									</select>
 								</div>
 
-								<button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
+								<button className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
 									<div className='flex items-center gap-2' onClick={handleApplyFilter}>
 										<span className='material-symbols-outlined text-[1.2rem]'>search</span>
 										<span>검색</span>
