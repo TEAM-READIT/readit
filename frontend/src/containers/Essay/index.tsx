@@ -104,15 +104,20 @@ const fetchData = async () => {
 	try {
 		setPage(1);
 		const data = await totalArticleData(1, filter);
+		console.log('받아온 새로운 필터된 data 1', data)
 		setTotalArticle(data);
 	} catch (error) {
 		console.error('Error fetching data:', error);
 	}
 };
 
+useEffect(()=> {
+		console.log(totalArticles);
+},[fetchData])
+
+
 useEffect(() => {
 	fetchData();
-	console.log('fetchData 이후에 바뀐 total', totalArticles)
 }, [filter]);
 
 
