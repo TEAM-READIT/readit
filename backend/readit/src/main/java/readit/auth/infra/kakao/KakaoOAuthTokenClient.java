@@ -1,6 +1,7 @@
 package readit.auth.infra.kakao;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -29,7 +30,7 @@ public class KakaoOAuthTokenClient implements OAuthTokenClient {
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .bodyValue(body)
                 .retrieve()
-                .onStatus(httpStatus -> httpStatus.is4xxClientError(), clientResponse -> Mono.error(new TokenMissingException()))
+                .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new TokenMissingException()))
                 .bodyToMono(KakaoTokenResponse.class)
                 .handle((kakaoTokenResponse, sink) -> {
                     if (kakaoTokenResponse == null || kakaoTokenResponse.accessToken() == null) {
