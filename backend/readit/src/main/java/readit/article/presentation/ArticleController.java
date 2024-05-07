@@ -63,7 +63,7 @@ public class ArticleController {
                                                                 @RequestParam(required = false) String reporter,
                                                                 @RequestParam(required = false) Boolean hit,
                                                                 @RequestParam(required = false) Integer cursor,
-                                                                @RequestParam(defaultValue = "8")  Integer limit){
+                                                                @RequestParam(defaultValue = "12")  Integer limit){
         GetArticleSearchResponse searchListResponse = articleService.getArticleSearchList(category,title,content,reporter,hit,cursor,limit);
         return ResponseEntity.ok(searchListResponse);
     }

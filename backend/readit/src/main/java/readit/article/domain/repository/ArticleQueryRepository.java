@@ -14,6 +14,7 @@ import readit.article.dto.Page;
 import readit.viewer.domain.entity.MemberArticle;
 
 import java.util.List;
+import java.util.Optional;
 
 import static readit.article.domain.QArticle.article;
 import static readit.viewer.domain.entity.QMemberArticle.memberArticle;
@@ -21,7 +22,7 @@ import static readit.viewer.domain.entity.QMemberArticle.memberArticle;
 @Repository
 @RequiredArgsConstructor
 public class ArticleQueryRepository {
-        private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
     public Page<Article> findArticleWithFilter(String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
         List<Article> articles = queryFactory // 모든 글 목록
@@ -56,19 +57,15 @@ public class ArticleQueryRepository {
     }
 
     public BooleanExpression eqArticleCursor(Integer cursor){
-        if(cursor==null){
-            return null;
-        }
-
-        return article.id.gt(cursor);
+        return Optional.ofNullable(cursor)
+                .map(article.id::gt)
+                .orElse(null);
     }
 
     public BooleanExpression eqMemberArticleCursor(Integer cursor){
-        if(cursor==null){
-            return null;
-        }
-
-        return memberArticle.article.id.gt(cursor);
+        return Optional.ofNullable(cursor)
+                .map(memberArticle.article.id::gt)
+                .orElse(null);
     }
 
     public OrderSpecifier<?> sortArticleByHit(Boolean hit){
@@ -96,66 +93,50 @@ public class ArticleQueryRepository {
     }
 
     public BooleanExpression eqArticleContent(String content){
-        if(StringUtils.isNullOrEmpty(content)){
-            return null;
-        }
-
-        return article.content.contains(content);
+        return Optional.ofNullable(content)
+                .map(article.content::contains)
+                .orElse(null);
     }
 
     public BooleanExpression eqMemberArticleContent(String content){
-        if(StringUtils.isNullOrEmpty(content)){
-            return null;
-        }
-
-        return memberArticle.content.contains(content);
+        return Optional.ofNullable(content)
+                .map(memberArticle.content::contains)
+                .orElse(null);
     }
 
     public BooleanExpression eqArticleReporter(String reporter){
-        if(StringUtils.isNullOrEmpty(reporter)){
-            return null;
-        }
-
-        return article.reporter.contains(reporter);
+        return Optional.ofNullable(reporter)
+                .map(article.reporter::contains)
+                .orElse(null);
     }
 
     public BooleanExpression eqMemberArticleReporter(String reporter){
-        if(StringUtils.isNullOrEmpty(reporter)){
-            return null;
-        }
-
-        return memberArticle.article.reporter.contains(reporter);
+        return Optional.ofNullable(reporter)
+                .map(memberArticle.article.reporter::contains)
+                .orElse(null);
     }
 
     public BooleanExpression eqArticleTitle(String title){
-        if(StringUtils.isNullOrEmpty(title)){
-            return null;
-        }
-
-        return article.title.contains(title);
+        return Optional.ofNullable(title)
+                .map(article.title::contains)
+                .orElse(null);
     }
 
     public BooleanExpression eqMemberArticleTitle(String title){
-        if(StringUtils.isNullOrEmpty(title)){
-            return null;
-        }
-
-        return memberArticle.article.title.contains(title);
+        return Optional.ofNullable(title)
+                .map(memberArticle.article.title::contains)
+                .orElse(null);
     }
 
     public BooleanExpression eqArticleCategory(String category){
-        if(StringUtils.isNullOrEmpty(category)){
-            return null;
-        }
-
-        return article.category.name.eq(category);
+        return Optional.ofNullable(category)
+                .map(article.category.name::eq)
+                .orElse(null);
     }
 
     public BooleanExpression eqMemberArticleCategory(String category){
-        if(StringUtils.isNullOrEmpty(category)){
-            return null;
-        }
-
-        return memberArticle.article.category.name.eq(category);
+        return Optional.ofNullable(category)
+                .map(memberArticle.article.category.name::eq)
+                .orElse(null);
     }
 }
