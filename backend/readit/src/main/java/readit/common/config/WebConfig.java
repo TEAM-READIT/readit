@@ -4,11 +4,9 @@ package readit.common.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import readit.auth.presentation.JwtArgumentResolver;
+import readit.common.interceptor.LoggingInterceptor;
 
 import java.util.List;
 
@@ -16,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     private final JwtArgumentResolver jwtArgumentResolver;
+    private final LoggingInterceptor loggingInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -27,6 +26,12 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(jwtArgumentResolver);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loggingInterceptor)
+                .addPathPatterns("/**");
     }
 }
 

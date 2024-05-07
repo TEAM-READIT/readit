@@ -18,7 +18,7 @@ public class GoogleOAuthClient implements OAuthClient {
     @Override
     public Mono<OAuthMemberResponse> request(String authCode, String redirectUri) {
         return googleOAuthTokenClient.getAccessToken(authCode, redirectUri)
-                .flatMap(accessToken -> googleOAuthMemberInfoClient.getMember(accessToken));
+                .flatMap(googleOAuthMemberInfoClient::getMember);
     }
 
     @Override

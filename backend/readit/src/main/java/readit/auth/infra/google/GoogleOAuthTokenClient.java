@@ -1,6 +1,7 @@
 package readit.auth.infra.google;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -32,13 +33,14 @@ public class GoogleOAuthTokenClient implements OAuthTokenClient {
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .bodyValue(body)
                 .retrieve()
-                .onStatus(httpStatus -> httpStatus.is4xxClientError(), clientResponse -> Mono.error(new TokenMissingException()))
+                .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new TokenMissingException()))
                 .bodyToMono(GoogleTokenResponse.class)
-                .map(googleTokenResponse -> {
+                .handle((googleTokenResponse, sink) -> {
                     if (googleTokenResponse == null || googleTokenResponse.accessToken() == null) {
-                        throw new TokenMissingException();
+                        sink.error(new TokenMissingException());
+                        return;
                     }
-                    return googleTokenResponse.accessToken();
+                    sink.next(googleTokenResponse.accessToken());
                 });
     }
 
@@ -48,7 +50,7 @@ public class GoogleOAuthTokenClient implements OAuthTokenClient {
         body.add("client_secret", googleCredentials.getClientSecret());
         body.add("code", authCode);
         body.add("grant_type", GRANT_TYPE);
-        body.add("redirect_uri", redirectUri);
+        body.add("redirect_uri", googleCredentials.getRedirectUri());
         return body;
     }
 }

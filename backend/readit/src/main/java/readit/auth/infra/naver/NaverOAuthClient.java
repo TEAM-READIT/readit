@@ -18,7 +18,7 @@ public class NaverOAuthClient implements OAuthClient {
     @Override
     public Mono<OAuthMemberResponse> request(String authCode, String redirectUri) {
         return naverOAuthTokenClient.getAccessToken(authCode, redirectUri)
-                .flatMap(accessToken -> naverOAuthMemberInfoClient.getMember(accessToken));
+                .flatMap(naverOAuthMemberInfoClient::getMember);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package readit.auth.infra.naver;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -30,7 +31,7 @@ public class NaverOAuthTokenClient implements OAuthTokenClient {
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .bodyValue(params)
                 .retrieve()
-                .onStatus(httpStatus -> httpStatus.is4xxClientError(), clientResponse -> Mono.error(new TokenMissingException()))
+                .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new TokenMissingException()))
                 .bodyToMono(NaverTokenResponse.class)
                 .handle((naverTokenResponse, sink) -> {
                     if (naverTokenResponse == null || naverTokenResponse.accessToken() == null) {
@@ -48,7 +49,7 @@ public class NaverOAuthTokenClient implements OAuthTokenClient {
         params.add("client_secret", naverCredentials.getClientSecret());
         params.add("code", authCode);
         params.add("state", STATE);
-        params.add("redirect_uri", redirectUri);
+        params.add("redirect_uri", naverCredentials.getRedirectUri());
         return params;
     }
 }
