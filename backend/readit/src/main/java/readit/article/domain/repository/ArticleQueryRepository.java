@@ -24,11 +24,12 @@ import static readit.viewer.domain.entity.QMemberArticle.memberArticle;
 public class ArticleQueryRepository {
     private final JPAQueryFactory queryFactory;
 
-    public Page<Article> findArticleWithFilter(String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
+    public Page<Article> findArticleWithFilter(Integer hitCursor, String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
         List<Article> articles = queryFactory // 모든 글 목록
                 .selectFrom(article)
                 .where(
-                        eqArticleCursor(cursor),
+                        eqArticleCursor(hit,cursor,hitCursor),
+                        eqArticleHitCursor(hit,cursor),
                         eqArticleCategory(category),
                         eqArticleTitle(title),
                         eqArticleContent(content),
@@ -40,11 +41,12 @@ public class ArticleQueryRepository {
         return new Page<>(articles,limit);
     }
 
-    public Page<MemberArticle> findMemberArticleWithFilter(String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
+    public Page<MemberArticle> findMemberArticleWithFilter(Integer hitCursor, String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
         List<MemberArticle> memberArticles =  queryFactory
                 .selectFrom(memberArticle)
                 .where(
-                        eqMemberArticleCursor(cursor),
+                        eqMemberArticleCursor(hit,cursor,hitCursor),
+                        eqMemberArticleHitCursor(hit,cursor),
                         eqMemberArticleCategory(category),
                         eqMemberArticleTitle(title),
                         eqMemberArticleContent(content),
@@ -56,39 +58,61 @@ public class ArticleQueryRepository {
         return new Page<>(memberArticles,limit);
     }
 
-    public BooleanExpression eqArticleCursor(Integer cursor){
-        return Optional.ofNullable(cursor)
-                .map(article.id::gt)
-                .orElse(null);
+    public BooleanExpression eqArticleCursor(Boolean hit, Integer cursor,Integer hitCursor){
+        if(hit){
+            return Optional.ofNullable(hitCursor)
+                    .map(article.hit::loe)
+                    .orElse(null);
+        } else{
+            return Optional.ofNullable(cursor)
+                    .map(article.id::gt)
+                    .orElse(null);
+        }
     }
 
-    public BooleanExpression eqMemberArticleCursor(Integer cursor){
-        return Optional.ofNullable(cursor)
-                .map(memberArticle.article.id::gt)
-                .orElse(null);
+    public BooleanExpression eqArticleHitCursor(Boolean hit, Integer cursor){
+        if(hit){
+            return Optional.ofNullable(cursor)
+                    .map(article.id::gt)
+                    .orElse(null);
+        } else return null;
+    }
+
+    public BooleanExpression eqMemberArticleHitCursor(Boolean hit, Integer cursor){
+        if(hit){
+            return Optional.ofNullable(cursor)
+                    .map(memberArticle.article.id::gt)
+                    .orElse(null);
+        } else return null;
+    }
+
+    public BooleanExpression eqMemberArticleCursor(Boolean hit, Integer cursor,Integer hitCursor){
+        if(hit){
+            return Optional.ofNullable(cursor)
+                    .map(memberArticle.article.hit::loe)
+                    .orElse(null);
+        } else{
+            return Optional.ofNullable(cursor)
+                    .map(memberArticle.article.id::gt)
+                    .orElse(null);
+        }
     }
 
     public OrderSpecifier<?> sortArticleByHit(Boolean hit){
-        if(hit == null){
+        if(BooleanUtils.isTrue(hit)){
+            return new OrderSpecifier<>(Order.DESC,article.hit);
+        }
+        else{
             return new OrderSpecifier(Order.ASC, NullExpression.DEFAULT, OrderSpecifier.NullHandling.Default);
-        }
-        else if(BooleanUtils.isTrue(hit)){
-            return new OrderSpecifier<>(Order.ASC,article.hit);
-        }
-        else {
-            return new OrderSpecifier<>(Order.DESC, article.hit);
         }
     }
 
     public OrderSpecifier<?> sortMemberArticleByHit(Boolean hit){
-        if(hit == null){
+        if(BooleanUtils.isTrue(hit)){
+            return new OrderSpecifier<>(Order.DESC,memberArticle.article.hit);
+        }
+        else{
             return new OrderSpecifier(Order.ASC, NullExpression.DEFAULT, OrderSpecifier.NullHandling.Default);
-        }
-        else if(BooleanUtils.isTrue(hit)){
-            return new OrderSpecifier<>(Order.ASC,memberArticle.article.hit);
-        }
-        else {
-            return new OrderSpecifier<>(Order.DESC, memberArticle.article.hit);
         }
     }
 
