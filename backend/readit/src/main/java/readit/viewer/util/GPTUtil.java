@@ -42,8 +42,8 @@ public class GPTUtil {
                 extractWordsFromContent(parseResponse(response)));
     }
 
-    @Async
     // 요약 평가 프롬프트 요청
+    @Async
     public CompletableFuture<SubmissionResponse> promptSummary(List<GPTMessage> messages) {
         String response = sendPromptAndGetResponse(messages);
         return CompletableFuture.completedFuture(
