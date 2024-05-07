@@ -22,7 +22,7 @@ public record GetMemberArticleResponse(
         return new GetMemberArticleResponse(
                 memberArticle.getId(),
                 memberArticle.getArticle().getTitle(),
-                memberArticle.getArticle().getContent(),
+                memberArticle.getContent(),
                 memberArticle.getArticle().getType().toString(),
                 memberArticle.getArticle().getCategory().getName(),
                 memberArticle.getArticle().getReporter(),
