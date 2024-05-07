@@ -1,11 +1,12 @@
 import Headers from '../../components/Headers';
-import SearchFilter from './SearchFilter';
+import SearchFilter from './SearchFilter2';
 import EssayHeader from './EssayHeader';
 import SearchList from './SearchList';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { articleList } from '../../types/articleProps';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { useAuthStore } from '../../store/auth';
 
 const Essay02 = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -14,6 +15,7 @@ const Essay02 = () => {
 	const location = useLocation();
 	const categoryName = location.state?.categoryName;
 	const communityId = location.state?.communityId;
+	const { accessToken } = useAuthStore();
 
 	const limit = 12; // 한 페이지에 필요한 데이터(기사) 개수
 	const [page, setPage] = useState<number>(1); // 현재 데이터를 받아와야 하는 페이지
@@ -23,11 +25,14 @@ const Essay02 = () => {
 
 	// 데이터를 받아올 api, limit은 고정, page랑 filter만 변경
 	const totalArticleData = async (page: number, filter: string) => {
-		const response = await fetch(`${baseUrl}/article/list?${filter}&cursor=${page}&limit=${limit}`).then((response) =>
-			response.json(),
-		);
-		console.log(`${baseUrl}/article/list?${filter}&cursor=${page}&limit=${limit}`);
-		return response;
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/article/search/article?${filter}&cursor=${page}&limit=${limit}`, {
+			headers: headers,
+		});
+		const data = await response.json();
+		return data;
 	};
 	const { data , isLoading, isError, } = useQuery<articleList[]>(['articles', page, filter], () => totalArticleData(page, filter));
 
@@ -45,10 +50,6 @@ const Essay02 = () => {
 		totalArticleData(page, filter);
 	}, [page, filter]);
 
-	const handleFilterChange = (filter: string) => {
-		setFilter(filter);
-		setPage(1);
-	};
 
 	useEffect(() => {
 		const element = observerRef.current!;
@@ -69,13 +70,13 @@ const Essay02 = () => {
 
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
-						<SearchFilter handleFilterChange={handleFilterChange} />
+						<SearchFilter setFilter={setFilter} />
 					</div>
 					<div className='flex w-3/5 h-auto flex-col justify-start gap-5 '>
 						{totalArticles ? <SearchList communityId={communityId} totalArticles={totalArticles} /> : null}
 					</div>
 				</div>
-				<div ref={observerRef}>{isLoading && !isError ? '데이터 로딩중' :  '남은 기사가 없습니다'}</div>
+				<div ref={observerRef}>{isLoading && !isError ? '데이터 로딩중' : '남은 기사가 없습니다'}</div>
 			</div>
 		</>
 	);

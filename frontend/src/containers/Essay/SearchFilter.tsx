@@ -1,12 +1,10 @@
 import { Button, Card } from 'flowbite-react';
 import { useState } from 'react';
 interface SearchFilterProps {
-	handleFilterChange: (filter: string) => void;
+	setFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SearchFilter = (
-	{ handleFilterChange }: SearchFilterProps
-) => {
+const SearchFilter = ({ setFilter }: SearchFilterProps) => {
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
@@ -29,12 +27,11 @@ const SearchFilter = (
 		// 	filtered += `isMember=true$`;
 		// }
 		if (filter.categoryName != '') {
-			filtered += `categoryName=${category}$`;
+			filtered += `category=${category}$`;
 		}
 		// 마지막 & 제거
 		filtered = filtered.slice(0, -1);
-
-		handleFilterChange(filtered);
+		setFilter(filtered);
 	};
 	return (
 		<>
@@ -70,12 +67,12 @@ const SearchFilter = (
 									</select>
 								</div>
 
-								<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
+								<button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
 									<div className='flex items-center gap-2' onClick={handleApplyFilter}>
 										<span className='material-symbols-outlined text-[1.2rem]'>search</span>
 										<span>검색</span>
 									</div>
-								</Button>
+								</button>
 							</div>
 						</Card>
 					</div>
