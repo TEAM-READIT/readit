@@ -1,6 +1,7 @@
 package readit.auth.infra.naver;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -21,7 +22,7 @@ public class NaverOAuthMemberInfoClient implements OAuthMemberInfoClient {
                 .uri(USER_INFO_URI)
                 .headers(headers -> headers.setBearerAuth(accessToken))
                 .retrieve()
-                .onStatus(httpStatus -> httpStatus.is4xxClientError(), clientResponse -> Mono.error(new MemberNotFoundException()))
+                .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new MemberNotFoundException()))
                 .bodyToMono(NaverMemberResponse.class)
                 .handle((naverMemberResponse, sink) -> {
                     if (naverMemberResponse == null) {

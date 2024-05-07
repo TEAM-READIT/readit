@@ -1,6 +1,7 @@
 package readit.auth.infra.kakao;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -21,7 +22,7 @@ public class KakaoOAuthMemberInfoClient implements OAuthMemberInfoClient {
                 .uri(USER_INFO_URI)
                 .headers(headers -> headers.setBearerAuth(accessToken))
                 .retrieve()
-                .onStatus(httpStatusCode -> httpStatusCode.is4xxClientError(), clientResponse -> Mono.error(new MemberNotFoundException()))
+                .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new MemberNotFoundException()))
                 .bodyToMono(KakaoMemberResponse.class)
                 .switchIfEmpty(Mono.error(new MemberNotFoundException()))
                 .handle((kakaoMemberResponse, sink) -> {

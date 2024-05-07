@@ -19,7 +19,7 @@ public class KakaoOAuthClient implements OAuthClient {
     @Override
     public Mono<OAuthMemberResponse> request(String authCode, String redirectUri) {
         return kakaoOAuthTokenClient.getAccessToken(authCode, redirectUri)
-                .flatMap(accessToken -> kakaoOAuthMemberInfoClient.getMember(accessToken));
+                .flatMap(kakaoOAuthMemberInfoClient::getMember);
     }
 
     @Override
