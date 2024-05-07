@@ -10,6 +10,10 @@ export const KakaoCallback = () => {
   const { setEmail, setId, setName, setProfileImageUrl } = userStore();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const code = new URL(document.location.toString()).searchParams.get('code');
+	
+	
+	
+	
 	const kakaoLogin = useMutation(async () => {
 		const response = await fetch(`${baseUrl}/auth/login/kakao?code=${code}`, {
 			method: 'POST',

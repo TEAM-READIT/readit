@@ -15,16 +15,13 @@ const Essay = () => {
 	const [filter, setFilter] = useState<string>('');
 	const observerRef = useRef(null);
 	const location = useLocation();
-	const categoryName = location.state?.categoryName;
+	// const categoryName = location.state?.categoryName;
 	const communityId = location.state?.communityId;
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
 	const limit = 12;
 	const [page, setPage] = useState<number | undefined>(0);
 	const [totalArticles, setTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
-
-	// 커뮤니티에서 카테고리가 지정된 경우 해당 필터 설정
-	if (categoryName) setFilter(`categoryName=${categoryName}`);
 
 	// 데이터를 가져오는 함수
 	const totalArticleData = async (page: number, filter: string) => {
@@ -34,20 +31,10 @@ const Essay = () => {
 		const response = await fetch(`${baseUrl}/article/search/article?${filter}&cursor=${page}&limit=${limit}`, {
 			headers: headers,
 		});
+		console.log(`${baseUrl}/article/search/article?${filter}&cursor=${page}&limit=${limit}`);
 		const data = await response.json();
 		return data;
 	};
-
-	// 마지막 아티클 ID를 기반으로 페이지 설정
-	useEffect(() => {
-		if (totalArticles) {
-			const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
-			setPage(lastArticleId);
-		} else {
-			setPage(1);
-		}
-	}, [totalArticles]);
-
 	// 무한 스크롤을 사용하여 데이터 가져오기
 	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
 		'articles',
@@ -65,6 +52,14 @@ const Essay = () => {
 			},
 		},
 	);
+
+	// 마지막 아티클 ID를 기반으로 페이지 설정
+	useEffect(() => {
+		if (totalArticles) {
+			const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
+			setPage(lastArticleId);
+		}
+	}, [totalArticles]);
 
 	// 스크롤 이벤트 핸들러
 	useEffect(() => {
@@ -88,7 +83,6 @@ const Essay = () => {
 		(entries: any) => {
 			const [target] = entries;
 			if (target.isIntersecting) {
-				console.log('마지막 페이지에 도달했습니다');
 			}
 		},
 		[fetchNextPage, hasNextPage],
@@ -102,12 +96,16 @@ const Essay = () => {
 		return () => observer.unobserve(element);
 	}, [fetchNextPage, hasNextPage, handleObserver]);
 
-	// 검색 필터 변경 시 처리하는 함수
-	const handleFilterChange = (filter: string) => {
-		setFilter(filter);
+	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
+	useEffect(() => {
 		setPage(1);
-	};
-
+		totalArticleData(1, filter)
+			.then((res) => {
+				setTotalArticle(res);
+			})
+			.catch((_err) => {
+			});
+	}, [filter]);
 	return (
 		<>
 			<div className='w-full h-full flex justify-center flex-col items-center'>
@@ -118,10 +116,12 @@ const Essay = () => {
 
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
-						<SearchFilter handleFilterChange={handleFilterChange} />
+						<SearchFilter setFilter={setFilter} />
 					</div>
 					<div className='flex w-3/5 h-auto flex-col justify-start gap-5 '>
-						{isSuccess && totalArticles ? <SearchList communityId={communityId} totalArticles={totalArticles} /> : null}
+						{isSuccess && totalArticles ? (
+							<SearchList communityId={communityId} totalArticles={totalArticles} filter={filter} />
+						) : null}
 					</div>
 				</div>
 				<div ref={observerRef}>

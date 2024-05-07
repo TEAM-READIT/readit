@@ -4,9 +4,11 @@ import { articleList } from '../../types/articleProps';
 import { Card } from 'flowbite-react';
 
 const SearchList = ({
+	filter,
 	totalArticles,
 	communityId,
 }: {
+	filter: string;
 	totalArticles: { articleList: articleList[]; hasNext: boolean };
 	communityId: number | null;
 }) => {
@@ -19,12 +21,13 @@ const SearchList = ({
 		if (totalArticles && totalArticles.articleList) {
 			setArticles((prevArticles) => [...prevArticles, ...totalArticles.articleList]);
 		}
-	}, [totalArticles]);
+	}, [totalArticles.articleList]);
 
 	const hits = async (articleId: number) => {
 		const data = await fetch(`${baseUrl}/article/hits/${articleId}`).then((response) => response.json());
 		return data;
 	};
+
 
 	const handleCardClick = (article: articleList, communityId: number | null) => {
 		navigate('/text', { state: { article, communityId } });
