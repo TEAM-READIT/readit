@@ -1,80 +1,90 @@
-import { Button } from 'flowbite-react';
-import { useNavigate } from 'react-router-dom';
-import communityList from '../../../types/communityProps';
+// import { Button } from 'flowbite-react';
+// import { useNavigate } from 'react-router-dom';
+// import communityList from '../../../types/communityProps';
+// import { useEffect, useState } from 'react';
+// import { useAuthStore } from '../../../store/auth';
 
 const MyGroup = () => {
 	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	const navigate = useNavigate();
-	const handleCommunity = (communityList: communityList[]) => {
-		navigate('/mypage/group', { state: { communityList } });
-	};
-	const handleMyCommunity = (communityId: number) => {
-		navigate('/group', { state: { communityId } });
-	};
+	// const { accessToken } = useAuthStore();
+	// const navigate = useNavigate();
+
+	// const handleCommunity = (communityList: communityList[]) => {
+	// 	navigate('/mypage/group', { state: { communityList } });
+	// };
+
+	// const handleMyCommunity = (communityId: number) => {
+	// 	navigate('/group', { state: { communityId } });
+	// };
 
 	// const [communityList, setCommunityList] = useState<communityList[]>();
 	// // 내가 속한 모임 받아오기
 	// const myCommunityData = async () => {
-	// 	const data = await fetch(`${baseUrl}/community/myCommunity`).then((response) => response.json());
+	// 	const headers = {
+	// 		Authorization: `Bearer ${accessToken}`,
+	// 	};
+	// 	const data = await fetch(`${baseUrl}/community/myCommunity`, {
+	// 		headers: headers,
+	// 	}).then((response) => response.json());
 	// 	return data;
 	// };
 
 	// useEffect(() => {
 	// 	myCommunityData()
 	// 		.then((res) => setCommunityList(res))
-	// 		.catch((err) => {
+	// 		.catch((_err) => {
 	// 			console.log('내가 읽은 글 받아오는거 에러');
 	// 		});
 	// }, []);
 
-	const communityList: communityList[] = [
-		{
-			communityId: 1,
-			categoryName: '시사',
-			title: 'Seeking Partners',
-			startAt: new Date(),
-			hit: 523,
-			content:
-				'To join, Please share a shor introduction about yourself and the topics you are passionate about presenting. Our goal is to create whatever i dont get what theyre talking bout',
-		},
+	// const communityList: communityList[] = [
+	// 	{
+	// 		communityId: 1,
+	// 		categoryName: '시사',
+	// 		title: 'Seeking Partners',
+	// 		startAt: new Date(),
+	// 		hit: 523,
+	// 		content:
+	// 			'To join, Please share a shor introduction about yourself and the topics you are passionate about presenting. Our goal is to create whatever i dont get what theyre talking bout',
+	// 	},
 
-		{
-			communityId: 2,
-			categoryName: '취업',
-			title: '함께 취업 발표 준비합시다',
-			content: '취업 발표 연습을 위해 함께 연습할 동료를 찾고 있습니다.',
+	// 	{
+	// 		communityId: 2,
+	// 		categoryName: '취업',
+	// 		title: '함께 취업 발표 준비합시다',
+	// 		content: '취업 발표 연습을 위해 함께 연습할 동료를 찾고 있습니다.',
 
-			startAt: new Date(),
-			hit: 523,
-		},
-		{
-			communityId: 3,
-			title: '저와 같이 심도 있는 토론 하실분 ',
-			content: '집에서 집에 가고 싶다고 말하는 것은 무슨 의미인지 의문이 생겼습니다.',
+	// 		startAt: new Date(),
+	// 		hit: 523,
+	// 	},
+	// 	{
+	// 		communityId: 3,
+	// 		title: '저와 같이 심도 있는 토론 하실분 ',
+	// 		content: '집에서 집에 가고 싶다고 말하는 것은 무슨 의미인지 의문이 생겼습니다.',
 
-			categoryName: '경제',
-			startAt: new Date(),
-			hit: 523,
-		},
-		{
-			communityId: 4,
-			title: '제 37회 정기 독서토론',
-			content: '회원님들 들어와주세요',
+	// 		categoryName: '경제',
+	// 		startAt: new Date(),
+	// 		hit: 523,
+	// 	},
+	// 	{
+	// 		communityId: 4,
+	// 		title: '제 37회 정기 독서토론',
+	// 		content: '회원님들 들어와주세요',
 
-			categoryName: '연애',
-			startAt: new Date(),
-			hit: 523,
-		},
-	];
+	// 		categoryName: '연애',
+	// 		startAt: new Date(),
+	// 		hit: 523,
+	// 	},
+	// ];
 	// 날짜순으로 정렬
 	// const sortedCommunityList = communityList.sort((a, b) => b.startAt!.getTime() - a.startAt!.getTime());
 
 	// 상위 3개만 추출
-	const top3Communities = communityList.reverse().slice(0, 5);
+	// const top3Communities = communityList.reverse().slice(0, 5);
 
 	return (
 		<>
-			<div className='flex flex-col w-full border border-gray-200 pb-10 rounded-xl shadow-md'>
+			{/* <div className='flex flex-col w-full border border-gray-200 pb-10 rounded-xl shadow-md'>
 				<div className='flex flex-row justify-between items-center pr-10'>
 					<div className='p-10 text-lg font-bold flex'>참여 중인 모임</div>
 					<Button
@@ -109,7 +119,7 @@ const MyGroup = () => {
 						</div>
 					))}
 				</div>
-			</div>
+			</div> */}
 		</>
 	);
 };

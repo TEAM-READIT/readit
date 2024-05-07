@@ -95,11 +95,11 @@ const Detail = () => {
 								</div>
 								<div className='flex flex-row gap-x-3'>
 									<div className='font-bold'>모임 시작일 |</div>
-									<div>{community.startAt.toLocaleDateString()}</div>
+									<div>{community.startAt}</div>
 								</div>
 								<div className='flex flex-row gap-x-3'>
 									<div className='font-bold'>모집 기간 |</div>
-									<div>~ {community.endAt.toLocaleDateString()}</div>
+									<div>~ {community.endAt}</div>
 								</div>
 							</div>
 						</div>

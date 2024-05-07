@@ -1,12 +1,12 @@
 import Headers from '../../components/Headers';
 import SearchFilter from './SearchFilter';
 import EssayHeader from './EssayHeader';
-import SearchList from './SearchList';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { articleList } from '../../types/articleProps';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useAuthStore } from '../../store/auth';
+import { Card } from 'flowbite-react';
 
 const Essay = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -14,15 +14,15 @@ const Essay = () => {
 	const { accessToken } = useAuthStore();
 	const observerRef = useRef(null);
 	const location = useLocation();
-	// const categoryName = location.state?.categoryName;
 	const communityId = location.state?.communityId;
+	const [isMember, setIsMember] = useState<boolean>(false);
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
 	const limit = 12;
 	const [page, setPage] = useState<number>(0);
 	const [totalArticles, setTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
 
-	// 데이터를 가져오는 함수
+	// 전체 아티클 데이터를 가져오는 함수
 	const totalArticleData = async (page: number, filter: string) => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
@@ -33,12 +33,72 @@ const Essay = () => {
 		const data = await response.json();
 		return data;
 	};
+
+	// 내가 안읽은 글이 더 맞는거 같은데
+	const unreadArticleData = async (page: number, filter: string) => {
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/article/search/myarticle?${filter}&cursor=${page}&limit=${limit}`, {
+			headers: headers,
+		});
+		const data = await response.json();
+		return data;
+	};
+
+	// 안읽은 글 호출 함수
+	const fetchUnreadData = async () => {
+		try {
+			const data = await unreadArticleData(1, filter);
+			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
+			window.scrollTo(0, 0);
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	};
+
+	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
+	const fetchData = async () => {
+		try {
+			const data = await totalArticleData(1, filter);
+			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
+			window.scrollTo(0, 0);
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	};
+
+	// 필터가 바뀌면 fetchData
+	useEffect(() => {
+		fetchData();
+	}, [filter]);
+
+
+	// 내가 읽은 글 누를 때 마다 렌더링
+	useEffect(() => {
+		if (isMember) {
+			fetchUnreadData();
+		} else {
+			fetchData();
+		}
+	}, [isMember]);
+
 	// 무한 스크롤을 사용하여 데이터 가져오기
 	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
 		'articles',
 		({ pageParam = page }) =>
 			totalArticleData(pageParam, filter)
-				.then((res) => setTotalArticle(res))
+				.then((res) => {
+					if (totalArticles) {
+						// 이전 페이지에 있는 기사들과 새로운 페이지에 있는 기사들을 합쳐서 업데이트합니다.
+						setTotalArticle((prevTotalArticles) => ({
+							articleList: [...prevTotalArticles!.articleList, ...res.articleList],
+							hasNext: res.hasNext,
+						}));
+					} else {
+						setTotalArticle(res);
+					}
+				})
 				.catch((err) => {
 					console.log(err);
 				}),
@@ -57,8 +117,7 @@ const Essay = () => {
 			const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
 			setPage(lastArticleId!);
 		} else {
-			setPage(1);
-			console.log('마지막 인덱스 없어요');
+			setPage(0);
 		}
 	}, [totalArticles]);
 
@@ -97,24 +156,17 @@ const Essay = () => {
 		return () => observer.unobserve(element);
 	}, [fetchNextPage, hasNextPage, handleObserver]);
 
+	const navigate = useNavigate();
 
+	const hits = async (articleId: number) => {
+		const data = await fetch(`${baseUrl}/article/hits/${articleId}`).then((response) => response.json());
+		return data;
+	};
 
-	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
-const fetchData = async () => {
-	try {
-		setPage(1);
-		const data = await totalArticleData(1, filter);
-		setTotalArticle(data);
-	} catch (error) {
-		console.error('Error fetching data:', error);
-	}
-};
-
-useEffect(() => {
-	fetchData();
-	console.log('fetchData 이후에 바뀐 total', totalArticles)
-}, [filter]);
-
+	const handleCardClick = (article: articleList, communityId: number | null) => {
+		navigate('/text', { state: { article, communityId } });
+		hits(article.id!);
+	};
 
 	return (
 		<>
@@ -126,16 +178,57 @@ useEffect(() => {
 
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
-						<SearchFilter setFilter={setFilter} />
+						<SearchFilter setFilter={setFilter} setIsMember={setIsMember} />
 					</div>
-					<div className='flex w-3/5 h-auto flex-col justify-start gap-5 '>
+					<div className='flex w-4/6 h-auto flex-col justify-start gap-5 '>
 						{isSuccess && totalArticles ? (
-							<SearchList communityId={communityId} totalArticles={totalArticles} filter={filter} />
+							<div className='flex flex-row w-full h-full justify-start px-4 p-3 gap-5 flex-wrap'>
+								{totalArticles.articleList?.map((article, index) => (
+									<Card
+										key={index}
+										className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+										onClick={() => handleCardClick(article, communityId)}
+									>
+										<div className='flex flex-row justify-between text-center text-sm'>
+											<div>👀 {article.hit}</div>
+											{article.categoryName ? (
+												<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
+													{article.categoryName}
+												</div>
+											) : null}
+										</div>
+										<div className='flex flex-col h-4/5 text-start gap-y-2'>
+											<div className='text-l border-gray-200 border-b  font-bold'>
+												{article.title.length <= 14 ? (
+													<div>{article.title} </div>
+												) : (
+													<div>{article.title.slice(0, 14)}...</div>
+												)}
+											</div>
+											<div className='text-sm'>
+												{article.content.length <= 120 ? (
+													<div>{article.content} </div>
+												) : (
+													<div>{article.content.slice(0, 120)}...</div>
+												)}
+											</div>
+										</div>
+									</Card>
+								))}
+							</div>
 						) : null}
 					</div>
 				</div>
 				<div ref={observerRef}>
-					{isFetchingNextPage && hasNextPage ? '기사를 로딩 중입니다' : '더 이상 남은 기사가 없습니다'}
+					<br />
+					{totalArticles?.articleList?.length === 0
+						? '검색하려는 기사가 없습니다'
+						: isFetchingNextPage && hasNextPage
+							? '기사를 로딩 중입니다'
+							: '더 이상 남은 기사가 없습니다'}
+
+					<br />
+					<br />
 				</div>
 			</div>
 		</>
