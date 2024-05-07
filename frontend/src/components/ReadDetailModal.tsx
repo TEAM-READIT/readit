@@ -12,7 +12,7 @@ const ReadDetailModal = () => {
 				<Headers />
 				<div className='flex flex-col w-3/5 justify-start items-center '>
 					<ReadDetailModalHeaders />
-					<div className='flex flex-col gap-10'>
+					<div className='flex flex-col gap-10  w-full'>
 						<div className='font-bold text-2xl'>{article.title}</div>
 						<div className='text-start flex flex-col gap-5'>
 							<Card className=''>

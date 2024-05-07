@@ -4,7 +4,7 @@ import MainPage from './containers/MainPage';
 import Community from './containers/Community';
 import MyPage from './containers/MyPage.tsx';
 import Detail from './containers/Community/Detail/Detail.tsx';
-// import Essay from './containers/Essay/index.tsx';
+import Essay from './containers/Essay/index.tsx';
 import TextDetail from './containers/Essay/Detail/TextDetail.tsx';
 import Recruit from './containers/Community/Recruit/index.tsx';
 import { ViewerPage } from './containers/Viewer/ViewerPage.tsx';
@@ -17,8 +17,6 @@ import { GoogleCallback } from './containers/MainPage/Login/Google.tsx';
 import ReadDetail from './containers/MyPage.tsx/Read/ReadDetail.tsx';
 import GroupDetail from './containers/MyPage.tsx/Group/GroupDeatail.tsx';
 import ReadDetailModal from './components/ReadDetailModal.tsx';
-// import Essay02 from './containers/Essay/test02.tsx';
-import Essay01 from './containers/Essay/original.tsx';
 function App() {
 	const queryClient = new QueryClient();
 	return (
@@ -32,7 +30,7 @@ function App() {
 						<Route path='/challenge' element={<Challenge />} />
 						<Route path='/recruit' element={<Recruit />} />
 						<Route path='/text' element={<TextDetail />} />
-						<Route path='/essay' element={<Essay01 />} />
+						<Route path='/essay' element={<Essay />} />
 						<Route path='/group' element={<Group />} />
 						<Route path='/mypage' element={<MyPage />} />
 						<Route path='/mypage/read' element={<ReadDetail />} />

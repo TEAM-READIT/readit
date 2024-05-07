@@ -32,8 +32,6 @@ export const NaverCallback = () => {
 			setName(userdata.name);
 			setProfileImageUrl(userdata.profileImageUrl);
 			navigate('/');
-
-			navigate('/');
 		} catch (error) {
 			console.log('error');
 		}

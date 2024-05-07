@@ -2,6 +2,7 @@ import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import { articleList } from '../../../types/articleProps';
 import { useEffect, useState } from 'react';
+import { useAuthStore } from '../../../store/auth';
 // import useModal from '../../../hooks/useModal';
 // import ReadDetailModal from '../../../components/ReadDetailModal';
 // import useStore from '../../../store';
@@ -15,13 +16,23 @@ const Read = () => {
 	const handleArticle = (article: articleList) => {
 		navigate('/summary', { state: { article } });
 	};
+	const { accessToken } = useAuthStore();
 
 	const [articles, setArticles] = useState<articleList[]>();
 	// 내가 읽은 글 받아오기
-	const myArticleData = async () => {
-		const data = await fetch(`${baseUrl}/article/myarticle`).then((response) => response.json());
-		return data;
-	};
+
+		const myArticleData = async () => {
+			const headers = {
+				Authorization: `Bearer ${accessToken}`,
+			};
+			const response = await fetch(`${baseUrl}/article/myarticle`, {
+				headers: headers,
+			});
+
+			const data = await response.json();
+
+			return data;
+		};
 
 	useEffect(() => {
 		myArticleData()

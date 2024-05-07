@@ -1,8 +1,8 @@
 import { Card } from 'flowbite-react';
-// import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import communityList from '../../types/communityProps';
-import { useState } from 'react';
+import Community from '../Community';
 
 const PopCommu = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -21,131 +21,25 @@ const PopCommu = () => {
 		navigate('/detail', { state: { community } });
 		hits(community.communityId!);
 	};
-	// const [popCommunity, setPopCommunity] = useState<communityList[]>();
-	// //인기 있는 모임 받아오기
-	// const popCommunityData = async () => {
-	// 	const data = await fetch(`${baseUrl}/article`).then((response) => response.json());
-	// 	return data;
-	// };
+	const [popCommunity, setPopCommunity] = useState<{communityList: communityList[]}>();
+	//인기 있는 모임 받아오기
+	const popCommunityData = async () => {
+		const data = await fetch(`${baseUrl}/community/hot`).then((response) => response.json());
+		return data;
+	};
 
-	// useEffect(() => {
-	// 	popCommunityData()
-	// 		.then((res) => setPopCommunity(res))
-	// 		.catch((err) => {
-	// 			console.log('커뮤니티 받아오기 에러');
-	// 		});
-	// }, []);
+	useEffect(() => {
+		popCommunityData()
+			.then((res) => setPopCommunity(res))
+			.catch((_err) => {
+				console.log('커뮤니티 받아오기 에러');
+			});
+	}, []);
 
-	const popCommunity: communityList[] = [
-		{
-			communityId: 1,
-			hit: 523,
-			writerName: '오영주',
-			maxParticipants: 4,
-			currentParticipants: 2,
-			categoryName: '시사',
-			title: 'Seeking Partners',
-			content:
-				'To join, Please share a shor introduction about yourself and the topics you are passionate about presenting. Our goal is to create whatever i dont get what theyre talking bout',
-
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-
-		{
-			communityId: 2,
-			hit: 523,
-			writerName: '박현춘',
-			maxParticipants: 8,
-			currentParticipants: 1,
-			categoryName: '취업',
-			title: '함께 취업 발표 준비합시다',
-			content: '취업 발표 연습을 위해 함께 연습할 동료를 찾고 있습니다.',
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-		{
-			communityId: 3,
-			title: '저와 같이 심도 있는 토론 하실분 ',
-			hit: 523,
-			writerName: '박현춘',
-			maxParticipants: 8,
-			currentParticipants: 1,
-			categoryName: '경제',
-			content: '집에서 집에 가고 싶다고 말하는 것은 무슨 의미인지 의문이 생겼습니다.',
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-		{
-			communityId: 1,
-			hit: 523,
-			writerName: '오영주',
-			maxParticipants: 4,
-			currentParticipants: 2,
-			categoryName: '시사',
-			title: 'Seeking Partners',
-			content:
-				'To join, Please share a shor introduction about yourself and the topics you are passionate about presenting. Our goal is to create whatever i dont get what theyre talking bout',
-
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-		{
-			communityId: 1,
-			hit: 523,
-			writerName: '오영주',
-			maxParticipants: 4,
-			currentParticipants: 2,
-			categoryName: '시사',
-			title: 'Seeking Partners',
-			content:
-				'To join, Please share a shor introduction about yourself and the topics you are passionate about presenting. Our goal is to create whatever i dont get what theyre talking bout',
-
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-		{
-			communityId: 1,
-			hit: 523,
-			writerName: '오영주',
-			maxParticipants: 4,
-			currentParticipants: 2,
-			categoryName: '시사',
-			title: 'Seeking Partners',
-			content:
-				'To join, Please share a shor introduction about yourself and the topics you are passionate about presenting. Our goal is to create whatever i dont get what theyre talking bout',
-
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-		{
-			communityId: 1,
-			hit: 523,
-			writerName: '오영주',
-			maxParticipants: 4,
-			currentParticipants: 2,
-			categoryName: '시사',
-			title: 'Seeking Partners',
-			content:
-				'To join, Please share a shor introduction about yourself and the topics you are passionate about presenting. Our goal is to create whatever i dont get what theyre talking bout',
-
-			startAt: new Date(),
-			endAt: new Date(),
-		},
-		{
-			communityId: 4,
-			title: '제 37회 정기 독서토론',
-			categoryName: '연애',
-			writerName: '박현춘',
-			maxParticipants: 8,
-			currentParticipants: 1,
-			content: '회원님들 들어와주세요',
-			hit: 523,
-			startAt: new Date(),
-			endAt: new Date(2024, 4, 10, 10, 0, 0),
-		},
-	];
-
+	console.log(popCommunity);
+	const communityLst = popCommunity?.communityList
+	console.log(communityLst)
+	
 	return (
 		<>
 			<div className='flex flex-col w-full items-center pb-32'>
@@ -166,8 +60,7 @@ const PopCommu = () => {
 					<>
 						{page == 1 ? (
 							<>
-								{' '}
-								{popCommunity?.slice(0,4).map((community, index) => (
+								{communityLst?.slice(0, 4).map((community, index) => (
 									<Card
 										key={index}
 										className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
@@ -192,7 +85,7 @@ const PopCommu = () => {
 						) : (
 							<>
 								{' '}
-								{popCommunity?.slice(4,8).map((community, index) => (
+								{communityLst?.slice(4, 8).map((community, index) => (
 									<Card
 										key={index}
 										className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
@@ -215,7 +108,6 @@ const PopCommu = () => {
 								))}
 							</>
 						)}
-				
 					</>
 				</div>
 			</div>

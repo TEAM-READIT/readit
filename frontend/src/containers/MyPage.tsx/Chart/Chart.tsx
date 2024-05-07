@@ -15,11 +15,12 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend);
 
 import { Line } from 'react-chartjs-2';
+import { useAuthStore } from '../../../store/auth';
 
-// interface scoreList {
-// 	type: string;
-// 	score: number;
-// }
+interface scoreList {
+	type: string;
+	score: number;
+}
 
 // interface ChallengeScoreList {
 // 	date: Date;
@@ -27,18 +28,26 @@ import { Line } from 'react-chartjs-2';
 // }
 
 const Chart = () => {
-	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const summary = 0b0;
 	const challenge = 0b1;
 	const [mode, setMode] = useState(summary);
-	// const [scoreList, setScoreList] = useState<scoreList[]>();
+	const [scoreList, setScoreList] = useState<{ scoreList: scoreList[] }>(); // scoreList 타입 변경
+	const { accessToken } = useAuthStore();
 	// const [challengeScoreList, setChallengeScoreList] = useState<ChallengeScoreList[]>();
 
-	// // 글 요약 점수 통계 받아오기
-	// const scoreData = async () => {
-	// 	const data = await fetch(`${baseUrl}/article/statistics`).then((response) => response.json());
-	// 	return data;
-	// };
+	// 글 요약 점수 통계 받아오기
+	const scoreData = async () => {
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/article/stats`, {
+			headers: headers,
+		});
+
+		const data = await response.json();
+		return data;
+	};
 
 	// // 챌린지 점수 통계 받아오기
 	// const challengScoreData = async () => {
@@ -46,16 +55,16 @@ const Chart = () => {
 	// 	return data;
 	// };
 
-	// useEffect(() => {
-	// 	scoreData()
-	// 		.then((res) => setScoreList(res))
-	// 		.catch((err) => {
-	// 			console.log('글 요약 점수 받아오는거 에러');
-	// 		});
-	// 	challengScoreData().then((res) => setChallengeScoreList(res)).catch((err) => {
-	// 		console.log('챌린지 요약 점수 받아오는거 에러')
-	// 	})
-	// }, []);
+	useEffect(() => {
+		scoreData()
+			.then((res) => setScoreList(res))
+			.catch((_err) => {
+				console.log('글 요약 점수 받아오는거 에러');
+			});
+		// challengScoreData().then((res) => setChallengeScoreList(res)).catch((err) => {
+		// 	console.log('챌린지 요약 점수 받아오는거 에러')
+		// })
+	},[]);
 
 	const challengeScoreList = [
 		{
@@ -101,24 +110,28 @@ const Chart = () => {
 		datasets: [],
 	});
 	useEffect(() => {
-		// const liter:number[] = [];
-		// const news: number[] = [];
+		const liter: number[] = [];
+		const news: number[] = [];
 		const challengescore: number[] = [];
 		const challengeXlist: string[] = [];
-		// scoreList?.forEach((scores) => {
-		// 	if (scores.type === '뉴스') {
-		// 		liter.push(scores.score);
-		// 	} else {
-		// 		news.push(scores.score);
-		// 	}
-		// });
+
+		const scores = scoreList?.scoreList;
+		scores?.forEach((score: scoreList) => {
+			// score 변수 사용
+			if (score.type === 'NEWS') {
+				// 각 score 객체의 type 속성 확인
+				news.push(score.score);
+			} else {
+				liter.push(score.score);
+			}
+		});
+		console.log(liter);
 		challengeScoreList?.forEach((score) => {
 			challengescore.push(score.score);
 			challengeXlist.push(score.date.toLocaleDateString());
 		});
-
-		const liter = [10, 20, 40, 10, 30, 40, 50];
-		const news = [20, 30, 40, 50, 20, 30, 60, 100];
+		// const liter = [10, 20, 40, 10, 30, 40, 50];
+		// const news = [20, 30, 40, 50, 20, 30, 60, 100];
 		const arraylength = () => {
 			if (liter.length > news.length) {
 				return liter.length;
@@ -128,7 +141,7 @@ const Chart = () => {
 		};
 		const faceColor = 'rgba(255, 165, 0, 1)';
 		const pronunciationColor = 'rgba(154, 205, 50, 1)';
-		const challengeColor = 'rgba(55,117,255,1)'
+		const challengeColor = 'rgba(55,117,255,1)';
 		const xlist = new Array(arraylength()).fill('');
 		xlist[0] = '이전';
 		xlist[xlist.length - 1] = '현재';
@@ -164,7 +177,7 @@ const Chart = () => {
 				},
 			],
 		});
-	}, []);
+	}, [scoreList]);
 
 	return (
 		<>
