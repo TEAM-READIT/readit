@@ -6,32 +6,49 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { articleList } from '../../types/articleProps';
 import { useLocation } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
+import { useAuthStore } from '../../store/auth';
 
 const Essay = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	const [filter, setFilter] = useState<string>(''); // 새로운 검색 결과 생기면 필터 초기화
+	const { accessToken } = useAuthStore();
+
+	const [filter, setFilter] = useState<string>('');
 	const observerRef = useRef(null);
 	const location = useLocation();
 	const categoryName = location.state?.categoryName;
 	const communityId = location.state?.communityId;
 
-	const limit = 12; // 한 페이지에 필요한 데이터(기사) 개수
-	const [page, setPage] = useState<number>(1); // 현재 데이터를 받아와야 하는 페이지
-	const [totalArticles, setTotalArticle] = useState<articleList[]>();
+	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
+	const limit = 12;
+	const [page, setPage] = useState<number | undefined>(0);
+	const [totalArticles, setTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
 
-	// 커뮤니티에서 넘어와서 카테고리 목록이 있을 때 
+	// 커뮤니티에서 카테고리가 지정된 경우 해당 필터 설정
 	if (categoryName) setFilter(`categoryName=${categoryName}`);
-	
-	// 데이터를 받아올 api, limit은 고정, page랑 filter만 변경
+
+	// 데이터를 가져오는 함수
 	const totalArticleData = async (page: number, filter: string) => {
-		const response = await fetch(`${baseUrl}/article/list?${filter}&cursor=${page}&limit=${limit}`).then((response) =>
-			response.json(),
-		);
-		console.log(`${baseUrl}/article/list?${filter}&cursor=${page}&limit=${limit}`);
-		return response;
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/article/search/article?${filter}&cursor=${page}&limit=${limit}`, {
+			headers: headers,
+		});
+		const data = await response.json();
+		return data;
 	};
 
-	// 무한스크롤
+	// 마지막 아티클 ID를 기반으로 페이지 설정
+	useEffect(() => {
+		if (totalArticles) {
+			const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
+			setPage(lastArticleId);
+		} else {
+			setPage(1);
+		}
+	}, [totalArticles]);
+
+	// 무한 스크롤을 사용하여 데이터 가져오기
 	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
 		'articles',
 		({ pageParam = page }) =>
@@ -41,14 +58,15 @@ const Essay = () => {
 					console.log(err);
 				}),
 		{
-			getNextPageParam: (_lastPage, allPages) => {
-				const nextPage = allPages.length + 1;
-				return nextPage;
+			getNextPageParam: (_lastPage) => {
+				if (totalArticles?.hasNext) {
+					return page;
+				}
 			},
 		},
 	);
 
-	// 스크롤이 도달했을 때 다음 페이지 fetch
+	// 스크롤 이벤트 핸들러
 	useEffect(() => {
 		let fetching = false;
 		const handleScroll = async (e: any) => {
@@ -65,12 +83,12 @@ const Essay = () => {
 		};
 	}, [fetchNextPage, hasNextPage]);
 
+	// 관찰자 설정
 	const handleObserver = useCallback(
 		(entries: any) => {
 			const [target] = entries;
 			if (target.isIntersecting) {
-				console.log('마지막 페이지에 도달했습니다')
-				// fetchNextPage();
+				console.log('마지막 페이지에 도달했습니다');
 			}
 		},
 		[fetchNextPage, hasNextPage],
@@ -79,18 +97,12 @@ const Essay = () => {
 	useEffect(() => {
 		const element = observerRef.current!;
 		const option = { threshold: 0 };
-
 		const observer = new IntersectionObserver(handleObserver, option);
 		observer.observe(element);
 		return () => observer.unobserve(element);
 	}, [fetchNextPage, hasNextPage, handleObserver]);
 
-	//전체 아티클 조회
-	// const totalArticleData = async (filter: string) => {
-	// 	const data = await fetch(`${baseUrl}/article/list?${filter}`).then((response) => response.json());
-	// 	return data;
-	// };
-	// 검색 필터 변경 시 다시 받아오기
+	// 검색 필터 변경 시 처리하는 함수
 	const handleFilterChange = (filter: string) => {
 		setFilter(filter);
 		setPage(1);

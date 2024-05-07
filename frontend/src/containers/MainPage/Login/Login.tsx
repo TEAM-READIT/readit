@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useAuthStore } from '../../../store/auth';
-import { useNavigate } from 'react-router-dom';
+// import { useEffect } from 'react';
+// import { useAuthStore } from '../../../store/auth';
+// import { useNavigate } from 'react-router-dom';
 import KakaoIcon from '../../../assets/images/kakao.png';
 import GoogleIcon from '../../../assets/images/google.png';
 import NaverIcon from '../../../assets/images/naver.png';
@@ -11,16 +11,16 @@ interface LoginProps {
 }
 
 const Login = ({ close }: LoginProps) => {
-	const navigate = useNavigate();
-	const { login } = useAuthStore();
-	const searchParams = new URLSearchParams(window.location.search);
-	const code = searchParams.get('code');
-	useEffect(() => {
-		if (code) {
-			login(code);
-			navigate('/');
-		}
-	}, [code]);
+	// const navigate = useNavigate();
+	// const { login } = useAuthStore();
+	// const searchParams = new URLSearchParams(window.location.search);
+	// const code = searchParams.get('code');
+	// useEffect(() => {
+	// 	if (code) {
+	// 		login(code);
+	// 		navigate('/');
+	// 	}
+	// }, [code]);
 	const kakaoAuth = () => {
 		location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${
 			import.meta.env.VITE_APP_PUBLIC_KAKAO_REST_API_KEY
@@ -35,10 +35,10 @@ const Login = ({ close }: LoginProps) => {
 	const googleAuth = () => {
 		location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${
 			import.meta.env.VITE_APP_PUBLIC_GOOGLE_REST_API_KEY
-			// TODO: 이거 scope?
 		}&redirect_uri=${import.meta.env.VITE_APP_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=openid%20profile%20email`;
 	};
 
+	
 	return (
 		<>
 			<div className='bg-black absolute z-50 top-0 w-full h-screen opacity-70 flex flex-col  justify-center items-center'></div>
