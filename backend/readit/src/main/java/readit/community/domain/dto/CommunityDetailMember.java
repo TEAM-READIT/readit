@@ -11,11 +11,12 @@ public record CommunityDetailMember(
         Integer readCount
 ) {
     public static CommunityDetailMember of(Member member, Integer readCount) {
-        return CommunityDetailMember.builder()
-                .memberId(member.getId())
-                .memberName(member.getName())
-                .memberProfile(member.getProfile())
-                .readCount(readCount)
-                .build();
+
+        return new CommunityDetailMember(
+                member.getId(),
+                member.getName(),
+                member.getProfile(),
+                readCount
+        );
     }
 }

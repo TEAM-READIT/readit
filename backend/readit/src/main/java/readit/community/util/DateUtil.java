@@ -15,22 +15,17 @@ import java.time.temporal.TemporalAdjusters;
 @RequiredArgsConstructor
 public class DateUtil {
 
-    // todo: 하루에 한 번 구하기
-    @Scheduled()
+    // todo: 하루에 한 번만 구해서 공용 변수로 사용하는 것으로 변경
     public LocalDateTime[] getCurrentWeek() {
-        // 오늘 날짜 가져오기
         LocalDate today = LocalDate.now();
 
-        // 이번 주의 시작일(월요일) 계산
         LocalDateTime startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).atStartOfDay();
 
-        // 이번 주의 종료일(일요일) 계산
         LocalDateTime endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).atStartOfDay()
-                .withHour(23) // 시간 설정: 23시
-                .withMinute(59) // 분 설정: 59분
-                .withSecond(59); // 초 설정: 59초;
+                .withHour(23)
+                .withMinute(59)
+                .withSecond(59);
 
-        // 결과를 LocalDate 배열로 반환
         return new LocalDateTime[] { startOfWeek, endOfWeek };
     }
 }

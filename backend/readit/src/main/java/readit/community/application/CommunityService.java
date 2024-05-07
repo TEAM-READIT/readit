@@ -126,7 +126,7 @@ public class CommunityService {
                             .findFirst()
                             .orElseThrow(ValueMissingException::new);
 
-                    ArticleDetail articleDetail = ArticleDetail.of(memberArticle);
+                    ArticleDetail articleDetail = ArticleDetail.from(memberArticle);
                     // CommunityDetailArticle 생성
                     return CommunityDetailArticle.of(matchingMember, articleDetail);
                 })
@@ -144,7 +144,6 @@ public class CommunityService {
         return GetCommunityDetailResponse.of(community,
                 memberId,
                 optionalWriterMember.get(),
-                currentParticipants,
                 memberList,
                 articleList,
                 simpChatDtoList);
@@ -158,7 +157,7 @@ public class CommunityService {
                 .map(community -> {
                     Member member = memberRepository.findById(community.getWriterId())
                             .orElseThrow(ValueMissingException::new);
-                    return CommunityDetail.from(member, community);
+                    return CommunityDetail.of(member, community);
                 })
                 .toList();
 
