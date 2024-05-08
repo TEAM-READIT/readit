@@ -50,8 +50,8 @@ public class ArticleService {
 
     public GetArticleFromLinkResponse getArticleFromLink(String link){
         FastAPIArticleResponse response = fastAPIClient.getArticle(link);
-        saveArticleFromLink(response);
-        return GetArticleFromLinkResponse.from(response);
+        Integer id = saveArticleFromLink(response);
+        return GetArticleFromLinkResponse.from(response,id);
     }
 
     @Transactional(readOnly = true)
@@ -92,9 +92,10 @@ public class ArticleService {
         return GetArticleSearchResponse.from(searchList);
     }
 
-    public void saveArticleFromLink(FastAPIArticleResponse response){
+    public Integer saveArticleFromLink(FastAPIArticleResponse response){
         Category category = categoryRepository.getByName(response.category());
-        articleRepository.save(FastAPIArticleResponse.toEntity(response,category));
+        Article article = articleRepository.save(FastAPIArticleResponse.toEntity(response,category));
+        return article.getId();
     }
 
     public void updateHit(Integer id){
@@ -102,5 +103,4 @@ public class ArticleService {
         article.increaseHit();
         articleRepository.save(article);
     }
-
 }

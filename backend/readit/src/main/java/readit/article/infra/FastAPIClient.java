@@ -13,7 +13,7 @@ import readit.article.infra.config.FastAPIURI;
 @RequiredArgsConstructor
 public class FastAPIClient {
 
-    private final FastAPIURI FAST_API_URI;
+    private final FastAPIURI fastAPIURI;
     private final WebClient webClient;
 
     public FastAPIArticleResponse getArticle(String link){
@@ -22,8 +22,9 @@ public class FastAPIClient {
     }
 
     private Mono<FastAPIArticleResponse> getFastAPIArticle(String link) {
+        System.out.println(fastAPIURI.getUri() + "?url=" + link);
         return webClient.get()
-                .uri(FAST_API_URI + "?url=" + link)
+                .uri(fastAPIURI.getUri() + "?url=" + link)
                 .retrieve()
                 .bodyToMono(FastAPIArticleResponse.class)
                 .onErrorMap(Exception.class, ex -> new ArticleNotFoundException());

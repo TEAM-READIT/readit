@@ -7,10 +7,9 @@ import readit.article.domain.Category;
 public record FastAPIArticleResponse(
         String title,
         String content,
-        String category,
-        String sourceUrl,
-        String reporter
-
+        String reporter,
+        String link,
+        String category
 ) {
     public static Article toEntity(FastAPIArticleResponse fastAPIArticleResponse, Category category){
         return new Article(
@@ -20,7 +19,7 @@ public record FastAPIArticleResponse(
                 fastAPIArticleResponse.content(),
                 fastAPIArticleResponse.title(),
                 fastAPIArticleResponse.reporter(),
-                fastAPIArticleResponse.sourceUrl(),
+                fastAPIArticleResponse.link(),
                 false,
                 null,
                 0
