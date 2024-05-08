@@ -10,6 +10,17 @@ interface answerList {
 	optionNumber: number;
 }
 
+interface answers { 
+		problemNumber: number;
+		answerNumber: number;
+		isCorrect:boolean;
+}
+
+interface answeranswer{
+	answerList:answers[]
+}
+
+
 interface problemListProps {
 	problemNumber: number;
 	problem: string;
@@ -32,4 +43,4 @@ interface scoreRanking {
 }
 
 
-export type { scoreRanking, problemListProps, answerList, optionListProps, ChallengeProps };
+export type { scoreRanking, problemListProps, answerList, optionListProps, ChallengeProps, answeranswer };
