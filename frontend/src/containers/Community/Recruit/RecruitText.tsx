@@ -1,17 +1,54 @@
 import { Button, Datepicker } from 'flowbite-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RecruitText = () => {
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
-	const [category, setCategory] = useState('')
-	const [participant, setParticipant] = useState('')
-	// const [startDate, setStartDate] = useState<Date|null>(null)
+	const [category, setCategory] = useState('');
+	const [participant, setParticipant] = useState('');
+	const [articleCount, setArticleCount] = useState('');
+	const [startAt, setStartAt] = useState(new Date());
+	const [endAt, setEndAt] = useState<Date | null>(null);
+	const navigate = useNavigate();
 
-	console.log(participant)
-	console.log(title)
-	console.log(content)
-	console.log(category);
+	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+
+	const handleDateChange = (date: Date) => {
+		setEndAt(date);
+	};
+
+	const formattedStartAt = startAt.toISOString().slice(0, 10);
+	const formattedEndAt = endAt ? endAt.toISOString().slice(0, 10) : null;
+
+	const handleSubmit = async () => {
+		const postData = {
+			title,
+			content,
+			categoryName: category,
+			maxParticipants: parseInt(participant, 10),
+			articleCount: parseInt(articleCount, 10),
+			startAt: formattedStartAt,
+			endAt: formattedEndAt,
+		};
+
+		try {
+			await fetch(`${baseUrl}/community/create`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(postData),
+			});
+
+			alert('등록 성공');
+			navigate('/community');
+		} catch (error) {
+			console.error('등록 실패:', error);
+			alert('등록에 실패했습니다.');
+		}
+	};
+
 	return (
 		<>
 			<div className='flex flex-row w-full'>
@@ -41,26 +78,23 @@ const RecruitText = () => {
 						<option value='6'>6명</option>
 						<option value='7'>7명</option>
 						<option value='8'>8명</option>
-						<option value='9'>9명</option>
-						<option value='10'>10명 이상</option>
 					</select>
 				</div>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
-					<div className='flex justify-start'>진행 기간</div>
-					<select name='category' className='select'>
-						<option value=''>기간 미정 ~ 6개월 이상</option>
-						<option value='1'>1개월</option>
-						<option value='2'>2개월</option>
-						<option value='3'>3개월</option>
-						<option value='4'>4개월</option>
-						<option value='5'>5개월</option>
-						<option value='6'>6개월</option>
-						<option value='7'>장기</option>
-					</select>
+					<div className='flex justify-start'>목표</div>
+					<input 
+					type='number'
+					name='target'
+					className='w-full border-gray-500'
+					placeholder='주간 목표치'
+					min={0}
+					max={30}
+					onChange={(e) => setArticleCount(e.target.value)}
+					/>
 				</div>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
 					<div className='flex justify-start'>마감일</div>
-					<Datepicker/>
+					<Datepicker onSelectedDateChanged={handleDateChange} />
 				</div>
 			</div>
 			<div className='flex flex-col items-start h-full  w-full gap-y-5 px-5'>
@@ -77,13 +111,15 @@ const RecruitText = () => {
 					<span className='font-bold'>내용</span>
 					<textarea
 						id='textarea'
-						className='w-full h-full'
+						className='w-full h-full resize-none'
 						placeholder='내용을 입력하세요!'
 						onChange={(e) => setContent(e.target.value)}
 					></textarea>
 
 					<div className='flex flex-row w-full justify-end'>
-						<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'>등록하기</Button>{' '}
+						<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800' onClick={handleSubmit}>
+							등록하기
+						</Button>{' '}
 					</div>
 				</div>
 			</div>

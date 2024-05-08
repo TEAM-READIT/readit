@@ -2,17 +2,20 @@ import Headers from '../../components/Headers';
 import SearchFilter from './SearchFilter';
 import SearchList from './SearchList';
 import CommunityHeader from './CommunityHeader';
-import communityList from '../../types/communityProps';
-
+// import communityList from '../../types/communityProps';
+import { useEffect, useState } from 'react';
+import { CommunityListArray } from '../../types/communityProps';
 
 const Community = () => {
 	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	// const [totalCommunity, setTotalCommunity] = useState<communityList[]>();
+	// const [totalCommunity, setTotalCommunity] = useState<CommunityListArray>([]);
+	
 	// // 전체 커뮤니티 조회
 	// const totalCommunityData = async (filter: string) => {
 	// 	const data = await fetch(`${baseUrl}/community/list?${filter}`).then((response) => response.json());
 	// 	return data;
 	// };
+	
 	// // 검색 필터 변경 시 다시 받아오기
 	// const handleFilterChange = (filter: string) => {
 	// 	console.log(filter);
@@ -23,14 +26,26 @@ const Community = () => {
 	// 		});
 	// };
 
+	// // useEffect(() => {
+	// // 	totalCommunityData('')
+	// // 		.then((res) => setTotalCommunity(res))
+	// // 		.catch((err) => {
+	// // 			console.log('전체 아티클 받아오는거 에러');
+	// // 		});
+	// // }, []);
+
+	// const fetchData = async ()=> {
+	// 	const response = await fetch(`${baseUrl}/community/list?`);
+	// 	const data = await response.json();
+	// 	console.log(data);
+	// 	setTotalCommunity(data);
+	// 	return data;
+	// }
 	// useEffect(() => {
-	// 	totalArticleData('')
-	// 		.then((res) => setTotalArticle(res))
-	// 		.catch((err) => {
-	// 			console.log('전체 아티클 받아오는거 에러');
-	// 		});
+	// 	fetchData()
 	// }, []);
-const totalCommunity: communityList[] = [
+
+const totalCommunity: CommunityListArray = [
 	{
 		communityId: 1,
 		hits: 523,
@@ -83,6 +98,9 @@ const totalCommunity: communityList[] = [
 		endAt: new Date(),
 	},
 ];
+
+// console.log(totalCommunity);
+
 	return (
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-full'>

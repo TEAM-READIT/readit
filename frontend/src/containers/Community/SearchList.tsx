@@ -1,11 +1,16 @@
 import { Card } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
-import communityList from '../../types/communityProps';
+// import communityList from '../../types/communityProps';
+import { CommunityList } from '../../types/communityProps';
 
-const SearchList = ({ totalCommunity }: { totalCommunity: communityList[] }) => {
+interface SearchListProps {
+	totalCommunity: CommunityList[];
+}
+
+const SearchList = ({ totalCommunity }: SearchListProps ) => {
 	const navigate = useNavigate();
 
-	const handleCardClick = (community: communityList) => {
+	const handleCardClick = (community: CommunityList) => {
 		navigate('/detail', { state: { community } });
 	};
 	return (

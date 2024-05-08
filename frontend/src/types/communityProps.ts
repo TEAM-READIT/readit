@@ -1,4 +1,4 @@
-interface communityList {
+export interface CommunityList {
 	communityId: number;
 	hits: number;
 	writerName?: string;
@@ -12,4 +12,4 @@ interface communityList {
 }
 
 
-export default communityList
+export type CommunityListArray = CommunityList[];
