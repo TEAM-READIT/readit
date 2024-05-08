@@ -1,53 +1,56 @@
 import Headers from '../../components/Headers';
-import SearchFilter from './SearchFilter';
-import SearchList from './SearchList';
+// import SearchFilter from './SearchFilter';
+// import SearchList from './SearchList';
 import CommunityHeader from './CommunityHeader';
-import { CommunityList } from '../../types/communityProps';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { CommunityListArray } from '../../types/communityProps';
+// import { CommunityList } from '../../types/communityProps';
+import {
+	// useCallback, useEffect, 
+	useRef, useState
+} from 'react';
+// import { CommunityListArray } from '../../types/communityProps';
 import { Button, Card } from 'flowbite-react';
-import { useInfiniteQuery } from 'react-query';
-import { useAuthStore } from '../../store/auth';
-import { useNavigate } from 'react-router-dom';
+// import { useInfiniteQuery } from 'react-query';
+// import { useAuthStore } from '../../store/auth';
+// import { useNavigate } from 'react-router-dom';
 
 const Community = () => {
-	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	const { accessToken } = useAuthStore();
+	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	// const { accessToken } = useAuthStore();
 	const observerRef = useRef(null);
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
-	const limit = 12;
-	const [page, setPage] = useState<number>(1);
-	const [totalCommunity, setTotalCommunity] = useState<CommunityList[]>([]);
+	// const limit = 12;
+	// const [page, setPage] = useState<number>(1);
+	// const [totalCommunity, setTotalCommunity] = useState<CommunityList[]>([]);
 
 	// // 전체 커뮤니티 조회
-	const totalCommunityData = async (page: number, filtered: string) => {
-		const headers = {
-			Authorization: `Bearer ${accessToken}`,
-		};
-		const response = await fetch(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`, {
-			headers: headers,
-		});
-		const data = await response.json();
-		console.log(data);
-		return data;
-	};
-	useEffect(() => {
-		totalCommunityData(page, filtered);
-	});
+	// const totalCommunityData = async (page: number, filtered: string) => {
+	// 	const headers = {
+	// 		Authorization: `Bearer ${accessToken}`,
+	// 	};
+	// 	const response = await fetch(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`, {
+	// 		headers: headers,
+	// 	});
+	// 	const data = await response.json();
+	// 	console.log(data);
+	// 	return data;
+	// };
+	// useEffect(() => {
+	// 	totalCommunityData(page, filtered);
+	// });
 
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
-	const fetchData = async (filtered: string) => {
-		try {
-			const data = await totalCommunityData(1, filtered);
-			setTotalCommunity(data);
-			window.scrollTo(0, 0);
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		}
-	};
+	// const fetchData = async (filtered: string) => {
+	// 	try {
+			// const data = await totalCommunityData(1, filtered);
+			// setTotalCommunity(data);
+	// 		window.scrollTo(0, 0);
+	// 	} catch (error) {
+	// 		console.error('Error fetching data:', error);
+	// 	}
+	// };
 
-	useEffect(()=>{fetchData(filtered)},[])
+	// useEffect(()=>{fetchData(filtered)},[])
 
 	// 무한 스크롤을 사용하여 데이터 가져오기
 	// const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
@@ -132,7 +135,7 @@ const Community = () => {
 	// 	return () => observer.unobserve(element);
 	// }, [fetchNextPage, hasNextPage, handleObserver]);
 
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	// // 검색 필터 변경 시 다시 받아오기
 	// const handleFilterChange = (filter: string) => {
@@ -164,9 +167,9 @@ const Community = () => {
 	// }, []);
 
 	// console.log(totalCommunity);
-	const handleCardClick = (community: CommunityList) => {
-		navigate('/detail', { state: { community } });
-	};
+	// const handleCardClick = (community: CommunityList) => {
+	// 	navigate('/detail', { state: { community } });
+	// };
 
 	let filtered = '';
 

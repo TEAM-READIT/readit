@@ -36,6 +36,7 @@ export const ViewerPage = () => {
 	// const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
 	const navigate = useNavigate();
 	const [wordList, setWordList] = useState<wordListProps[]>();
+	console.log(wordList)
 	const [isOpen, open, close] = useModal();
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
