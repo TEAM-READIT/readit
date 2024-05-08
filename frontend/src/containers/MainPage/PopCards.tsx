@@ -3,19 +3,37 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { articleList, PopArticleList } from '../../types/articleProps';
 import { useAuthStore } from '../../store/auth';
+import { useMutation } from 'react-query';
 
 const PopCards = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
-	const hits = async (articleId: number) => {
-		const data = await fetch(`${baseUrl}/article/hits/${articleId}`).then((response) => response.json());
-		return data;
+
+	// 조회수 ++
+	const hits = useMutation(async (id: number) => {
+		const response = await fetch(`${baseUrl}/article/hit/${id}`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json',
+			},
+		});
+		console.log(response);
+	});
+	const handlehits = async (id: number) => {
+		try {
+			await hits.mutateAsync(id);
+		} catch (error) {
+			console.error('', error);
+		}
 	};
-	// 아티클 담아서 상세 페이지로 보내주기
-	const handleCardClick = (article: articleList) => {
-		navigate('/text', { state: { article } });
-		hits(article.id!);
+
+	const handleCardClick = (article: articleList| null) => {
+		navigate('/text', { state: { article  } });
+		handlehits(article?.id!);
 	};
+
+
 	const [popArticles, setPopArticle] = useState<PopArticleList>();
 	// 인기있는 아티클 받아오기
 	const popArticleData = async () => {
@@ -23,7 +41,7 @@ const PopCards = () => {
 		return data;
 	};
 
-	const {accessToken} = useAuthStore();
+	const { accessToken } = useAuthStore();
 	useEffect(() => {
 		popArticleData()
 			.then((res) => setPopArticle(res))
@@ -36,7 +54,6 @@ const PopCards = () => {
 	const news = 0b1;
 	const liter = 0b10;
 	const [mode, setMode] = useState(total);
-
 
 	return (
 		<>
@@ -77,7 +94,9 @@ const PopCards = () => {
 								<Card
 									key={index}
 									className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
-									onClick={() => {accessToken ?  <>handleCardClick(article)</> : <></> }}
+									onClick={() => {
+										handleCardClick(article);
+									}}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
 										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
