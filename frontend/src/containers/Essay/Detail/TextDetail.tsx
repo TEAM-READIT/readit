@@ -52,10 +52,10 @@ const TextDetail = () => {
 								<div>{article.categoryName}</div>
 							</div>
 							<div className='w-full flex justify-start whitespace-pre-wrap'>
-								{article.content.length <= 1355 ? (
+								{article.content.length <= 950 ? (
 									<div className='text-start pt-5'>{realarticle} </div>
 								) : (
-									<div className='text-start pt-5'>{realarticle.slice(0, 1355)}...</div>
+									<div className='text-start pt-5'>{realarticle.slice(0, 950)}...</div>
 								)}
 							</div>
 						</div>
