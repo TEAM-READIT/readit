@@ -1,7 +1,9 @@
-package readit.viewer.domain.dto;
+package readit.viewer.domain.dto.gpt;
 
 import lombok.Getter;
 import java.util.List;
+import readit.viewer.domain.dto.gpt.Choice;
+import readit.viewer.domain.dto.gpt.Usage;
 
 @Getter
 public class ChatCompletion {

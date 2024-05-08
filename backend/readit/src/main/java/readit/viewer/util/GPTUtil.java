@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import readit.common.config.ChatGPTConfig;
 import readit.viewer.domain.dto.*;
+import readit.viewer.domain.dto.gpt.ChatCompletion;
+import readit.viewer.domain.dto.gpt.Choice;
+import readit.viewer.domain.dto.gpt.GPTMessage;
+import readit.viewer.domain.dto.gpt.GPTPrompt;
 import readit.viewer.domain.dto.response.SubmissionResponse;
 import readit.viewer.exception.InvalidAPIResponseException;
 import readit.viewer.exception.JsonParsingException;
@@ -35,9 +39,7 @@ public class GPTUtil {
     // 어려운 단어 리스트 추출 프롬프트 요청
     @Async
     public CompletableFuture<List<Word>> promptWords(List<GPTMessage> messages) {
-        log.info("비동기 작업 처리 시작");
         String response = sendPromptAndGetResponse(messages);
-        log.info("비동기 작업 처리 완료");
         return CompletableFuture.completedFuture(
                 extractWordsFromContent(parseResponse(response)));
     }
@@ -62,7 +64,6 @@ public class GPTUtil {
                         HttpMethod.POST,
                         requestEntity,
                         String.class);
-
 
         return response.getBody();
     }
