@@ -16,9 +16,6 @@ public interface MemberArticleRepository extends JpaRepository<MemberArticle, In
         return findById(id).orElse(null);
     }
 
-    @Query("UPDATE MemberArticle ma SET ma.summary = :summary WHERE ma.id = :id")
-    void updateSummaryById(Integer id, String summary);
-
     @Modifying
     @Query("UPDATE MemberArticle ma SET ma.score = :score, ma.feedback = :feedback WHERE ma.id = :id")
     void updateScoreAndFeedbackById(Integer id, Integer score, String feedback);
