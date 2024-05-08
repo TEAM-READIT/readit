@@ -48,8 +48,7 @@ public class Article extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer hit;
 
-    private void increaseHit(){
+    public void increaseHit(){
         this.hit++;
     }
-
 }

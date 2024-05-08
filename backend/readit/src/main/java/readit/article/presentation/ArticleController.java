@@ -69,4 +69,12 @@ public class ArticleController {
         GetArticleSearchResponse searchListResponse = articleService.getArticleSearchList(category,title,content,reporter,hit,cursor,limit);
         return ResponseEntity.ok(searchListResponse);
     }
+
+    @PostMapping("/hit/{id}")
+    public ResponseEntity<Void> increaseHit(
+            @PathVariable Integer id){
+        articleService.updateHit(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
