@@ -33,7 +33,7 @@ const Community = () => {
 const totalCommunity: communityList[] = [
 	{
 		communityId: 1,
-		hit: 523,
+		hits: 523,
 		writerName: '오영주',
 		maxParticipants: 4,
 		currentParticipants: 2,
@@ -48,7 +48,7 @@ const totalCommunity: communityList[] = [
 
 	{
 		communityId: 2,
-		hit: 523,
+		hits: 523,
 		writerName: '박현춘',
 		maxParticipants: 8,
 		currentParticipants: 1,
@@ -61,7 +61,7 @@ const totalCommunity: communityList[] = [
 	{
 		communityId: 3,
 		title: '저와 같이 심도 있는 토론 하실분 ',
-		hit: 523,
+		hits: 523,
 		writerName: '박현춘',
 		maxParticipants: 8,
 		currentParticipants: 1,
@@ -78,7 +78,7 @@ const totalCommunity: communityList[] = [
 		maxParticipants: 8,
 		currentParticipants: 1,
 		content: '회원님들 들어와주세요',
-		hit: 523,
+		hits: 523,
 		startAt: new Date(),
 		endAt: new Date(),
 	},

@@ -4,12 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import Login from '../containers/MainPage/Login/Login';
 import useModal from '../hooks/useModal';
 import useStore from '../store';
-import userStore from '../store/user';
 import { useMutation } from 'react-query';
 
 const Headers = () => {
 	const { accessToken, logout } = useAuthStore();
-	const { id } = userStore();
 	const { setModal } = useStore();
 	const navigate = useNavigate();
 
