@@ -96,4 +96,11 @@ public class ArticleService {
         Category category = categoryRepository.getByName(response.category());
         articleRepository.save(FastAPIArticleResponse.toEntity(response,category));
     }
+
+    public void updateHit(Integer id){
+        Article article = articleRepository.getById(id);
+        article.increaseHit();
+        articleRepository.save(article);
+    }
+
 }
