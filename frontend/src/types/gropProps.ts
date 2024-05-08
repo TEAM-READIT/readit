@@ -1,4 +1,13 @@
 interface communityProps {
+	communityDetail: communityDetail
+	memberList: memberProps[];
+	articleList: articleProps[];
+	chatList: chatProps[];
+	myId: number;
+	notice: string
+}
+
+interface communityDetail {
 	communityId: number;
 	hit: number;
 	writerName: string;
@@ -10,38 +19,34 @@ interface communityProps {
 	categoryName: string;
 	title: string;
 	endAt: Date;
-	memberList: memberProps[];
-	articleList: articleProps[];
-	chatList: chatProps[];
 }
-
 interface memberProps {
 	memberId: number;
 	memberName: string;
-	profile: string;
+	memberProfile: string;
 	readCount: number;
 }
 
 interface articleProps {
-	memberName: string;
-	profile: string;
-	articleId: number;
+	articleDetail: aricleDetail;
+	member: memberProps
+}
+
+interface aricleDetail {
+	articleId?: number;
 	title: string;
 	content: string;
-	categoryName: string;
-	type: string;
 	completedAt: Date;
 	summary: string;
 	score: number;
 	feedback: string;
 }
-
 interface chatProps {
 	memberId: number;
 	memberName: string;
 	memberProfile: string;
-	sendDate: Date;
+	createdAt: Date;
 	content: string;
 }
 
-export type { communityProps, articleProps };
+export type { communityProps, articleProps, aricleDetail };

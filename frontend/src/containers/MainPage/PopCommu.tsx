@@ -2,24 +2,41 @@ import { Card } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import communityList from '../../types/communityProps';
+import { useMutation } from 'react-query';
+import { useAuthStore } from '../../store/auth';
 
 const PopCommu = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const [page, setPage] = useState<number>(1);
 	const navigate = useNavigate();
-
-	// 커뮤니티 조회수
-	const hits = async (communityId: number) => {
-		const data = await fetch(`${baseUrl}/community/hits/${communityId}`).then((response) => response.json());
-		return data;
+	const {accessToken} = useAuthStore();
+	
+	// 조회수 ++
+	const hits = useMutation(async (id: number) => {
+		const response = await fetch(`${baseUrl}/community/hit/${id}`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json',
+			},
+		});
+		console.log(response);
+	});
+	const handlehits = async (id: number) => {
+		try {
+			await hits.mutateAsync(id);
+		} catch (error) {
+			console.error('', error);
+		}
 	};
 
-	// 커뮤니티 상세 페이지 이동 && 조회수 올리기
 	const handleCardClick = (community: communityList) => {
-		navigate('/detail', { state: { community } });
-		hits(community.communityId!);
+	navigate('/detail', { state: { community } });
+		handlehits(community?.communityId);
 	};
-	const [popCommunity, setPopCommunity] = useState<{communityList: communityList[]}>();
+
+
+	const [popCommunity, setPopCommunity] = useState<{ communityList: communityList[] }>();
 	//인기 있는 모임 받아오기
 	const popCommunityData = async () => {
 		const data = await fetch(`${baseUrl}/community/hot`).then((response) => response.json());
@@ -34,7 +51,7 @@ const PopCommu = () => {
 			});
 	}, []);
 
-	const communitys = popCommunity?.communityList
+	const communitys = popCommunity?.communityList;
 	return (
 		<>
 			<div className='flex flex-col w-full items-center pb-32'>
@@ -73,7 +90,7 @@ const PopCommu = () => {
 												<div>{community.title.slice(0, 35)}...</div>
 											)}
 										</div>
-										<div className='text-end text-sm'>👀 조회수 {community.hit}</div>
+										<div className='text-end text-sm'>👀 조회수 {community.hits}</div>
 									</Card>
 								))}
 							</>
@@ -98,7 +115,7 @@ const PopCommu = () => {
 												<div>{community.title.slice(0, 35)}...</div>
 											)}
 										</div>
-										<div className='text-end text-sm'>👀 조회수 {community.hit}</div>
+										<div className='text-end text-sm'>👀 조회수 {community.hits}</div>
 									</Card>
 								))}
 							</>

@@ -3,7 +3,7 @@ import EssayHeader from './EssayHeader';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { articleList } from '../../types/articleProps';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useMutation } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import { Card, Checkbox } from 'flowbite-react';
 
@@ -48,6 +48,7 @@ const Essay = () => {
 	const fetchUnreadData = async (filtered: string) => {
 		try {
 			const data = await unreadArticleData(1, filtered);
+			console.log(data)
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
 		} catch (error) {
@@ -71,12 +72,14 @@ const Essay = () => {
 	useEffect(() => {
 		if (isMember) {
 			fetchUnreadData(filtered);
+			console.log(filtered)
+			console.log('내가 읽은 글 ')
 		} else {
 			fetchData(filtered);
 		}
 	}, [isMember]);
 
-	useEffect(() => {}, [fetchData]);
+	useEffect(() => {}, [fetchData, fetchUnreadData]);
 
 	// 무한 스크롤을 사용하여 데이터 가져오기
 	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
@@ -164,13 +167,28 @@ const Essay = () => {
 	const navigate = useNavigate();
 
 	// 조회수 ++
-	const hits = async (articleId: number) => {
-		const data = await fetch(`${baseUrl}/article/hits/${articleId}`).then((response) => response.json());
-		return data;
+	const hits = useMutation(async (id:number) => {
+		const response = await fetch(`${baseUrl}/article/hit/${id}`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json',
+			},
+		});
+		console.log(response)
+	});
+	const handlehits = async (id:number) => {
+		try {
+			await hits.mutateAsync(id);
+		} catch (error) {
+			console.error('', error);
+		}
 	};
+
+
 	const handleCardClick = (article: articleList, communityId: number | null) => {
 		navigate('/text', { state: { article, communityId } });
-		hits(article.id!);
+		handlehits(article.id!);
 	};
 
 	let filtered = '';
