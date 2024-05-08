@@ -17,7 +17,6 @@ import readit.viewer.domain.entity.MemberArticle;
 import readit.viewer.domain.repository.MemberArticleRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
