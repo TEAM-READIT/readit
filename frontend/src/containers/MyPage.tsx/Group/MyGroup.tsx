@@ -1,6 +1,6 @@
 import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
-import communityList from '../../../types/communityProps';
+import {CommunityList} from '../../../types/communityProps';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../../store/auth';
 
@@ -9,7 +9,7 @@ const MyGroup = () => {
 	const { accessToken } = useAuthStore();
 	const navigate = useNavigate();
 
-	const handleCommunity = (communityList: communityList[]) => {
+	const handleCommunity = (communityList: CommunityList[]) => {
 		navigate('/mypage/group', { state: { communityList } });
 	};
 
@@ -17,7 +17,7 @@ const MyGroup = () => {
 		navigate('/group', { state: { communityId } });
 	};
 
-	const [communityList, setCommunityList] = useState<{communityList :communityList[]}>();
+	const [communityList, setCommunityList] = useState<{ communityList: CommunityList[] }>();
 
 	// 내가 속한 모임 받아오기
 	const myCommunityData = async () => {

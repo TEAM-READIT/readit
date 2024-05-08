@@ -3,7 +3,7 @@ import SearchFilter from './SearchFilter';
 import SearchList from './SearchList';
 import CommunityHeader from './CommunityHeader';
 // import communityList from '../../types/communityProps';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { CommunityListArray } from '../../types/communityProps';
 
 const Community = () => {
