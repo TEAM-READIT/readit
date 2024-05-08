@@ -39,6 +39,8 @@ INSERT INTO community (`article_count`,`category_id`,`end_at`,`hits`,`id`,`is_de
 INSERT INTO community (`article_count`,`category_id`,`end_at`,`hits`,`id`,`is_deleted`,`max_participants`,`start_at`,`writer_id`,`created_at`,`deleted_at`,`modified_at`,`title`,`notice`,`content`) VALUES (1,6,'2024-05-07',1,19,0,3,'2024-05-01',1,'2024-05-06 19:17:15.883923',NULL,'2024-05-06 19:17:15.883923','제목19',NULL,'아아 안녕하세요');
 INSERT INTO community (`article_count`,`category_id`,`end_at`,`hits`,`id`,`is_deleted`,`max_participants`,`start_at`,`writer_id`,`created_at`,`deleted_at`,`modified_at`,`title`,`notice`,`content`) VALUES (1,1, '2024-05-18', 0, 20, 0, 7, '2024-05-09', 1, '2024-05-08 10:14:01.000000', NULL, '2024-05-08 10:14:01.000000', '20 비문학 글 읽으실 분 모집합니다', NULL, '열심히 하실 분만!');
 
+ALTER TABLE `readit`.`chat` DROP INDEX `UK_p6h1dndxpqtil7jdj6jq79kb0` ;
+
 INSERT INTO `participants` (`community_id`,`id`,`is_deleted`,`member_id`,`created_at`,`deleted_at`,`modified_at`) VALUES (1,1,0,1,'2024-05-08 09:59:36.000000',NULL,'2024-05-08 09:59:36.000000');
 INSERT INTO `participants` (`community_id`,`id`,`is_deleted`,`member_id`,`created_at`,`deleted_at`,`modified_at`) VALUES (2,2,0,1,'2024-05-08 09:59:39.000000',NULL,'2024-05-08 09:59:39.000000');
 INSERT INTO `participants` (`community_id`,`id`,`is_deleted`,`member_id`,`created_at`,`deleted_at`,`modified_at`) VALUES (3,3,0,1,'2024-05-08 09:59:42.000000',NULL,'2024-05-08 09:59:42.000000');
