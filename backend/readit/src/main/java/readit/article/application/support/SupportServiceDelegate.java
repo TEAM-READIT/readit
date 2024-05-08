@@ -26,9 +26,8 @@ public class SupportServiceDelegate {
                 .filter(list -> !list.isEmpty())
                 .orElseThrow(() -> exception);
     }
-    public Integer getHitCursor(Article article){
-        return Optional.ofNullable(article)
-                .map(Article::getHit)
+    public <T> List<T> supportEmptyToNull(Supplier<List<T>> supplier, RuntimeException exception){
+        return Optional.ofNullable(supplier.get())
                 .orElse(null);
     }
 
@@ -41,6 +40,6 @@ public class SupportServiceDelegate {
     }
 
     public List<MemberArticle> getMemberArticleListByMemberId(Integer id) {
-        return supportEmptyToException(() -> memberArticleRepository.findMemberArticleByMemberId(id), new MemberArticleNotFoundException());
+        return supportEmptyToNull(() -> memberArticleRepository.findMemberArticleByMemberId(id), new MemberArticleNotFoundException());
     }
 }
