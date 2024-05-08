@@ -8,6 +8,7 @@ import readit.article.domain.ArticleType;
 import readit.article.exception.ArticleNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
@@ -24,5 +25,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
     @Modifying
     @Query("UPDATE Article a SET a.hasWord = true WHERE a.id = :articleId")
     void updateHasWordToTrue(Integer articleId);
+
+    @Query(value = "SELECT id FROM article WHERE id NOT IN (SELECT COALESCE(article_id, 0) FROM member_problem WHERE member_id = :memberId) ORDER BY RAND() LIMIT 1", nativeQuery = true)
+    Optional<Integer> findNotReadRandomArticle(Integer memberId);
 
 }
