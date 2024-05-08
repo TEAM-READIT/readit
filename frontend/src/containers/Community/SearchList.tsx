@@ -20,7 +20,7 @@ const SearchList = ({ totalCommunity }: { totalCommunity: communityList[] }) => 
 						}}
 					>
 						<div className='flex flex-row justify-between text-center text-sm'>
-							<div>👀 {community.hit}</div>
+							<div>👀 {community.hits}</div>
 							<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
 								{community.categoryName}
 							</div>

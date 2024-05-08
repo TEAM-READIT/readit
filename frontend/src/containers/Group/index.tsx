@@ -3,7 +3,6 @@ import Headers from '../../components/Headers';
 import GroupHeader from './GroupHeader';
 import { communityProps } from '../../types/gropProps';
 import Articles from './Articles';
-import Chat from './Chat';
 import { useEffect, useRef, useState } from 'react';
 import { useAuthStore } from '../../store/auth';
 import { Button } from 'flowbite-react';
