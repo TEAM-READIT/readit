@@ -1,16 +1,14 @@
 import Headers from '../../components/Headers';
-import SearchFilter from './SearchFilter';
 import EssayHeader from './EssayHeader';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { articleList } from '../../types/articleProps';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useAuthStore } from '../../store/auth';
-import { Card } from 'flowbite-react';
+import { Card, Checkbox } from 'flowbite-react';
 
 const Essay = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	const [filter, setFilter] = useState<string>('');
 	const { accessToken } = useAuthStore();
 	const observerRef = useRef(null);
 	const location = useLocation();
@@ -23,11 +21,11 @@ const Essay = () => {
 	const [totalArticles, setTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
 
 	// 전체 아티클 데이터를 가져오는 함수
-	const totalArticleData = async (page: number, filter: string) => {
+	const totalArticleData = async (page: number, filtered: string) => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const response = await fetch(`${baseUrl}/article/search/article?${filter}&cursor=${page}&limit=${limit}`, {
+		const response = await fetch(`${baseUrl}/article/search/article?${filtered}&cursor=${page}&limit=${limit}`, {
 			headers: headers,
 		});
 		const data = await response.json();
@@ -35,11 +33,11 @@ const Essay = () => {
 	};
 
 	// 내가 안읽은 글이 더 맞는거 같은데
-	const unreadArticleData = async (page: number, filter: string) => {
+	const unreadArticleData = async (page: number, filtered: string) => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const response = await fetch(`${baseUrl}/article/search/myarticle?${filter}&cursor=${page}&limit=${limit}`, {
+		const response = await fetch(`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}`, {
 			headers: headers,
 		});
 		const data = await response.json();
@@ -47,9 +45,9 @@ const Essay = () => {
 	};
 
 	// 안읽은 글 호출 함수
-	const fetchUnreadData = async () => {
+	const fetchUnreadData = async (filtered: string) => {
 		try {
-			const data = await unreadArticleData(1, filter);
+			const data = await unreadArticleData(1, filtered);
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
 		} catch (error) {
@@ -58,9 +56,9 @@ const Essay = () => {
 	};
 
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
-	const fetchData = async () => {
+	const fetchData = async (filtered: string) => {
 		try {
-			const data = await totalArticleData(1, filter);
+			const data = await totalArticleData(1, filtered);
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
 		} catch (error) {
@@ -68,33 +66,40 @@ const Essay = () => {
 		}
 	};
 
-	// 필터가 바뀌면 fetchData
-	useEffect(() => {
-		fetchData();
-	}, [filter]);
-
 
 	// 내가 읽은 글 누를 때 마다 렌더링
 	useEffect(() => {
 		if (isMember) {
-			fetchUnreadData();
+			fetchUnreadData(filtered);
 		} else {
-			fetchData();
+			fetchData(filtered);
 		}
 	}, [isMember]);
+
+	useEffect(() => {}, [fetchData]);
 
 	// 무한 스크롤을 사용하여 데이터 가져오기
 	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
 		'articles',
 		({ pageParam = page }) =>
-			totalArticleData(pageParam, filter)
+			totalArticleData(pageParam, filtered)
 				.then((res) => {
 					if (totalArticles) {
 						// 이전 페이지에 있는 기사들과 새로운 페이지에 있는 기사들을 합쳐서 업데이트합니다.
-						setTotalArticle((prevTotalArticles) => ({
-							articleList: [...prevTotalArticles!.articleList, ...res.articleList],
-							hasNext: res.hasNext,
-						}));
+						setTotalArticle((prevTotalArticles) => {
+							let newArticleList = prevTotalArticles ? [...prevTotalArticles.articleList] : [];
+
+							if (res.articleList && typeof res.articleList[Symbol.iterator] === 'function') {
+								newArticleList.push(...res.articleList);
+							} else {
+								console.error('res.articleList is not iterable');
+							}
+
+							return {
+								articleList: newArticleList,
+								hasNext: res.hasNext,
+							};
+						});
 					} else {
 						setTotalArticle(res);
 					}
@@ -158,14 +163,40 @@ const Essay = () => {
 
 	const navigate = useNavigate();
 
+	// 조회수 ++
 	const hits = async (articleId: number) => {
 		const data = await fetch(`${baseUrl}/article/hits/${articleId}`).then((response) => response.json());
 		return data;
 	};
-
 	const handleCardClick = (article: articleList, communityId: number | null) => {
 		navigate('/text', { state: { article, communityId } });
 		hits(article.id!);
+	};
+
+	let filtered = '';
+
+	const [searchType, setSearchType] = useState<string>('title');
+	const [keyword, setKeyword] = useState('');
+	const [category, setCategory] = useState('');
+	const [ishit, setIshit] = useState<boolean>(false);
+	const handleApplyFilter = () => {
+		console.log('검색버튼 누름 ')
+		if (searchType != '' && keyword) {
+			filtered += `${searchType}=${keyword}$`;
+		}
+		if (ishit) {
+			filtered += `hit=true$`;
+		}
+		// if (filter.isMember) {
+		// 	filtered += `isMember=true$`;
+		// }
+		if (category != '') {
+			filtered += `category=${category}$`;
+		}
+		// 마지막 & 제거
+		filtered = filtered.slice(0, -1);
+		console.log(filtered)
+		fetchData(filtered);
 	};
 
 	return (
@@ -178,7 +209,56 @@ const Essay = () => {
 
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
-						<SearchFilter setFilter={setFilter} setIsMember={setIsMember} />
+						{/* <SearchFilter setFilter={setFilter} setIsMember={setIsMember} /> */}
+						<div className='w-full h-full'>
+							<div className='fixed top-50'>
+								<div className='flex items-start h-full flex-row'>
+									<Card>
+										<div className='w-full flex flex-col gap-y-5'>
+											<p className='font-semibold text-md border-b-2 border-gray-200 mb-2 pb-1'>검색 필터</p>
+											<div className='flex flex-col gap-4'>
+												<div className='flex flex-row items-center gap-10'>
+													<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수</div>
+												</div>
+												<div className='flex flex-row items-center gap-10'>
+													<Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div>
+												</div>
+												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
+													<option value='title'>제목</option>
+													<option value='content'>내용</option>
+													<option value='writerName'>작성자</option>
+												</select>
+												<input
+													type='text'
+													name='keyword'
+													placeholder='검색어'
+													className='input'
+													onChange={(e) => setKeyword(e.target.value)}
+												/>
+												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
+													<option value=''>카테고리 선택</option>
+													<option value='비문학'>비문학</option>
+													<option value='정치'>정치</option>
+													<option value='경제'>경제</option>
+													<option value='사회'>사회</option>
+													<option value='생활/문화'>생활/문화</option>
+													<option value='IT/과학'>IT/과학</option>
+													<option value='세계'>세계</option>
+													<option value='오피니언'>오피니언</option>
+												</select>
+											</div>
+
+											<button className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
+												<div className='flex items-center gap-2' onClick={handleApplyFilter}>
+													<span className='material-symbols-outlined text-[1.2rem]'>search</span>
+													<span>검색</span>
+												</div>
+											</button>
+										</div>
+									</Card>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div className='flex w-4/6 h-auto flex-col justify-start gap-5 '>
 						{isSuccess && totalArticles ? (
