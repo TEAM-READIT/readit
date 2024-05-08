@@ -20,6 +20,7 @@ import readit.viewer.exception.ValueMissingException;
 import readit.viewer.util.DictionaryUtil;
 import readit.viewer.util.GPTUtil;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -89,10 +90,12 @@ public class ViewerService {
         if (optionalMemberArticle.isPresent()) {
             MemberArticle memberArticle = optionalMemberArticle.get();
             memberArticle.updateSummary(request.summary());
+            memberArticle.updateContent(request.content());
+
             // 요약, 메모 저장
             memberArticleRepository.save(memberArticle);
 
-            saveMemo(optionalMemberArticle.get(), request.memoList());
+//            saveMemo(optionalMemberArticle.get(), request.memoList());
 
         } else {
             Optional<Article> optionalArticle = Optional.ofNullable(articleRepository.findById(articleId)
@@ -101,10 +104,10 @@ public class ViewerService {
             // 읽은 글에 없으면 요약 포함해서 새로 저장
             Article article = optionalArticle.get();
             MemberArticle saveMemberArticle =
-                    memberArticleRepository.save(MemberArticle.create(article, memberId, request.summary()));
+                    memberArticleRepository.save(MemberArticle.create(article, memberId, request.summary(), request.content()));
 
             // 메모 저장
-            saveMemo(saveMemberArticle, request.memoList());
+//            saveMemo(saveMemberArticle, request.memoList());
         }
     }
 
@@ -145,12 +148,8 @@ public class ViewerService {
 
         // 피드백, 점수 저장
         MemberArticle memberArticle = optionalMemberArticle.get();
-        memberArticleRepository.updateScoreAndFeedbackById(
-                memberArticle.getId(),
-                response.score(),
-                response.feedback());
-
-        // todo: 결과 받아와서 db에 feedback 저장
+        memberArticle.updateWhenComplete(LocalDateTime.now(), response.score(), response.feedback());
+        memberArticleRepository.save(memberArticle);
         return response;
     }
 
