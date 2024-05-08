@@ -1,10 +1,10 @@
 package readit.community.domain.dto;
 
-import java.time.LocalDate;
 import readit.community.domain.entity.Community;
-import readit.member.domain.Member;
+import java.time.LocalDate;
 
 public record CommunityDetail(
+        Integer communityId,
         String writerName,
         String writerProfile,
         Integer maxParticipants,
@@ -18,11 +18,12 @@ public record CommunityDetail(
         LocalDate endAt
 ) {
 
-    public static CommunityDetail of(Member writer, Community community) {
+    public static CommunityDetail from(Community community) {
 
         return new CommunityDetail(
-                writer.getName(),
-                writer.getProfile(),
+                community.getId(),
+                community.getMember().getName(),
+                community.getMember().getProfile(),
                 community.getMaxParticipants(),
                 community.getParticipants().size(),
                 community.getCategory().getName(),

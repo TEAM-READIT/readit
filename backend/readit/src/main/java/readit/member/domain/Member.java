@@ -38,4 +38,12 @@ public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "member")
     private List<Participants> participants = new ArrayList<>();
+
+    public void anwerCorrect() {
+        this.challengeScore += 2;
+    }
+
+    public void anwerWrong() {
+        this.challengeScore = this.challengeScore > 2 ? this.challengeScore - 2 : 0;
+    }
 }

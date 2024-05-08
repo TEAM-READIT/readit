@@ -1,7 +1,6 @@
 package readit.community.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import readit.article.domain.Category;
@@ -26,11 +25,11 @@ public class Community extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    @JsonIgnore
     private Category category;
 
-    @Column(nullable = false)
-    private Integer writerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer_id", referencedColumnName = "id")
+    private Member member;
 
     @Column(nullable = false, length = 50)
     private String title;
