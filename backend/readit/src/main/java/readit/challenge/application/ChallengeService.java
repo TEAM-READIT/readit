@@ -35,6 +35,7 @@ public class ChallengeService {
     private final ArticleRepository articleRepository;
     private final ProblemParser problemParser;
 
+    @Transactional(readOnly = true)
     public GetChallengeRankResponse getChallengeRank(Integer memberId) {
 
         List<GetRankMember> memberList = memberRepository.findTop7ByOrderByChallengeScoreDesc().stream()
@@ -48,6 +49,7 @@ public class ChallengeService {
 
     }
 
+    @Transactional(readOnly = true)
     public GetProblemsResponse getProblems(Integer memberId) {
 
         //내가 풀지 않은 랜덤한 글을 불러오기
@@ -64,5 +66,23 @@ public class ChallengeService {
         return GetProblemsResponse.of(articleId, content, problemList);
     }
 
+    public SubmitAnswerResponse submitAnswer(Integer memberId, Integer articleId, List<GetSubmit> submitList) {
+        //정답 불러와서 확인
+        List<Problem> problems = problemRepository.findByArticle(articleRepository.getById(articleId)).orElseThrow(ProblemNotFoundException::new);
+        List<GetAnswer> answerList = new ArrayList<>();
 
+        for (int i = 0; i < problems.size(); i++) {
+            int answerNumber = problems.get(i).getAnswer();
+            answerList.add(GetAnswer.of(i + 1, answerNumber));
+
+            //점수 반영
+            Member member = memberRepository.getById(memberId);
+            if (answerNumber == submitList.get(i).optionNumber()) {
+                member.anwerCorrect();
+            } else {
+                member.anwerWrong();
+            }
+        }
+        return SubmitAnswerResponse.from(answerList);
+    }
 }

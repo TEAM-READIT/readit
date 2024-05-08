@@ -32,4 +32,11 @@ public class ChallengeController {
     }
 
 
+    @PostMapping
+    public ResponseEntity<SubmitAnswerResponse> submitAnswer(
+            @Parameter(hidden = true) @Auth AuthCredentials authCredentials,
+            @RequestBody SubmitAnswerRequest submitAnswerRequest) {
+        SubmitAnswerResponse submitAnswerResponse = challengeService.submitAnswer(authCredentials.id(), submitAnswerRequest.articleId(), submitAnswerRequest.submitList());
+        return ResponseEntity.ok(submitAnswerResponse);
+    }
 }
