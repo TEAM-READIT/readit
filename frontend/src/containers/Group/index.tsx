@@ -14,7 +14,6 @@ const Group = () => {
 	const location = useLocation();
 	const communityId = location.state?.communityId;
 	const [myGroup, setMyGroup] = useState<communityProps>();
-	console.log(communityId);
 
 	// 내가 속한 모임 받아오기
 	const groupData = async () => {
@@ -58,7 +57,6 @@ const Group = () => {
 			},
 			body: JSON.stringify(chatBody),
 		});
-		console.log(chatBody);
 	});
 	const handleSendingChat = async () => {
 		console.log('채팅 보냄');

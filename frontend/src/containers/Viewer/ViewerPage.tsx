@@ -36,7 +36,6 @@ export const ViewerPage = () => {
 	// const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
 	const navigate = useNavigate();
 	const [wordList, setWordList] = useState<wordListProps[]>();
-	console.log(wordList);
 	const [isOpen, open, close] = useModal();
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
@@ -48,7 +47,7 @@ export const ViewerPage = () => {
 		setBottomOpen(!isBottomOpen);
 	};
 	const id = article.id;
-const total = document.querySelector('#text')?.outerHTML;
+	const total = document.querySelector('#text')?.outerHTML;
 	// 어려운 단어 불러오기
 	const fetchWord = async () => {
 		const headers = {
@@ -58,6 +57,7 @@ const total = document.querySelector('#text')?.outerHTML;
 			headers: headers,
 		});
 		const data = await response.json();
+		console.log(data)
 		return data;
 	};
 
@@ -76,7 +76,7 @@ const total = document.querySelector('#text')?.outerHTML;
 	}, []);
 	// 제출 POST
 	const requestbody: RequestBody = {
-		content: total,
+		content: total!,
 		summary: summary,
 	};
 
@@ -89,17 +89,13 @@ const total = document.querySelector('#text')?.outerHTML;
 			},
 			body: JSON.stringify(requestbody),
 		});
-		console.log(requestbody);
-		console.log(response);
 		return response.json();
 	});
 
 	const handleSubmit = async () => {
-		console.log('제출했어요');
 		open();
 		try {
 			const data = await summarySubmit.mutateAsync();
-			console.log(data);
 			setFeedback(data);
 		} catch (error) {
 			console.error('제출 실패', error);
@@ -131,7 +127,6 @@ const total = document.querySelector('#text')?.outerHTML;
 		close();
 		navigate('/');
 	};
-
 	return (
 		<>
 			<div className=' z-50 w-full h-screen flex flex-col items-center  overflow-hidden'>
@@ -193,6 +188,7 @@ const total = document.querySelector('#text')?.outerHTML;
 						<div className='w-full h-full py-10'>
 							{feedback?.feedback}
 							{feedback?.score}
+								<div id='text' dangerouslySetInnerHTML={{ __html: total || '' }}></div>
 						</div>
 					</Card>
 				</>

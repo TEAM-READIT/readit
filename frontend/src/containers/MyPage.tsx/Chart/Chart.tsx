@@ -125,7 +125,6 @@ const Chart = () => {
 				liter.push(score.score);
 			}
 		});
-		console.log(liter);
 		challengeScoreList?.forEach((score) => {
 			challengescore.push(score.score);
 			challengeXlist.push(score.date.toLocaleDateString());

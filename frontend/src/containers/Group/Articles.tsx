@@ -10,7 +10,6 @@ const Articles = ({ myGroup }: { myGroup: communityProps;}) => {
 		navigate('/summary', { state: { article } });
 	};
 
-	console.log(myGroup.articleList)
 return (
 	<>
 		<div className='w-3/5 flex flex-col h-full gap-3'>
