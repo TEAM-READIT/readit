@@ -87,8 +87,11 @@ public class ViewerService {
 
         // 이미 읽은 글이면 기존 데이터에 업데이트
         if (optionalMemberArticle.isPresent()) {
+            MemberArticle memberArticle = optionalMemberArticle.get();
+            memberArticle.updateSummary(request.summary());
             // 요약, 메모 저장
-            memberArticleRepository.updateSummaryById(optionalMemberArticle.get().getId(), request.summary());
+            memberArticleRepository.save(memberArticle);
+
             saveMemo(optionalMemberArticle.get(), request.memoList());
 
         } else {

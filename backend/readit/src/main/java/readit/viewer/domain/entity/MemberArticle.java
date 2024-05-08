@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import readit.article.domain.Article;
-import readit.article.domain.ArticleType;
 import readit.common.entity.BaseTimeEntity;
+import readit.viewer.exception.DataTooLongException;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -49,5 +50,13 @@ public class MemberArticle extends BaseTimeEntity {
                 .article(article)
                 .summary(summary)
                 .build();
+    }
+
+    public void updateSummary(String summary) {
+        if (summary.length() < 500) {
+            this.summary = summary;
+        } else {
+            throw new DataTooLongException();
+        }
     }
 }
