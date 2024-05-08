@@ -3,6 +3,7 @@ package readit.article.application;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import readit.article.application.support.ArticleServiceDelegate;
 import readit.article.domain.Article;
 import readit.article.domain.ArticleType;
 import readit.article.domain.Category;
@@ -30,20 +31,13 @@ public class ArticleService {
     private final CategoryRepository categoryRepository;
     private final MemberArticleRepository memberArticleRepository;
     private final FastAPIClient fastAPIClient;
+    private final ArticleServiceDelegate articleServiceDelegate;
 
     @Transactional(readOnly = true)
     public GetPopularArticleResponse getPopularArticles(){
-        List<Article> articleList = Optional.ofNullable(articleRepository.findTop4ByOrderByHitDesc())
-                .filter(list -> !list.isEmpty())
-                .orElseThrow(ArticleNotFoundException::new);
-
-        List<Article> epigraphyList = Optional.ofNullable(articleRepository.findTop4ByTypeOrderByHitDesc(ArticleType.EPIGRAPHY))
-                .filter(list -> !list.isEmpty())
-                .orElseThrow(ArticleNotFoundException::new);
-
-        List<Article> newsList = Optional.ofNullable(articleRepository.findTop4ByTypeOrderByHitDesc(ArticleType.NEWS))
-                .filter(list -> !list.isEmpty())
-                .orElseThrow(ArticleNotFoundException::new);
+        List<Article> articleList = articleServiceDelegate.getArticleList();
+        List<Article> epigraphyList = articleServiceDelegate.getArticleListByType(ArticleType.EPIGRAPHY);
+        List<Article> newsList = articleServiceDelegate.getArticleListByType(ArticleType.NEWS);
 
         return GetPopularArticleResponse.from(articleList,epigraphyList,newsList);
     }
