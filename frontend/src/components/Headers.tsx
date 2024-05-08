@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Login from '../containers/MainPage/Login/Login';
 import useModal from '../hooks/useModal';
 import useStore from '../store';
-// import { useMutation } from 'react-query';
 import userStore from '../store/user';
 import { useMutation } from 'react-query';
 
@@ -26,24 +25,20 @@ const Headers = () => {
 
 	// 로그아웃
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	const requestBody = {
-		id: id,
-	};
+
 	const logoutPost = useMutation(async () => {
-		const response = await fetch(`${baseUrl}/oauth/logout`, {
+		await fetch(`${baseUrl}/auth/logout`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(requestBody),
 		});
-		return response.json();
 	});
 	const handlelogout = async () => {
+		logout();
 		try {
 			await logoutPost.mutateAsync();
-			logout();
 		} catch (error) {
 			console.error('로그아웃 실패', error);
 		}

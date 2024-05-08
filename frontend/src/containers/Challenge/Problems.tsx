@@ -78,7 +78,6 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 												style={{ paddingRight: '5px' }}
 											>
 												<div className='relative'>
-													{option.optionNumber}.
 													{isOptionSelected(index, optionidx) && <div className='absolute left-0 top-0'>✔</div>}
 												</div>
 												<div>{option.option}</div>

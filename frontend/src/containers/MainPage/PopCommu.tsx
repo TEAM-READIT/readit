@@ -52,7 +52,6 @@ const PopCommu = () => {
 	}, []);
 
 	const communitys = popCommunity?.communityList;
-	console.log(communitys);
 	return (
 		<>
 			<div className='flex flex-col w-full items-center pb-32'>
@@ -91,7 +90,7 @@ const PopCommu = () => {
 												<div>{community.title.slice(0, 35)}...</div>
 											)}
 										</div>
-										<div className='text-end text-sm'>👀 조회수 {community.hit}</div>
+										<div className='text-end text-sm'>👀 조회수 {community.hits}</div>
 									</Card>
 								))}
 							</>
@@ -116,7 +115,7 @@ const PopCommu = () => {
 												<div>{community.title.slice(0, 35)}...</div>
 											)}
 										</div>
-										<div className='text-end text-sm'>👀 조회수 {community.hit}</div>
+										<div className='text-end text-sm'>👀 조회수 {community.hits}</div>
 									</Card>
 								))}
 							</>

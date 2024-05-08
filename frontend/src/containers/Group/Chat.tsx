@@ -9,13 +9,14 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 	const { accessToken } = useAuthStore();
 	const [chatValue, setChatValue] = useState<string>('채팅 보내기');
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+
 	// 채팅 보내기
 		const chatBody = {
-			memberId: myGroup.myId,
+			communityId: myGroup.communityDetail.communityId,
 			content: chatValue,
 	}
 	const chatPost = useMutation(async () => {
-		const response = await fetch(`${baseUrl}/community/chat`, {
+		await fetch(`${baseUrl}/community/chat`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
@@ -24,7 +25,7 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 			body: JSON.stringify(chatBody),
 		});
 		console.log(chatBody)
-		return response.json();
+
 	});
 	const handleSendingChat = async () => {
 		try {
@@ -34,16 +35,23 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 			console.error('채팅 보내기 실패');
 		}
 	};
-	useEffect(() => {
-		
-	},[handleSendingChat])
+
+
+	// useEffect(() => {
+	// 	handleSendingChat();
+	// },[handleSendingChat])
+
+
 	const chatContainerRef = useRef<HTMLDivElement>(null);
+
+
 	useEffect(() => {
 		if (chatContainerRef.current) {
 			chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
 		}
 	}, [myGroup.chatList]);
-
+	console.log(myGroup, '여기야여기')
+	console.log(myGroup.chatList[0].createdAt)
 	return (
 		<>
 			<div className='w-2/5 flex flex-col gap-5 pt-3'>
@@ -61,8 +69,8 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 													{chat.content}
 												</div>
 												<span className='text-xs'>
-													{chat.sendDate.getHours()}:{chat.sendDate.getMinutes() < 10 ? '0' : ''}
-													{chat.sendDate.getMinutes()}
+													{chat.createdAt.getHours()}:{chat.createdAt.getMinutes() < 10 ? '0' : ''}
+													{chat.createdAt.getMinutes()}
 												</span>
 											</div>
 										</div>
@@ -74,8 +82,8 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 												<div className=''>{chat.memberName}</div>
 												<div className='flex flex-row items-center gap-x-2'>
 													<span className='text-xs'>
-														{chat.sendDate.getHours()}:{chat.sendDate.getMinutes() < 10 ? '0' : ''}
-														{chat.sendDate.getMinutes()}
+														{chat.createdAt.getHours()}:{chat.createdAt.getMinutes() < 10 ? '0' : ''}
+														{chat.createdAt.getMinutes()}
 													</span>
 													<div className='bg-yellow-200 border border-gray-500 text-xs w-full p-2 rounded-xl text-start'>
 														{chat.content}
