@@ -7,22 +7,22 @@ import readit.article.domain.Category;
 public record FastAPIArticleResponse(
         String title,
         String content,
-        String category,
-        String sourceUrl,
-        String reporter
-
+        String reporter,
+        String link,
+        String category
 ) {
     public static Article toEntity(FastAPIArticleResponse fastAPIArticleResponse, Category category){
-        return Article
-                .builder()
-                .category(category)
-                .type(ArticleType.NEWS)
-                .content(fastAPIArticleResponse.content())
-                .title(fastAPIArticleResponse.title())
-                .reporter(fastAPIArticleResponse.reporter())
-                .sourceUrl(fastAPIArticleResponse.sourceUrl())
-                .hasWord(false)
-                .hit(0)
-                .build();
+        return new Article(
+                null,
+                category,
+                ArticleType.NEWS,
+                fastAPIArticleResponse.content(),
+                fastAPIArticleResponse.title(),
+                fastAPIArticleResponse.reporter(),
+                fastAPIArticleResponse.link(),
+                false,
+                null,
+                0
+        );
     }
 }

@@ -14,7 +14,7 @@ import reactor.netty.http.client.HttpClient;
 import java.time.Duration;
 
 @Slf4j
-@Component
+//@Component
 @RequiredArgsConstructor
 public class ArticleScheduler {
     private final WebClient webClient;

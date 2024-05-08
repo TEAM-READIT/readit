@@ -12,7 +12,13 @@ import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
-    @Modifying
+    List<Article> findTop4ByOrderByHitDesc();
+    List<Article> findTop4ByTypeOrderByHitDesc(ArticleType type);
+
+    default Article getById(Integer id){
+        return findById(id).orElse(null);
+    }
+
     @Query("UPDATE Article a SET a.words = :words WHERE a.id = :articleId")
     void updateWordsByArticleId(Integer articleId, String words);
 
@@ -22,15 +28,5 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
     @Query(value = "SELECT id FROM article WHERE id NOT IN (SELECT COALESCE(article_id, 0) FROM member_problem WHERE member_id = :memberId) ORDER BY RAND() LIMIT 1", nativeQuery = true)
     Optional<Integer> findNotReadRandomArticle(Integer memberId);
-
-
-    List<Article> findTop3ByOrderByHitDesc();
-    List<Article> findTop3ByTypeOrderByHitDesc(ArticleType type);
-
-
-    default Article getById(Integer articleId){
-        return findById(articleId)
-                .orElseThrow(ArticleNotFoundException::new);
-    }
 
 }
