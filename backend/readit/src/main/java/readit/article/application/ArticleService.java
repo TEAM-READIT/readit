@@ -33,15 +33,15 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public GetPopularArticleResponse getPopularArticles(){
-        List<Article> articleList = Optional.ofNullable(articleRepository.findTop3ByOrderByHitDesc())
+        List<Article> articleList = Optional.ofNullable(articleRepository.findTop4ByOrderByHitDesc())
                 .filter(list -> !list.isEmpty())
                 .orElseThrow(ArticleNotFoundException::new);
 
-        List<Article> epigraphyList = Optional.ofNullable(articleRepository.findTop3ByTypeOrderByHitDesc(ArticleType.EPIGRAPHY))
+        List<Article> epigraphyList = Optional.ofNullable(articleRepository.findTop4ByTypeOrderByHitDesc(ArticleType.EPIGRAPHY))
                 .filter(list -> !list.isEmpty())
                 .orElseThrow(ArticleNotFoundException::new);
 
-        List<Article> newsList = Optional.ofNullable(articleRepository.findTop3ByTypeOrderByHitDesc(ArticleType.NEWS))
+        List<Article> newsList = Optional.ofNullable(articleRepository.findTop4ByTypeOrderByHitDesc(ArticleType.NEWS))
                 .filter(list -> !list.isEmpty())
                 .orElseThrow(ArticleNotFoundException::new);
 

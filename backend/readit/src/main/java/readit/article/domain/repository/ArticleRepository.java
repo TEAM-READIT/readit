@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
-    List<Article> findTop3ByOrderByHitDesc();
-    List<Article> findTop3ByTypeOrderByHitDesc(ArticleType type);
+    List<Article> findTop4ByOrderByHitDesc();
+    List<Article> findTop4ByTypeOrderByHitDesc(ArticleType type);
 
     default Article getById(Integer id){
         return findById(id).orElse(null);
