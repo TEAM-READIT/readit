@@ -36,7 +36,7 @@ export const ViewerPage = () => {
 	// const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
 	const navigate = useNavigate();
 	const [wordList, setWordList] = useState<wordListProps[]>();
-	console.log(wordList);
+	console.log(wordList)
 	const [isOpen, open, close] = useModal();
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
@@ -48,7 +48,7 @@ export const ViewerPage = () => {
 		setBottomOpen(!isBottomOpen);
 	};
 	const id = article.id;
-
+	const total = document.querySelector('#text')?.outerHTML;
 	// 어려운 단어 불러오기
 	const fetchWord = async () => {
 		const headers = {
@@ -58,6 +58,7 @@ export const ViewerPage = () => {
 			headers: headers,
 		});
 		const data = await response.json();
+		console.log(data)
 		return data;
 	};
 
@@ -76,7 +77,7 @@ export const ViewerPage = () => {
 	}, []);
 	// 제출 POST
 	const requestbody: RequestBody = {
-		content: '',
+		content: total!,
 		summary: summary,
 	};
 
@@ -127,7 +128,6 @@ export const ViewerPage = () => {
 		close();
 		navigate('/');
 	};
-
 	return (
 		<>
 			<div className=' z-50 w-full h-screen flex flex-col items-center  overflow-hidden'>
@@ -189,6 +189,7 @@ export const ViewerPage = () => {
 						<div className='w-full h-full py-10'>
 							{feedback?.feedback}
 							{feedback?.score}
+								<div id='text' dangerouslySetInnerHTML={{ __html: total || '' }}></div>
 						</div>
 					</Card>
 				</>

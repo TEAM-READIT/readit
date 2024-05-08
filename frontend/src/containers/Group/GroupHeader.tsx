@@ -6,7 +6,6 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 	const navigate = useNavigate();
 	const handleRead4Commu = (categoryName:string, communityId:number) => {
 		navigate('/essay', { state: { categoryName, communityId } });
-		console.log(categoryName)
 	};
 
 	const detail = myGroup.communityDetail

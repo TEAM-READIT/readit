@@ -21,6 +21,7 @@ export const MainText = ({
 	const [openMemo, setOpenMemo] = useState<boolean>(false);
 	const [openMenu, setOpenMenu] = useState<boolean>(false);
 	const [memo, setMemo] = useState('');
+	const [number,setNumber] = useState(1)
 	// useEffect(() => {
 	// 	highlightedRanges.forEach((range) => {
 	// 		const selection = window.getSelection();
@@ -93,12 +94,12 @@ export const MainText = ({
 			// 원래 텍스트를 감싸는 span 엘리먼트 생성
 			const spanOriginal = document.createElement('span');
 			spanOriginal.className = 'hover:cursor-pointer border-b border-black'; // 클래스 추가
-
+			spanOriginal.id = number.toString()
 			// 메모를 감싸는 span 엘리먼트 생성
 			const spanMemoWrapper = document.createElement('span');
 			spanMemoWrapper.className =
 				'memo-wrapper z-50 text-black bg-white shadow-xl h-[30px] max-w-[500px] absolute rounded-lg text-center px-10 border '; // 클래스 추가
-
+			
 			// 메모를 표시하는 span 엘리먼트 생성
 			const spanMemo = document.createElement('span');
 			spanMemo.className = 'memo-span';
@@ -135,6 +136,7 @@ export const MainText = ({
 			// 문서 body에 spanMemoWrapper 추가
 			document.body.appendChild(spanMemoWrapper);
 		}
+		setNumber((prev)=> prev+1)
 	};
 
 	//텍스트 줄바꿈

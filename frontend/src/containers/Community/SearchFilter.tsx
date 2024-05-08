@@ -33,7 +33,7 @@ const SearchFilter = () =>
 			// 마지막 & 제거
 			filtered = filtered.slice(0, -1);
 
-			// handleFilterChange(filtered);
+
 		};
 		return (
 			<>
