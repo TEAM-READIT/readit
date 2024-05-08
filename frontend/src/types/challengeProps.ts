@@ -1,13 +1,25 @@
 interface ChallengeProps {
 	articleId: number;
+	title: string;
 	content: string;
 	problemList: problemListProps[];
 }
 
 interface answerList {
 	problemNumber: number;
-	answerNumber: number;
+	optionNumber: number;
 }
+
+interface answers { 
+		problemNumber: number;
+		answerNumber: number;
+		isCorrect:boolean;
+}
+
+interface answeranswer{
+	answerList:answers[]
+}
+
 
 interface problemListProps {
 	problemNumber: number;
@@ -31,4 +43,4 @@ interface scoreRanking {
 }
 
 
-export type { scoreRanking, problemListProps, answerList, optionListProps, ChallengeProps };
+export type { scoreRanking, problemListProps, answerList, optionListProps, ChallengeProps, answeranswer };
