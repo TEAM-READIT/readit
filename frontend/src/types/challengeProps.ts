@@ -1,12 +1,13 @@
 interface ChallengeProps {
 	articleId: number;
+	title: string;
 	content: string;
 	problemList: problemListProps[];
 }
 
 interface answerList {
 	problemNumber: number;
-	answerNumber: number;
+	optionNumber: number;
 }
 
 interface problemListProps {

@@ -13,7 +13,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 	console.log(answer);
 	const requestBody = {
 		articleId: articleId,
-		answerList: myAnswer,
+		submitList: myAnswer,
 	};
 
 	const answerPost = useMutation(async () => {
@@ -25,12 +25,14 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 			},
 			body: JSON.stringify(requestBody),
 		});
+		console.log(requestBody)
 		return response.json();
 	});
 
 	const handleAnswer = async () => {
 		try {
 			const data = await answerPost.mutateAsync();
+			console.log(data)
 			setAnswer(data);
 		} catch (error) {
 			console.error('정답을 불러오기 실패', error);
@@ -42,7 +44,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 			const updatedAnswer = [...prevState];
 			updatedAnswer[problemIndex] = {
 				problemNumber: problemIndex + 1,
-				answerNumber: optionIndex + 1,
+				optionNumber: optionIndex + 1,
 			};
 			return updatedAnswer;
 		});
@@ -84,7 +86,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 											</div>
 										))}
 										<div className='flex flex-row justify-end'>
-											{myAnswer[index] && <div>내가 선택한 답: {myAnswer[index].answerNumber}</div>}
+											{myAnswer[index] && <div>내가 선택한 답: {myAnswer[index].optionNumber}</div>}
 										</div>
 									</div>
 								))}
