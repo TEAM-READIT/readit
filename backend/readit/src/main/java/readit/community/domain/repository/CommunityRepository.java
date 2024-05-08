@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import readit.community.domain.entity.Community;
-import readit.viewer.exception.ValueMissingException;
 
 import java.util.List;
 
@@ -25,6 +24,6 @@ public interface CommunityRepository extends JpaRepository<Community, Integer> {
     // default method 란?
     default Community getById(Integer id) {
         return findById(id)
-                .orElseThrow(ValueMissingException::new);
+                .orElse(null);
     }
 }

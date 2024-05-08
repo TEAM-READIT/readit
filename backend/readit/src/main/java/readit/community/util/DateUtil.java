@@ -1,9 +1,11 @@
 package readit.community.util;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,6 +18,7 @@ public class DateUtil {
     public static LocalDateTime startOfWeek;
     public static LocalDateTime endOfWeek;
 
+    @PostConstruct
     @Scheduled(cron = "0 0 0 * * ?")
     public void getCurrentWeek() {
         LocalDate today = LocalDate.now();

@@ -3,7 +3,6 @@ package readit.viewer.domain.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import readit.article.domain.Article;
 import readit.viewer.domain.entity.MemberArticle;
 
 import java.time.LocalDateTime;
@@ -25,15 +24,13 @@ public interface MemberArticleRepository extends JpaRepository<MemberArticle, In
     void updateScoreAndFeedbackById(Integer id, Integer score, String feedback);
 
     @Query("SELECT count(ma) FROM MemberArticle ma " +
-            "WHERE ma.id = :communityId AND ma.memberId = :memberId AND ma.completedAt BETWEEN :start AND :end")
+            "WHERE ma.communityId = :communityId AND ma.memberId = :memberId AND ma.completedAt BETWEEN :start AND :end")
     int countMyArticleThisWeek(
             Integer communityId, Integer memberId, LocalDateTime start, LocalDateTime end
     );
 
-    @Query("SELECT ma FROM MemberArticle ma WHERE ma.id = :communityId AND ma.completedAt BETWEEN :start AND :end")
+    @Query("SELECT ma FROM MemberArticle ma WHERE ma.communityId = :communityId AND ma.completedAt BETWEEN :start AND :end")
     List<MemberArticle> findByCommunityIdInThisWeek(
-            Integer communityId,
-            LocalDateTime start,
-            LocalDateTime end
+            Integer communityId, LocalDateTime start, LocalDateTime end
     );
 }

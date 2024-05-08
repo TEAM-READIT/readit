@@ -43,7 +43,7 @@ public class ViewerController {
                                          @RequestBody PostTempSaveRequest request,
                                          @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-//        memberId = 1;
+//        memberId = 3;
         viewerService.saveTemp(articleId, memberId, request);
         return ResponseEntity.ok().build();
     }
@@ -54,7 +54,7 @@ public class ViewerController {
                                                             @RequestBody PostTempSaveRequest request,
                                                             @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-//        memberId = 1;
+//        memberId = 3;
         viewerService.saveTemp(articleId, memberId, request);
         return ResponseEntity.ok(viewerService.submitSummary(articleId, memberId, request.summary()));
     }

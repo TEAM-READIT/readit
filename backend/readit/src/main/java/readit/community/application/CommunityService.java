@@ -4,17 +4,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import readit.article.dto.Page;
 import readit.community.domain.dto.CommunityDetail;
 import readit.community.domain.dto.CommunityDetailMember;
 import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
 import readit.community.domain.dto.response.GetCommunityDetailResponse;
+import readit.community.domain.dto.response.GetCommunityListResponse;
 import readit.community.domain.dto.response.GetHotCommunityResponse;
 import readit.community.domain.dto.response.GetMyCommunityResponse;
 import readit.community.domain.entity.Chat;
 import readit.community.domain.entity.Community;
 import readit.community.domain.entity.Participants;
 import readit.community.domain.repository.ChatRepository;
+import readit.community.domain.repository.CommunityQueryRepository;
 import readit.community.domain.repository.CommunityRepository;
 import readit.community.domain.repository.ParticipantsRepository;
 import readit.community.exception.AlreadyJoinedCommunityException;
@@ -29,6 +32,7 @@ import readit.viewer.exception.ValueMissingException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -41,11 +45,11 @@ public class CommunityService {
     private final MemberRepository memberRepository;
     private final ChatRepository chatRepository;
     private final MemberArticleRepository memberArticleRepository;
-    private final DateUtil dateUtil;
+    private final CommunityQueryRepository communityQueryRepository;
 
     public void createCommunity(GetCreateCommunityRequest request, Integer memberId) {
-        Community community = communityRepository.save(GetCreateCommunityRequest.toEntity(request, memberId));
         Member member = memberRepository.getById(memberId);
+        Community community = communityRepository.save(GetCreateCommunityRequest.toEntity(request, member));
         Participants participants = Participants.create(community, member);
         participantsRepository.save(participants);
     }
@@ -91,6 +95,7 @@ public class CommunityService {
 
         List<CommunityDetailMember> memberList = createCommunityDetailMemberList(community, DateUtil.startOfWeek, DateUtil.endOfWeek);
         List<MemberArticle> memberArticles = memberArticleRepository.findByCommunityIdInThisWeek(communityId, DateUtil.startOfWeek, DateUtil.endOfWeek);
+        System.out.println(memberArticles.toString());
         List<Chat> chatList = chatRepository.findAllByCommunityId(communityId);
 
         return GetCommunityDetailResponse.of(community,
@@ -128,9 +133,9 @@ public class CommunityService {
     private List<CommunityDetail> mapToCommunityDetails(List<Community> communityList) {
         return communityList.stream()
                 .map(community -> {
-                    Member member = memberRepository.findById(community.getWriterId())
+                    Member member = memberRepository.findById(community.getMember().getId())
                             .orElseThrow(ValueMissingException::new);
-                    return CommunityDetail.of(member, community);
+                    return CommunityDetail.from(community);
                 })
                 .toList();
     }
@@ -143,5 +148,15 @@ public class CommunityService {
 
     public void increaseHits(Integer communityId) {
         communityRepository.increaseHitsById(communityId);
+    }
+
+    @Transactional(readOnly = true)
+    public GetCommunityListResponse getCommunityList(String category, String title, String content, String writerName, Integer maxParticipants, Integer cursor, Boolean hit, Integer limit) {
+        Community community = communityRepository.getById(cursor);
+        Integer hitCursor = Optional.ofNullable(community)
+                .map(Community::getHits)
+                .orElse(null);
+        Page<Community> communityList = communityQueryRepository.findCommunityWithFilter(hitCursor, category, title, content, writerName, maxParticipants, cursor, hit, limit);
+        return GetCommunityListResponse.from(communityList);
     }
 }

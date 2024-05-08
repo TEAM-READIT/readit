@@ -36,7 +36,7 @@ public record GetCommunityDetailResponse(
                 .map(SimpChat::from).toList();
 
         return new GetCommunityDetailResponse(
-                CommunityDetail.of(writer, community),
+                CommunityDetail.from(community),
                 community.getNotice(),
                 memberId,
                 memberList,
