@@ -2,18 +2,18 @@ import { Button, Card } from 'flowbite-react';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useAuthStore } from '../../store/auth';
-import { problemListProps, answerList } from '../../types/challengeProps';
+import { problemListProps, answerList, answeranswer } from '../../types/challengeProps';
 
 const Problems = ({ articleId, problemList }: { problemList: problemListProps[]; articleId: number }) => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const { accessToken } = useAuthStore();
-	const [answer, setAnswer] = useState<answerList[]>([]);
+	const [answer, setAnswer] = useState<answeranswer>();
 	const [myAnswer, setMyAnswer] = useState<answerList[]>([]);
 	const [selectedOptions, setSelectedOptions] = useState<number[]>([]); // 추가된 state
-	console.log(answer);
 	const requestBody = {
 		articleId: articleId,
-		answerList: myAnswer,
+		submitList: myAnswer,
 	};
 
 	const answerPost = useMutation(async () => {
@@ -25,12 +25,15 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 			},
 			body: JSON.stringify(requestBody),
 		});
+		console.log(requestBody)
 		return response.json();
 	});
 
 	const handleAnswer = async () => {
 		try {
 			const data = await answerPost.mutateAsync();
+			setIsOpen(true)
+			console.log(data)
 			setAnswer(data);
 		} catch (error) {
 			console.error('정답을 불러오기 실패', error);
@@ -42,7 +45,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 			const updatedAnswer = [...prevState];
 			updatedAnswer[problemIndex] = {
 				problemNumber: problemIndex + 1,
-				answerNumber: optionIndex + 1,
+				optionNumber: optionIndex + 1,
 			};
 			return updatedAnswer;
 		});
@@ -56,7 +59,8 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 	const isOptionSelected = (problemIndex: number, optionIndex: number) => {
 		return selectedOptions[problemIndex] === optionIndex;
 	};
-
+	const accurateAns = answer?.answerList
+	console.log(accurateAns)
 	return (
 		<>
 			<div className='h-full w-1/3 flex flex-col'>
@@ -84,7 +88,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 											</div>
 										))}
 										<div className='flex flex-row justify-end'>
-											{myAnswer[index] && <div>내가 선택한 답: {myAnswer[index].answerNumber}</div>}
+											{myAnswer[index] && <div>내가 선택한 답: {myAnswer[index].optionNumber}</div>}
 										</div>
 									</div>
 								))}
@@ -94,7 +98,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 								<Button
 									className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
 									onClick={handleAnswer}
-									>
+								>
 									제출하기
 								</Button>
 							</div>
@@ -102,6 +106,9 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 					</Card>
 				</div>
 			</div>
+			{isOpen ? <div>
+				{accurateAns?  <> {accurateAns.map((ans,index)=>(<div key={index}>{ans.isCorrect}</div>))} </>: null}
+			</div> : null}
 		</>
 	);
 };
