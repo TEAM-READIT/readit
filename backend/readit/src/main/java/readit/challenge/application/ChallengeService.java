@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.domain.Article;
 import readit.article.domain.repository.ArticleRepository;
+import readit.challenge.domain.MemberProblem;
 import readit.challenge.domain.Problem;
 import readit.challenge.domain.dto.GetAnswer;
 import readit.challenge.domain.dto.GetProblem;
@@ -21,6 +22,7 @@ import readit.challenge.util.ProblemParser;
 import readit.member.domain.Member;
 import readit.member.domain.repository.MemberRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +56,10 @@ public class ChallengeService {
 
         //내가 풀지 않은 랜덤한 글을 불러오기
         Integer articleId = articleRepository.findNotReadRandomArticle(memberId).orElseThrow(SolvedAllProblemsException::new);
-        String content = articleRepository.getById(articleId).getContent();
+        Article article = articleRepository.getById(articleId);
+        String title = article.getTitle();
+        String content = article.getContent();
+
 
         List<Problem> problems = problemRepository.getByArticle(articleRepository.getById(articleId)); //2개 문제 불러옴
 
@@ -63,26 +68,49 @@ public class ChallengeService {
                 .map(problem -> problemParser.extract(problem.getProblemNumber(), problem))
                 .toList();
 
-        return GetProblemsResponse.of(articleId, content, problemList);
+        return GetProblemsResponse.of(articleId, title, content, problemList);
     }
 
     public SubmitAnswerResponse submitAnswer(Integer memberId, Integer articleId, List<GetSubmit> submitList) {
         //정답 불러와서 확인
-        List<Problem> problems = problemRepository.findByArticle(articleRepository.getById(articleId)).orElseThrow(ProblemNotFoundException::new);
+        Member member = memberRepository.getById(memberId);
+        Article article = articleRepository.getById(articleId);
+        List<Problem> problems = problemRepository.findByArticle(article).orElseThrow(ProblemNotFoundException::new);
         List<GetAnswer> answerList = new ArrayList<>();
 
         for (int i = 0; i < problems.size(); i++) {
             int answerNumber = problems.get(i).getAnswer();
-            answerList.add(GetAnswer.of(i + 1, answerNumber));
-
-            //점수 반영
-            Member member = memberRepository.getById(memberId);
-            if (answerNumber == submitList.get(i).optionNumber()) {
-                member.anwerCorrect();
-            } else {
-                member.anwerWrong();
-            }
+            boolean isCorrect = applyScore(submitList, answerNumber, i, member, article);
+            answerList.add(GetAnswer.of(i + 1, answerNumber, isCorrect));
         }
+
+        memberProblemRepository.findByMemberAndArticle(member, article)
+                .forEach(memberProblem -> memberProblem.saveDayScore(member.getChallengeScore()));
+
         return SubmitAnswerResponse.from(answerList);
     }
+
+    private boolean applyScore(List<GetSubmit> submitList, int answerNumber, int idx, Member member, Article article) {
+        boolean isCorrect = false;
+        int submitNumber = submitList.get(idx).optionNumber();
+
+        if (answerNumber == submitNumber) {
+            member.anwerCorrect();
+            isCorrect = true;
+        } else {
+            member.anwerWrong();
+        }
+
+        memberProblemRepository.save(MemberProblem.builder()
+                .member(member)
+                .article(article)
+                .solvedAt(LocalDateTime.now())
+                .submitNumber(submitNumber)
+                .isCorrect(isCorrect)
+                .build()
+        );
+
+        return isCorrect;
+    }
+
 }

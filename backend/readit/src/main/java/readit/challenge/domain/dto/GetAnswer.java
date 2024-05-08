@@ -2,9 +2,10 @@ package readit.challenge.domain.dto;
 
 public record GetAnswer(
         Integer problemNumber,
-        Integer answerNumber
+        Integer answerNumber,
+        Boolean isCorrect
 ) {
-    public static GetAnswer of(Integer problemNumber, Integer answerNumber) {
-        return new GetAnswer(problemNumber,answerNumber);
+    public static GetAnswer of(Integer problemNumber, Integer answerNumber,Boolean isCorrect) {
+        return new GetAnswer(problemNumber,answerNumber, isCorrect);
     }
 }

@@ -2,6 +2,7 @@ package readit.challenge.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import readit.article.domain.Article;
 import readit.common.entity.BaseTimeEntity;
 import readit.member.domain.Member;
@@ -33,8 +34,16 @@ public class MemberProblem extends BaseTimeEntity {
     private LocalDateTime solvedAt;
 
     @Column(nullable = false)
+    private Integer submitNumber;
+
+    @Column(nullable = false)
     private Boolean isCorrect;
 
     @Column(nullable = false)
+    @ColumnDefault("1000")
     private Integer score;
+
+    public void saveDayScore(Integer challengeScore) {
+        this.score = challengeScore;
+    }
 }
