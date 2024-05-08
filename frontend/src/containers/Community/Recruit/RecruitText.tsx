@@ -8,7 +8,7 @@ const RecruitText = () => {
 	const [category, setCategory] = useState('');
 	const [participant, setParticipant] = useState('');
 	const [articleCount, setArticleCount] = useState('');
-	const [startAt, setStartAt] = useState(new Date());
+	// const [startAt, setStartAt] = useState(new Date());
 	const [endAt, setEndAt] = useState<Date | null>(null);
 	const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const RecruitText = () => {
 		setEndAt(date);
 	};
 
-	const formattedStartAt = startAt.toISOString().slice(0, 10);
+	// const formattedStartAt = startAt.toISOString().slice(0, 10);
 	const formattedEndAt = endAt ? endAt.toISOString().slice(0, 10) : null;
 
 	const handleSubmit = async () => {
@@ -28,7 +28,7 @@ const RecruitText = () => {
 			categoryName: category,
 			maxParticipants: parseInt(participant, 10),
 			articleCount: parseInt(articleCount, 10),
-			startAt: formattedStartAt,
+			// startAt: formattedStartAt,
 			endAt: formattedEndAt,
 		};
 
