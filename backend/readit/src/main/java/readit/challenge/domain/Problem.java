@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import readit.article.domain.Article;
 import readit.common.entity.BaseTimeEntity;
-import readit.member.domain.Member;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -14,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-public class MemberQuestion extends BaseTimeEntity {
+public class Problem extends BaseTimeEntity {
 
     @Id
     @EqualsAndHashCode.Include
@@ -22,19 +19,16 @@ public class MemberQuestion extends BaseTimeEntity {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private Member member;
-
-    @ManyToOne
     @JoinColumn(name = "article_id", referencedColumnName = "id")
     private Article article;
 
     @Column(nullable = false)
-    private LocalDateTime solvedAt;
+    private Integer problemNumber;
+
+    @Column(nullable = false, length = 1000)
+    private String problem;
 
     @Column(nullable = false)
-    private Boolean isCorrect;
+    private Integer answer;
 
-    @Column(nullable = false)
-    private Integer score;
 }

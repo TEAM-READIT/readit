@@ -3,13 +3,25 @@ package readit.challenge.application;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import readit.article.domain.Article;
+import readit.article.domain.repository.ArticleRepository;
+import readit.challenge.domain.Problem;
+import readit.challenge.domain.dto.GetAnswer;
+import readit.challenge.domain.dto.GetProblem;
 import readit.challenge.domain.dto.GetRankMember;
+import readit.challenge.domain.dto.GetSubmit;
 import readit.challenge.domain.dto.response.GetChallengeRankResponse;
-import readit.challenge.domain.repository.MemberQuestionRepository;
+import readit.challenge.domain.dto.response.GetProblemsResponse;
+import readit.challenge.domain.dto.response.SubmitAnswerResponse;
+import readit.challenge.domain.repository.MemberProblemRepository;
 import readit.challenge.domain.repository.ProblemRepository;
+import readit.challenge.exception.ProblemNotFoundException;
+import readit.challenge.exception.SolvedAllProblemsException;
+import readit.challenge.util.ProblemParser;
 import readit.member.domain.Member;
 import readit.member.domain.repository.MemberRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,8 +30,10 @@ import java.util.List;
 public class ChallengeService {
 
     private final ProblemRepository problemRepository;
-    private final MemberQuestionRepository memberQuestionRepository;
+    private final MemberProblemRepository memberProblemRepository;
     private final MemberRepository memberRepository;
+    private final ArticleRepository articleRepository;
+    private final ProblemParser problemParser;
 
     public GetChallengeRankResponse getChallengeRank(Integer memberId) {
 
@@ -33,5 +47,22 @@ public class ChallengeService {
         return new GetChallengeRankResponse(memberList, myRank);
 
     }
+
+    public GetProblemsResponse getProblems(Integer memberId) {
+
+        //내가 풀지 않은 랜덤한 글을 불러오기
+        Integer articleId = articleRepository.findNotReadRandomArticle(memberId).orElseThrow(SolvedAllProblemsException::new);
+        String content = articleRepository.getById(articleId).getContent();
+
+        List<Problem> problems = problemRepository.getByArticle(articleRepository.getById(articleId)); //2개 문제 불러옴
+
+        //파싱한 문제 2개를 List에 담음
+        List<GetProblem> problemList = problems.stream()
+                .map(problem -> problemParser.extract(problem.getProblemNumber(), problem))
+                .toList();
+
+        return GetProblemsResponse.of(articleId, content, problemList);
+    }
+
 
 }
