@@ -48,7 +48,7 @@ export const ViewerPage = () => {
 		setBottomOpen(!isBottomOpen);
 	};
 	const id = article.id;
-
+const total = document.querySelector('#text')?.outerHTML;
 	// 어려운 단어 불러오기
 	const fetchWord = async () => {
 		const headers = {
@@ -76,7 +76,7 @@ export const ViewerPage = () => {
 	}, []);
 	// 제출 POST
 	const requestbody: RequestBody = {
-		content: '',
+		content: total,
 		summary: summary,
 	};
 
@@ -89,13 +89,17 @@ export const ViewerPage = () => {
 			},
 			body: JSON.stringify(requestbody),
 		});
+		console.log(requestbody);
+		console.log(response);
 		return response.json();
 	});
 
 	const handleSubmit = async () => {
+		console.log('제출했어요');
 		open();
 		try {
 			const data = await summarySubmit.mutateAsync();
+			console.log(data);
 			setFeedback(data);
 		} catch (error) {
 			console.error('제출 실패', error);
