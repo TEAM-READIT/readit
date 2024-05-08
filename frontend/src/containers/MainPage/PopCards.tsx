@@ -99,21 +99,21 @@ const PopCards = () => {
 									}}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
-										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
+										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
 											{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
 										</div>
 										{article.type === 'NEWS' ? (
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
+											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
 												#{article.categoryName}
 											</div>
 										) : null}
 									</div>
 									{/* <div className={`h-3/5 text-${article.title.length < 10? 'center': 'start'} font-bold`}></div> */}
 									<div className='h-3/5 text-start font-bold'>
-										{article.title.length <= 35 ? (
+										{article.title.length <= 28 ? (
 											<div>{article.title} </div>
 										) : (
-											<div>{article.title.slice(0, 35)}...</div>
+											<div>{article.title.slice(0, 28)}...</div>
 										)}
 									</div>
 									<div className='text-end text-sm'>👀 조회수 {article.hit}</div>
@@ -126,23 +126,26 @@ const PopCards = () => {
 								<Card
 									key={index}
 									className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
-									onClick={() => handleCardClick(article)}
+									onClick={() => {
+										handleCardClick(article);
+									}}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
-										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
+										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
 											{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
 										</div>
 										{article.type === 'NEWS' ? (
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
+											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
 												#{article.categoryName}
 											</div>
 										) : null}
 									</div>
+									{/* <div className={`h-3/5 text-${article.title.length < 10? 'center': 'start'} font-bold`}></div> */}
 									<div className='h-3/5 text-start font-bold'>
-										{article.title.length <= 35 ? (
+										{article.title.length <= 28 ? (
 											<div>{article.title} </div>
 										) : (
-											<div>{article.title.slice(0, 35)}...</div>
+											<div>{article.title.slice(0, 28)}...</div>
 										)}
 									</div>
 									<div className='text-end text-sm'>👀 조회수 {article.hit}</div>
@@ -158,20 +161,20 @@ const PopCards = () => {
 									onClick={() => handleCardClick(article)}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
-										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
+										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
 											{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
 										</div>
 										{article.type === 'NEWS' ? (
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
+											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
 												#{article.categoryName}
 											</div>
 										) : null}
 									</div>
 									<div className='h-3/5 text-start font-bold'>
-										{article.title.length <= 35 ? (
+										{article.title.length <= 28 ? (
 											<div>{article.title} </div>
 										) : (
-											<div>{article.title.slice(0, 35)}...</div>
+											<div>{article.title.slice(0, 28)}...</div>
 										)}
 									</div>
 									<div className='text-end text-sm'>👀 조회수 {article.hit}</div>
