@@ -105,6 +105,7 @@ public class ChallengeService {
                 .member(member)
                 .article(article)
                 .solvedAt(LocalDateTime.now())
+                .score(0)
                 .submitNumber(submitNumber)
                 .isCorrect(isCorrect)
                 .build()
