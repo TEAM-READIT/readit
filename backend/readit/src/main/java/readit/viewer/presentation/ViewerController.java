@@ -1,5 +1,7 @@
 package readit.viewer.presentation;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,35 +24,37 @@ public class ViewerController {
     private final ViewerService viewerService;
 
     @GetMapping("/{articleId}")
-    public ResponseEntity<GetWordListResponse> getArticleViewer(@PathVariable Integer articleId) {
-        // todo: add auth
+    @Operation(summary = "뷰어 조회 (어려운 단어 리스트 추출)", description = "뷰어 조회 기능입니다.")
+    public ResponseEntity<GetWordListResponse> getArticleViewer(@PathVariable Integer articleId,
+                                                                @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         return ResponseEntity.ok(viewerService.loadArticleWithWords(articleId));
     }
 
     @GetMapping("/word/{word}")
-    public ResponseEntity<Word> searchMeaning(@PathVariable String word) {
-        // todo: add auth
+    @Operation(summary = "사전 검색", description = "사전 검색 기능입니다.")
+    public ResponseEntity<Word> searchMeaning(@PathVariable String word,
+                                              @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         return ResponseEntity.ok(viewerService.dictionarySearch(word));
     }
 
     @PostMapping("/temp/{articleId}")
+    @Operation(summary = "뷰어 임시 저장", description = "뷰어 임시 저장 기능입니다.")
     public ResponseEntity<Void> saveTemp(@PathVariable Integer articleId,
                                          @RequestBody PostTempSaveRequest request,
-    @Auth AuthCredentials authCredentials) {
-        // todo: add memberId
+                                         @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-        memberId = 1;
+//        memberId = 3;
         viewerService.saveTemp(articleId, memberId, request);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/submission/{articleId}")
+    @Operation(summary = "뷰어 최종 제출", description = "뷰어 최종 제출 기능입니다.")
     public ResponseEntity<SubmissionResponse> submitSummary(@PathVariable Integer articleId,
                                                             @RequestBody PostTempSaveRequest request,
-                                                            @Auth AuthCredentials authCredentials) {
-        // todo: add memberId
+                                                            @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-        memberId = 1;
+//        memberId = 3;
         viewerService.saveTemp(articleId, memberId, request);
         return ResponseEntity.ok(viewerService.submitSummary(articleId, memberId, request.summary()));
     }
