@@ -13,7 +13,7 @@ const Essay = () => {
 	const observerRef = useRef(null);
 	const location = useLocation();
 	const communityId = location.state?.communityId;
-	const [isMember, setIsMember] = useState<boolean>(false);
+	// const [isMember, setIsMember] = useState<boolean>(false);
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
 	const limit = 12;
@@ -59,6 +59,7 @@ const Essay = () => {
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
 	const fetchData = async (filtered: string) => {
 		try {
+			//페이지에 1번 넣고 데이터 호출
 			const data = await totalArticleData(1, filtered);
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
@@ -67,17 +68,17 @@ const Essay = () => {
 		}
 	};
 
-
+	console.log(page)
 	// 내가 읽은 글 누를 때 마다 렌더링
-	useEffect(() => {
-		if (isMember) {
-			fetchUnreadData(filtered);
-			console.log(filtered)
-			console.log('내가 읽은 글 ')
-		} else {
-			fetchData(filtered);
-		}
-	}, [isMember]);
+	// useEffect(() => {
+	// 	if (isMember) {
+	// 		fetchUnreadData(filtered);
+	// 		console.log(filtered)
+	// 		console.log('내가 읽은 글 ')
+	// 	} else {
+	// 		fetchData(filtered);
+	// 	}
+	// }, [isMember]);
 
 	useEffect(() => {}, [fetchData, fetchUnreadData]);
 
@@ -94,10 +95,7 @@ const Essay = () => {
 
 							if (res.articleList && typeof res.articleList[Symbol.iterator] === 'function') {
 								newArticleList.push(...res.articleList);
-							} else {
-								console.error('res.articleList is not iterable');
-							}
-
+							} 
 							return {
 								articleList: newArticleList,
 								hasNext: res.hasNext,
@@ -122,10 +120,13 @@ const Essay = () => {
 	// 마지막 아티클 ID를 기반으로 페이지 설정
 	useEffect(() => {
 		if (totalArticles) {
-			const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
-			setPage(lastArticleId!);
-		} else {
-			setPage(0);
+
+			if (totalArticles?.articleList?.length > 0 ) {
+				const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
+				setPage(lastArticleId!);
+			} else {
+				setPage(0);
+			}
 		}
 	}, [totalArticles]);
 
@@ -214,6 +215,7 @@ const Essay = () => {
 		// 마지막 & 제거
 		filtered = filtered.slice(0, -1);
 		console.log(filtered)
+		// 필터 넣어서 fetchData 요청
 		fetchData(filtered);
 	};
 
@@ -224,7 +226,6 @@ const Essay = () => {
 				<div className='flex flex-col w-3/5 justify-start items-center '>
 					<EssayHeader />
 				</div>
-
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
 						{/* <SearchFilter setFilter={setFilter} setIsMember={setIsMember} /> */}
@@ -239,7 +240,7 @@ const Essay = () => {
 													<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수</div>
 												</div>
 												<div className='flex flex-row items-center gap-10'>
-													<Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div>
+													{/* <Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div> */}
 												</div>
 												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
 													<option value='title'>제목</option>

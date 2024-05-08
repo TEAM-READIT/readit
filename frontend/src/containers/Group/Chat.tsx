@@ -24,7 +24,6 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 			},
 			body: JSON.stringify(chatBody),
 		});
-		console.log(chatBody)
 
 	});
 	const handleSendingChat = async () => {
@@ -50,8 +49,7 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 			chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
 		}
 	}, [myGroup.chatList]);
-	console.log(myGroup, '여기야여기')
-	console.log(myGroup.chatList[0].createdAt)
+
 	return (
 		<>
 			<div className='w-2/5 flex flex-col gap-5 pt-3'>

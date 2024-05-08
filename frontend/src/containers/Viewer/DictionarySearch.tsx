@@ -8,16 +8,14 @@ interface Dictionary {
 export const DictionarySearch = () => {
 	const [searchWord, setSearchWord] = useState('');
 	const [history, setHistory] = useState<Dictionary[]>([]); // history 배열을 useState를 이용하여 관리
-	// const dictionaryData: Dictionary = {
-	// 	word: '금융',
-	// 	definition: '금전을 융통하는 일. 특히 이자를 붙여서 자금을 대차하는 일과 그 수급 관계를 이른다.',
-	// };
+
 	const [dictionaryData, setDictionaryData] = useState<Dictionary>();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 
 	// 단어 검색하기
 	const WordData = async () => {
 		const data = await fetch(`${baseUrl}/viewer/word/${searchWord}`).then((response) => response.json());
+		console.log(data)
 		return data;
 	};
 	const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -34,7 +32,6 @@ export const DictionarySearch = () => {
 			.catch((_err) => {
 				console.log('단어 검색하는거 에러');
 			});
-		console.log(history);
 	};
 
 

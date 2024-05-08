@@ -1,21 +1,142 @@
 import Headers from '../../components/Headers';
-import SearchFilter from './SearchFilter';
-import SearchList from './SearchList';
+// import SearchFilter from './SearchFilter';
+// import SearchList from './SearchList';
 import CommunityHeader from './CommunityHeader';
-// import communityList from '../../types/communityProps';
-// import { useEffect, useState } from 'react';
-import { CommunityListArray } from '../../types/communityProps';
+// import { CommunityList } from '../../types/communityProps';
+import {
+	// useCallback, useEffect, 
+	useRef, useState
+} from 'react';
+// import { CommunityListArray } from '../../types/communityProps';
+import { Button, Card } from 'flowbite-react';
+// import { useInfiniteQuery } from 'react-query';
+// import { useAuthStore } from '../../store/auth';
+// import { useNavigate } from 'react-router-dom';
 
 const Community = () => {
 	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	// const [totalCommunity, setTotalCommunity] = useState<CommunityListArray>([]);
-	
+	// const { accessToken } = useAuthStore();
+	const observerRef = useRef(null);
+
+	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
+	// const limit = 12;
+	// const [page, setPage] = useState<number>(1);
+	// const [totalCommunity, setTotalCommunity] = useState<CommunityList[]>([]);
+
 	// // 전체 커뮤니티 조회
-	// const totalCommunityData = async (filter: string) => {
-	// 	const data = await fetch(`${baseUrl}/community/list?${filter}`).then((response) => response.json());
+	// const totalCommunityData = async (page: number, filtered: string) => {
+	// 	const headers = {
+	// 		Authorization: `Bearer ${accessToken}`,
+	// 	};
+	// 	const response = await fetch(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`, {
+	// 		headers: headers,
+	// 	});
+	// 	const data = await response.json();
+	// 	console.log(data);
 	// 	return data;
 	// };
-	
+	// useEffect(() => {
+	// 	totalCommunityData(page, filtered);
+	// });
+
+	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
+	// const fetchData = async (filtered: string) => {
+	// 	try {
+			// const data = await totalCommunityData(1, filtered);
+			// setTotalCommunity(data);
+	// 		window.scrollTo(0, 0);
+	// 	} catch (error) {
+	// 		console.error('Error fetching data:', error);
+	// 	}
+	// };
+
+	// useEffect(()=>{fetchData(filtered)},[])
+
+	// 무한 스크롤을 사용하여 데이터 가져오기
+	// const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+	// 	'community',
+	// 	({ pageParam = page }) =>
+	// 		totalCommunityData(pageParam, filtered)
+	// 			.then((res) => {
+	// 				if (totalCommunity) {
+	// 					// 이전 페이지에 있는 기사들과 새로운 페이지에 있는 기사들을 합쳐서 업데이트합니다.
+	// 					setTotalCommunity((prevTotalCommunity) => {
+	// 						let newArticleList = prevTotalCommunity ? [...prevTotalCommunity];
+
+	// 						if (res.articleList && typeof res.articleList[Symbol.iterator] === 'function') {
+	// 							newArticleList.push(...res.articleList);
+	// 						} else {
+	// 							console.error('res.articleList is not iterable');
+	// 						}
+
+	// 						return {
+	// 							articleList: newArticleList,
+	// 							hasNext: res.hasNext,
+	// 						};
+	// 					});
+	// 				} else {
+	// 					setTotalCommunity(res);
+	// 				}
+	// 			})
+	// 			.catch((err) => {
+	// 				console.log(err);
+	// 			}),
+	// 	{
+	// 		getNextPageParam: (_lastPage) => {
+	// 			if (totalArticles?.hasNext) {
+	// 				return page;
+	// 			}
+	// 		},
+	// 	},
+	// );
+
+	// 마지막 아티클 ID를 기반으로 페이지 설정
+	// useEffect(() => {
+	// 	if (totalArticles) {
+	// 		const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
+	// 		setPage(lastArticleId!);
+	// 	} else {
+	// 		setPage(0);
+	// 	}
+	// }, [totalArticles]);
+
+	// 스크롤 이벤트 핸들러
+	// useEffect(() => {
+	// 	let fetching = false;
+	// 	const handleScroll = async (e: any) => {
+	// 		const { scrollHeight, scrollTop, clientHeight } = e.target.scrollingElement;
+	// 		if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
+	// 			fetching = true;
+	// 			if (hasNextPage) await fetchNextPage();
+	// 			fetching = false;
+	// 		}
+	// 	};
+	// 	document.addEventListener('scroll', handleScroll);
+	// 	return () => {
+	// 		document.removeEventListener('scroll', handleScroll);
+	// 	};
+	// }, [fetchNextPage, hasNextPage]);
+
+	// // 관찰자 설정
+	// const handleObserver = useCallback(
+	// 	(entries: any) => {
+	// 		const [target] = entries;
+	// 		if (target.isIntersecting) {
+	// 		}
+	// 	},
+	// 	[fetchNextPage, hasNextPage],
+	// );
+
+	// useEffect(() => {
+	// 	const element = observerRef.current!;
+	// 	const option = { threshold: 0 };
+	// 	const observer = new IntersectionObserver(handleObserver, option);
+	// 	observer.observe(element);
+	// 	return () => observer.unobserve(element);
+	// }, [fetchNextPage, hasNextPage, handleObserver]);
+
+	// const navigate = useNavigate();
+
 	// // 검색 필터 변경 시 다시 받아오기
 	// const handleFilterChange = (filter: string) => {
 	// 	console.log(filter);
@@ -45,61 +166,30 @@ const Community = () => {
 	// 	fetchData()
 	// }, []);
 
-const totalCommunity: CommunityListArray = [
-	{
-		communityId: 1,
-		hits: 523,
-		writerName: '오영주',
-		maxParticipants: 4,
-		currentParticipants: 2,
-		categoryName: '시사',
-		title: 'Seeking Partners',
-		content:
-			'To join, Please share a shor introduction about yourself and the topics you are passionate about presenting. Our goal is to create whatever i dont get what theyre talking bout',
+	// console.log(totalCommunity);
+	// const handleCardClick = (community: CommunityList) => {
+	// 	navigate('/detail', { state: { community } });
+	// };
 
-		startAt: new Date(),
-		endAt: new Date(),
-	},
+	let filtered = '';
 
-	{
-		communityId: 2,
-		hits: 523,
-		writerName: '박현춘',
-		maxParticipants: 8,
-		currentParticipants: 1,
-		categoryName: '취업',
-		title: '함께 취업 발표 준비합시다',
-		content: '취업 발표 연습을 위해 함께 연습할 동료를 찾고 있습니다.',
-		startAt: new Date(),
-		endAt: new Date(),
-	},
-	{
-		communityId: 3,
-		title: '저와 같이 심도 있는 토론 하실분 ',
-		hits: 523,
-		writerName: '박현춘',
-		maxParticipants: 8,
-		currentParticipants: 1,
-		categoryName: '경제',
-		content: '집에서 집에 가고 싶다고 말하는 것은 무슨 의미인지 의문이 생겼습니다.',
-		startAt: new Date(),
-		endAt: new Date(),
-	},
-	{
-		communityId: 4,
-		title: '제 37회 정기 독서토론',
-		categoryName: '연애',
-		writerName: '박현춘',
-		maxParticipants: 8,
-		currentParticipants: 1,
-		content: '회원님들 들어와주세요',
-		hits: 523,
-		startAt: new Date(),
-		endAt: new Date(),
-	},
-];
-
-// console.log(totalCommunity);
+	const [searchType, setSearchType] = useState<string>('title');
+	const [keyword, setKeyword] = useState('');
+	const [category, setCategory] = useState('');
+	const [participant, setParticipant] = useState('');
+	const handleApplyFilter = () => {
+		if (searchType != '' && keyword) {
+			filtered += `${searchType}=${keyword}$`;
+		}
+		if (category != '') {
+			filtered += `categoryName=${category}$`;
+		}
+		if (participant != '') {
+			filtered += `maxParticipant=${participant}$`;
+		}
+		// 마지막 & 제거
+		filtered = filtered.slice(0, -1);
+	};
 
 	return (
 		<>
@@ -110,13 +200,114 @@ const totalCommunity: CommunityListArray = [
 				</div>
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
-						<SearchFilter
-							// handleFilterChange={handleFilterChange}
-						/>
+						<div className='w-full h-full'>
+							<div className='fixed top-50'>
+								<div className='flex items-start h-full flex-row'>
+									<Card>
+										<div className='w-full flex flex-col gap-y-5'>
+											<p className='font-semibold text-md border-b-2 border-gray-200 mb-2 pb-1'>검색 필터</p>
+											<div className='flex flex-col gap-4'>
+												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
+													<option value='title'>제목</option>
+													<option value='content'>내용</option>
+													<option value='writerName'>작성자</option>
+												</select>
+												<input
+													type='text'
+													name='keyword'
+													placeholder='검색어'
+													className='input'
+													onChange={(e) => setKeyword(e.target.value)}
+												/>
+												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
+													<option value=''>카테고리 선택</option>
+													<option value='비문학'>비문학</option>
+													<option value='정치'>정치</option>
+													<option value='경제'>경제</option>
+													<option value='사회'>사회</option>
+													<option value='생활/문화'>생활/문화</option>
+													<option value='IT/과학'>IT/과학</option>
+													<option value='세계'>세계</option>
+													<option value='오피니언'>오피니언</option>
+												</select>
+												<input
+													type='number'
+													name='maxParticipants'
+													placeholder='최대 참여자 수'
+													className='input'
+													onChange={(e) => setParticipant(e.target.value)}
+												/>
+											</div>
+
+											<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
+												<div className='flex items-center gap-2' onClick={handleApplyFilter}>
+													<span className='material-symbols-outlined text-[1.2rem]'>search</span>
+													<span>검색</span>
+												</div>
+											</Button>
+										</div>
+									</Card>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div className='flex w-3/5 h-auto flex-col justify-start gap-5 '>
-						<SearchList totalCommunity={totalCommunity}/>
+						{/* {totalCommunity ? (
+							<>
+								<div className='flex flex-row w-full h-full justify-start p-3 gap-5 flex-wrap '>
+									{totalCommunity?.map((community, index) => (
+										<Card
+											key={index}
+											className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+											onClick={() => {
+												handleCardClick(community);
+											}}
+										>
+											<div className='flex flex-row justify-between text-center text-sm'>
+												<div>👀 {community.hits}</div>
+												<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
+													{community.categoryName}
+												</div>
+											</div>
+											<div className='flex flex-col h-4/5 text-start  gap-y-2'>
+												<div className='text-l border-gray-200 border-b font-bold'>
+													{community.title.length <= 13 ? (
+														<div>{community.title} </div>
+													) : (
+														<div>{community.title.slice(0, 12)}...</div>
+													)}
+												</div>
+												<div className='text-sm'>
+													{community.content.length <= 120 ? (
+														<div>{community.content} </div>
+													) : (
+														<div>{community.content.slice(0, 120)}...</div>
+													)}
+												</div>
+											</div>
+											<div className='flex flex-col gap-2'>
+												<div className='w-32 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
+													마감일 13일전
+												</div>
+												<div className='border border-gray-700 rounded-md text-sm'>2024. 02. 26. 13:00</div>
+											</div>
+										</Card>
+									))}
+								</div>
+							</>
+						) : null} */}
 					</div>
+				</div>
+				<div ref={observerRef}>
+					<br />
+					{/* {totalArticles?.articleList?.length === 0
+						? '검색하려는 기사가 없습니다'
+						: isFetchingNextPage && hasNextPage
+							? '기사를 로딩 중입니다'
+							: '더 이상 남은 기사가 없습니다'} */}
+
+					<br />
+					<br />
 				</div>
 			</div>
 		</>
