@@ -1,7 +1,7 @@
 import { Card } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import communityList from '../../types/communityProps';
+import {CommunityList} from '../../types/communityProps';
 import { useMutation } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 
@@ -30,13 +30,13 @@ const PopCommu = () => {
 		}
 	};
 
-	const handleCardClick = (community: communityList) => {
-	navigate('/detail', { state: { community } });
+	const handleCardClick = (community: CommunityList) => {
+		navigate('/detail', { state: { community } });
 		handlehits(community?.communityId);
 	};
 
 
-	const [popCommunity, setPopCommunity] = useState<{ communityList: communityList[] }>();
+	const [popCommunity, setPopCommunity] = useState<{ communityList: CommunityList[] }>();
 	//인기 있는 모임 받아오기
 	const popCommunityData = async () => {
 		const data = await fetch(`${baseUrl}/community/hot`).then((response) => response.json());
@@ -79,15 +79,15 @@ const PopCommu = () => {
 										onClick={() => handleCardClick(community)}
 									>
 										<div className='flex justify-end gap-2 h-1/5'>
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
+											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
 												#{community.categoryName}
 											</div>
 										</div>
 										<div className='h-3/5 text-start font-bold'>
-											{community.title.length <= 35 ? (
+											{community.title.length <= 28 ? (
 												<div>{community.title} </div>
 											) : (
-												<div>{community.title.slice(0, 35)}...</div>
+												<div>{community.title.slice(0, 28)}...</div>
 											)}
 										</div>
 										<div className='text-end text-sm'>👀 조회수 {community.hits}</div>
@@ -104,15 +104,15 @@ const PopCommu = () => {
 										onClick={() => handleCardClick(community)}
 									>
 										<div className='flex justify-end gap-2 h-1/5'>
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm'>
+											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
 												#{community.categoryName}
 											</div>
 										</div>
 										<div className='h-3/5 text-start font-bold'>
-											{community.title.length <= 35 ? (
+											{community.title.length <= 28 ? (
 												<div>{community.title} </div>
 											) : (
-												<div>{community.title.slice(0, 35)}...</div>
+												<div>{community.title.slice(0, 28)}...</div>
 											)}
 										</div>
 										<div className='text-end text-sm'>👀 조회수 {community.hits}</div>
