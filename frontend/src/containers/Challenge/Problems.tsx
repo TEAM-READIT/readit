@@ -60,10 +60,10 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 	return (
 		<>
 			<div className='h-full w-1/3 flex flex-col'>
-				<div className='flex h-4/5'>
+				<div className='flex h-4/5  '>
 					<Card className='w-full'>
-						<div className='flex flex-col justify-between h-full py-20'>
-							<div className='h-4/5 flex flex-col text-start gap-y-10 overflow-auto border border-black'>
+						<div className='flex flex-col justify-between gap-20 h-full pt-20'>
+							<div className='h-4/5 flex flex-col text-start gap-y-10 overflow-auto'>
 								{problemList.map((problem, index) => (
 									<div key={index}>
 										<div className='font-bold'>{problem.problem}</div>
@@ -78,7 +78,6 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 												style={{ paddingRight: '5px' }}
 											>
 												<div className='relative'>
-													{option.optionNumber}.
 													{isOptionSelected(index, optionidx) && <div className='absolute left-0 top-0'>✔</div>}
 												</div>
 												<div>{option.option}</div>
@@ -90,11 +89,12 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 									</div>
 								))}
 							</div>
+
 							<div className='flex justify-end'>
 								<Button
 									className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
 									onClick={handleAnswer}
-								>
+									>
 									제출하기
 								</Button>
 							</div>

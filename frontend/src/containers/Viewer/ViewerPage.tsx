@@ -48,8 +48,6 @@ export const ViewerPage = () => {
 		setBottomOpen(!isBottomOpen);
 	};
 	const id = article.id;
-	console.log(id);
-	console.log(article);
 
 	// 어려운 단어 불러오기
 	const fetchWord = async () => {
@@ -83,7 +81,7 @@ export const ViewerPage = () => {
 	};
 
 	const summarySubmit = useMutation(async () => {
-		const response = await fetch(`${baseUrl}/viewer/submission/${article.articleId}`, {
+		const response = await fetch(`${baseUrl}/viewer/submission/${article.id}`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
@@ -106,7 +104,7 @@ export const ViewerPage = () => {
 
 	// 임시 제출하기
 	const tempSubmit = useMutation(async () => {
-		const response = await fetch(`${baseUrl}/viewer/temp/${article.articleId}`, {
+		const response = await fetch(`${baseUrl}/viewer/temp/${article.id}`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,

@@ -1,6 +1,6 @@
 interface communityList {
 	communityId: number;
-	hit: number;
+	hits: number;
 	writerName?: string;
 	maxParticipants?: number;
 	currentParticipants?: number;
