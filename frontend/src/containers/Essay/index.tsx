@@ -199,16 +199,16 @@ const Essay = () => {
 	const handleApplyFilter = () => {
 		console.log('검색버튼 누름 ')
 		if (searchType != '' && keyword) {
-			filtered += `${searchType}=${keyword}$`;
+			filtered += `${searchType}=${keyword}&`;
 		}
 		if (ishit) {
-			filtered += `hit=true$`;
+			filtered += `hit=true&`;
 		}
 		// if (filter.isMember) {
 		// 	filtered += `isMember=true$`;
 		// }
 		if (category != '') {
-			filtered += `category=${category}$`;
+			filtered += `category=${category}&`;
 		}
 		// 마지막 & 제거
 		filtered = filtered.slice(0, -1);

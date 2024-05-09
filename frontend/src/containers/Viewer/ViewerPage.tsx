@@ -25,6 +25,7 @@ interface wordListProps {
 interface RequestBody {
 	content: string;
 	summary: string;
+	memoList:string[]
 }
 
 export const ViewerPage = () => {
@@ -43,13 +44,12 @@ export const ViewerPage = () => {
 	const [summary, setSummary] = useState<string>('');
 	// 피드백
 	const [feedback, setFeedback] = useState<FeedBackProps>();
-
 	// 하단 슬라이드 상태 값
 	const toggleBottom = () => {
 		setBottomOpen(!isBottomOpen);
 	};
 	const id = article.id;
-	const total = document.querySelector('#text')?.outerHTML;
+	// const total = document.querySelector('#text')?.outerHTML;
 	// 어려운 단어 불러오기
 	const fetchWord = async () => {
 		const headers = {
@@ -77,8 +77,9 @@ export const ViewerPage = () => {
 	}, []);
 	// 제출 POST
 	const requestbody: RequestBody = {
-		content: total?.toString()!,
+		content: document.querySelector('#text')?.outerHTML!,
 		summary: summary,
+		memoList: memos
 	};
 
 	const summarySubmit = useMutation(async () => {
@@ -90,6 +91,7 @@ export const ViewerPage = () => {
 			},
 			body: JSON.stringify(requestbody),
 		});
+		console.log(requestbody)
 		return response.json();
 	});
 
