@@ -53,9 +53,7 @@ public class ViewerController {
     public ResponseEntity<SubmissionResponse> submitSummary(@PathVariable Integer articleId,
                                                             @Valid @RequestBody PostTempSaveRequest request,
                                                             @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
-        Integer memberId = authCredentials.id();
-//        memberId = 3;
-        viewerService.saveTemp(articleId, memberId, request);
-        return ResponseEntity.ok(viewerService.submitSummary(articleId, memberId, request.summary()));
+        viewerService.saveTemp(articleId, authCredentials.id(), request);
+        return ResponseEntity.ok(viewerService.submitSummary(articleId, authCredentials.id(), request.summary()));
     }
 }

@@ -76,4 +76,12 @@ public class ArticleController {
         articleService.updateHit(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/memo/{id}")
+    public ResponseEntity<GetMemoListResponse> getMemos(
+            @PathVariable Integer id
+            ){
+        GetMemoListResponse memoListResponse = articleService.getMemoList(id);
+        return ResponseEntity.ok(memoListResponse);
+    }
 }
