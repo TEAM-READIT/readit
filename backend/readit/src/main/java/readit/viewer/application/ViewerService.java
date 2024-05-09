@@ -66,8 +66,8 @@ public class ViewerService {
     // 어려운 단어 DB에 저장
     private void saveWords(Article article, GetWordListResponse getWordListResponse) {
         String jsonData = getWordListResponse.toJsonString();
-        articleRepository.updateWordsByArticleId(article.getId(), jsonData);
-        articleRepository.updateHasWordToTrue(article.getId());
+        article.updateDifficultWords(jsonData, true);
+        articleRepository.save(article);
     }
 
     // 단어 사전 검색
