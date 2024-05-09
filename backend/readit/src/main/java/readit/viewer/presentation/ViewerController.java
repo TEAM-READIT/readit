@@ -44,7 +44,6 @@ public class ViewerController {
                                          @Valid @RequestBody PostTempSaveRequest request,
                                          @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-//        memberId = 3;
         viewerService.saveTemp(articleId, memberId, request);
         return ResponseEntity.ok().build();
     }

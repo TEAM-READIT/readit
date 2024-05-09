@@ -19,19 +19,6 @@ public class Memo {
     @JoinColumn(name = "member_article_id", referencedColumnName = "id")
     private MemberArticle memberArticle;
 
-    @Column(nullable = false)
-    private String color;
-
     @Column(nullable = false, length = 200)
     private String content;
-
-    @Column(nullable = false)
-    private Integer startIndex;
-
-    @Column(nullable = false)
-    private Integer endIndex;
-
-    public void includeMemberArticle(MemberArticle memberArticle) {
-        this.memberArticle = memberArticle;;
-    }
 }
