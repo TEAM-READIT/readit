@@ -26,8 +26,7 @@ public class Article extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ArticleType type;
 
-
-    @Column(nullable = false, columnDefinition = "text")
+    @Column(nullable = false, columnDefinition = "mediumtext")
     private String content;
 
     @Column(nullable = false)
