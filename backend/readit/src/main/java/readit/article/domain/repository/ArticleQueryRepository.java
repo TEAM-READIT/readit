@@ -47,12 +47,13 @@ public class ArticleQueryRepository {
         return new Page<>(articles, limit);
     }
 
-    public Page<MemberArticle> findMemberArticleWithFilter(Integer hitCursor, String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit) {
-        List<MemberArticle> memberArticles = queryFactory
+    public Page<MemberArticle> findMemberArticleWithFilter(Integer id,Integer hitCursor, String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
+        List<MemberArticle> memberArticles =  queryFactory
                 .selectFrom(memberArticle)
                 .where(
-                        eqMemberArticleCursor(hit, cursor, hitCursor),
-                        eqMemberArticleHitCursor(hit, cursor),
+                        eqMember(id),
+                        eqMemberArticleCursor(hit,cursor,hitCursor),
+                        eqMemberArticleHitCursor(hit,cursor),
                         eqMemberArticleCategory(category),
                         eqMemberArticleTitle(title),
                         eqMemberArticleContent(content),
@@ -173,7 +174,13 @@ public class ArticleQueryRepository {
                 .orElse(null);
     }
 
-    public BooleanExpression eqArticleCategory(String category) {
+    public BooleanExpression eqMember(Integer memberId){
+        return Optional.ofNullable(memberId)
+                .map(memberArticle.memberId::eq)
+                .orElse(null);
+    }
+
+    public BooleanExpression eqArticleCategory(String category){
         return Optional.ofNullable(category)
                 .map(article.category.name::eq)
                 .orElse(null);
