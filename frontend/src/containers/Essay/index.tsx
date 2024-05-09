@@ -68,7 +68,6 @@ const Essay = () => {
 		}
 	};
 
-	console.log(page)
 	// 내가 읽은 글 누를 때 마다 렌더링
 	// useEffect(() => {
 	// 	if (isMember) {
@@ -169,14 +168,13 @@ const Essay = () => {
 
 	// 조회수 ++
 	const hits = useMutation(async (id:number) => {
-		const response = await fetch(`${baseUrl}/article/hit/${id}`, {
+		await fetch(`${baseUrl}/article/hit/${id}`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 				'Content-Type': 'application/json',
 			},
 		});
-		console.log(response)
 	});
 	const handlehits = async (id:number) => {
 		try {

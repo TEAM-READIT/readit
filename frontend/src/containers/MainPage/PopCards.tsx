@@ -11,14 +11,13 @@ const PopCards = () => {
 
 	// 조회수 ++
 	const hits = useMutation(async (id: number) => {
-		const response = await fetch(`${baseUrl}/article/hit/${id}`, {
+		await fetch(`${baseUrl}/article/hit/${id}`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 				'Content-Type': 'application/json',
 			},
 		});
-		console.log(response);
 	});
 	const handlehits = async (id: number) => {
 		try {

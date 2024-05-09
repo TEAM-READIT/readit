@@ -11,12 +11,9 @@
 타이머  
 
 ### 커뮤니티 리스트
-검색 필터 변경
-{status: 400, message: `Failed to convert value of type 'java.lang.String'…ype 'java.lang.Integer'; For input string: "list"`}
-
+...ing
 
 ### 글 목록 페이지
-필터링 할 때 조회수 기능 추가 
 비동기 처리해서 바로바로 보여지게 
 화면 넘어갔다가 돌아오면 다시 초기화되는데 이거는 react가 그런애인건가
 카테고리랑 제목 같이 넣으면 검색 안됨 
@@ -25,7 +22,5 @@
 채팅 setTimeOut(())
 
 ### 뷰어 페이지
-어려운 단어 목록 500 
-제출 500
 메모를 따로 저장해서 인덱싱? 
-
+단어 검색할 때 없는 단어면 업는 단어라고 보여주기 

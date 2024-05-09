@@ -1,7 +1,7 @@
 import { Card } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 // import communityList from '../../types/communityProps';
-import { CommunityList } from '../../types/communityProps';
+import  CommunityList  from '../../types/communityProps';
 
 interface SearchListProps {
 	totalCommunity: CommunityList[];

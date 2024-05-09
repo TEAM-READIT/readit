@@ -35,7 +35,6 @@ export const MainText = ({
 	// 	});
 	// }, [highlightedRanges]);
 
-	// const total = document.querySelector('#text');
 	const handleBold = () => {
 		if (selectedRange) {
 			const span = document.createElement('span');
