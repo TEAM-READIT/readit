@@ -40,7 +40,7 @@ const Group = () => {
 			});
 	}, []);
 
-	const [chatValue, setChatValue] = useState<string>('채팅 보내기');
+	const [chatValue, setChatValue] = useState<string>('');
 
 	// 채팅 보내기
 	const chatBody = {
@@ -58,8 +58,11 @@ const Group = () => {
 		});
 	});
 	const handleSendingChat = async () => {
-		console.log('채팅 보냄');
 		try {
+			if (!chatValue.trim()) {
+				// 빈 값이면 전송하지 않음
+				return;
+			}
 			await chatPost.mutateAsync();
 
 			groupData()
@@ -73,15 +76,29 @@ const Group = () => {
 		setChatValue('');
 	};
 
+	const handleKeyPress = (e: any) => {
+		// 입력 필드에서 엔터 키가 눌렸을 때
+		if (e.key === 'Enter') {
+			// 빈 값인지 확인 후 메시지 전송 함수 호출
+			if (!chatValue.trim()) {
+				// 빈 값이면 전송하지 않음
+				return;
+			}
+			handleSendingChat();
+			// 입력 필드 초기화
+			setChatValue('');
+		}
+	};
+
 	const chatContainerRef = useRef<HTMLDivElement>(null);
 
-	// useEffect(() => {
-	// 	if (chatContainerRef.current) {
-	// 		chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-	// 	}
-	// }, [myGroup?.chatList]);
-	// console.log(myGroup);
-	// console.log(myGroup?.chatList);
+
+
+	useEffect(() => {
+		if (chatContainerRef.current) {
+			chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+		}
+	}, [myGroup?.chatList]);
 
 	return (
 		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
@@ -143,8 +160,10 @@ const Group = () => {
 										type='text'
 										name='chat'
 										placeholder='메시지를 입력하세요'
+										value={chatValue}
 										className='rounded-xl w-5/6 input'
 										onChange={(e) => setChatValue(e.target.value)}
+										onKeyDown={handleKeyPress}
 									/>
 									<Button
 										className='border w-1/6 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'

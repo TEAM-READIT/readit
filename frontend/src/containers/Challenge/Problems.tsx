@@ -55,10 +55,11 @@ const handleAnswer = async () => {
 		});
 	};
 
-	const isOptionSelected = (problemIndex: number, optionIndex: number) => {
-		return selectedOptions[problemIndex] === optionIndex;
-	};
 	const accurateAns = answer?.answerList
+	const isOptionSelected = (problemIndex: number, optionIndex: number) => {
+		if (accurateAns) return
+		else return selectedOptions[problemIndex] === optionIndex;
+	};
 
 	return (
 		<>
@@ -100,13 +101,13 @@ const handleAnswer = async () => {
 																<div>{option.option}</div>
 															)}
 														</div>
-													) :
-														<>{option.option}
-														{ isOptionSelected(index, optionidx) && <div className='absolute left-0 top-0'>✔</div>}
+													) : (
+														<>
+															{option.option}
+															{isOptionSelected(index, optionidx) && <div className='absolute left-0 top-0'>✔</div>}
 														</>
-													}
+													)}
 												</div>
-
 											</div>
 										))}
 										<div className='flex flex-row justify-end'>
@@ -117,12 +118,16 @@ const handleAnswer = async () => {
 							</div>
 
 							<div className='flex justify-end'>
-								<Button
-									className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
-									onClick={handleAnswer}
-								>
-									제출하기
-								</Button>
+								{accurateAns ? (
+										null
+								) : (
+									<Button
+										className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
+										onClick={handleAnswer}
+									>
+										제출하기
+									</Button>
+								)}
 							</div>
 						</div>
 					</Card>

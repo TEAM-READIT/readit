@@ -25,6 +25,8 @@ interface wordListProps {
 interface RequestBody {
 	content: string;
 	summary: string;
+	memoList: string[];
+	communityId?: number;
 }
 
 export const ViewerPage = () => {
@@ -34,21 +36,24 @@ export const ViewerPage = () => {
 	const location = useLocation();
 	const [memos, setMemos] = useState<string[]>([]);
 	const article = location.state?.article;
-	// const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
+	const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
+	console.log(communityId);
 	const navigate = useNavigate();
 	const [wordList, setWordList] = useState<wordListProps[]>();
-	console.log(wordList)
+	console.log(wordList);
 	const [isOpen, open, close] = useModal();
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
 	// 피드백
 	const [feedback, setFeedback] = useState<FeedBackProps>();
-
 	// 하단 슬라이드 상태 값
 	const toggleBottom = () => {
 		setBottomOpen(!isBottomOpen);
 	};
 	const id = article.id;
+
+	const [change, setChange] = useState<number>(0);
+
 	const total = document.querySelector('#text')?.outerHTML;
 	// 어려운 단어 불러오기
 	const fetchWord = async () => {
@@ -72,14 +77,19 @@ export const ViewerPage = () => {
 		}
 	};
 
+	useEffect(() => {}, [change]);
 	useEffect(() => {
 		fetchUnreadData();
 	}, []);
 	// 제출 POST
 	const requestbody: RequestBody = {
-		content: total?.toString()!,
+		content: total!,
 		summary: summary,
+		memoList: memos,
 	};
+	if (communityId) {
+		requestbody.communityId = communityId;
+	}
 
 	const summarySubmit = useMutation(async () => {
 		const response = await fetch(`${baseUrl}/viewer/submission/${article.id}`, {
@@ -90,6 +100,7 @@ export const ViewerPage = () => {
 			},
 			body: JSON.stringify(requestbody),
 		});
+		console.log(requestbody);
 		return response.json();
 	});
 
@@ -140,7 +151,7 @@ export const ViewerPage = () => {
 						>
 							<DictionarySearch />
 							<div className='w-full h-full relative'>
-								<MainText setMemos={setMemos} article={article} />
+								<MainText setMemos={setMemos} article={article} setChange={setChange} />
 							</div>
 						</div>
 						<div
@@ -189,9 +200,7 @@ export const ViewerPage = () => {
 						</div>
 						<div className='w-full h-full p-10 flex flex-col justify-between pt-20'>
 							{summarySubmit.isLoading ? (
-								<>
-								글을 분석하고 있습니다
-								</>
+								<>글을 분석하고 있습니다</>
 							) : (
 								<>
 									<div className='text-start'>요약 : {summary}</div>

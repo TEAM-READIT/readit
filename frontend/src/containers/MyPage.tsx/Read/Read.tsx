@@ -26,9 +26,7 @@ const Read = () => {
 			const response = await fetch(`${baseUrl}/article/myarticle`, {
 				headers: headers,
 			});
-
 			const data = await response.json();
-
 			return data;
 		};
 

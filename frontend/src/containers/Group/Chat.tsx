@@ -33,6 +33,7 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 		} catch (error) {
 			console.error('채팅 보내기 실패');
 		}
+		// setChatValue()
 	};
 
 
