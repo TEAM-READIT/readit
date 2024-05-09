@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.domain.Article;
 import readit.article.domain.repository.ArticleRepository;
-import readit.viewer.domain.dto.gpt.GPTMessage;
 import readit.viewer.domain.dto.Word;
+import readit.viewer.domain.dto.gpt.GPTMessage;
 import readit.viewer.domain.dto.request.PostTempSaveRequest;
 import readit.viewer.domain.dto.response.GetWordListResponse;
 import readit.viewer.domain.dto.response.SubmissionResponse;
@@ -15,7 +15,6 @@ import readit.viewer.domain.entity.MemberArticle;
 import readit.viewer.domain.repository.MemberArticleRepository;
 import readit.viewer.domain.repository.MemoRepository;
 import readit.viewer.exception.AsynchronousException;
-import readit.viewer.exception.ValueMissingException;
 import readit.viewer.util.DictionaryUtil;
 import readit.viewer.util.GPTUtil;
 
@@ -79,9 +78,8 @@ public class ViewerService {
     // 임시 저장
     public void saveTemp(Integer articleId, Integer memberId, PostTempSaveRequest request) {
         // 읽은 글에 있는 지 확인
-        Optional<MemberArticle> optionalMemberArticle = Optional.ofNullable(
-                memberArticleRepository.findMemberArticleByArticleIdAndMemberId(articleId, memberId)
-                        .orElseThrow(ValueMissingException::new));
+        Optional<MemberArticle> optionalMemberArticle =
+                memberArticleRepository.findMemberArticleByArticleIdAndMemberId(articleId, memberId);
 
         // 이미 읽은 글이면 기존 데이터에 업데이트
         if (optionalMemberArticle.isPresent()) {
