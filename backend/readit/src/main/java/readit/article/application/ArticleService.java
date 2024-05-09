@@ -20,7 +20,9 @@ import readit.article.exception.JsonConvertException;
 import readit.article.infra.FastAPIClient;
 import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.entity.MemberArticle;
+import readit.viewer.domain.entity.Memo;
 import readit.viewer.domain.repository.MemberArticleRepository;
+import readit.viewer.domain.repository.MemoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ import static java.util.stream.Collectors.toList;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final MemoRepository memoRepository;
     private final ArticleQueryRepository articleQueryRepository;
     private final CategoryRepository categoryRepository;
     private final MemberArticleRepository memberArticleRepository;
@@ -102,5 +105,10 @@ public class ArticleService {
         Article article = articleRepository.getById(id);
         article.increaseHit();
         articleRepository.save(article);
+    }
+
+    public GetMemoListResponse getMemoList(Integer id){
+        List<Memo> memoList = memoRepository.findByMemberArticleId(id);
+        return GetMemoListResponse.from(memoList);
     }
 }
