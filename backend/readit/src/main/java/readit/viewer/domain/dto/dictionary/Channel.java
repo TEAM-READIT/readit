@@ -1,6 +1,7 @@
-package readit.viewer.domain.dto;
+package readit.viewer.domain.dto.dictionary;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import readit.viewer.domain.dto.gpt.Item;
 
 public record Channel (
         Integer total,

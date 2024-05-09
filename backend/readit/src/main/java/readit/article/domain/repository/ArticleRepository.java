@@ -1,11 +1,9 @@
 package readit.article.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import readit.article.domain.Article;
 import readit.article.domain.ArticleType;
-import readit.article.exception.ArticleNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +12,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
     List<Article> findTop4ByOrderByHitDesc();
     List<Article> findTop4ByTypeOrderByHitDesc(ArticleType type);
+
+    Optional<Article> findById(Integer Id);
 
     default Article getById(Integer id){
         return findById(id).orElse(null);

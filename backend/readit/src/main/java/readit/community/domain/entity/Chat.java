@@ -26,6 +26,7 @@ public class Chat extends BaseTimeEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", referencedColumnName = "id",
             foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JsonIgnore
     private Member member;
 
     @Column(length = 200)

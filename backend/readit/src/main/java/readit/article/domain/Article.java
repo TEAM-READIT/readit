@@ -51,4 +51,9 @@ public class Article extends BaseTimeEntity {
     public void increaseHit(){
         this.hit++;
     }
+
+    public void updateDifficultWords(String words, Boolean hasWord) {
+        this.words = words;
+        this.hasWord = hasWord;
+    }
 }

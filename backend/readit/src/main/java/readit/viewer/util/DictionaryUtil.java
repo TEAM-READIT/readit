@@ -4,19 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import readit.common.config.RestTemplateConfig;
-import readit.viewer.domain.dto.DictionarySearchResult;
-import readit.viewer.domain.dto.Item;
+import readit.viewer.domain.dto.dictionary.DictionarySearchResult;
+import readit.viewer.domain.dto.gpt.Item;
 import readit.viewer.domain.dto.Word;
 import readit.viewer.exception.APIResponseMissingException;
 import readit.viewer.exception.JsonParsingException;
@@ -46,9 +43,8 @@ public class DictionaryUtil {
             throw new APIResponseMissingException();
         }
 
-        Optional<DictionarySearchResult> resultOptional = parseJson(response.getBody());
-        DictionarySearchResult result = resultOptional
-                .orElseThrow(() -> new JsonParsingException());
+        DictionarySearchResult result = parseJson(response.getBody())
+                .orElseThrow(JsonParsingException::new);
 
         return Word.of(keyword, parseDefinition(result));
     }
@@ -71,7 +67,6 @@ public class DictionaryUtil {
             }
         }
 
-        // json parsing이 제대로 되지 않았을 때
         return "검색 결과가 존재하지 않습니다.";
     }
 }

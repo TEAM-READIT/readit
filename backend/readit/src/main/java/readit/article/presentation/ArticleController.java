@@ -52,7 +52,6 @@ public class ArticleController {
                                                                         @RequestParam(defaultValue = "0") Integer cursor,
                                                                         @RequestParam(defaultValue = "false") Boolean hit,
                                                                         @RequestParam(defaultValue = "12")  Integer limit){
-        System.out.println(cursor+", 하이");
         GetMemberArticleSearchResponse searchListResponse = articleService.getMyArticleSearchList(category,title,content,reporter,hit,cursor,limit);
         return ResponseEntity.ok(searchListResponse);
     }
@@ -65,7 +64,6 @@ public class ArticleController {
                                                                 @RequestParam(defaultValue = "0") Integer cursor,
                                                                 @RequestParam(defaultValue = "false") Boolean hit,
                                                                 @RequestParam(defaultValue = "12")  Integer limit){
-        System.out.println(title+", 하이");
         GetArticleSearchResponse searchListResponse = articleService.getArticleSearchList(category,title,content,reporter,hit,cursor,limit);
         return ResponseEntity.ok(searchListResponse);
     }
@@ -76,5 +74,4 @@ public class ArticleController {
         articleService.updateHit(id);
         return ResponseEntity.noContent().build();
     }
-
 }
