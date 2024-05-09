@@ -26,7 +26,7 @@ public class CommunityController {
 
     private final CommunityService communityService;
 
-    @GetMapping()
+    @GetMapping("/list")
     @Operation(summary = "커뮤니티 모집글 조회", description = "커뮤니티 리스트 조회 기능입니다.")
     public ResponseEntity<GetCommunityListResponse> getCommunityList(@RequestParam(required = false) String category,
                                                                      @RequestParam(required = false) String title,
