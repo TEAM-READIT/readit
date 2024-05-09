@@ -24,17 +24,16 @@ const Detail = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const community = location.state?.community;
-	// console.log(community);
 
 	const communityPost = useMutation(async () => {
-		const response = await fetch(`${baseUrl}/community/${community.communityId}`, {
+		await fetch(`${baseUrl}/community/${community.communityId}`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 				'Content-Type': 'application/json',
 			},
 		});
-		return response.json();
+
 	});
 	const handleJoin = async () => {
 		try {

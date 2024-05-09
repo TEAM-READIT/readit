@@ -13,9 +13,4 @@ interface CommunityList {
 	endAt?: Date;
 }
 
-<<<<<<< Updated upstream
 export default CommunityList;
-=======
-
-export default CommunityList;
->>>>>>> Stashed changes

@@ -12,15 +12,14 @@ const Group = () => {
 	const { accessToken } = useAuthStore();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const location = useLocation();
-	const communityId = location.state?.communityId;
+	const community = location.state?.community;
 	const [myGroup, setMyGroup] = useState<communityProps>();
-
 	// 내가 속한 모임 받아오기
 	const groupData = async () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const data = await fetch(`${baseUrl}/community/${communityId}`, {
+		const data = await fetch(`${baseUrl}/community/${community.communityId}`, {
 			headers: headers,
 		}).then((response) => response.json());
 		return data;

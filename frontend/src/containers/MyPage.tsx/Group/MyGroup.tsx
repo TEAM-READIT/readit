@@ -13,8 +13,8 @@ const MyGroup = () => {
 		navigate('/mypage/group', { state: { communityList } });
 	};
 
-	const handleMyCommunity = (communityId: number) => {
-		navigate('/group', { state: { communityId } });
+	const handleMyCommunity = (community: CommunityList) => {
+		navigate('/group', { state: { community } });
 	};
 
 	const [communityList, setCommunityList] = useState<{ communityList: CommunityList[] }>();
@@ -38,9 +38,8 @@ const MyGroup = () => {
 			});
 	}, []);
 
-
 	// 상위 3개만 추출
-	const top3Communities = communityList?.communityList.reverse().slice(0,3)
+	const top3Communities = communityList?.communityList.reverse().slice(0, 3);
 
 	return (
 		<>
@@ -70,10 +69,7 @@ const MyGroup = () => {
 									</div>
 								</div>
 							</div>
-							<Button
-								className='bg-primary-500 border border-black'
-								onClick={() => handleMyCommunity(community.communityId!)}
-							>
+							<Button className='bg-primary-500 border border-black' onClick={() => handleMyCommunity(community)}>
 								모임 페이지 이동하기
 							</Button>
 						</div>
