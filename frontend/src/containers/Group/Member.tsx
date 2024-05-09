@@ -1,6 +1,5 @@
 import { communityProps } from '../../types/gropProps';
 const Member = ({ myGroup }: { myGroup: communityProps }) => {
-	console.log(myGroup.memberList[0].memberProfile)
 	return (
 		<>
 			<div className=' w-full px-5 flex flex-row justify-start gap-20 items-center'>
