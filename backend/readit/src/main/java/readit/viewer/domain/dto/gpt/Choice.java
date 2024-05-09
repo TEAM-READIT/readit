@@ -1,4 +1,4 @@
-package readit.viewer.domain.dto;
+package readit.viewer.domain.dto.gpt;
 
 import lombok.Getter;
 

@@ -1,10 +1,10 @@
 package readit.viewer.domain.dto.request;
 
-import readit.viewer.domain.entity.Memo;
-import java.util.List;
+import jakarta.validation.constraints.NotNull;
 
 public record PostTempSaveRequest(
-        List<Memo> memoList,
-        String summary
+        @NotNull(message = "요약은 500자 이하로 가능합니다.")
+        String summary,
+        String content
 ) {
 }

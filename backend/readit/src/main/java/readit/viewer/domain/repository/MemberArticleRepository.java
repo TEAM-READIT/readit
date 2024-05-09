@@ -8,6 +8,7 @@ import readit.viewer.domain.entity.MemberArticle;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import readit.viewer.exception.ValueMissingException;
 
 public interface MemberArticleRepository extends JpaRepository<MemberArticle, Integer> {
     Optional<MemberArticle> findMemberArticleByArticleIdAndMemberId(Integer articleId, Integer memberId);
@@ -30,4 +31,9 @@ public interface MemberArticleRepository extends JpaRepository<MemberArticle, In
     List<MemberArticle> findByCommunityIdInThisWeek(
             Integer communityId, LocalDateTime start, LocalDateTime end
     );
+
+    default MemberArticle getByArticleIdAndMemberId(Integer articleId, Integer memberId) {
+        return findMemberArticleByArticleIdAndMemberId(articleId, memberId)
+                .orElseThrow(ValueMissingException::new);
+    };
 }

@@ -2,6 +2,7 @@ package readit.viewer.presentation;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class ViewerController {
     @PostMapping("/temp/{articleId}")
     @Operation(summary = "뷰어 임시 저장", description = "뷰어 임시 저장 기능입니다.")
     public ResponseEntity<Void> saveTemp(@PathVariable Integer articleId,
-                                         @RequestBody PostTempSaveRequest request,
+                                         @Valid @RequestBody PostTempSaveRequest request,
                                          @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
 //        memberId = 3;
@@ -51,7 +52,7 @@ public class ViewerController {
     @PostMapping("/submission/{articleId}")
     @Operation(summary = "뷰어 최종 제출", description = "뷰어 최종 제출 기능입니다.")
     public ResponseEntity<SubmissionResponse> submitSummary(@PathVariable Integer articleId,
-                                                            @RequestBody PostTempSaveRequest request,
+                                                            @Valid @RequestBody PostTempSaveRequest request,
                                                             @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
 //        memberId = 3;
