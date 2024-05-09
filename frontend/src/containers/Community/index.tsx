@@ -1,141 +1,144 @@
 import Headers from '../../components/Headers';
 // import SearchFilter from './SearchFilter';
 // import SearchList from './SearchList';
-import CommunityHeader from './CommunityHeader';
-// import { CommunityList } from '../../types/communityProps';
-import {
-	// useCallback, useEffect, 
-	useRef, useState
-} from 'react';
-// import { CommunityListArray } from '../../types/communityProps';
 import { Button, Card } from 'flowbite-react';
-// import { useInfiniteQuery } from 'react-query';
-// import { useAuthStore } from '../../store/auth';
-// import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useInfiniteQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../store/auth';
+import CommunityList from '../../types/communityProps';
+import CommunityHeader from './CommunityHeader';
 
 const Community = () => {
-	// const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	// const { accessToken } = useAuthStore();
+	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	const { accessToken } = useAuthStore();
 	const observerRef = useRef(null);
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
-	// const limit = 12;
-	// const [page, setPage] = useState<number>(1);
-	// const [totalCommunity, setTotalCommunity] = useState<CommunityList[]>([]);
+	const limit = 12;
+	const [page, setPage] = useState<number>(0);
+	const [totalCommunity, setTotalCommunity] = useState<{ communityList: CommunityList[]; hasNext: boolean }>();
 
 	// // 전체 커뮤니티 조회
-	// const totalCommunityData = async (page: number, filtered: string) => {
-	// 	const headers = {
-	// 		Authorization: `Bearer ${accessToken}`,
-	// 	};
-	// 	const response = await fetch(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`, {
-	// 		headers: headers,
-	// 	});
-	// 	const data = await response.json();
-	// 	console.log(data);
-	// 	return data;
-	// };
-	// useEffect(() => {
-	// 	totalCommunityData(page, filtered);
-	// });
+	const totalCommunityData = async (page: number, filtered: string) => {
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`, {
+			headers: headers,
+		});
+		const data = await response.json();
+		console.log(data);
+		return data;
+	};
+
+	useEffect(() => {
+		const data = totalCommunityData(page, filtered);
+		console.log("data", data);
+	});
 
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
-	// const fetchData = async (filtered: string) => {
-	// 	try {
-			// const data = await totalCommunityData(1, filtered);
-			// setTotalCommunity(data);
-	// 		window.scrollTo(0, 0);
-	// 	} catch (error) {
-	// 		console.error('Error fetching data:', error);
-	// 	}
-	// };
+	const fetchData = async (filtered: string) => {
+		try {
+			const data = await totalCommunityData(1, filtered);
+			console.log(data);
+			setTotalCommunity({ communityList: data.communityList, hasNext: data.hasNext });
+			window.scrollTo(0, 0);
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	};
 
-	// useEffect(()=>{fetchData(filtered)},[])
+	useEffect(() => {
+		fetchData;
+	}, []);
 
 	// 무한 스크롤을 사용하여 데이터 가져오기
-	// const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-	// 	'community',
-	// 	({ pageParam = page }) =>
-	// 		totalCommunityData(pageParam, filtered)
-	// 			.then((res) => {
-	// 				if (totalCommunity) {
-	// 					// 이전 페이지에 있는 기사들과 새로운 페이지에 있는 기사들을 합쳐서 업데이트합니다.
-	// 					setTotalCommunity((prevTotalCommunity) => {
-	// 						let newArticleList = prevTotalCommunity ? [...prevTotalCommunity];
+	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+		'community',
+		({ pageParam = page }) =>
+			totalCommunityData(pageParam, filtered)
+				.then((res) => {
+					if (totalCommunity) {
+						// 이전 페이지에 있는 기사들과 새로운 페이지에 있는 기사들을 합쳐서 업데이트합니다.
+						setTotalCommunity((prevTotalCommunity) => {
+							let newCommunityList = prevTotalCommunity ? [...prevTotalCommunity.communityList] : [];
 
-	// 						if (res.articleList && typeof res.articleList[Symbol.iterator] === 'function') {
-	// 							newArticleList.push(...res.articleList);
-	// 						} else {
-	// 							console.error('res.articleList is not iterable');
-	// 						}
+							if (res.communityList && typeof res.communityList[Symbol.iterator] === 'function') {
+								newCommunityList.push(...res.communityList);
+							} else {
+								console.error('res.communityList is not iterable');
+							}
 
-	// 						return {
-	// 							articleList: newArticleList,
-	// 							hasNext: res.hasNext,
-	// 						};
-	// 					});
-	// 				} else {
-	// 					setTotalCommunity(res);
-	// 				}
-	// 			})
-	// 			.catch((err) => {
-	// 				console.log(err);
-	// 			}),
-	// 	{
-	// 		getNextPageParam: (_lastPage) => {
-	// 			if (totalArticles?.hasNext) {
-	// 				return page;
-	// 			}
-	// 		},
-	// 	},
-	// );
+							return {
+								communityList: newCommunityList,
+								hasNext: res.hasNext,
+							};
+						});
+					} else {
+						setTotalCommunity(res);
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+				}),
+		{
+			getNextPageParam: (_lastPage) => {
+				if (totalCommunity?.hasNext) {
+					return page;
+				}
+			},
+		},
+	);
 
 	// 마지막 아티클 ID를 기반으로 페이지 설정
-	// useEffect(() => {
-	// 	if (totalArticles) {
-	// 		const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
-	// 		setPage(lastArticleId!);
-	// 	} else {
-	// 		setPage(0);
-	// 	}
-	// }, [totalArticles]);
+	useEffect(() => {
+		if (totalCommunity) {
+			if (totalCommunity?.communityList?.length > 0) {
+				const lastCommunityId = totalCommunity?.communityList[totalCommunity?.communityList?.length - 1]?.communityId;
+				setPage(lastCommunityId!);
+			}
+		} else {
+			setPage(0);
+		}
+	}, [totalCommunity]);
 
 	// 스크롤 이벤트 핸들러
-	// useEffect(() => {
-	// 	let fetching = false;
-	// 	const handleScroll = async (e: any) => {
-	// 		const { scrollHeight, scrollTop, clientHeight } = e.target.scrollingElement;
-	// 		if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
-	// 			fetching = true;
-	// 			if (hasNextPage) await fetchNextPage();
-	// 			fetching = false;
-	// 		}
-	// 	};
-	// 	document.addEventListener('scroll', handleScroll);
-	// 	return () => {
-	// 		document.removeEventListener('scroll', handleScroll);
-	// 	};
-	// }, [fetchNextPage, hasNextPage]);
+	useEffect(() => {
+		let fetching = false;
+		const handleScroll = async (e: any) => {
+			const { scrollHeight, scrollTop, clientHeight } = e.target.scrollingElement;
+			if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
+				fetching = true;
+				if (hasNextPage) await fetchNextPage();
+				fetching = false;
+			}
+		};
+		document.addEventListener('scroll', handleScroll);
+		return () => {
+			document.removeEventListener('scroll', handleScroll);
+		};
+	}, [fetchNextPage, hasNextPage]);
 
-	// // 관찰자 설정
-	// const handleObserver = useCallback(
-	// 	(entries: any) => {
-	// 		const [target] = entries;
-	// 		if (target.isIntersecting) {
-	// 		}
-	// 	},
-	// 	[fetchNextPage, hasNextPage],
-	// );
+	// 관찰자 설정
+	const handleObserver = useCallback(
+		(entries: any) => {
+			const [target] = entries;
+			if (target.isIntersecting) {
+			}
+		},
+		[fetchNextPage, hasNextPage],
+	);
 
-	// useEffect(() => {
-	// 	const element = observerRef.current!;
-	// 	const option = { threshold: 0 };
-	// 	const observer = new IntersectionObserver(handleObserver, option);
-	// 	observer.observe(element);
-	// 	return () => observer.unobserve(element);
-	// }, [fetchNextPage, hasNextPage, handleObserver]);
+	useEffect(() => {
+		const element = observerRef.current!;
+		const option = { threshold: 0 };
+		const observer = new IntersectionObserver(handleObserver, option);
+		observer.observe(element);
+		return () => observer.unobserve(element);
+	}, [fetchNextPage, hasNextPage, handleObserver]);
 
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	// // 검색 필터 변경 시 다시 받아오기
 	// const handleFilterChange = (filter: string) => {
@@ -147,13 +150,13 @@ const Community = () => {
 	// 		});
 	// };
 
-	// // useEffect(() => {
-	// // 	totalCommunityData('')
-	// // 		.then((res) => setTotalCommunity(res))
-	// // 		.catch((err) => {
-	// // 			console.log('전체 아티클 받아오는거 에러');
-	// // 		});
-	// // }, []);
+	// useEffect(() => {
+	// 	totalCommunityData('')
+	// 		.then((res) => setTotalCommunity(res))
+	// 		.catch((err) => {
+	// 			console.log('전체 아티클 받아오는거 에러');
+	// 		});
+	// }, []);
 
 	// const fetchData = async ()=> {
 	// 	const response = await fetch(`${baseUrl}/community/list?`);
@@ -166,10 +169,9 @@ const Community = () => {
 	// 	fetchData()
 	// }, []);
 
-	// console.log(totalCommunity);
-	// const handleCardClick = (community: CommunityList) => {
-	// 	navigate('/detail', { state: { community } });
-	// };
+	const handleCardClick = (community: CommunityList) => {
+		navigate('/detail', { state: { community } });
+	};
 
 	let filtered = '';
 
@@ -189,6 +191,7 @@ const Community = () => {
 		}
 		// 마지막 & 제거
 		filtered = filtered.slice(0, -1);
+		fetchData(filtered);
 	};
 
 	return (
@@ -252,10 +255,10 @@ const Community = () => {
 						</div>
 					</div>
 					<div className='flex w-3/5 h-auto flex-col justify-start gap-5 '>
-						{/* {totalCommunity ? (
+						{isSuccess && totalCommunity ? (
 							<>
 								<div className='flex flex-row w-full h-full justify-start p-3 gap-5 flex-wrap '>
-									{totalCommunity?.map((community, index) => (
+									{totalCommunity.communityList?.map((community, index) => (
 										<Card
 											key={index}
 											className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
@@ -295,16 +298,16 @@ const Community = () => {
 									))}
 								</div>
 							</>
-						) : null} */}
+						) : null}
 					</div>
 				</div>
 				<div ref={observerRef}>
 					<br />
-					{/* {totalArticles?.articleList?.length === 0
-						? '검색하려는 기사가 없습니다'
+					{totalCommunity?.communityList?.length === 0
+						? '검색하려는 모집 없습니다'
 						: isFetchingNextPage && hasNextPage
-							? '기사를 로딩 중입니다'
-							: '더 이상 남은 기사가 없습니다'} */}
+							? '모집을 로딩 중입니다'
+							: '더 이상 남은 모집이 없습니다'}
 
 					<br />
 					<br />
