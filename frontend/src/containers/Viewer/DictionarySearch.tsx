@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuthStore } from '../../store/auth';
 
 interface Dictionary {
 	word: string;
@@ -8,16 +9,23 @@ interface Dictionary {
 export const DictionarySearch = () => {
 	const [searchWord, setSearchWord] = useState('');
 	const [history, setHistory] = useState<Dictionary[]>([]); // history 배열을 useState를 이용하여 관리
-
+	const {accessToken} = useAuthStore();
 	const [dictionaryData, setDictionaryData] = useState<Dictionary>();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-
-	// 단어 검색하기
 	const WordData = async () => {
-		const data = await fetch(`${baseUrl}/viewer/word/${searchWord}`).then((response) => response.json());
-		console.log(data)
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/viewer/word/${searchWord}`, {
+			headers: headers,
+		});
+		const data = await response.json();
 		return data;
 	};
+
+
+	// 단어 검색하기
+
 	const handleKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter') {
 			handleWordSearch();

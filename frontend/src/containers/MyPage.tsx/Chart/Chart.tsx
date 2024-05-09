@@ -22,10 +22,14 @@ interface scoreList {
 	score: number;
 }
 
-// interface ChallengeScoreList {
-// 	date: Date;
-// 	score: number;
-// }
+interface ChallengeScore {
+	date: Date;
+	score: number;
+}
+
+interface ChallengeScoreList {
+	scoreList: ChallengeScore[]
+}
 
 const Chart = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -34,7 +38,7 @@ const Chart = () => {
 	const [mode, setMode] = useState(summary);
 	const [scoreList, setScoreList] = useState<{ scoreList: scoreList[] }>(); // scoreList 타입 변경
 	const { accessToken } = useAuthStore();
-	// const [challengeScoreList, setChallengeScoreList] = useState<ChallengeScoreList[]>();
+	const [challengeScoreList, setChallengeScoreList] = useState<ChallengeScoreList>();
 
 	// 글 요약 점수 통계 받아오기
 	const scoreData = async () => {
@@ -48,12 +52,21 @@ const Chart = () => {
 		const data = await response.json();
 		return data;
 	};
-
+	
 	// // 챌린지 점수 통계 받아오기
-	// const challengScoreData = async () => {
-	// 	const data = await fetch(`${baseUrl}/challenge/statistics`).then((response) => response.json());
-	// 	return data;
-	// };
+	const challengScoreData = async () => {
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/challenge/stats`, {
+			headers: headers,
+		});
+
+		const data = await response.json();
+		console.log(data)
+		return data;
+	};
+
 
 	useEffect(() => {
 		scoreData()
@@ -61,45 +74,12 @@ const Chart = () => {
 			.catch((_err) => {
 				console.log('글 요약 점수 받아오는거 에러');
 			});
-		// challengScoreData().then((res) => setChallengeScoreList(res)).catch((err) => {
-		// 	console.log('챌린지 요약 점수 받아오는거 에러')
-		// })
+		challengScoreData()
+			.then((res) => setChallengeScoreList(res))
+			.catch((_err) => {
+					console.log('챌린지 요약 점수 받아오는거 에러')
+			});
 	},[]);
-
-	const challengeScoreList = [
-		{
-			date: new Date(),
-			score: 1000,
-		},
-		{
-			date: new Date(),
-			score: 1002,
-		},
-		{
-			date: new Date(),
-			score: 1005,
-		},
-		{
-			date: new Date(),
-			score: 1003,
-		},
-		{
-			date: new Date(),
-			score: 1010,
-		},
-		{
-			date: new Date(),
-			score: 1009,
-		},
-		{
-			date: new Date(),
-			score: 1011,
-		},
-		{
-			date: new Date(),
-			score: 1011,
-		},
-	];
 
 	const [graphData, setGraphData] = useState<ChartData<'line', number[], unknown>>({
 		labels: [],
@@ -125,12 +105,14 @@ const Chart = () => {
 				liter.push(score.score);
 			}
 		});
-		challengeScoreList?.forEach((score) => {
+		// console.log(challengeScoreList?.scoreList);
+		const cs = challengeScoreList?.scoreList;
+
+		cs?.forEach((score :ChallengeScore) => {
 			challengescore.push(score.score);
 			challengeXlist.push(score.date.toLocaleDateString());
 		});
-		// const liter = [10, 20, 40, 10, 30, 40, 50];
-		// const news = [20, 30, 40, 50, 20, 30, 60, 100];
+
 		const arraylength = () => {
 			if (liter.length > news.length) {
 				return liter.length;

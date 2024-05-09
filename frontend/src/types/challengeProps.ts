@@ -3,6 +3,7 @@ interface ChallengeProps {
 	title: string;
 	content: string;
 	problemList: problemListProps[];
+	status?: number
 }
 
 interface answerList {
