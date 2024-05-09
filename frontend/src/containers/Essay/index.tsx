@@ -13,6 +13,8 @@ const Essay = () => {
 	const observerRef = useRef(null);
 	const location = useLocation();
 	const communityId = location.state?.communityId;
+	const categoryName = location.state?.categoryName;
+	console.log(communityId)
 	// const [isMember, setIsMember] = useState<boolean>(false);
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
@@ -48,7 +50,6 @@ const Essay = () => {
 	const fetchUnreadData = async (filtered: string) => {
 		try {
 			const data = await unreadArticleData(1, filtered);
-			console.log(data)
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
 		} catch (error) {
@@ -67,17 +68,6 @@ const Essay = () => {
 			console.error('Error fetching data:', error);
 		}
 	};
-
-	// 내가 읽은 글 누를 때 마다 렌더링
-	// useEffect(() => {
-	// 	if (isMember) {
-	// 		fetchUnreadData(filtered);
-	// 		console.log(filtered)
-	// 		console.log('내가 읽은 글 ')
-	// 	} else {
-	// 		fetchData(filtered);
-	// 	}
-	// }, [isMember]);
 
 	useEffect(() => {}, [fetchData, fetchUnreadData]);
 
@@ -191,28 +181,29 @@ const Essay = () => {
 	};
 
 	let filtered = '';
+	if (categoryName) {
+		filtered += `category=${categoryName}`;
+	}
 
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
 	const [ishit, setIshit] = useState<boolean>(false);
 	const handleApplyFilter = () => {
-		console.log('검색버튼 누름 ')
 		if (searchType != '' && keyword) {
-			filtered += `${searchType}=${keyword}$`;
+			filtered += `${searchType}=${keyword}&`;
 		}
 		if (ishit) {
-			filtered += `hit=true$`;
+			filtered += `hit=true&`;
 		}
 		// if (filter.isMember) {
 		// 	filtered += `isMember=true$`;
 		// }
 		if (category != '') {
-			filtered += `category=${category}$`;
+			filtered += `category=${category}&`;
 		}
 		// 마지막 & 제거
 		filtered = filtered.slice(0, -1);
-		console.log(filtered)
 		// 필터 넣어서 fetchData 요청
 		fetchData(filtered);
 	};
@@ -252,6 +243,7 @@ const Essay = () => {
 													className='input'
 													onChange={(e) => setKeyword(e.target.value)}
 												/>
+												{categoryName ? null : <>
 												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
 													<option value=''>카테고리 선택</option>
 													<option value='비문학'>비문학</option>
@@ -263,6 +255,7 @@ const Essay = () => {
 													<option value='세계'>세계</option>
 													<option value='오피니언'>오피니언</option>
 												</select>
+												</>}
 											</div>
 
 											<button className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>

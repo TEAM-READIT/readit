@@ -18,7 +18,7 @@ const CommunityHeader = () => {
 						</BreadcrumbItem>
 					</Breadcrumb>
 					<div className='flex flex-row justify-between items-center w-full'>
-						<h1 className='text-3xl font-semibold leading-tight text-gray-700'>모집 글 목록</h1>
+						<h1 className='text-2xl font-semibold leading-tight text-gray-700'>모집 글 목록</h1>
 						<div className='flex gap-3'>
 							<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
 								<div className='flex items-center gap-2'>
