@@ -3,7 +3,7 @@ import ReadDetailHeaders from './ReadDeatilHeaders';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { articleList } from '../../../types/articleProps';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useInfiniteQuery, useMutation } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 
 import { Card, Checkbox } from 'flowbite-react';
 import { useAuthStore } from '../../../store/auth';
@@ -14,7 +14,6 @@ const ReadDetail = () => {
 	const observerRef = useRef(null);
 	const location = useLocation();
 	const communityId = location.state?.communityId;
-	// const [isMember, setIsMember] = useState<boolean>(false);
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
 	const limit = 12;
@@ -29,7 +28,6 @@ const ReadDetail = () => {
 		const response = await fetch(`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}`, {
 			headers: headers,
 		});
-		console.log(`${baseUrl}/article/search/article?${filtered}&cursor=${page}&limit=${limit}`);
 		const data = await response.json();
 		return data;
 	};
@@ -132,27 +130,10 @@ const ReadDetail = () => {
 
 	const navigate = useNavigate();
 
-	// 조회수 ++
-	const hits = useMutation(async (id: number) => {
-		await fetch(`${baseUrl}/article/hit/${id}`, {
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
-				'Content-Type': 'application/json',
-			},
-		});
-	});
-	const handlehits = async (id: number) => {
-		try {
-			await hits.mutateAsync(id);
-		} catch (error) {
-			console.error('', error);
-		}
-	};
+	
 
 	const handleCardClick = (article: articleList, communityId: number | null) => {
 		navigate('/summary', { state: { article, communityId } });
-		handlehits(article.id!);
 	};
 
 	let filtered = '';
@@ -162,25 +143,25 @@ const ReadDetail = () => {
 	const [category, setCategory] = useState('');
 	const [ishit, setIshit] = useState<boolean>(false);
 	const handleApplyFilter = () => {
-		console.log('검색버튼 누름 ');
 		if (searchType != '' && keyword) {
 			filtered += `${searchType}=${keyword}&`;
 		}
 		if (ishit) {
 			filtered += `hit=true&`;
 		}
-		// if (filter.isMember) {
-		// 	filtered += `isMember=true$`;
-		// }
 		if (category != '') {
 			filtered += `category=${category}&`;
 		}
 		// 마지막 & 제거
 		filtered = filtered.slice(0, -1);
-		console.log(filtered);
 		// 필터 넣어서 fetchData 요청
 		fetchData(filtered);
 	};
+
+	const handleOrigin = (text:string) => {
+		const newText = text?.replace(/<[^>]+>/g, '');
+		return newText
+	}
 
 	return (
 		<>
@@ -267,11 +248,8 @@ const ReadDetail = () => {
 													<div>{article.title.slice(0, 14)}...</div>
 												)}
 											</div>
-											<div className='text-sm'>
-												{/* <div id='text' dangerouslySetInnerHTML={{ __html: article.content?.slice(0, 130).innerText() }}></div> */}
-												
-												{article.content}
-											</div>
+											{/* <div id='text' dangerouslySetInnerHTML={{ __html: article.content?.slice(0, 130)}}></div> */}
+											<div className='text-sm'>{handleOrigin(article.content)?.slice(0, 130)}</div>
 										</div>
 									</Card>
 								))}
@@ -279,13 +257,14 @@ const ReadDetail = () => {
 						) : null}
 					</div>
 				</div>
-				<div ref={observerRef}>
+				<div ref={observerRef} className=''>
 					<br />
 					{totalArticles?.articleList?.length === 0
 						? '검색하려는 기사가 없습니다'
 						: isFetchingNextPage && hasNextPage
 							? '기사를 로딩 중입니다'
-							: '더 이상 남은 기사가 없습니다'}
+							:
+							'더 이상 남은 기사가 없습니다'}
 
 					<br />
 					<br />

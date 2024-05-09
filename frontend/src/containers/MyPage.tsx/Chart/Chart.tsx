@@ -63,7 +63,6 @@ const Chart = () => {
 		});
 
 		const data = await response.json();
-		console.log(data)
 		return data;
 	};
 
@@ -110,7 +109,7 @@ const Chart = () => {
 
 		cs?.forEach((score :ChallengeScore) => {
 			challengescore.push(score.score);
-			challengeXlist.push(score.date.toLocaleDateString());
+			challengeXlist.push(score.date.toString());
 		});
 
 		const arraylength = () => {
