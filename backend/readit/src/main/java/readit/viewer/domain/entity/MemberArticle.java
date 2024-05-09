@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import readit.article.domain.Article;
 import readit.common.entity.BaseTimeEntity;
+import readit.viewer.domain.dto.request.PostTempSaveRequest;
 import readit.viewer.exception.DataTooLongException;
 
 import java.time.LocalDateTime;
@@ -44,25 +45,24 @@ public class MemberArticle extends BaseTimeEntity {
     @Column(columnDefinition = "mediumtext")
     private String content;
 
-    public static MemberArticle create(Article article, Integer memberId, String summary, String content) {
+    public static MemberArticle create(Article article, Integer memberId, PostTempSaveRequest request) {
         return MemberArticle.builder()
                 .memberId(memberId)
                 .article(article)
-                .summary(summary)
-                .content(content)
+                .summary(request.summary())
+                .content(request.content())
+                .communityId(request.communityId())
                 .build();
     }
 
-    public void updateSummary(String summary) {
+    public void updateForSaveTemp(PostTempSaveRequest request) {
         if (summary.length() < 500) {
-            this.summary = summary;
+            this.summary = request.summary();
+            this.content = request.content();
+            this.communityId = request.communityId();
         } else {
             throw new DataTooLongException();
         }
-    }
-
-    public void updateContent(String content) {
-       this.content = content;
     }
 
     public void updateWhenComplete(LocalDateTime completedAt, Integer score, String feedback) {

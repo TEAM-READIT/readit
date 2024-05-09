@@ -1,7 +1,8 @@
 package readit.community.domain.dto;
 
-import java.time.LocalDateTime;
 import readit.community.domain.entity.Chat;
+
+import java.time.LocalDateTime;
 
 public record SimpChat(
         String memberName,
@@ -12,8 +13,8 @@ public record SimpChat(
     public static SimpChat from(Chat chat) {
 
         return new SimpChat(
-                chat.getMember().getName(),
-                chat.getMember().getProfile(),
+                chat.getParticipant().getMember().getName(),
+                chat.getParticipant().getMember().getProfile(),
                 chat.getContent(),
                 chat.getCreatedAt()
         );

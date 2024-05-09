@@ -90,5 +90,4 @@ public class CommunityQueryRepository {
                 .orElse(null);
     }
 
-
 }
