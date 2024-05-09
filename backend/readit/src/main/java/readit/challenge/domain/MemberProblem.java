@@ -7,7 +7,9 @@ import readit.article.domain.Article;
 import readit.common.entity.BaseTimeEntity;
 import readit.member.domain.Member;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -31,7 +33,7 @@ public class MemberProblem extends BaseTimeEntity {
     private Article article;
 
     @Column(nullable = false)
-    private LocalDateTime solvedAt;
+    private LocalDate solvedAt;
 
     @Column(nullable = false)
     private Integer submitNumber;
@@ -40,10 +42,10 @@ public class MemberProblem extends BaseTimeEntity {
     private Boolean isCorrect;
 
     @Column(nullable = false)
-    @ColumnDefault("1000")
     private Integer score;
 
     public void saveDayScore(Integer challengeScore) {
         this.score = challengeScore;
     }
+
 }

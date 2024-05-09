@@ -19,7 +19,10 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
         return findById(id).orElse(null);
     }
 
-    @Query(value = "SELECT id FROM article WHERE id NOT IN (SELECT COALESCE(article_id, 0) FROM member_problem WHERE member_id = :memberId) ORDER BY RAND() LIMIT 1", nativeQuery = true)
-    Optional<Integer> findNotReadRandomArticle(Integer memberId);
+    @Query("UPDATE Article a SET a.words = :words WHERE a.id = :articleId")
+    void updateWordsByArticleId(Integer articleId, String words);
 
+    @Modifying
+    @Query("UPDATE Article a SET a.hasWord = true WHERE a.id = :articleId")
+    void updateHasWordToTrue(Integer articleId);
 }
