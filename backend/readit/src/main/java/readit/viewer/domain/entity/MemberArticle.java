@@ -42,7 +42,7 @@ public class MemberArticle extends BaseTimeEntity {
 
     private LocalDateTime completedAt;
 
-    @Column(length = 500)
+    @Column(columnDefinition = "mediumtext")
     private String content;
 
     public static MemberArticle create(Article article, Integer memberId, PostTempSaveRequest request) {

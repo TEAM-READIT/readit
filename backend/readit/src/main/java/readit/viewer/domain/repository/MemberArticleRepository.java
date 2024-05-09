@@ -13,8 +13,8 @@ import readit.viewer.exception.ValueMissingException;
 public interface MemberArticleRepository extends JpaRepository<MemberArticle, Integer> {
     Optional<MemberArticle> findMemberArticleByArticleIdAndMemberId(Integer articleId, Integer memberId);
     List<MemberArticle> findMemberArticleByMemberId(Integer memberId);
-    default MemberArticle getById(Integer id){
-        return findById(id).orElse(null);
+    default MemberArticle getById(Integer memberId, Integer id){
+        return findMemberArticleByArticleIdAndMemberId(id,memberId).orElse(null);
     }
 
     @Modifying

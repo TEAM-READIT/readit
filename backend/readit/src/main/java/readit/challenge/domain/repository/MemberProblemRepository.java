@@ -7,6 +7,7 @@ import readit.challenge.domain.MemberProblem;
 import readit.challenge.exception.MemberProblemNotFoundException;
 import readit.member.domain.Member;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,6 @@ public interface MemberProblemRepository extends JpaRepository<MemberProblem,Int
     }
 
     List<MemberProblem> findByMemberAndArticle(Member member, Article article);
+
+    List<MemberProblem> findByMemberAndSolvedAt(Member member, LocalDate solvedAt);
 }

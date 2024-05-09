@@ -56,6 +56,14 @@ dependencies {
     // WebClient
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    // JSON Parser
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    // Acuator, Prometheus
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-core'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
 
 
 

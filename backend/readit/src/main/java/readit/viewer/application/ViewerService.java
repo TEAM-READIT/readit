@@ -12,6 +12,7 @@ import readit.viewer.domain.dto.request.PostTempSaveRequest;
 import readit.viewer.domain.dto.response.GetWordListResponse;
 import readit.viewer.domain.dto.response.SubmissionResponse;
 import readit.viewer.domain.entity.MemberArticle;
+import readit.viewer.domain.entity.Memo;
 import readit.viewer.domain.repository.MemberArticleRepository;
 import readit.viewer.domain.repository.MemoRepository;
 import readit.viewer.exception.AsynchronousException;
