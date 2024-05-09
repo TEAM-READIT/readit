@@ -65,8 +65,7 @@ public class ViewerService {
 
     // 어려운 단어 DB에 저장
     private void saveWords(Article article, GetWordListResponse getWordListResponse) {
-        String jsonData = getWordListResponse.toJsonString();
-        article.updateDifficultWords(jsonData, true);
+        article.updateDifficultWords(getWordListResponse.toJsonString(), true);
         articleRepository.save(article);
     }
 
@@ -84,14 +83,11 @@ public class ViewerService {
         // 이미 읽은 글이면 기존 데이터에 업데이트
         if (optionalMemberArticle.isPresent()) {
             MemberArticle memberArticle = optionalMemberArticle.get();
-            memberArticle.updateSummary(request.summary());
-            memberArticle.updateContent(request.content());
-            // 요약, 메모 저장
+            memberArticle.updateForSaveTemp(request);
             memberArticleRepository.save(memberArticle);
-        } else {
-            // 읽은 글에 없으면 요약 포함해서 새로 저장
+        } else { // 읽은 글에 없으면 요약 포함해서 새로 저장
             Article article = articleRepository.getById(articleId);
-            memberArticleRepository.save(MemberArticle.create(article, memberId, request.summary(), request.content()));
+            memberArticleRepository.save(MemberArticle.create(article, memberId, request));
         }
     }
 

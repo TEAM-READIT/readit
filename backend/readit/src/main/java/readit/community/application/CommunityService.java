@@ -91,8 +91,6 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public GetCommunityDetailResponse getCommunityDetail(Integer communityId, Integer memberId) {
         Community community = communityRepository.getById(communityId);
-        Member writerMember = memberRepository.getById(memberId);
-
         List<CommunityDetailMember> memberList = createCommunityDetailMemberList(community, DateUtil.startOfWeek, DateUtil.endOfWeek);
         List<MemberArticle> memberArticles = memberArticleRepository.findByCommunityIdInThisWeek(communityId, DateUtil.startOfWeek, DateUtil.endOfWeek);
         System.out.println(memberArticles.toString());
