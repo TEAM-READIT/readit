@@ -12,6 +12,7 @@ import readit.viewer.domain.dto.request.PostTempSaveRequest;
 import readit.viewer.domain.dto.response.GetWordListResponse;
 import readit.viewer.domain.dto.response.SubmissionResponse;
 import readit.viewer.domain.entity.MemberArticle;
+import readit.viewer.domain.entity.Memo;
 import readit.viewer.domain.repository.MemberArticleRepository;
 import readit.viewer.domain.repository.MemoRepository;
 import readit.viewer.exception.AsynchronousException;
@@ -86,6 +87,11 @@ public class ViewerService {
             MemberArticle memberArticle = optionalMemberArticle.get();
             memberArticle.updateSummary(request.summary());
             memberArticle.updateContent(request.content());
+            request.memoList().stream()
+                    .map(m->Memo.toEntity(m,memberArticle))
+                    .forEach(memoRepository::save);
+
+            System.out.println(memberArticle);
             // 요약, 메모 저장
             memberArticleRepository.save(memberArticle);
         } else {
