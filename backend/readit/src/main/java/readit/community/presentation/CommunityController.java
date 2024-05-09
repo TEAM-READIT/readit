@@ -46,7 +46,7 @@ public class CommunityController {
     @Operation(summary = "커뮤니티 상세 조회", description = "커뮤니티 상세 조회 기능입니다.")
     public ResponseEntity<GetCommunityDetailResponse> getCommunityDetails(@PathVariable Integer communityId,
                                                                           @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
-        Integer memberId = 3;
+        Integer memberId = authCredentials.id();
 //        memberId = 1;
         GetCommunityDetailResponse response = communityService.getCommunityDetail(communityId, memberId);
         return ResponseEntity.ok(response);

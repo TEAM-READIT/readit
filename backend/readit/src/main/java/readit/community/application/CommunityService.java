@@ -20,15 +20,12 @@ import readit.community.domain.repository.ChatRepository;
 import readit.community.domain.repository.CommunityQueryRepository;
 import readit.community.domain.repository.CommunityRepository;
 import readit.community.domain.repository.ParticipantsRepository;
-import readit.community.exception.AlreadyJoinedCommunityException;
 import readit.community.exception.CommunityFullException;
-import readit.community.exception.DeletionFailedException;
 import readit.community.util.DateUtil;
 import readit.member.domain.Member;
 import readit.member.domain.repository.MemberRepository;
 import readit.viewer.domain.entity.MemberArticle;
 import readit.viewer.domain.repository.MemberArticleRepository;
-import readit.viewer.exception.ValueMissingException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,11 +53,8 @@ public class CommunityService {
 
     public void joinCommunity(Integer communityId, Integer memberId) {
         Community community = communityRepository.getById(communityId);
-
         // 이미 가입한 커뮤니티일 때
-        if (participantsRepository.findByMemberIdAndCommunityId(memberId, communityId).isPresent()) {
-            throw new AlreadyJoinedCommunityException();
-        }
+        participantsRepository.ifExistsMemberJoinCommunity(memberId, communityId);
 
         // 최대 정원보다 적을 때
         if (community.getParticipants().size() < community.getMaxParticipants()) {
@@ -73,19 +67,16 @@ public class CommunityService {
     }
 
     public void leaveCommunity(Integer communityId, Integer memberId) {
-        if (participantsRepository.deleteByMemberIdAndCommunityId(memberId, communityId) != 1) {
-            throw new DeletionFailedException();
-        };
-
-        if (communityRepository.countParticipantsByCommunityId(communityId) == 0) {
+        participantsRepository.safeLeaveCommunity(memberId, communityId);
+        if (participantsRepository.existsByCommunity_Id(communityId)) {
             communityRepository.deleteById(communityId);
         }
     }
 
     public void sendChat(PostChatRequest request, Integer memberId) {
         Community community = communityRepository.getById(request.communityId());
-        Member member = memberRepository.getById(memberId);
-        chatRepository.save(Chat.create(community, member, request.content()));
+        Participants participant = participantsRepository.getByMemberIdAndCommunityId(memberId, request.communityId());
+        chatRepository.save(Chat.create(community, participant, request.content()));
     }
 
     @Transactional(readOnly = true)
@@ -129,11 +120,7 @@ public class CommunityService {
 
     private List<CommunityDetail> mapToCommunityDetails(List<Community> communityList) {
         return communityList.stream()
-                .map(community -> {
-                    Member member = memberRepository.findById(community.getMember().getId())
-                            .orElseThrow(ValueMissingException::new);
-                    return CommunityDetail.from(community);
-                })
+                .map(CommunityDetail::from)
                 .toList();
     }
 

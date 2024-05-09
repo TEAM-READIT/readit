@@ -48,7 +48,8 @@ public class ViewerService {
 
     // 어려운 단어가 없으면 chatgpt한테 요청하기
     private GetWordListResponse getDifficultWords(Article article) {
-        List<GPTMessage> messages = List.of(GPTMessage.of("user", buildPromptMessageForDifficultWord(article.getContent())));
+        List<GPTMessage> messages = new ArrayList<>();
+        messages.add(GPTMessage.of("user", buildPromptMessageForDifficultWord(article.getContent())));
         List<Word> words = requestDifficultWords(messages);
         GetWordListResponse getWordListResponse = GetWordListResponse.from(words);
         saveWords(article, getWordListResponse);
@@ -91,6 +92,13 @@ public class ViewerService {
         }
     }
 
+    private String buildPromptSystemMessage() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("너는 한국어를 굉장히 잘하고 문해력이 뛰어난 국어 선생님이야.");
+        sb.append("앞으로 내가 요청하는 것들에 대한 정확한 평가를 해야해. ");
+        return sb.toString();
+    }
+
     private String buildPromptMessageForDifficultWord(String content) {
         StringBuilder sb = new StringBuilder();
         sb.append(content);
@@ -112,7 +120,6 @@ public class ViewerService {
     }
 
     private String buildPromptMessageForSummary(String content, String summary) {
-//        log.info(summary);
         StringBuilder sb = new StringBuilder();
         sb.append("\n 다음 글에 대한 요약을 해봤어. 100점 만점으로 점수를 구하고 잘한점과 못한점을 알려줘. \n");
         sb.append("\n 점수: xx점 \n 잘한 점: \n 못한 점: \n");
@@ -127,7 +134,10 @@ public class ViewerService {
     }
 
     private List<GPTMessage> buildGPTMessage(String promptMessage) {
-        return List.of(GPTMessage.of("user", promptMessage));
+        List<GPTMessage> gptMessages = new ArrayList<>();
+        gptMessages.add(GPTMessage.of("system", buildPromptSystemMessage()));
+        gptMessages.add(GPTMessage.of("user", promptMessage));
+        return gptMessages;
     }
 
     private SubmissionResponse requestSummary(List<GPTMessage> messages) {
