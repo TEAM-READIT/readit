@@ -173,32 +173,38 @@ const Community = () => {
 		navigate('/detail', { state: { community } });
 	};
 
-	let filtered = '';
-
+	let filtered = ''
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
-	const [participant, setParticipant] = useState('');
+	const [participant, setParticipant] = useState<number>(0);
 	const handleApplyFilter = () => {
 		if (searchType != '' && keyword) {
-			filtered += `${searchType}=${keyword}$`;
+			filtered += `${searchType}=${encodeURIComponent(keyword)}&`;
 		}
 		if (category != '') {
-			filtered += `categoryName=${category}$`;
+			filtered += `category=${encodeURIComponent(category)}&`;
 		}
-		if (participant != '') {
-			filtered += `maxParticipant=${participant}$`;
+		if (participant > 0) {
+			filtered += `maxParticipants=${participant}&`;
 		}
 		// 마지막 & 제거
 		filtered = filtered.slice(0, -1);
+		console.log(typeof participant);
 		fetchData(filtered);
 	};
+
+	// 입력 값을 숫자로 바꿈
+	const handleParticipantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const intValue = parseInt(e.target.value, 10);
+		setParticipant(isNaN(intValue) ? 0 : intValue);
+	}
 
 	return (
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-full'>
 				<Headers />
-				<div className='flex flex-col w-3/5 h-full justify-start  items-center '>
+				<div className='flex flex-col w-3/5 h-full justify-start items-center '>
 					<CommunityHeader />
 				</div>
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
@@ -238,7 +244,7 @@ const Community = () => {
 													name='maxParticipants'
 													placeholder='최대 참여자 수'
 													className='input'
-													onChange={(e) => setParticipant(e.target.value)}
+													onChange={handleParticipantChange}
 												/>
 											</div>
 
