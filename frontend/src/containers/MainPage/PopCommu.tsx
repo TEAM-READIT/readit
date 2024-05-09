@@ -1,7 +1,7 @@
 import { Card } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {CommunityList} from '../../types/communityProps';
+import CommunityList from '../../types/communityProps';
 import { useMutation } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 
@@ -13,14 +13,13 @@ const PopCommu = () => {
 	
 	// 조회수 ++
 	const hits = useMutation(async (id: number) => {
-		const response = await fetch(`${baseUrl}/community/hit/${id}`, {
+		await fetch(`${baseUrl}/community/hit/${id}`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 				'Content-Type': 'application/json',
 			},
 		});
-		console.log(response);
 	});
 	const handlehits = async (id: number) => {
 		try {
@@ -32,7 +31,7 @@ const PopCommu = () => {
 
 	const handleCardClick = (community: CommunityList) => {
 		navigate('/detail', { state: { community } });
-		handlehits(community?.communityId);
+		handlehits(community?.communityId!);
 	};
 
 

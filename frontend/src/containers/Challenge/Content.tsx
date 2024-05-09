@@ -3,7 +3,7 @@ import { ChallengeProps } from '../../types/challengeProps';
 
 const Content = ({ problems }: { problems: ChallengeProps }) => {
 	const linechange = (text: string) => {
-		return text.replace(/\n/g, '\n\n');
+		return text?.replace(/\n/g, '\n\n');
 	};
 
 	const realcontent = linechange(problems.content);

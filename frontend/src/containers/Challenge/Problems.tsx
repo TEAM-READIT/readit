@@ -67,7 +67,7 @@ const handleAnswer = async () => {
 					<Card className='w-full'>
 						<div className='flex flex-col justify-between gap-20 h-full pt-20'>
 							<div className='h-4/5 flex flex-col text-start gap-y-10 overflow-auto p-5'>
-								{problemList.map((problem, index) => (
+								{problemList?.map((problem, index) => (
 									<div key={index} className='relative'>
 										<div className='font-bold'>
 											{problem.problemNumber}. {problem.problem}

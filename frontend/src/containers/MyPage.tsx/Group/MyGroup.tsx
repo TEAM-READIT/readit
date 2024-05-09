@@ -1,6 +1,6 @@
 import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
-import {CommunityList} from '../../../types/communityProps';
+import CommunityList from '../../../types/communityProps';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../../store/auth';
 
@@ -72,7 +72,7 @@ const MyGroup = () => {
 							</div>
 							<Button
 								className='bg-primary-500 border border-black'
-								onClick={() => handleMyCommunity(community.communityId)}
+								onClick={() => handleMyCommunity(community.communityId!)}
 							>
 								모임 페이지 이동하기
 							</Button>

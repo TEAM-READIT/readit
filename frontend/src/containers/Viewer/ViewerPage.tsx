@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import useModal from '../../hooks/useModal';
+
 interface FeedBackProps {
 	score: number;
 	feedback: string;
@@ -58,7 +59,6 @@ export const ViewerPage = () => {
 			headers: headers,
 		});
 		const data = await response.json();
-		console.log(data)
 		return data;
 	};
 
@@ -77,7 +77,7 @@ export const ViewerPage = () => {
 	}, []);
 	// 제출 POST
 	const requestbody: RequestBody = {
-		content: total!,
+		content: total?.toString()!,
 		summary: summary,
 	};
 
@@ -128,6 +128,7 @@ export const ViewerPage = () => {
 		close();
 		navigate('/');
 	};
+
 	return (
 		<>
 			<div className=' z-50 w-full h-screen flex flex-col items-center  overflow-hidden'>
@@ -186,10 +187,20 @@ export const ViewerPage = () => {
 								<span className='material-symbols-outlined text-[1.2rem] hover:cursor-pointer'>close</span>
 							</div>
 						</div>
-						<div className='w-full h-full py-10'>
-							{feedback?.feedback}
-							{feedback?.score}
-								<div id='text' dangerouslySetInnerHTML={{ __html: total || '' }}></div>
+						<div className='w-full h-full p-10 flex flex-col justify-between pt-20'>
+							{summarySubmit.isLoading ? (
+								<>
+								글을 분석하고 있습니다
+								</>
+							) : (
+								<>
+									<div className='text-start'>요약 : {summary}</div>
+									<div className='text-start'>{feedback?.feedback}</div>
+									<div className='flex flex-row justify-end'>
+										<span>{feedback?.score} / 100</span>
+									</div>
+								</>
+							)}
 						</div>
 					</Card>
 				</>
