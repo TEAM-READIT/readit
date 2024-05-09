@@ -21,4 +21,12 @@ public class Memo {
 
     @Column(nullable = false, length = 200)
     private String content;
+
+    public static Memo toEntity(String memo, MemberArticle memberArticle){
+        return new Memo(
+                null,
+                memberArticle,
+                memo
+        );
+    }
 }

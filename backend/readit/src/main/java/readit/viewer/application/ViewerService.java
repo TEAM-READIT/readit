@@ -8,7 +8,6 @@ import readit.article.domain.Article;
 import readit.article.domain.repository.ArticleRepository;
 import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.dto.gpt.GPTMessage;
-import readit.viewer.domain.dto.request.GetMemoRequest;
 import readit.viewer.domain.dto.request.PostTempSaveRequest;
 import readit.viewer.domain.dto.response.GetWordListResponse;
 import readit.viewer.domain.dto.response.SubmissionResponse;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -89,11 +87,11 @@ public class ViewerService {
             MemberArticle memberArticle = optionalMemberArticle.get();
             memberArticle.updateSummary(request.summary());
             memberArticle.updateContent(request.content());
-
             request.memoList().stream()
-                    .map(m->GetMemoRequest.toEntity(m,memberArticle))
+                    .map(m->Memo.toEntity(m,memberArticle))
                     .forEach(memoRepository::save);
 
+            System.out.println(memberArticle);
             // 요약, 메모 저장
             memberArticleRepository.save(memberArticle);
         } else {
