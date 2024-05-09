@@ -116,14 +116,17 @@ public class ViewerService {
     }
 
     private String buildPromptMessageForSummary(String content, String summary) {
+//        log.info(summary);
         StringBuilder sb = new StringBuilder();
+        sb.append("\n 다음 글에 대한 요약을 해봤어. 100점 만점으로 점수를 구하고 잘한점과 못한점을 알려줘. \n");
+        sb.append("\n 점수: xx점 \n 잘한 점: \n 못한 점: \n");
+        sb.append("이 형태를 유지해서 답해줘. \n \n");
         sb.append("글: ");
         sb.append(content);
-        sb.append("\n 위 글에 대해서 아래와 같이 요약했는데 잘 요약했는 지 100점 만점으로 점수를 구하고 잘한점과 못한점을 알려줘. \n");
-        sb.append("요약: ");
-        sb.append(summary);
-        sb.append("\n 점수: xx점 \n 잘한 점: \n 못한 점: \n");
-        sb.append("이 형태를 유지해서 답해줘.");
+        sb.append("\n 요약: ");
+        sb.append("[" + summary + "] \n");
+        sb.append("[] 안에 내용이 없으면 0점을 줘도 괜찮아");
+        log.info(sb.toString());
         return sb.toString();
     }
 
