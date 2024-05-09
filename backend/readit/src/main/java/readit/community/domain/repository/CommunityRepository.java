@@ -18,12 +18,12 @@ public interface CommunityRepository extends JpaRepository<Community, Integer> {
     @Query("UPDATE Community c SET c.hits = c.hits + 1 WHERE c.id = :communityId")
     void increaseHitsById(@Param("communityId") Integer communityId);
 
-    @Query("SELECT COUNT(p) FROM Participants p WHERE p.community.id = :communityId")
-    int countParticipantsByCommunityId(@Param("communityId") Integer communityId);
+    @Query("SELECT p FROM Participants p WHERE p.community.id = :communityId")
+    Boolean existsParticipantsByCommunity_Id(@Param("communityId") Integer communityId);
 
-    // default method 란?
     default Community getById(Integer id) {
         return findById(id)
                 .orElse(null);
     }
+
 }

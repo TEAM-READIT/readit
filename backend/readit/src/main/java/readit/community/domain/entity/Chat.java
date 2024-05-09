@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import readit.common.entity.BaseTimeEntity;
-import readit.member.domain.Member;
 
 @Entity
 @Getter
@@ -23,19 +22,18 @@ public class Chat extends BaseTimeEntity {
     @JsonIgnore
     private Community community;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "member_id", referencedColumnName = "id",
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "member_id", referencedColumnName = "id")
     @JsonIgnore
-    private Member member;
+    private Participants participant;
 
     @Column(length = 200)
     private String content;
 
-    public static Chat create(Community community, Member member, String content) {
+    public static Chat create(Community community, Participants participant, String content) {
         return Chat.builder()
                 .community(community)
-                .member(member)
+                .participant(participant)
                 .content(content)
                 .build();
     }
