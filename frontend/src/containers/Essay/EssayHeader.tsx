@@ -1,29 +1,39 @@
 import { Breadcrumb, BreadcrumbItem } from 'flowbite-react';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { 
+	// useEffect,
+	 useState } from 'react';
+import { Link, 
+	// useNavigate
+ } from 'react-router-dom';
 import { articleList } from '../../types/articleProps';
 
 const EssayHeader = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const [link, setLink] = useState<string>('');
-	const [linkdata, setLinkData] = useState<articleList>();
+	const [, setLinkData] = useState<articleList>();
 	// 링크로 검색하기
 
 	const fetchlinkData = async () => {
 		const data = await fetch(`${baseUrl}/article/link?url=${link}`).then((response) => response.json());
+		console.log(data);
 		return data;
 	};
 
 	// 뷰어로 데이터 넘기기
 	const handleLink = () => {
 		fetchlinkData()
-			.then((res) => setLinkData(res))
+			.then((res) => {
+				setLinkData(res)
+				
+			})
 			.catch((_err) => {
 				console.log('챌린지 문제 받아오는거 에러');
 			});
-		navigate('/viewer', { state: { linkdata } });
 	};
+
+
+
 	return (
 		<>
 			<div className='flex flex-row w-full justify-between px-5 pb-10 items-center'>
