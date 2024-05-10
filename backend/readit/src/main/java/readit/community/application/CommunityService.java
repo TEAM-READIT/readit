@@ -68,7 +68,7 @@ public class CommunityService {
 
     public void leaveCommunity(Integer communityId, Integer memberId) {
         participantsRepository.safeLeaveCommunity(memberId, communityId);
-        if (participantsRepository.existsByCommunity_Id(communityId)) {
+        if (!participantsRepository.existsByCommunity_Id(communityId)) {
             communityRepository.deleteById(communityId);
         }
     }
