@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import readit.article.dto.Page;
 import readit.community.domain.entity.Community;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,8 @@ import static readit.community.domain.entity.QCommunity.community;
 public class CommunityQueryRepository {
     private final JPAQueryFactory queryFactory;
 
-    public Page<Community> findCommunityWithFilter(Integer hitCursor, String category, String title, String content, String writerName, Integer maxParticipants, Integer cursor, Boolean hit, Integer limit){
+    public Page<Community> findCommunityWithFilter(Integer hitCursor, String category, String title, String content, String writerName,
+                                                   Integer maxParticipants, Integer cursor, Boolean hit, Integer limit){
         List<Community> communityList = queryFactory // 모든 글 목록
                 .selectFrom(community)
                 .where(
@@ -30,8 +32,11 @@ public class CommunityQueryRepository {
                         eqCommunityCategory(category),
                         eqCommunityTitle(title),
                         eqCommunityContent(content),
-                        eqCommunityWriter(writerName)
+                        eqCommunityWriter(writerName),
+                        eqCommunityMaxParticipants(maxParticipants),
+                        eqCommunityEndAt(LocalDate.now())
                 )
+                .orderBy(sortCommunityById())
                 .orderBy(sortCommunityByHit(hit))
                 .limit(limit+1)
                 .fetch();
@@ -66,6 +71,10 @@ public class CommunityQueryRepository {
         }
     }
 
+    public OrderSpecifier<?> sortCommunityById() {
+            return new OrderSpecifier<>(Order.DESC, community.id);
+    }
+
     public BooleanExpression eqCommunityCategory(String category){
         return Optional.ofNullable(category)
                 .map(community.category.name::eq)
@@ -87,6 +96,18 @@ public class CommunityQueryRepository {
     public BooleanExpression eqCommunityWriter(String writer){
         return Optional.ofNullable(writer)
                 .map(community.member.name::contains)
+                .orElse(null);
+    }
+
+    public BooleanExpression eqCommunityEndAt(LocalDate endAt) {
+        return Optional.ofNullable(endAt)
+                .map(community.endAt::goe)
+                .orElse(null);
+    }
+
+    public BooleanExpression eqCommunityMaxParticipants(Integer maxParticipants) {
+        return Optional.ofNullable(maxParticipants)
+                .map(community.maxParticipants::eq)
                 .orElse(null);
     }
 

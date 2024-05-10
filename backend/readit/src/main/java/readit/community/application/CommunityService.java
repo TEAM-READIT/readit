@@ -142,7 +142,8 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
-    public GetCommunityListResponse getCommunityList(String category, String title, String content, String writerName, Integer maxParticipants, Integer cursor, Boolean hit, Integer limit) {
+    public GetCommunityListResponse getCommunityList(String category, String title, String content, String writerName, Integer maxParticipants,
+                                                     Integer cursor, Boolean hit, Integer limit) {
         Community community = communityRepository.getByIdForQuery(cursor);
         Integer hitCursor = Optional.ofNullable(community)
                 .map(Community::getHits)
@@ -150,4 +151,5 @@ public class CommunityService {
         Page<Community> communityList = communityQueryRepository.findCommunityWithFilter(hitCursor, category, title, content, writerName, maxParticipants, cursor, hit, limit);
         return GetCommunityListResponse.from(communityList);
     }
+
 }

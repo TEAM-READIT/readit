@@ -79,24 +79,23 @@ public class ViewerService {
 
     // 임시 저장
     public void saveTemp(Integer articleId, Integer memberId, PostTempSaveRequest request) {
-        // 읽은 글에 있는 지 확인
         Optional<MemberArticle> optionalMemberArticle =
                 memberArticleRepository.findMemberArticleByArticleIdAndMemberId(articleId, memberId);
 
-        // 이미 읽은 글이면 기존 데이터에 업데이트
-        if (optionalMemberArticle.isPresent()) {
-            MemberArticle memberArticle = optionalMemberArticle.get();
-            memberArticle.updateForSaveTemp(request);
-            updateMemo(memberArticle,request);
+        optionalMemberArticle.ifPresentOrElse(
+                memberArticle -> {
+                    memberArticle.updateForSaveTemp(request);
+                    request.memoList().stream()
+                            .map(m -> GetMemoRequest.toEntity(m, memberArticle))
+                            .forEach(memoRepository::save);
+                    memberArticleRepository.save(memberArticle);
+                },
+                () -> {
+                    Article article = articleRepository.getById(articleId);
+                    memberArticleRepository.save(MemberArticle.create(article, memberId, request));
+                }
+        );
 
-            memberArticleRepository.save(memberArticle);
-        } else { // 읽은 글에 없으면 요약 포함해서 새로 저장
-            Article article = articleRepository.getById(articleId);
-            MemberArticle memberArticle = memberArticleRepository.save(MemberArticle.create(article, memberId, request));
-            request.memoList().stream()
-                    .map(m-> GetMemoRequest.toEntity(m,memberArticle))
-                    .forEach(memoRepository::save);
-        }
     }
 
     private void updateMemo(MemberArticle memberArticle, PostTempSaveRequest request){
