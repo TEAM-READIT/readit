@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import readit.article.domain.Article;
 import readit.article.dto.Page;
 import readit.community.domain.dto.CommunityDetail;
 import readit.community.domain.dto.CommunityDetailMember;
@@ -142,5 +143,11 @@ public class CommunityService {
                 .orElse(null);
         Page<Community> communityList = communityQueryRepository.findCommunityWithFilter(hitCursor, category, title, content, writerName, maxParticipants, cursor, hit, limit);
         return GetCommunityListResponse.from(communityList);
+    }
+
+    public void updateHit(Integer id){
+        Community community = communityRepository.getById(id);
+        community.increaseHit();
+        communityRepository.save(community);
     }
 }
