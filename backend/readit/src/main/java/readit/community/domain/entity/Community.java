@@ -60,6 +60,10 @@ public class Community extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer hits;
 
+    public void increaseHit(){
+        this.hits++;
+    }
+
     public Participants joinParticipant(Member member) {
         Participants participant = Participants.builder()
                 .community(this)

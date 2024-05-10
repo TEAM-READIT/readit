@@ -115,4 +115,11 @@ public class CommunityController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/hit/{id}")
+    public ResponseEntity<Void> increaseHit(
+            @PathVariable Integer id){
+        communityService.updateHit(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
