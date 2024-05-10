@@ -53,7 +53,6 @@ const Community = () => {
 		}
 	};
 
-
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
 	const fetchData = async (filtered: string) => {
 		try {
@@ -187,7 +186,7 @@ const Community = () => {
 	// }, []);
 
 	const handleCardClick = (community: CommunityList) => {
-		handlehits(community.communityId!)
+		handlehits(community.communityId!);
 		navigate('/detail', { state: { community } });
 	};
 
@@ -208,7 +207,6 @@ const Community = () => {
 		}
 		// 마지막 & 제거
 		filtered = filtered.slice(0, -1);
-		console.log(typeof participant);
 		fetchData(filtered);
 	};
 
@@ -217,6 +215,29 @@ const Community = () => {
 		const intValue = parseInt(e.target.value, 10);
 		setParticipant(isNaN(intValue) ? 0 : intValue);
 	};
+
+	// 날짜 차이 계산 함수
+	function getDaysBefore(endAt: Date): string {
+		const now = new Date();
+		const endDate = new Date(endAt);
+		const timeDiff = endDate.getTime() - now.getTime();
+
+		if (timeDiff < 0) {
+			return '마감일 지남';
+		}
+		const daysBefore = Math.floor(timeDiff / (1000 * 3600 * 24));
+
+		return `마감일 ${daysBefore}일 전`;
+	}
+
+	// 날짜 형식 변경 함수
+	function formatDate(date: Date): string {
+		const d = new Date(date);
+		const year = d.getFullYear();
+		const month = (d.getMonth() + 1).toString().padStart(2, '0');
+		const day = d.getDate().toString().padStart(2, '0');
+		return `${year}. ${month}. ${day}`;
+	}
 
 	return (
 		<>
@@ -314,9 +335,9 @@ const Community = () => {
 											</div>
 											<div className='flex flex-col gap-2'>
 												<div className='w-32 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
-													마감일 13일전
+													{getDaysBefore(community.endAt!)}
 												</div>
-												<div className='border border-gray-700 rounded-md text-sm'>2024. 02. 26. 13:00</div>
+												<div className='border border-gray-700 rounded-md text-sm'>{formatDate(community.endAt!)}</div>
 											</div>
 										</Card>
 									))}
