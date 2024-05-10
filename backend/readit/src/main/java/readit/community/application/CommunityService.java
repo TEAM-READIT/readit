@@ -135,6 +135,12 @@ public class CommunityService {
         communityRepository.increaseHitsById(communityId);
     }
 
+    public void communityNotice(Integer communityId, String notice){
+        Community community = communityRepository.getById(communityId);
+        community.updateNotice(notice);
+        communityRepository.save(community);
+    }
+
     @Transactional(readOnly = true)
     public GetCommunityListResponse getCommunityList(String category, String title, String content, String writerName, Integer maxParticipants, Integer cursor, Boolean hit, Integer limit) {
         Community community = communityRepository.getByIdForQuery(cursor);
@@ -143,11 +149,5 @@ public class CommunityService {
                 .orElse(null);
         Page<Community> communityList = communityQueryRepository.findCommunityWithFilter(hitCursor, category, title, content, writerName, maxParticipants, cursor, hit, limit);
         return GetCommunityListResponse.from(communityList);
-    }
-
-    public void updateHit(Integer id){
-        Community community = communityRepository.getById(id);
-        community.increaseHit();
-        communityRepository.save(community);
     }
 }
