@@ -57,6 +57,9 @@ public class Community extends BaseTimeEntity {
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participants> participants = new ArrayList<>();
 
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Chat> chats = new ArrayList<>();
+
     @Column(nullable = false)
     private Integer hits;
 
