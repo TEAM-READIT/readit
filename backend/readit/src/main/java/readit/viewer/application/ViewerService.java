@@ -87,10 +87,7 @@ public class ViewerService {
         if (optionalMemberArticle.isPresent()) {
             MemberArticle memberArticle = optionalMemberArticle.get();
             memberArticle.updateForSaveTemp(request);
-
-            request.memoList().stream()
-                    .map(m-> GetMemoRequest.toEntity(m,memberArticle))
-                    .forEach(memoRepository::save);
+            updateMemo(memberArticle,request);
 
             memberArticleRepository.save(memberArticle);
         } else { // 읽은 글에 없으면 요약 포함해서 새로 저장
@@ -100,6 +97,18 @@ public class ViewerService {
                     .map(m-> GetMemoRequest.toEntity(m,memberArticle))
                     .forEach(memoRepository::save);
         }
+    }
+
+    private void updateMemo(MemberArticle memberArticle, PostTempSaveRequest request){
+        List<Memo> prevMemoList = memoRepository.findByMemberArticleId(memberArticle.getId());
+        Optional.ofNullable(prevMemoList).ifPresent(memoList -> {
+            memoList.forEach(memoRepository::delete);
+        });
+        Optional.ofNullable(request.memoList()).ifPresent(memoList -> {
+            memoList.stream()
+                    .map(m -> GetMemoRequest.toEntity(m, memberArticle))
+                    .forEach(memoRepository::save);
+        });
     }
 
     private String buildPromptSystemMessage() {
