@@ -95,7 +95,10 @@ public class ViewerService {
             memberArticleRepository.save(memberArticle);
         } else { // 읽은 글에 없으면 요약 포함해서 새로 저장
             Article article = articleRepository.getById(articleId);
-            memberArticleRepository.save(MemberArticle.create(article, memberId, request));
+            MemberArticle memberArticle = memberArticleRepository.save(MemberArticle.create(article, memberId, request));
+            request.memoList().stream()
+                    .map(m-> GetMemoRequest.toEntity(m,memberArticle))
+                    .forEach(memoRepository::save);
         }
     }
 
