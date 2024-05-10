@@ -221,13 +221,14 @@ export const MainText = ({
 				{article ? (
 					<>
 						<div className='text-2xl font-bold m-[3%]'>{article.title}</div>
-						<div id='text' className='text-start mx-[2%] mb-[3%]' onMouseUp={handleMouseUp}>
+						<div id='text' className='text-lg text-start mx-[2%] mb-[3%]
+						 line-loose tracking-wide
+						 ' 
+						 onMouseUp={handleMouseUp}>
 							<>{realarticle}</>
 						</div>
 					</>
-				) : (
-					null
-				)}
+				) : null}
 			</div>
 		</>
 	);

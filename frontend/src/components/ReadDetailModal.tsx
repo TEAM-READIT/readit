@@ -109,8 +109,12 @@ const ReadDetailModal = () => {
 					<div className='flex flex-col gap-10  w-full'>
 						<div className='font-bold text-2xl'>{article.title}</div>
 						<div className='text-start flex flex-col gap-5'>
-							<Card className='overflow-auto h-[600px] p-5'>
-								<div id='text' dangerouslySetInnerHTML={{ __html: article.content }}></div>
+							<Card className='px-5'>
+								<div
+									className='line-loose tracking-wide text-lg'
+									id='text'
+									dangerouslySetInnerHTML={{ __html: article.content }}
+								></div>
 
 								{/* {article.content.length > 750 ? <>{article.content.slice(0, 750)}...</> : <>{article.content}</>} */}
 							</Card>
@@ -122,8 +126,8 @@ const ReadDetailModal = () => {
 									<div className='relative w-full'>
 										<span className='material-symbols-outlined absolute top-5 -left-3'>subdirectory_arrow_right </span>{' '}
 									</div>
-									<div className='flex flex-row items-center'>
-										<span className='px-5'>{realfeedback}</span>
+									<div className='flex flex-row items-center w-full px-5'>
+										<span className=''>{realfeedback}</span>
 									</div>
 									<div className='flex flex-row justify-end w-full'>
 										<span>{article.score} / 100</span>
