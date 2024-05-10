@@ -1,6 +1,7 @@
 import { Button, Datepicker } from 'flowbite-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../../store/auth';
 
 const RecruitText = () => {
 	const [title, setTitle] = useState('');
@@ -8,17 +9,18 @@ const RecruitText = () => {
 	const [category, setCategory] = useState('');
 	const [participant, setParticipant] = useState('');
 	const [articleCount, setArticleCount] = useState('');
-	// const [startAt, setStartAt] = useState(new Date());
+	const [startAt] = useState(new Date());
 	const [endAt, setEndAt] = useState<Date | null>(null);
 	const navigate = useNavigate();
 
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
+	const { accessToken } = useAuthStore();
 
 	const handleDateChange = (date: Date) => {
 		setEndAt(date);
 	};
 
-	// const formattedStartAt = startAt.toISOString().slice(0, 10);
+	const formattedStartAt = startAt.toISOString().slice(0, 10);
 	const formattedEndAt = endAt ? endAt.toISOString().slice(0, 10) : null;
 
 	const handleSubmit = async () => {
@@ -28,7 +30,7 @@ const RecruitText = () => {
 			categoryName: category,
 			maxParticipants: parseInt(participant, 10),
 			articleCount: parseInt(articleCount, 10),
-			// startAt: formattedStartAt,
+			startAt: formattedStartAt,
 			endAt: formattedEndAt,
 		};
 
@@ -36,6 +38,7 @@ const RecruitText = () => {
 			await fetch(`${baseUrl}/community/create`, {
 				method: 'POST',
 				headers: {
+					Authorization: `Bearer ${accessToken}`,
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(postData),
