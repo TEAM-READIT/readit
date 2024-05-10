@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public record CommunityDetail(
         Integer communityId,
+        Integer writerId,
         String writerName,
         String writerProfile,
         Integer maxParticipants,
@@ -22,6 +23,7 @@ public record CommunityDetail(
 
         return new CommunityDetail(
                 community.getId(),
+                community.getMember().getId(),
                 community.getMember().getName(),
                 community.getMember().getProfile(),
                 community.getMaxParticipants(),
