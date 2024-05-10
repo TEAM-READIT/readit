@@ -8,7 +8,7 @@ export const Memos = ({ memos }: { memos: string[] }) => {
 						<>
 							<div className='flex flex-col gap-10'>
 								{memos.map((memo, index) => (
-									<div key={index} className='bg-yellow-200 shadow-lg max-w-[300px] h-[200px] p-5 '>
+									<div key={index} className='bg-yellow-200 shadow-lg max-w-[300px] h-full p-5 '>
 										{memo}
 									</div>
 								))}

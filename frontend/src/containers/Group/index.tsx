@@ -25,13 +25,13 @@ const Group = () => {
 		return data;
 	};
 
-	setTimeout(() => {
-		groupData()
-			.then((res) => setMyGroup(res))
-			.catch((_err) => {
-				console.log('내가 읽은 글 받아오는거 에러');
-			});
-	}, 3000);
+	// setTimeout(() => {
+	// 	groupData()
+	// 		.then((res) => setMyGroup(res))
+	// 		.catch((_err) => {
+	// 			console.log('내가 읽은 글 받아오는거 에러');
+	// 		});
+	// }, 3000);
 	useEffect(() => {
 		groupData()
 			.then((res) => setMyGroup(res))
@@ -40,31 +40,7 @@ const Group = () => {
 			});
 	}, []);
 
-	const [noticebody, setnoticebody] = useState<string>('귤');
 
-	const noticePost = useMutation(async () => {
-		await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
-				'Content-Type': 'application/json',
-			},
-			body: noticebody,
-		});
-	});
-	const handlenoticePost = async () => {
-		try {
-			await noticePost.mutateAsync();
-
-			groupData()
-				.then((res) => setMyGroup(res))
-				.catch((_err) => {
-					console.log('내가 읽은 글 받아오는거 에러');
-				});
-		} catch (error) {
-			console.error('채팅 보내기 실패');
-		}
-	};
 	useEffect(() => {}, [groupData]);
 
 	const [chatValue, setChatValue] = useState<string>('');
@@ -131,7 +107,7 @@ const Group = () => {
 			<div className='flex flex-col w-3/5 h-full items-start'>
 				{myGroup ? (
 					<>
-						<GroupHeader myGroup={myGroup} />
+						<GroupHeader myGroup={myGroup}/>
 						<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
 							<Articles myGroup={myGroup} />
 							<div className='w-2/5 flex flex-col gap-5 pt-3'>
@@ -202,7 +178,7 @@ const Group = () => {
 					</>
 				) : null}
 			</div>
-			<button onClick={handlenoticePost}>공지 작성하기</button>
+		
 		</div>
 	);
 };

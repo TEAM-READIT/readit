@@ -14,7 +14,6 @@ const Essay = () => {
 	const location = useLocation();
 	const communityId = location.state?.communityId;
 	const categoryName = location.state?.categoryName;
-	console.log(communityId)
 	// const [isMember, setIsMember] = useState<boolean>(false);
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
