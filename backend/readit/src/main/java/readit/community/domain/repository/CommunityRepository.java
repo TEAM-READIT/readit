@@ -24,4 +24,9 @@ public interface CommunityRepository extends JpaRepository<Community, Integer> {
                 .orElseThrow(CommunityMissingException::new);
     }
 
+    default Community getByIdForQuery(Integer id) {
+        return findById(id)
+                .orElse(null);
+    }
+
 }

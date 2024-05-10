@@ -136,7 +136,7 @@ public class CommunityService {
 
     @Transactional(readOnly = true)
     public GetCommunityListResponse getCommunityList(String category, String title, String content, String writerName, Integer maxParticipants, Integer cursor, Boolean hit, Integer limit) {
-        Community community = communityRepository.getById(cursor);
+        Community community = communityRepository.getByIdForQuery(cursor);
         Integer hitCursor = Optional.ofNullable(community)
                 .map(Community::getHits)
                 .orElse(null);
