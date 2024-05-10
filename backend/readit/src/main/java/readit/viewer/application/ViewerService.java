@@ -8,6 +8,7 @@ import readit.article.domain.Article;
 import readit.article.domain.repository.ArticleRepository;
 import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.dto.gpt.GPTMessage;
+import readit.viewer.domain.dto.request.GetMemoRequest;
 import readit.viewer.domain.dto.request.PostTempSaveRequest;
 import readit.viewer.domain.dto.response.GetWordListResponse;
 import readit.viewer.domain.dto.response.SubmissionResponse;
@@ -86,6 +87,11 @@ public class ViewerService {
         if (optionalMemberArticle.isPresent()) {
             MemberArticle memberArticle = optionalMemberArticle.get();
             memberArticle.updateForSaveTemp(request);
+
+            request.memoList().stream()
+                    .map(m-> GetMemoRequest.toEntity(m,memberArticle))
+                    .forEach(memoRepository::save);
+
             memberArticleRepository.save(memberArticle);
         } else { // 읽은 글에 없으면 요약 포함해서 새로 저장
             Article article = articleRepository.getById(articleId);
