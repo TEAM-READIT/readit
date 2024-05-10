@@ -24,6 +24,12 @@ const RecruitText = () => {
 	const formattedEndAt = endAt ? endAt.toISOString().slice(0, 10) : null;
 
 	const handleSubmit = async () => {
+
+		if(!isFormValid()) {
+			alert('모든 필드를 채워주세요.');
+			return;
+		}
+
 		const postData = {
 			title,
 			content,
@@ -52,6 +58,9 @@ const RecruitText = () => {
 		}
 	};
 
+	const isFormValid = () => {
+		return title && content && category && participant && articleCount && endAt;
+	};
 
 	return (
 		<>
@@ -86,14 +95,14 @@ const RecruitText = () => {
 				</div>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
 					<div className='flex justify-start'>목표</div>
-					<input 
-					type='number'
-					name='target'
-					className='w-full border-gray-500'
-					placeholder='주간 목표치'
-					min={0}
-					max={30}
-					onChange={(e) => setArticleCount(e.target.value)}
+					<input
+						type='number'
+						name='target'
+						className='w-full border-gray-500'
+						placeholder='주간 목표치'
+						min={0}
+						max={30}
+						onChange={(e) => setArticleCount(e.target.value)}
 					/>
 				</div>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
@@ -121,7 +130,11 @@ const RecruitText = () => {
 					></textarea>
 
 					<div className='flex flex-row w-full justify-end'>
-						<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800' onClick={handleSubmit}>
+						<Button
+							className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
+							onClick={handleSubmit}
+							disabled={!isFormValid()}
+						>
 							등록하기
 						</Button>{' '}
 					</div>
