@@ -16,7 +16,6 @@ const EssayHeader = () => {
 
 	const fetchlinkData = async () => {
 		const data = await fetch(`${baseUrl}/article/link?url=${link}`).then((response) => response.json());
-		console.log(data);
 		return data;
 	};
 

@@ -27,9 +27,7 @@ const Community = () => {
 		const response = await fetch(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`, {
 			headers: headers,
 		});
-		console.log(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`);
 		const data = await response.json();
-		console.log(data);
 		return data;
 	};
 
