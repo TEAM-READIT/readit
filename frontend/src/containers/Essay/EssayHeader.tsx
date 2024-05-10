@@ -1,17 +1,17 @@
 import { Breadcrumb, BreadcrumbItem } from 'flowbite-react';
 import { 
-	// useEffect,
+	useEffect,
 	 useState } from 'react';
 import { Link, 
-	// useNavigate
+	useNavigate
  } from 'react-router-dom';
 import { articleList } from '../../types/articleProps';
 
 const EssayHeader = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 	const [link, setLink] = useState<string>('');
-	const [, setLinkData] = useState<articleList>();
+	const [linkdata, setLinkData] = useState<articleList>();
 	// 링크로 검색하기
 
 	const fetchlinkData = async () => {
@@ -32,6 +32,12 @@ const EssayHeader = () => {
 			});
 	};
 
+	useEffect(()=>{
+		if(linkdata?.id){
+
+			navigate('/viewer', { state: { linkdata } });
+		}
+	},[linkdata?.id])
 
 
 	return (

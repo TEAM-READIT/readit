@@ -40,6 +40,33 @@ const Group = () => {
 			});
 	}, []);
 
+	const [noticebody, setnoticebody] = useState<string>('귤');
+
+	const noticePost = useMutation(async () => {
+		await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json',
+			},
+			body: noticebody,
+		});
+	});
+	const handlenoticePost = async () => {
+		try {
+			await noticePost.mutateAsync();
+
+			groupData()
+				.then((res) => setMyGroup(res))
+				.catch((_err) => {
+					console.log('내가 읽은 글 받아오는거 에러');
+				});
+		} catch (error) {
+			console.error('채팅 보내기 실패');
+		}
+	};
+	useEffect(() => {}, [groupData]);
+
 	const [chatValue, setChatValue] = useState<string>('');
 
 	// 채팅 보내기
@@ -91,8 +118,6 @@ const Group = () => {
 	};
 
 	const chatContainerRef = useRef<HTMLDivElement>(null);
-
-
 
 	useEffect(() => {
 		if (chatContainerRef.current) {
@@ -177,6 +202,7 @@ const Group = () => {
 					</>
 				) : null}
 			</div>
+			<button onClick={handlenoticePost}>공지 작성하기</button>
 		</div>
 	);
 };

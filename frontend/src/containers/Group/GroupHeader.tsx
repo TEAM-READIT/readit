@@ -37,7 +37,7 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 	};
 
 	const detail = myGroup.communityDetail
-
+	
 	return (
 		<>
 			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>
@@ -98,7 +98,7 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 			</div>
 			<div className='w-full px-5 '>
 				<div className='flex flex-row w-full p-3 text bg-[#E1EDFF] rounded-xl'>
-					<div className='font-bold'>📢 공지</div>: {detail.notice}
+					<div className='font-bold'>📢 공지</div>: {myGroup.notice}
 				</div>
 			</div>
 		</>
