@@ -12,6 +12,7 @@ const RecruitText = () => {
 	const [startAt] = useState(new Date());
 	const [endAt, setEndAt] = useState<Date | null>(null);
 	const navigate = useNavigate();
+	const [showModal, setShowModal] = useState(false);
 
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
@@ -50,17 +51,62 @@ const RecruitText = () => {
 				body: JSON.stringify(postData),
 			});
 
-			alert('등록 성공');
-			navigate('/community');
+			openModal();
 		} catch (error) {
 			console.error('등록 실패:', error);
 			alert('등록에 실패했습니다.');
 		}
 	};
 
+	// 필드 값이 전부 입력 됐는 지
 	const isFormValid = () => {
 		return title && content && category && participant && articleCount && endAt;
 	};
+
+	const openModal = () => setShowModal(true);
+	const closeModal = () => {
+		setShowModal(false);
+		navigate('/community');
+	};
+
+	const Modal = () => {
+		if (!showModal) return null;
+	
+		return (
+			<div className="fixed inset-0 z-50 overflow-y-auto">
+				<div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+					<div className="fixed inset-0 transition-opacity" aria-hidden="true">
+						<div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+					</div>
+	
+					{/* This element is to trick the browser into centering the modal contents. */}
+					<span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+	
+					<div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+						<div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+							<div className="sm:flex sm:items-start">
+								<div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+									<h3 className="text-lg font-medium leading-6 text-gray-900" id="modal-headline">
+										모집 글 작성 성공!
+									</h3>
+									<div className="mt-2">
+										<p className="text-sm text-gray-500">
+											모집 글이 생성되었습니다.
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse">
+							<button type="button" className="w-full px-4 py-2 text-base font-medium text-white bg-blue-600 rounded-md border border-transparent shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" onClick={closeModal}>
+								닫기
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	};	
 
 	return (
 		<>
@@ -94,7 +140,7 @@ const RecruitText = () => {
 					</select>
 				</div>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
-					<div className='flex justify-start'>목표</div>
+					<div className='flex justify-start'>목표 글 개수</div>
 					<input
 						type='number'
 						name='target'
@@ -140,6 +186,7 @@ const RecruitText = () => {
 					</div>
 				</div>
 			</div>
+			<Modal />
 		</>
 	);
 };
