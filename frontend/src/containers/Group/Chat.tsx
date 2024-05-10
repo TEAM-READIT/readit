@@ -4,12 +4,13 @@ import ProfileImage from '../../assets/images/profile.png'
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { useAuthStore } from "../../store/auth";
+import useUserStore from "../../store/user";
 
 const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 	const { accessToken } = useAuthStore();
 	const [chatValue, setChatValue] = useState<string>('채팅 보내기');
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
-
+	const {id} = useUserStore();
 	// 채팅 보내기
 		const chatBody = {
 			communityId: myGroup.communityDetail.communityId,
@@ -58,7 +59,7 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 					<div className='flex flex-col gap-5'>
 						{myGroup.chatList.map((chat, index) => (
 							<div key={index}>
-								{chat.memberId === 1 ? (
+								{chat.memberId === id ? (
 									<div className='flex flex-row gap-x-2'>
 										<img src={ProfileImage} alt='사용자프로필' className='w-12 h-12 aspect-square' />
 										<div className='flex flex-col items-start'>
@@ -84,7 +85,7 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 														{chat.createdAt.getHours()}:{chat.createdAt.getMinutes() < 10 ? '0' : ''}
 														{chat.createdAt.getMinutes()}
 													</span>
-													<div className='bg-yellow-200 border border-gray-500 text-xs w-full p-2 rounded-xl text-start'>
+													<div className='bg-yellow-200 border border-gray-500 text-xs w-full p-2 rounded-lg text-start'>
 														{chat.content}
 													</div>
 												</div>

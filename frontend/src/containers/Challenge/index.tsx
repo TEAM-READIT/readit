@@ -19,12 +19,14 @@ const Challenge = () => {
 		const data = await fetch(`${baseUrl}/challenge/rank`, {
 			headers: headers,
 		}).then((response) => response.json());
+		console.log(data)
 		return data;
 	};
 
 	useEffect(() => {
 		RankData();
 	}, []);
+
 	// 챌린지 문제 받아오기
 	const challengeData = async () => {
 		const headers = {

@@ -4,6 +4,7 @@ import CommunityDetailHeader from './CommunityDetailHeaders';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { useAuthStore } from '../../../store/auth';
+import useUserStore from '../../../store/user';
 
 interface GroupProps {
 	communityId: number;
@@ -46,6 +47,8 @@ const Detail = () => {
 		handleJoin();
 	};
 
+	const { id } = useUserStore();
+
 	return (
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-full'>
@@ -58,12 +61,16 @@ const Detail = () => {
 								<div className='flex flex-row justify-between items-center'>
 									<div className='text-2xl font-bold'>{community.title}</div>
 									{community.currentParticipants >= community.maxParticipants ? null : (
-										<Button className='bg-green-500 '>
-											<div className='flex items-center gap-2'>
-												<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-												<span onClick={() => handleClickGroup(community)}>모임 가입하기</span>
-											</div>
-										</Button>
+										<>
+												{community.writerId === id ? null : (
+											<Button className='bg-green-500 '>
+													<div className='flex items-center gap-2'>
+														<span className='material-symbols-outlined text-[1.2rem]'>done</span>
+														<span onClick={() => handleClickGroup(community)}>모임 가입하기</span>
+													</div>
+											</Button>
+												)}
+										</>
 									)}
 								</div>
 								<div className='flex flex-row gap-5 items-center'>

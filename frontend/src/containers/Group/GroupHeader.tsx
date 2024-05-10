@@ -2,18 +2,41 @@ import { Breadcrumb, BreadcrumbItem, Button } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { communityProps } from '../../types/gropProps';
 import { useAuthStore } from '../../store/auth';
+import { useState } from 'react';
+import { useMutation } from 'react-query';
 
-const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
+interface GroupHeader {
+	myGroup: communityProps;
+}
+const GroupHeader = ({ myGroup }: GroupHeader) => {
 	const navigate = useNavigate();
-	const handleRead4Commu = (categoryName:string, communityId:number) => {
+	const handleRead4Commu = (categoryName: string, communityId: number) => {
 		navigate('/essay', { state: { categoryName, communityId } });
 	};
-	
+
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
-	
-	const deleteCommunity = async (communityId: number) => {
+	const [number, setNumber] = useState<number>(0);
+	const [noticebody, setnoticebody] = useState<string>('');
 
+	const noticePost = useMutation(async () => {
+		await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json',
+			},
+			body: noticebody,
+		});
+	});
+	const handlenoticePost = async () => {
+		try {
+			await noticePost.mutateAsync();
+		} catch (error) {
+			console.error('채팅 보내기 실패');
+		}
+	};
+	const deleteCommunity = async (communityId: number) => {
 		try {
 			const response = await fetch(`${baseUrl}/community/${communityId}`, {
 				method: 'DELETE',
@@ -29,15 +52,13 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 			} else {
 				throw new Error('Failed to delete community');
 			}
-
 		} catch (error) {
 			console.log('커뮤니티 탈퇴 에러: ', error);
 		}
-
 	};
 
-	const detail = myGroup.communityDetail
-	
+	const detail = myGroup.communityDetail;
+
 	return (
 		<>
 			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>
@@ -96,9 +117,34 @@ const GroupHeader = ({ myGroup }: { myGroup: communityProps }) => {
 					</div>
 				</div>
 			</div>
-			<div className='w-full px-5 '>
-				<div className='flex flex-row w-full p-3 text bg-[#E1EDFF] rounded-xl'>
+			<div className='w-full px-5 flex flex-row justify-between'>
+				<div className='flex flex-row w-full p-3 text bg-[#E1EDFF] rounded-xl items-center gap-3'>
 					<div className='font-bold'>📢 공지</div>: {myGroup.notice}
+					<input
+						type='text'
+						name='keyword'
+						placeholder='공지 등록하기'
+						className='input  bg-[#E1EDFF] border-none w-5/6'
+						onChange={(e) => setnoticebody(e.target.value)}
+					/>
+					{number === 0 ? (
+						<span
+							className='material-symbols-outlined hover:cursor-pointer text-4xl'
+							onClick={() => setNumber((prev) => prev + 1)}
+						>
+							check
+						</span>
+					) : (
+						<span
+							className='material-symbols-outlined hover:cursor-pointer text-3xl'
+							onClick={() => {
+								setNumber((prev) => prev - 1);
+							}}
+						>
+							edit_square{' '}
+						</span>
+					)}
+					<button onClick={handlenoticePost}>등록</button>
 				</div>
 			</div>
 		</>

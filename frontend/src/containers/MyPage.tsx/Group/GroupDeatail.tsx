@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import Headers from '../../../components/Headers';
 import GroupDetailHeaders from './GroupDetailHeaders';
-import SearchFilter from './SearchFilter';
+// import SearchFilter from './SearchFilter';
 import SearchList from './SearchList';
 
 const ReadDetail = () => {
@@ -16,7 +16,7 @@ const ReadDetail = () => {
 				</div>
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
-						<SearchFilter />
+						{/* <SearchFilter /> */}
 					</div>
 					<div className='flex w-3/5 h-auto flex-col justify-start gap-5 '>
 						<SearchList communityList={communityList}/>

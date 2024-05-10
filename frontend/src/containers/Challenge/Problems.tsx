@@ -74,7 +74,7 @@ const handleAnswer = async () => {
 											{problem.problemNumber}. {problem.problem}
 										</div>
 										{accurateAns && (
-											<div className='absolute -left-3 top-0'>
+											<div className='absolute -left-4 -top-2'>
 												{accurateAns[index].isCorrect ? (
 													<div className='text-4xl'>⭕</div>
 												) : (
