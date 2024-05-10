@@ -4,16 +4,21 @@ import Headers from './Headers';
 import ReadDetailModalHeaders from './ReadDetailModalHeaders';
 import {
 	useEffect,
-	// useState
+	useState
 } from 'react';
 import { useAuthStore } from '../store/auth';
+
+interface MemoList {
+	id: number;
+	content:string
+}
 
 const ReadDetailModal = () => {
 	const location = useLocation();
 	const article = location.state?.article;
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
-	// const [memo, setMemo] = useState<string[]>([])
+	const [memo, setMemo] = useState<{ memoList: MemoList[] }>();
 
 	const getMemo = async () => {
 		const headers = {
@@ -29,7 +34,7 @@ const ReadDetailModal = () => {
 	const fetchMemo = async () => {
 		try {
 			const data = await getMemo();
-			// setMemo(data)
+			setMemo(data)
 			console.log(data);
 		} catch (error) {
 			console.error('Error fetching data:', error);
@@ -40,10 +45,11 @@ const ReadDetailModal = () => {
 		fetchMemo();
 	}, []);
 
-	const memo = ['1번', '2번', '3번', '4번', '5번'];
-
+	const memos = memo?.memoList
+	console.log(memos)
 	useEffect(() => {
-		for (let i = 0; i < memo.length; i++) {
+		if (memos){
+		for (let i = 0; i < memos?.length!; i++) {
 			var divElement = document.getElementById(i.toString());
 			const spanMemoWrapper = document.createElement('span');
 			spanMemoWrapper.className =
@@ -52,10 +58,10 @@ const ReadDetailModal = () => {
 			// 메모를 표시하는 span 엘리먼트 생성
 			const spanMemo = document.createElement('span');
 			spanMemo.className = 'memo-span';
-			if (memo.length > 15) {
-				spanMemo.innerText = memo.slice(0, 15) + '...';
+			if (memos.length > 15) {
+				spanMemo.innerText = memos?.slice(0, 15) + '...';
 			} else {
-				spanMemo.innerText = memo[i]; // 메모 내용 설정
+				spanMemo.innerText = memos[i].content; // 메모 내용 설정
 			}
 			spanMemoWrapper.style.display = 'none';
 
@@ -81,6 +87,7 @@ const ReadDetailModal = () => {
 
 			// 문서 body에 spanMemoWrapper 추가
 			document.body.appendChild(spanMemoWrapper);
+		}
 		}
 	}, []); // 빈 배열을 전달하여 이펙트가 한 번만 실행되도록 합니다.
 

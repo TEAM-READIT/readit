@@ -13,8 +13,7 @@ const PopCommu = () => {
 	
 	// 조회수 ++
 	const hits = useMutation(async (id: number) => {
-		await fetch(`${baseUrl}/community/hit/${id}`, {
-			method: 'POST',
+		await fetch(`${baseUrl}/community/hits/${id}`, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 				'Content-Type': 'application/json',

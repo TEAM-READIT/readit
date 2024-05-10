@@ -85,7 +85,7 @@ const Detail = () => {
 									</div>
 									<div className='flex flex-row gap-1 items-center justify-center'>
 										<span className='material-symbols-outlined'>visibility</span>
-										<span>{community.hit}</span>
+										<span>{community.hits}</span>
 									</div>
 								</div>
 
