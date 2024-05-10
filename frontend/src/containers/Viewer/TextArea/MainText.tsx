@@ -2,7 +2,6 @@ import {
 	useState,
 	// useEffect, useRef
 } from 'react';
-import { useLocation } from 'react-router-dom';
 import { articleList } from '../../../types/articleProps';
 import useModal from '../../../hooks/useModal';
 
@@ -16,8 +15,6 @@ export const MainText = ({
 	setChange: React.Dispatch<React.SetStateAction<number>>;
 }) => {
 	const [isOpen, open, close] = useModal();
-	const location = useLocation();
-	const linkdata = location.state?.linkdata;
 	const [position, setPosition] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
 	const [selectedRange, setSelectedRange] = useState<Range | null>(null); // State to store the selected range
 	const [openMemo, setOpenMemo] = useState<boolean>(false);
@@ -36,7 +33,6 @@ export const MainText = ({
 	// 		}
 	// 	});
 	// }, [highlightedRanges]);
-
 	const handleBold = () => {
 		if (selectedRange) {
 			const span = document.createElement('span');
@@ -147,10 +143,10 @@ export const MainText = ({
 
 	//텍스트 줄바꿈
 	const linechange = (text: string) => {
-		return text.replace(/\n/g, '\n\n');
+		return text?.replace(/\n/g, '\n\n');
 	};
 
-	const realarticle = linechange(article.content);
+	const realarticle = linechange(article?.content);
 	return (
 		<>
 			<div className=' w-full h-full border-solid border-t-2 border-b-2 bg-white overflow-y-auto whitespace-pre-wrap px-3'>
@@ -230,10 +226,7 @@ export const MainText = ({
 						</div>
 					</>
 				) : (
-					<>
-						<div className='text-2xl font-bold m-[3%]'>{linkdata.title}</div>
-						<div className='text-start mx-[2%] mb-[3%]'>{linkdata.content}</div>
-					</>
+					null
 				)}
 			</div>
 		</>
