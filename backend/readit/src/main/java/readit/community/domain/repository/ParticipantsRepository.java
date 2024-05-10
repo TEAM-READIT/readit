@@ -3,8 +3,7 @@ package readit.community.domain.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import readit.community.domain.entity.Participants;
 import readit.community.exception.AlreadyJoinedCommunityException;
-import readit.community.exception.DeletionFailedException;
-import readit.viewer.exception.ValueMissingException;
+import readit.community.exception.NotJoinedCommunityException;
 
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ public interface ParticipantsRepository extends JpaRepository<Participants, Inte
 
     default Participants getByMemberIdAndCommunityId(Integer memberId, Integer communityId) {
         return findByMember_IdAndCommunity_Id(memberId, communityId)
-                .orElseThrow(ValueMissingException::new);
+                .orElseThrow(NotJoinedCommunityException::new);
     }
 
     default void ifExistsMemberJoinCommunity(Integer memberId, Integer communityId) {
@@ -27,7 +26,7 @@ public interface ParticipantsRepository extends JpaRepository<Participants, Inte
 
     default void safeLeaveCommunity(Integer memberId, Integer communityId) {
         if (deleteByMember_IdAndCommunity_Id(memberId, communityId) != 1) {
-            throw new DeletionFailedException();
+            throw new NotJoinedCommunityException();
         };
     }
 

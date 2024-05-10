@@ -54,7 +54,7 @@ public class Community extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer articleCount;
 
-    @OneToMany(mappedBy = "community")
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participants> participants = new ArrayList<>();
 
     @Column(nullable = false)
