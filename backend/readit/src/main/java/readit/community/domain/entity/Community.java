@@ -64,6 +64,10 @@ public class Community extends BaseTimeEntity {
         this.hits++;
     }
 
+    public void updateNotice(String notice){
+        this.notice = notice;
+    }
+
     public Participants joinParticipant(Member member) {
         Participants participant = Participants.builder()
                 .community(this)
