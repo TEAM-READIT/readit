@@ -3,7 +3,7 @@ import Headers from '../../components/Headers';
 // import SearchList from './SearchList';
 import { Button, Card } from 'flowbite-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/auth';
 import CommunityList from '../../types/communityProps';
@@ -27,6 +27,7 @@ const Community = () => {
 		const response = await fetch(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`, {
 			headers: headers,
 		});
+		console.log(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`);
 		const data = await response.json();
 		console.log(data);
 		return data;
@@ -34,8 +35,26 @@ const Community = () => {
 
 	useEffect(() => {
 		const data = totalCommunityData(page, filtered);
-		console.log("data", data);
+		console.log('data', data);
 	});
+
+	// 조회수 ++
+	const hits = useMutation(async (id: number) => {
+		await fetch(`${baseUrl}/community/hits/${id}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json',
+			},
+		});
+	});
+	const handlehits = async (id: number) => {
+		try {
+			await hits.mutateAsync(id);
+		} catch (error) {
+			console.error('', error);
+		}
+	};
+
 
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
 	const fetchData = async (filtered: string) => {
@@ -170,10 +189,11 @@ const Community = () => {
 	// }, []);
 
 	const handleCardClick = (community: CommunityList) => {
+		handlehits(community.communityId!)
 		navigate('/detail', { state: { community } });
 	};
 
-	let filtered = ''
+	let filtered = '';
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
@@ -198,7 +218,7 @@ const Community = () => {
 	const handleParticipantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const intValue = parseInt(e.target.value, 10);
 		setParticipant(isNaN(intValue) ? 0 : intValue);
-	}
+	};
 
 	return (
 		<>

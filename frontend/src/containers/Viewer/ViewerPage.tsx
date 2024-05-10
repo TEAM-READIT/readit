@@ -37,10 +37,9 @@ export const ViewerPage = () => {
 	const [memos, setMemos] = useState<string[]>([]);
 	const article = location.state?.article;
 	const linkdata = location.state?.linkdata;
-	// const [id, setId] = useState<number>()
+	const [id, setId] = useState<number>()
 	const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
 	// console.log(communityId);
-	console.log('linkdata', linkdata);
 	const navigate = useNavigate();
 	// const [wordList, setWordList] = useState<wordListProps[]>();
 	// console.log(wordList);
@@ -70,28 +69,17 @@ export const ViewerPage = () => {
 	// 	return data;
 	// };
 
-	// 안읽은 글 호출 함수
-	// const fetchUnreadData = async () => {
-	// 	try {
-	// 		const data = await fetchWord();
-	// 		setWordList(data);
-	// 	} catch (error) {
-	// 		console.error('Error fetching data:', error);
-	// 	}
-	// };
-
 	useEffect(() => {}, [change, 
 		// setId
 	]
 		);
 	useEffect(() => {
 		// fetchUnreadData();
-		console.log(article)
-		// if (article.id) {
-		// 	setId(article.id);
-		// } else {
-		// 	setId(linkdata.id);
-		// }
+		if (article?.id) {
+			setId(article.id);
+		} else {
+			setId(linkdata.id);
+		}
 	}, []);
 	// 제출 POST
 	const requestbody: RequestBody = {
@@ -104,7 +92,7 @@ export const ViewerPage = () => {
 	}
 
 	const summarySubmit = useMutation(async () => {
-		const response = await fetch(`${baseUrl}/viewer/submission/${article.id}`, {
+		const response = await fetch(`${baseUrl}/viewer/submission/${id}`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
@@ -128,7 +116,7 @@ export const ViewerPage = () => {
 
 	// 임시 제출하기
 	const tempSubmit = useMutation(async () => {
-		const response = await fetch(`${baseUrl}/viewer/temp/${article.id}`, {
+		const response = await fetch(`${baseUrl}/viewer/temp/${id}`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
