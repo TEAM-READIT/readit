@@ -2,14 +2,15 @@ import { Breadcrumb, BreadcrumbItem, Button } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { communityProps } from '../../types/gropProps';
 import { useAuthStore } from '../../store/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface GroupHeader {
 	myGroup: communityProps;
 	setnoticebody: React.Dispatch<React.SetStateAction<string>>;
-	handlenoticePost: () => Promise<void>
+	handlenoticePost: () => Promise<void>;
+	noticebody: string;
 }
-const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost }: GroupHeader) => {
+const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: GroupHeader) => {
 	const navigate = useNavigate();
 	const handleRead4Commu = (categoryName: string, communityId: number) => {
 		navigate('/essay', { state: { categoryName, communityId } });
@@ -18,7 +19,6 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost }: GroupHeader) 
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
 	const [number, setNumber] = useState<number>(0);
-
 
 	const deleteCommunity = async (communityId: number) => {
 		try {
@@ -43,14 +43,19 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost }: GroupHeader) 
 
 	const detail = myGroup.communityDetail;
 
-
 	const handleKeyPress = (e: any) => {
 		if (e.key === 'Enter') {
-			handlenoticePost();
 			setNumber((prev) => prev - 1);
 		}
 	};
 
+	useEffect(() => {
+		if (noticebody.length > 0) {
+			handlenoticePost();
+		}
+	}, [noticebody]);
+
+	useEffect(() => {}, [handlenoticePost]);
 	return (
 		<>
 			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>
