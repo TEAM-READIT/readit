@@ -12,7 +12,6 @@ const Headers = () => {
 	const navigate = useNavigate();
 
 	const [isOpen, open, close] = useModal();
-	// const [isOpen, close] = useModal();
 	useEffect(() => {
 		if (isOpen) {
 			setModal(true);
@@ -51,17 +50,17 @@ const Headers = () => {
 					</div>
 					<div className='flex flex-row justify-between gap-8 font-bold text-xl hover:cursor-pointer items-center'>
 						{accessToken ? (
-						<>
-							<div onClick={() => navigate('/challenge')}>챌린지</div>
-							<div onClick={() => navigate('/essay')}>글</div>
-							<div onClick={() => navigate('/community')}>커뮤니티</div>
-							<div onClick={() => navigate('/mypage')}>마이페이지</div>
-						</>
-						 ) : (
+							<>
+								<div onClick={() => navigate('/challenge')}>챌린지</div>
+								<div onClick={() => navigate('/essay')}>글</div>
+								<div onClick={() => navigate('/community')}>커뮤니티</div>
+								<div onClick={() => navigate('/mypage')}>마이페이지</div>
+							</>
+						) : (
 							<>
 								<div onClick={open}>챌린지</div>
-								<div onClick={open}>글</div>
-								<div onClick={open}>커뮤니티</div>
+								<div onClick={() => navigate('/essay')}>글</div>
+								<div onClick={() => navigate('/community')}>커뮤니티</div>
 								<div onClick={open}>마이페이지</div>
 							</>
 						)}
@@ -76,7 +75,7 @@ const Headers = () => {
 							</div>
 						) : (
 							<div onClick={open}>로그인</div>
-						)} 
+						)}
 					</div>
 				</div>
 			</div>

@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { useAuthStore } from '../../../store/auth';
 import useUserStore from '../../../store/user';
+import useModal from '../../../hooks/useModal';
+import Login from '../../MainPage/Login/Login';
 
 interface GroupProps {
 	communityId: number;
@@ -21,6 +23,8 @@ interface GroupProps {
 
 const Detail = () => {
 	const { accessToken } = useAuthStore();
+	const [isOpen, open, close] = useModal();
+
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -43,8 +47,12 @@ const Detail = () => {
 		}
 	};
 	const handleClickGroup = (community: GroupProps) => {
-		navigate('/group', { state: { community } });
-		handleJoin();
+		if (accessToken) {
+			navigate('/group', { state: { community } });
+			handleJoin();
+		} else {
+			open();
+		}
 	};
 
 	const { id } = useUserStore();
@@ -117,6 +125,7 @@ const Detail = () => {
 					) : null}
 				</div>
 			</div>
+			{isOpen ? <Login close={close} /> : null}
 		</>
 	);
 };

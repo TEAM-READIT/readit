@@ -11,16 +11,7 @@ interface LoginProps {
 }
 
 const Login = ({ close }: LoginProps) => {
-	// const navigate = useNavigate();
-	// const { login } = useAuthStore();
-	// const searchParams = new URLSearchParams(window.location.search);
-	// const code = searchParams.get('code');
-	// useEffect(() => {
-	// 	if (code) {
-	// 		login(code);
-	// 		navigate('/');
-	// 	}
-	// }, [code]);
+
 	const kakaoAuth = () => {
 		location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${
 			import.meta.env.VITE_APP_PUBLIC_KAKAO_REST_API_KEY
