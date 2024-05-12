@@ -10,7 +10,6 @@ import { useMutation } from 'react-query';
 
 const Group = () => {
 	const { accessToken } = useAuthStore();
-
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const location = useLocation();
 	const community = location.state?.community;
@@ -89,6 +88,8 @@ const Group = () => {
 			}
 			if (chatValue.startsWith('/공지')) {
 				setnoticebody(chatValue.substring(4));
+				setChatValue('')
+				return
 			}
 			handleSendingChat();
 			// 입력 필드 초기화
