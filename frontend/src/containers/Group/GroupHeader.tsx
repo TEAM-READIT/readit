@@ -60,6 +60,14 @@ const GroupHeader = ({ myGroup }: GroupHeader) => {
 	const detail = myGroup.communityDetail;
 
 	useEffect(() => {}, [handlenoticePost]);
+
+	const handleKeyPress = (e: any) => {
+		if (e.key === 'Enter') {
+			handlenoticePost();
+			setNumber((prev) => prev - 1);
+		}
+	};
+
 	return (
 		<>
 			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>
@@ -141,6 +149,7 @@ const GroupHeader = ({ myGroup }: GroupHeader) => {
 								placeholder='공지 등록하기'
 								className=' bg-[#E1EDFF] border-none w-5/6 font-normal'
 								onChange={(e) => setnoticebody(e.target.value)}
+								onKeyDown={handleKeyPress}
 							/>
 							<span
 								className='material-symbols-outlined hover:cursor-pointer text-3xl'

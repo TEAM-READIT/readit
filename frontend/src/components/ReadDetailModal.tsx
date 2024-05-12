@@ -38,6 +38,7 @@ const ReadDetailModal = () => {
 	};
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		fetchMemo();
 	}, []);
 
