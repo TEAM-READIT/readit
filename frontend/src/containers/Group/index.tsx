@@ -92,6 +92,7 @@ const Group = () => {
 			if (chatValue.startsWith('/공지')) {
 				requestbody = chatValue.substring(4);
 				handlenoticePost();
+				return;
 			}
 			handleSendingChat();
 			// 입력 필드 초기화
