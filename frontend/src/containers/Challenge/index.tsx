@@ -206,16 +206,16 @@ const Challenge = () => {
 											</div>
 										))}
 									</div>
-									<div className='w-3/5 flex flex-row justify-center'>
+									<div className='w-3/5 h-full items-center flex flex-row justify-center'>
 										<Line data={challengegraphData}></Line>
 									</div>
 								</div>
 								<div className='flex flex-row justify-end'>
 									<button
-										className=' rounded-lg  text-center p-3 justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+										className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
 										onClick={() => setNumber(1)}
 									>
-										<span>챌린지 시작하기</span>
+										<span>시작하기</span>
 									</button>
 								</div>
 							</div>
