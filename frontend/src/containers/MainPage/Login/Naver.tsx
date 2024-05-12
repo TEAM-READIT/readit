@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/auth';
 import userStore from '../../../store/user';
 
 export const NaverCallback = () => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const { login } = useAuthStore();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const code = new URL(document.location.toString()).searchParams.get('code');
@@ -32,7 +32,7 @@ export const NaverCallback = () => {
 			setId(userdata.id)
 			setName(userdata.name);
 			setProfileImageUrl(userdata.profileImageUrl);
-			navigate('/');
+			history.back();
 		} catch (error) {
 			console.log('error');
 		}
