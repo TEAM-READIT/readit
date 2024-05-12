@@ -79,6 +79,8 @@ const Group = () => {
 		setChatValue('');
 	};
 
+	let requestbody = ''
+
 	const handleKeyPress = (e: any) => {
 		// 입력 필드에서 엔터 키가 눌렸을 때
 		if (e.key === 'Enter') {
@@ -87,11 +89,34 @@ const Group = () => {
 				// 빈 값이면 전송하지 않음
 				return;
 			}
+			if (chatValue.startsWith('/공지')) {
+				requestbody = chatValue.substring(4);
+				handlenoticePost();
+			}
 			handleSendingChat();
 			// 입력 필드 초기화
 			setChatValue('');
 		}
 	};
+
+		const noticePost = useMutation(async () => {
+			await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+					'Content-Type': 'application/json',
+				},
+				body: requestbody,
+			});
+		});
+		const handlenoticePost = async () => {
+			try {
+				await noticePost.mutateAsync();
+			} catch (error) {
+				console.error('공지 등록 실패');
+			}
+	};
+	
 
 	const chatContainerRef = useRef<HTMLDivElement>(null);
 

@@ -2,7 +2,7 @@ import { Breadcrumb, BreadcrumbItem, Button } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { communityProps } from '../../types/gropProps';
 import { useAuthStore } from '../../store/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 
 interface GroupHeader {
@@ -33,7 +33,7 @@ const GroupHeader = ({ myGroup }: GroupHeader) => {
 		try {
 			await noticePost.mutateAsync();
 		} catch (error) {
-			console.error('채팅 보내기 실패');
+			console.error('공지 등록 실패');
 		}
 	};
 	const deleteCommunity = async (communityId: number) => {
@@ -59,6 +59,7 @@ const GroupHeader = ({ myGroup }: GroupHeader) => {
 
 	const detail = myGroup.communityDetail;
 
+	useEffect(() => {}, [handlenoticePost]);
 	return (
 		<>
 			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>
@@ -118,33 +119,40 @@ const GroupHeader = ({ myGroup }: GroupHeader) => {
 				</div>
 			</div>
 			<div className='w-full px-5 flex flex-row justify-between'>
-				<div className='flex flex-row w-full p-3 text bg-[#E1EDFF] rounded-xl items-center gap-3'>
-					<div className='font-bold'>📢 공지</div>: {myGroup.notice}
-					<input
-						type='text'
-						name='keyword'
-						placeholder='공지 등록하기'
-						className='input  bg-[#E1EDFF] border-none w-5/6'
-						onChange={(e) => setnoticebody(e.target.value)}
-					/>
+				<div className='flex flex-row w-full p-3 text bg-[#E1EDFF] rounded-xl items-center gap-3 text-start'>
+					<div className='font-bold'>📢 공지</div>:
 					{number === 0 ? (
-						<span
-							className='material-symbols-outlined hover:cursor-pointer text-4xl'
-							onClick={() => setNumber((prev) => prev + 1)}
-						>
-							check
-						</span>
+						<>
+							<div className='bg-[#E1EDFF] border-none w-5/6 p-2'>{myGroup.notice}</div>
+							<span
+								className='material-symbols-outlined hover:cursor-pointer text-3xl'
+								onClick={() => {
+									setNumber((prev) => prev + 1);
+								}}
+							>
+								edit_square{' '}
+							</span>
+						</>
 					) : (
-						<span
-							className='material-symbols-outlined hover:cursor-pointer text-3xl'
-							onClick={() => {
-								setNumber((prev) => prev - 1);
-							}}
-						>
-							edit_square{' '}
-						</span>
+						<>
+							<input
+								type='text'
+								name='keyword'
+								placeholder='공지 등록하기'
+								className=' bg-[#E1EDFF] border-none w-5/6 font-normal'
+								onChange={(e) => setnoticebody(e.target.value)}
+							/>
+							<span
+								className='material-symbols-outlined hover:cursor-pointer text-3xl'
+								onClick={() => {
+									setNumber((prev) => prev - 1);
+									handlenoticePost();
+								}}
+							>
+								check
+							</span>
+						</>
 					)}
-					<button onClick={handlenoticePost}>등록</button>
 				</div>
 			</div>
 		</>

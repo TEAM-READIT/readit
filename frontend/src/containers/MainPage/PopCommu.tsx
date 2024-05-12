@@ -73,11 +73,11 @@ const PopCommu = () => {
 								{communitys?.slice(0, 4).map((community, index) => (
 									<Card
 										key={index}
-										className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+										className='flex flex-col w-64 h-52  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 										onClick={() => handleCardClick(community)}
 									>
 										<div className='flex justify-end gap-2 h-1/5'>
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
+											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
 												#{community.categoryName}
 											</div>
 										</div>

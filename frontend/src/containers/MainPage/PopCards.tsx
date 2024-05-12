@@ -92,17 +92,17 @@ const PopCards = () => {
 							{popArticles?.articleList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+									className='flex flex-col w-64 h-52 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 									onClick={() => {
 										handleCardClick(article);
 									}}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
-										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
+										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
 											{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
 										</div>
 										{article.type === 'NEWS' ? (
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
+											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
 												#{article.categoryName}
 											</div>
 										) : null}
@@ -124,17 +124,17 @@ const PopCards = () => {
 							{popArticles?.newsList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+									className='flex flex-col w-64 h-52  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 									onClick={() => {
 										handleCardClick(article);
 									}}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
-										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
+										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
 											{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
 										</div>
 										{article.type === 'NEWS' ? (
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
+											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
 												#{article.categoryName}
 											</div>
 										) : null}
@@ -156,15 +156,15 @@ const PopCards = () => {
 							{popArticles?.epigraphyList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+									className='flex flex-col w-64 h-52  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 									onClick={() => handleCardClick(article)}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
-										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
+										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
 											{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
 										</div>
 										{article.type === 'NEWS' ? (
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
+											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
 												#{article.categoryName}
 											</div>
 										) : null}

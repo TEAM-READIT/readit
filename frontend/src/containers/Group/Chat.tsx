@@ -38,11 +38,6 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 	};
 
 
-	// useEffect(() => {
-	// 	handleSendingChat();
-	// },[handleSendingChat])
-
-
 	const chatContainerRef = useRef<HTMLDivElement>(null);
 
 
