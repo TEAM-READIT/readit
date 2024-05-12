@@ -32,6 +32,7 @@ interface RequestBody {
 export const ViewerPage = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
+
 	const [isBottomOpen, setBottomOpen] = useState(true);
 	const location = useLocation();
 	const [memos, setMemos] = useState<string[]>([]);
@@ -115,7 +116,7 @@ export const ViewerPage = () => {
 
 	// 임시 제출하기
 	const tempSubmit = useMutation(async () => {
-		const response = await fetch(`${baseUrl}/viewer/temp/${id}`, {
+		await fetch(`${baseUrl}/viewer/temp/${id}`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
@@ -123,7 +124,7 @@ export const ViewerPage = () => {
 			},
 			body: JSON.stringify(requestbody),
 		});
-		return response.json();
+
 	});
 	const handleTempSubmit = async () => {
 		try {
@@ -178,14 +179,20 @@ export const ViewerPage = () => {
 								<Memos memos={memos} />
 							</div>
 							<div className='flex flex-row items-center w-full justify-center px-10 gap-5  '>
-								<Button className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500'>
+								<Button
+									className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500 '
+									onClick={handleTempSubmit}
+								>
 									<div className='flex items-center'>
-										<span onClick={handleTempSubmit}>임시 저장</span>
+										<span>임시 저장</span>
 									</div>
 								</Button>
-								<Button className='w-full border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'>
+								<Button
+									className='w-full border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
+									onClick={handleSubmit}
+								>
 									<div className='flex items-center'>
-										<span onClick={handleSubmit}>제출</span>
+										<span>제출</span>
 									</div>
 								</Button>
 							</div>
@@ -212,6 +219,26 @@ export const ViewerPage = () => {
 									<div className='text-start'>{feedback?.feedback}</div>
 									<div className='flex flex-row justify-end'>
 										<span>{feedback?.score} / 100</span>
+									</div>
+									<div className='flex flex-row justify-end'>
+										<div className='flex flex-row justify-between gap-5 h-10'>
+											<button
+												className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm  border bg-gray-500 text-white border-gray-500 hover:bg-gray-400 px-3 '
+												onClick={() => navigate('/')}
+											>
+												<div className='flex items-center gap-2'>
+													<span>홈으로 이동하기</span>
+												</div>
+											</button>
+											<button
+												className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 px-3'
+												onClick={() => navigate('/essay')}
+											>
+												<div className='flex items-center gap-2'>
+													<span>글 더 읽으러 가기</span>
+												</div>
+											</button>
+										</div>
 									</div>
 								</>
 							)}

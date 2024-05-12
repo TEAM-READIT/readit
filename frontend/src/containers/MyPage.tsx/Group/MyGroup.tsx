@@ -64,7 +64,7 @@ const MyGroup = () => {
 								<div className='font-bold text-start'>{community.title}</div>
 								<div className='flex flex-row justify-start gap-5'>
 									<div className='text-gray-500'>{community.startAt!.toLocaleString()}</div>
-									<div className='w-20 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-sm flex flex-row justify-center items-center'>
+									<div className='w-20 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
 										#{community.categoryName}
 									</div>
 								</div>
