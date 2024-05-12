@@ -14,6 +14,7 @@ const Group = () => {
 	const location = useLocation();
 	const community = location.state?.community;
 	const [myGroup, setMyGroup] = useState<communityProps>();
+		const [noticebody, setnoticebody] = useState<string>('');
 	// 내가 속한 모임 받아오기
 	const groupData = async () => {
 		const headers = {
@@ -79,7 +80,6 @@ const Group = () => {
 		setChatValue('');
 	};
 
-	let requestbody = ''
 
 	const handleKeyPress = (e: any) => {
 		// 입력 필드에서 엔터 키가 눌렸을 때
@@ -90,9 +90,8 @@ const Group = () => {
 				return;
 			}
 			if (chatValue.startsWith('/공지')) {
-				requestbody = chatValue.substring(4);
+				setnoticebody(chatValue.substring(4));
 				handlenoticePost();
-				return;
 			}
 			handleSendingChat();
 			// 입력 필드 초기화
@@ -107,7 +106,7 @@ const Group = () => {
 					Authorization: `Bearer ${accessToken}`,
 					'Content-Type': 'application/json',
 				},
-				body: requestbody,
+				body: noticebody,
 			});
 		});
 		const handlenoticePost = async () => {
@@ -133,7 +132,7 @@ const Group = () => {
 			<div className='flex flex-col w-3/5 h-full items-start'>
 				{myGroup ? (
 					<>
-						<GroupHeader myGroup={myGroup}/>
+						<GroupHeader myGroup={myGroup} setnoticebody={setnoticebody} handlenoticePost={handlenoticePost} />
 						<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
 							<Articles myGroup={myGroup} />
 							<div className='w-2/5 flex flex-col gap-5 pt-3'>
@@ -204,7 +203,6 @@ const Group = () => {
 					</>
 				) : null}
 			</div>
-		
 		</div>
 	);
 };

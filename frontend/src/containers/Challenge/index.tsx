@@ -102,7 +102,6 @@ const Challenge = () => {
 				console.log('챌린지 받아오는거 에러');
 			});
 	}, []);
-	console.log('rnrn?',rank?.memberList)
 	return (
 		<>
 			{number === 0 ? (
