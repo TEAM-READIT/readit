@@ -20,10 +20,13 @@ const CommunityHeader = () => {
 					<div className='flex flex-row justify-between items-center w-full'>
 						<h1 className='text-2xl font-semibold leading-tight text-gray-700'>모집 글 목록</h1>
 						<div className='flex gap-3'>
-							<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
+							<Button
+								className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+								onClick={() => navigate('/recruit')}
+							>
 								<div className='flex items-center gap-2'>
 									<span className='material-symbols-outlined text-[1.2rem]'>add</span>
-									<span onClick={() => navigate('/recruit')}>새 모집 글 작성</span>
+									<span>새 모집 글 작성</span>
 								</div>
 							</Button>
 						</div>

@@ -19,6 +19,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
 
+
 	const [number, setNumber] = useState<number>(0);
 
 	const deleteCommunity = async (communityId: number) => {
@@ -99,14 +100,20 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 							</div>
 						</div>
 						<div className='flex flex-row gap-3'>
-							<Button className='border bg-red-700 text-white border-red-300 hover:bg-red-800 '>
-								<div className='flex items-center gap-2' onClick={() => deleteCommunity(detail.communityId)}>
+							<Button
+								className='border bg-red-700 text-white border-red-300 hover:bg-red-800 '
+								onClick={() => deleteCommunity(detail.communityId)}
+							>
+								<div className='flex items-center gap-2'>
 									<span>모임 탈퇴</span>
 								</div>
 							</Button>
-							<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
+							<Button
+								className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+								onClick={() => handleRead4Commu(detail.categoryName, detail.communityId)}
+							>
 								<div className='flex items-center gap-2'>
-									<span onClick={() => handleRead4Commu(detail.categoryName, detail.communityId)}>글 읽으러 가기</span>
+									<span>글 읽으러 가기</span>
 								</div>
 							</Button>
 						</div>

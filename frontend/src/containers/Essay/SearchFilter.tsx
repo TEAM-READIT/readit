@@ -73,8 +73,11 @@ const SearchFilter = ({ setFilter, setIsMember }: SearchFilterProps) => {
 									</select>
 								</div>
 
-								<button className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
-									<div className='flex items-center gap-2' onClick={handleApplyFilter}>
+								<button
+									className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+									onClick={handleApplyFilter}
+								>
+									<div className='flex items-center gap-2'>
 										<span className='material-symbols-outlined text-[1.2rem]'>search</span>
 										<span>검색</span>
 									</div>
