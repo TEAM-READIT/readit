@@ -14,7 +14,7 @@ const Group = () => {
 	const location = useLocation();
 	const community = location.state?.community;
 	const [myGroup, setMyGroup] = useState<communityProps>();
-		const [noticebody, setnoticebody] = useState<string>('');
+	const [noticebody, setnoticebody] = useState<string>('');
 	// 내가 속한 모임 받아오기
 	const groupData = async () => {
 		const headers = {
@@ -40,7 +40,6 @@ const Group = () => {
 				console.log('내가 읽은 글 받아오는거 에러');
 			});
 	}, []);
-
 
 	useEffect(() => {}, [groupData]);
 	const [chatValue, setChatValue] = useState<string>('');
@@ -79,7 +78,6 @@ const Group = () => {
 		setChatValue('');
 	};
 
-
 	const handleKeyPress = (e: any) => {
 		// 입력 필드에서 엔터 키가 눌렸을 때
 		if (e.key === 'Enter') {
@@ -96,31 +94,30 @@ const Group = () => {
 			setChatValue('');
 		}
 	};
-	// 공지 등록된 글이 바뀌면 공지 등록 요청 
+	// 공지 등록된 글이 바뀌면 공지 등록 요청
 	useEffect(() => {
 		if (noticebody.length > 0) {
-			handlenoticePost()
-					}
-	}, [noticebody])
-	
-		const noticePost = useMutation(async () => {
-			await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
-				method: 'POST',
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-					'Content-Type': 'application/json',
-				},
-				body: noticebody,
-			});
+			handlenoticePost();
+		}
+	}, [noticebody]);
+
+	const noticePost = useMutation(async () => {
+		await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json',
+			},
+			body: noticebody,
 		});
-		const handlenoticePost = async () => {
-			try {
-				await noticePost.mutateAsync();
-			} catch (error) {
-				console.error('공지 등록 실패');
-			}
+	});
+	const handlenoticePost = async () => {
+		try {
+			await noticePost.mutateAsync();
+		} catch (error) {
+			console.error('공지 등록 실패');
+		}
 	};
-	
 
 	const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -138,7 +135,12 @@ const Group = () => {
 			<div className='flex flex-col w-3/5 h-full items-start'>
 				{myGroup ? (
 					<>
-						<GroupHeader myGroup={myGroup} setnoticebody={setnoticebody} handlenoticePost={handlenoticePost} />
+						<GroupHeader
+							myGroup={myGroup}
+							setnoticebody={setnoticebody}
+							handlenoticePost={handlenoticePost}
+							noticebody={noticebody}
+						/>
 						<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
 							<Articles myGroup={myGroup} />
 							<div className='w-2/5 flex flex-col gap-5 pt-3'>
