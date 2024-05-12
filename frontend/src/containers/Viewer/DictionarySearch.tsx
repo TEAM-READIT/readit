@@ -35,6 +35,10 @@ export const DictionarySearch = () => {
 	const handleWordSearch = () => {
 		WordData()
 			.then((res) => {
+				if (res.status === 500) {
+					alert('없는 단어 입니다')
+					return
+				}
 				setDictionaryData(res), setHistory((prevHistory) => [...prevHistory, res]);
 			})
 			.catch((_err) => {
