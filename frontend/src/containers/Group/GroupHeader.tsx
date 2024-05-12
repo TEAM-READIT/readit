@@ -76,7 +76,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 					<div className='flex flex-row justify-between items-center w-full'>
 						<div className='flex flex-row items-center gap-x-5'>
 							<div className='text-xl font-semibold leading-tight text-gray-700'>{myGroup.communityDetail.title}</div>
-							<div className='w-20 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
+							<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 								#{detail.categoryName}
 							</div>
 							<div>주 {detail.articleCount} 개의 글을 읽습니다. </div>

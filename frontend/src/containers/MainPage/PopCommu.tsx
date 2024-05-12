@@ -77,7 +77,7 @@ const PopCommu = () => {
 										onClick={() => handleCardClick(community)}
 									>
 										<div className='flex justify-end gap-2 h-1/5'>
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
+											<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 												#{community.categoryName}
 											</div>
 										</div>
@@ -102,7 +102,7 @@ const PopCommu = () => {
 										onClick={() => handleCardClick(community)}
 									>
 										<div className='flex justify-end gap-2 h-1/5'>
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs'>
+											<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 												#{community.categoryName}
 											</div>
 										</div>

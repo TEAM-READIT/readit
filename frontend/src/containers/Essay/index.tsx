@@ -288,7 +288,7 @@ const Essay = () => {
 										<div className='flex flex-row justify-between text-center text-sm'>
 											<div>👀 {article.hit}</div>
 											{article.categoryName ? (
-												<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
+												<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 													{article.categoryName}
 												</div>
 											) : null}
