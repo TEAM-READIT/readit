@@ -40,10 +40,7 @@ const Challenge = () => {
 	});
 	const { accessToken } = useAuthStore();
 
-	const [
-		number,
-		setNumber
-	] = useState<number>(0);
+	const [number, setNumber] = useState<number>(0);
 	const [rank, setRank] = useState<scoreRanking>();
 	// 챌린지 문제 받아오기
 	const RankData = async () => {
@@ -177,6 +174,7 @@ const Challenge = () => {
 		// });
 	}, [challengeScoreList]);
 
+
 	return (
 		<>
 			<div className='w-full h-screen flex flex-col items-center  overflow-hidden'>
@@ -185,7 +183,7 @@ const Challenge = () => {
 					<>
 						<div className='flex flex-col w-3/5 justify-start items-center '>
 							<ChallengeHeader />
-				
+
 							<div className='flex flex-col w-full h-full gap-20'>
 								<div className='flex flex-row w-full h-full text-start bg-yellow-200 border border-yellow-400 rounded-lg p-3'>
 									안녕하십니까? 본 테스트는 EBS 당신의 문해력+에서 준비한 성인 문해력 테스트로, 우리나라 성인들의
@@ -210,22 +208,26 @@ const Challenge = () => {
 										<Line data={challengegraphData}></Line>
 									</div>
 								</div>
-								<div className='flex flex-row justify-end'>
-									<button
-										className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
-										onClick={() => setNumber(1)}
-									>
-										<span>시작하기</span>
-									</button>
-								</div>
+								{problems && problems.status === 400 ? (
+									<div className='text-red-500 text-2xl pt-20'>오늘의 챌린지에 이미 참여하였습니다.</div>
+								) : (
+									<div className='flex flex-row justify-end'>
+										<button
+											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+											onClick={() => setNumber(1)}
+										>
+											<span>시작하기</span>
+										</button>
+									</div>
+								)}
 							</div>
 						</div>
 					</>
 				) : (
-						<>
-													<div className='flex flex-col w-3/5 justify-start items-center '>
-								<ChallengeHeader />
-								</div>
+					<>
+						<div className='flex flex-col w-3/5 justify-start items-center '>
+							<ChallengeHeader />
+						</div>
 						{problems?.content ? (
 							<div className='flex flex-row w-full h-full items-start justify-center gap-10 '>
 								<Content problems={problems} />

@@ -12,8 +12,8 @@ interface groupListProps {
 
 const SearchList = ({ communityList }: { communityList: groupListProps[] }) => {
 	const navigate = useNavigate();
-	const handleCardClick = (communityId: number) => {
-		navigate('/group', { state: { communityId } });
+	const handleCardClick = (community: groupListProps) => {
+		navigate('/group', { state: { community } });
 	};
 	return (
 		<>
@@ -22,7 +22,7 @@ const SearchList = ({ communityList }: { communityList: groupListProps[] }) => {
 					<Card
 						key={index}
 						className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
-						onClick={() => handleCardClick(community.communityId)}
+						onClick={() => handleCardClick(community)}
 					>
 						<div className='flex flex-row justify-between text-center text-sm'>
 							<div>👀 {community.hit}</div>
