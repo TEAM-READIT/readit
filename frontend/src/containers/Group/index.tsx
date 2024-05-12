@@ -43,7 +43,6 @@ const Group = () => {
 
 
 	useEffect(() => {}, [groupData]);
-
 	const [chatValue, setChatValue] = useState<string>('');
 
 	// 채팅 보내기
@@ -91,14 +90,19 @@ const Group = () => {
 			}
 			if (chatValue.startsWith('/공지')) {
 				setnoticebody(chatValue.substring(4));
-				handlenoticePost();
 			}
 			handleSendingChat();
 			// 입력 필드 초기화
 			setChatValue('');
 		}
 	};
-
+	// 공지 등록된 글이 바뀌면 공지 등록 요청 
+	useEffect(() => {
+		if (noticebody.length > 0) {
+			handlenoticePost()
+					}
+	}, [noticebody])
+	
 		const noticePost = useMutation(async () => {
 			await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
 				method: 'POST',
@@ -125,6 +129,8 @@ const Group = () => {
 			chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
 		}
 	}, [myGroup?.chatList]);
+
+	useEffect(() => {}, [handlenoticePost]);
 
 	return (
 		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
