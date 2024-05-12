@@ -11,6 +11,7 @@ import { useAuthStore } from '../../../store/auth';
 const ReadDetail = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
+
 	const observerRef = useRef(null);
 	const location = useLocation();
 	const communityId = location.state?.communityId;
@@ -211,8 +212,11 @@ const ReadDetail = () => {
 												</select>
 											</div>
 
-											<button className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
-												<div className='flex items-center gap-2' onClick={handleApplyFilter}>
+											<button
+												className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+												onClick={handleApplyFilter}
+											>
+												<div className='flex items-center gap-2'>
 													<span className='material-symbols-outlined text-[1.2rem]'>search</span>
 													<span>검색</span>
 												</div>
@@ -235,7 +239,7 @@ const ReadDetail = () => {
 										<div className='flex flex-row justify-between text-center text-sm'>
 											<div>👀 {article.hit}</div>
 											{article.categoryName ? (
-												<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
+												<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 													{article.categoryName}
 												</div>
 											) : null}
@@ -263,8 +267,7 @@ const ReadDetail = () => {
 						? '검색하려는 기사가 없습니다'
 						: isFetchingNextPage && hasNextPage
 							? '기사를 로딩 중입니다'
-							:
-							'더 이상 남은 기사가 없습니다'}
+							: '더 이상 남은 기사가 없습니다'}
 
 					<br />
 					<br />

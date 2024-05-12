@@ -26,7 +26,7 @@ const SearchList = ({ totalCommunity }: SearchListProps ) => {
 					>
 						<div className='flex flex-row justify-between text-center text-sm'>
 							<div>👀 {community.hits}</div>
-							<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
+							<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 								{community.categoryName}
 							</div>
 						</div>
@@ -47,7 +47,9 @@ const SearchList = ({ totalCommunity }: SearchListProps ) => {
 							</div>
 						</div>
 						<div className='flex flex-col gap-2'>
-							<div className='w-32 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>마감일 13일전</div>
+							<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
+								마감일 13일전
+							</div>
 							<div className='border border-gray-700 rounded-md text-sm'>2024. 02. 26. 13:00</div>
 						</div>
 					</Card>

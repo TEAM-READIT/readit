@@ -98,11 +98,11 @@ const PopCards = () => {
 									}}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
-										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
+										<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 											{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
 										</div>
 										{article.type === 'NEWS' ? (
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
+											<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 												#{article.categoryName}
 											</div>
 										) : null}
@@ -130,11 +130,11 @@ const PopCards = () => {
 									}}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
-										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
+										<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 											{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
 										</div>
 										{article.type === 'NEWS' ? (
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
+											<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 												#{article.categoryName}
 											</div>
 										) : null}
@@ -160,11 +160,11 @@ const PopCards = () => {
 									onClick={() => handleCardClick(article)}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
-										<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
+										<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 											{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
 										</div>
 										{article.type === 'NEWS' ? (
-											<div className='w-16 border border-tag-100 bg-tag-50 rounded-xl text-tag-100 text-xs flex items-center justify-center'>
+											<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 												#{article.categoryName}
 											</div>
 										) : null}

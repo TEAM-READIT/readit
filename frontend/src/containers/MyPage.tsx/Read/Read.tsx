@@ -73,11 +73,11 @@ const Read = () => {
 												{article.completedAt ? new Date(article.completedAt).toLocaleDateString() : '날짜 없음'}
 											</div>
 											<div className='flex justify-end gap-2 h-1/5'>
-												<div className='w-20 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
+												<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
 													{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
 												</div>
 												{article.type === 'NEWS' ? (
-													<div className='w-20 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
+													<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
 														#{article.categoryName}
 													</div>
 												) : null}
