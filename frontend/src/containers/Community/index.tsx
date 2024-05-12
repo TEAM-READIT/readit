@@ -32,9 +32,8 @@ const Community = () => {
 	};
 
 	useEffect(() => {
-		const data = totalCommunityData(page, filtered);
-		console.log('data', data);
-	});
+		totalCommunityData(page, filtered);
+	},[]);
 
 	// 조회수 ++
 	const hits = useMutation(async (id: number) => {
@@ -57,7 +56,6 @@ const Community = () => {
 	const fetchData = async (filtered: string) => {
 		try {
 			const data = await totalCommunityData(1, filtered);
-			console.log(data);
 			setTotalCommunity({ communityList: data.communityList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
 		} catch (error) {
@@ -69,6 +67,7 @@ const Community = () => {
 		fetchData;
 	}, []);
 
+	
 	// 무한 스크롤을 사용하여 데이터 가져오기
 	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
 		'community',
@@ -210,6 +209,15 @@ const Community = () => {
 		fetchData(filtered);
 	};
 
+
+		const handleKeyPress = (e: any) => {
+			if (e.key === 'Enter') {
+				handleApplyFilter();
+			}
+	};
+	
+
+
 	// 입력 값을 숫자로 바꿈
 	const handleParticipantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const intValue = parseInt(e.target.value, 10);
@@ -266,6 +274,7 @@ const Community = () => {
 													placeholder='검색어'
 													className='input'
 													onChange={(e) => setKeyword(e.target.value)}
+													onKeyDown={handleKeyPress}
 												/>
 												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
 													<option value=''>카테고리 선택</option>
@@ -284,6 +293,7 @@ const Community = () => {
 													placeholder='최대 참여자 수'
 													className='input'
 													onChange={handleParticipantChange}
+													onKeyDown={handleKeyPress}
 												/>
 											</div>
 

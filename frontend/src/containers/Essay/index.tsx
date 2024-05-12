@@ -195,9 +195,6 @@ const Essay = () => {
 		if (ishit) {
 			filtered += `hit=true&`;
 		}
-		// if (filter.isMember) {
-		// 	filtered += `isMember=true$`;
-		// }
 		if (category != '') {
 			filtered += `category=${category}&`;
 		}
@@ -206,7 +203,11 @@ const Essay = () => {
 		// 필터 넣어서 fetchData 요청
 		fetchData(filtered);
 	};
-
+	const handleKeyPress = (e: any) => {
+		if (e.key === 'Enter') {
+					handleApplyFilter();
+		}
+	};
 	return (
 		<>
 			<div className='w-full h-full flex justify-center flex-col items-center'>
@@ -241,20 +242,23 @@ const Essay = () => {
 													placeholder='검색어'
 													className='input'
 													onChange={(e) => setKeyword(e.target.value)}
+													onKeyDown={handleKeyPress}
 												/>
-												{categoryName ? null : <>
-												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
-													<option value=''>카테고리 선택</option>
-													<option value='비문학'>비문학</option>
-													<option value='정치'>정치</option>
-													<option value='경제'>경제</option>
-													<option value='사회'>사회</option>
-													<option value='생활/문화'>생활/문화</option>
-													<option value='IT/과학'>IT/과학</option>
-													<option value='세계'>세계</option>
-													<option value='오피니언'>오피니언</option>
-												</select>
-												</>}
+												{categoryName ? null : (
+													<>
+														<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
+															<option value=''>카테고리 선택</option>
+															<option value='비문학'>비문학</option>
+															<option value='정치'>정치</option>
+															<option value='경제'>경제</option>
+															<option value='사회'>사회</option>
+															<option value='생활/문화'>생활/문화</option>
+															<option value='IT/과학'>IT/과학</option>
+															<option value='세계'>세계</option>
+															<option value='오피니언'>오피니언</option>
+														</select>
+													</>
+												)}
 											</div>
 
 											<button className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>

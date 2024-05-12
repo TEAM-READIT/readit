@@ -100,7 +100,6 @@ export const ViewerPage = () => {
 			},
 			body: JSON.stringify(requestbody),
 		});
-		console.log(requestbody);
 		return response.json();
 	});
 
