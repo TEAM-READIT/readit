@@ -166,11 +166,11 @@ const RecruitText = () => {
 						onChange={(e) => setTitle(e.target.value)}
 					/>
 				</div>
-				<div className='flex flex-col w-full h-full  items-start  gap-y-2'>
+				<div className='flex flex-col w-full h-full  items-start  gap-y-3'>
 					<span className='font-bold'>내용</span>
 					<textarea
 						id='textarea'
-						className='w-full h-full resize-none'
+						className='w-full h-4/5 resize-none rounded-lg'
 						placeholder='내용을 입력하세요!'
 						onChange={(e) => setContent(e.target.value)}
 					></textarea>
