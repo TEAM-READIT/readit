@@ -18,6 +18,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
+
 	const [number, setNumber] = useState<number>(0);
 
 	const deleteCommunity = async (communityId: number) => {
@@ -55,7 +56,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 		}
 	}, [noticebody]);
 
-	useEffect(() => {}, [handlenoticePost]);
+
 	return (
 		<>
 			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>
@@ -97,14 +98,12 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 								</div>
 							</div>
 						</div>
-						<div className='flex gap-3'>
+						<div className='flex flex-row gap-3'>
 							<Button className='border bg-red-700 text-white border-red-300 hover:bg-red-800 '>
 								<div className='flex items-center gap-2' onClick={() => deleteCommunity(detail.communityId)}>
 									<span>모임 탈퇴</span>
 								</div>
 							</Button>
-						</div>
-						<div className='flex gap-3'>
 							<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
 								<div className='flex items-center gap-2'>
 									<span onClick={() => handleRead4Commu(detail.categoryName, detail.communityId)}>글 읽으러 가기</span>
@@ -136,8 +135,8 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 								name='keyword'
 								placeholder='공지 등록하기'
 								className=' bg-[#E1EDFF] border-none w-5/6 font-normal'
-								onChange={(e) => setnoticebody(e.target.value)}
 								onKeyDown={handleKeyPress}
+								onChange={(e) => setnoticebody(e.target.value)}
 							/>
 							<span
 								className='material-symbols-outlined hover:cursor-pointer text-3xl'

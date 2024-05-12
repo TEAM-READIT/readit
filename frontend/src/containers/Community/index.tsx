@@ -1,7 +1,7 @@
 import Headers from '../../components/Headers';
 // import SearchFilter from './SearchFilter';
 // import SearchList from './SearchList';
-import { Button, Card } from 'flowbite-react';
+import { Card } from 'flowbite-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery, useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,7 @@ import CommunityHeader from './CommunityHeader';
 const Community = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
+
 	const observerRef = useRef(null);
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
@@ -297,12 +298,12 @@ const Community = () => {
 												/>
 											</div>
 
-											<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
+											<button className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
 												<div className='flex items-center gap-2' onClick={handleApplyFilter}>
 													<span className='material-symbols-outlined text-[1.2rem]'>search</span>
 													<span>검색</span>
 												</div>
-											</Button>
+											</button>
 										</div>
 									</Card>
 								</div>

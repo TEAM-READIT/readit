@@ -10,6 +10,7 @@ import { useMutation } from 'react-query';
 
 const Group = () => {
 	const { accessToken } = useAuthStore();
+
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const location = useLocation();
 	const community = location.state?.community;
@@ -127,7 +128,13 @@ const Group = () => {
 		}
 	}, [myGroup?.chatList]);
 
-	useEffect(() => {}, [handlenoticePost]);
+	useEffect(() => {
+				groupData()
+					.then((res) => setMyGroup(res))
+					.catch((_err) => {
+						console.log('내가 읽은 글 받아오는거 에러');
+					});
+	}, [handlenoticePost]);
 
 	return (
 		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
