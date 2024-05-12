@@ -43,7 +43,6 @@ const ReadDetailModal = () => {
 	}, []);
 
 	const memos = memo?.memoList;
-	console.log(memos);
 	useEffect(() => {
 		if (memos) {
 			for (let i = 0; i < memos?.length!; i++) {
@@ -56,7 +55,6 @@ const ReadDetailModal = () => {
 				const spanMemo = document.createElement('span');
 				spanMemo.className = 'memo-span whitespace-pre-wrap';
 
-				console.log(memos[i]);
 				spanMemo.innerText = memos[i].content; // 메모 내용 설정
 
 				spanMemoWrapper.style.display = 'none';
@@ -110,7 +108,7 @@ const ReadDetailModal = () => {
 					<div className='flex flex-col gap-10  w-full'>
 						<div className='font-bold text-2xl'>{article.title}</div>
 						<div className='text-start flex flex-col gap-5'>
-							<Card className='px-5'>
+							<Card className='p-5'>
 								<div
 									className='line-loose tracking-wide text-lg'
 									id='text'

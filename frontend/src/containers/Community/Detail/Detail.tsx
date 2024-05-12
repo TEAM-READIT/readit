@@ -62,14 +62,14 @@ const Detail = () => {
 									<div className='text-2xl font-bold'>{community.title}</div>
 									{community.currentParticipants >= community.maxParticipants ? null : (
 										<>
-												{community.writerId === id ? null : (
-											<Button className='bg-green-500 '>
+											{community.writerId === id ? null : (
+												<Button className='bg-green-500 ' onClick={() => handleClickGroup(community)}>
 													<div className='flex items-center gap-2'>
 														<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-														<span onClick={() => handleClickGroup(community)}>모임 가입하기</span>
+														<span>모임 가입하기</span>
 													</div>
-											</Button>
-												)}
+												</Button>
+											)}
 										</>
 									)}
 								</div>

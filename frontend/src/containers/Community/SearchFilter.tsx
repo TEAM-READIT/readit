@@ -76,8 +76,11 @@ const SearchFilter = () =>
 										/>
 									</div>
 
-									<Button className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '>
-										<div className='flex items-center gap-2' onClick={handleApplyFilter}>
+									<Button
+										className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+										onClick={handleApplyFilter}
+									>
+										<div className='flex items-center gap-2'>
 											<span className='material-symbols-outlined text-[1.2rem]'>search</span>
 											<span>검색</span>
 										</div>
