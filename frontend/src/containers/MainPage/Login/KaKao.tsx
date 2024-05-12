@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/auth';
 import userStore from '../../../store/user';
 
 export const KakaoCallback = () => {
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 	const { login} = useAuthStore();
   const { setEmail, setId, setName, setProfileImageUrl } = userStore();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -34,7 +34,7 @@ export const KakaoCallback = () => {
 			setId(userdata.id)
       setName(userdata.name);
       setProfileImageUrl(userdata.profileImageUrl);
-			history.back();
+			navigate('/')
 		} catch (error) {
 			console.log('error');
 		}
