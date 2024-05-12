@@ -3,15 +3,25 @@ import Headers from '../../../components/Headers';
 import EssayDetailHeader from './EssayDetailHeader';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { articleList } from '../../../types/articleProps';
+import { useAuthStore } from '../../../store/auth';
+import useModal from '../../../hooks/useModal';
+import Login from '../../MainPage/Login/Login';
 
 const TextDetail = () => {
+	const { accessToken } = useAuthStore();
+
 	const navigate = useNavigate();
 	const location = useLocation();
 	const article = location.state?.article;
 	const communityId = location.state?.communityId;
 
-	const handleArticle = (article: articleList, communityId:number|null) => {
-		navigate('/viewer', { state: { article, communityId } });
+	const [isOpen, open, close] = useModal();
+	const handleArticle = (article: articleList, communityId: number | null) => {
+		if (accessToken) {
+			navigate('/viewer', { state: { article, communityId } });
+		} else {
+			open();
+		}
 	};
 
 	const linechange = (text: string) => {
@@ -62,6 +72,7 @@ const TextDetail = () => {
 					</Card>
 				</div>
 			</div>
+			{isOpen ? <Login close={close} /> : null}
 		</>
 	);
 };

@@ -164,6 +164,12 @@ const ReadDetail = () => {
 		return newText
 	}
 
+		const handleKeyPress = (e: any) => {
+		if (e.key === 'Enter') {
+					handleApplyFilter();
+		}
+	};
+
 	return (
 		<>
 			<div className='w-full h-full flex justify-center flex-col items-center'>
@@ -198,6 +204,7 @@ const ReadDetail = () => {
 													placeholder='검색어'
 													className='input'
 													onChange={(e) => setKeyword(e.target.value)}
+													onKeyDown={handleKeyPress}
 												/>
 												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
 													<option value=''>카테고리 선택</option>
