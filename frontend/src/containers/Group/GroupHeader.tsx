@@ -2,13 +2,14 @@ import { Breadcrumb, BreadcrumbItem, Button } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { communityProps } from '../../types/gropProps';
 import { useAuthStore } from '../../store/auth';
-import { useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useState } from 'react';
 
 interface GroupHeader {
 	myGroup: communityProps;
+	setnoticebody: React.Dispatch<React.SetStateAction<string>>;
+	handlenoticePost: () => Promise<void>
 }
-const GroupHeader = ({ myGroup }: GroupHeader) => {
+const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost }: GroupHeader) => {
 	const navigate = useNavigate();
 	const handleRead4Commu = (categoryName: string, communityId: number) => {
 		navigate('/essay', { state: { categoryName, communityId } });
@@ -17,25 +18,8 @@ const GroupHeader = ({ myGroup }: GroupHeader) => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
 	const [number, setNumber] = useState<number>(0);
-	const [noticebody, setnoticebody] = useState<string>('');
 
-	const noticePost = useMutation(async () => {
-		await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
-				'Content-Type': 'application/json',
-			},
-			body: noticebody,
-		});
-	});
-	const handlenoticePost = async () => {
-		try {
-			await noticePost.mutateAsync();
-		} catch (error) {
-			console.error('공지 등록 실패');
-		}
-	};
+
 	const deleteCommunity = async (communityId: number) => {
 		try {
 			const response = await fetch(`${baseUrl}/community/${communityId}`, {
@@ -59,7 +43,6 @@ const GroupHeader = ({ myGroup }: GroupHeader) => {
 
 	const detail = myGroup.communityDetail;
 
-	useEffect(() => {}, [handlenoticePost]);
 
 	const handleKeyPress = (e: any) => {
 		if (e.key === 'Enter') {
