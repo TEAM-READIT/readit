@@ -1,4 +1,5 @@
-import { Button, Datepicker } from 'flowbite-react';
+import { Button } from 'flowbite-react';
+import { Datepicker } from 'flowbite-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/auth';
@@ -25,8 +26,7 @@ const RecruitText = () => {
 	const formattedEndAt = endAt ? endAt.toISOString().slice(0, 10) : null;
 
 	const handleSubmit = async () => {
-
-		if(!isFormValid()) {
+		if (!isFormValid()) {
 			alert('모든 필드를 채워주세요.');
 			return;
 		}
@@ -71,34 +71,38 @@ const RecruitText = () => {
 
 	const Modal = () => {
 		if (!showModal) return null;
-	
+
 		return (
-			<div className="fixed inset-0 z-50 overflow-y-auto">
-				<div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-					<div className="fixed inset-0 transition-opacity" aria-hidden="true">
-						<div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+			<div className='fixed inset-0 z-50 overflow-y-auto'>
+				<div className='flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0'>
+					<div className='fixed inset-0 transition-opacity' aria-hidden='true'>
+						<div className='absolute inset-0 bg-gray-500 opacity-75'></div>
 					</div>
-	
+
 					{/* This element is to trick the browser into centering the modal contents. */}
-					<span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-	
-					<div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-						<div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-							<div className="sm:flex sm:items-start">
-								<div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-									<h3 className="text-lg font-medium leading-6 text-gray-900" id="modal-headline">
+					<span className='hidden sm:inline-block sm:align-middle sm:h-screen' aria-hidden='true'>
+						&#8203;
+					</span>
+
+					<div className='inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
+						<div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
+							<div className='sm:flex sm:items-start'>
+								<div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
+									<h3 className='text-lg font-medium leading-6 text-gray-900' id='modal-headline'>
 										모집 글 작성 성공!
 									</h3>
-									<div className="mt-2">
-										<p className="text-sm text-gray-500">
-											모집 글이 생성되었습니다.
-										</p>
+									<div className='mt-2'>
+										<p className='text-sm text-gray-500'>모집 글이 생성되었습니다.</p>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse">
-							<button type="button" className="w-full px-4 py-2 text-base font-medium text-white bg-blue-600 rounded-md border border-transparent shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" onClick={closeModal}>
+						<div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse'>
+							<button
+								type='button'
+								className='w-full px-4 py-2 text-base font-medium text-white bg-blue-600 rounded-md border border-transparent shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm'
+								onClick={closeModal}
+							>
 								닫기
 							</button>
 						</div>
@@ -106,7 +110,7 @@ const RecruitText = () => {
 				</div>
 			</div>
 		);
-	};	
+	};
 
 	return (
 		<>

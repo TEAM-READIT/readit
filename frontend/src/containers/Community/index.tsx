@@ -34,7 +34,7 @@ const Community = () => {
 
 	useEffect(() => {
 		totalCommunityData(page, filtered);
-	},[]);
+	}, []);
 
 	// 조회수 ++
 	const hits = useMutation(async (id: number) => {
@@ -68,7 +68,6 @@ const Community = () => {
 		fetchData;
 	}, []);
 
-	
 	// 무한 스크롤을 사용하여 데이터 가져오기
 	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
 		'community',
@@ -210,14 +209,11 @@ const Community = () => {
 		fetchData(filtered);
 	};
 
-
-		const handleKeyPress = (e: any) => {
-			if (e.key === 'Enter') {
-				handleApplyFilter();
-			}
+	const handleKeyPress = (e: any) => {
+		if (e.key === 'Enter') {
+			handleApplyFilter();
+		}
 	};
-	
-
 
 	// 입력 값을 숫자로 바꿈
 	const handleParticipantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -247,6 +243,21 @@ const Community = () => {
 		const day = d.getDate().toString().padStart(2, '0');
 		return `${year}. ${month}. ${day}`;
 	}
+
+	const categoryStyles: { [key: string]: string } = {
+		비문학: 'bg-blue-500 text-white',
+		정치: 'bg-red-500 text-white',
+		경제: 'bg-green-500 text-white',
+		사회: 'bg-yellow-500 text-black',
+		'생활/문화': 'bg-purple-500 text-white',
+		'IT/과학': 'bg-indigo-500 text-white',
+		세계: 'bg-pink-500 text-white',
+		오피니언: 'bg-gray-500 text-white',
+	};
+
+	function getCategoryStyle(categoryName: string) {
+		return categoryStyles[categoryName] || 'bg-gray-200 text-gray-800';
+	};
 
 	return (
 		<>
@@ -327,7 +338,7 @@ const Community = () => {
 										>
 											<div className='flex flex-row justify-between text-center text-sm'>
 												<div>👀 {community.hits}</div>
-												<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
+												<div className={`w-16 border rounded-md text-tag-100 text-sm ${getCategoryStyle(community.categoryName)}`}>
 													{community.categoryName}
 												</div>
 											</div>
