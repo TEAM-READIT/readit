@@ -101,7 +101,6 @@ const Challenge = () => {
 		challengScoreDatas()
 			.then((res) => {
 				setChallengeScoresList(res);
-				console.log(res);
 			})
 			.catch((_err) => {
 				console.log('챌린지 요약 점수 받아오는거 에러');
@@ -170,7 +169,6 @@ const Challenge = () => {
 			],
 		});
 	}, [challengeScoreList, challengeScoresList]);
-
 	const navigate = useNavigate();
 	return (
 		<>
@@ -183,11 +181,9 @@ const Challenge = () => {
 
 							<div className='flex flex-col w-full h-full'>
 								<div className='flex flex-row w-full text-start bg-blue-100 border border-blue-400 rounded-lg p-5'>
-									안녕하십니까? 본 테스트는 EBS 당신의 문해력+에서 준비한 성인 문해력 테스트로, 우리나라 성인들의
-									문해력을 대략적으로 조사하기 위한 것입니다. 검사지는 일상생활에서 접하는 글과 자료를 파악하고 활용하는
-									능력을 묻는 본 문항 15개와 기타 추가 문항으로 구성되어 있습니다. 응답 내용은 오직 방송 제작 및 연구를
-									위해서만 사용되며, 수집된 일체의 개인정보는 철저하게 보호됩니다. 문항의 외부 유출과 해당 내용을 허가
-									없이 상업적 목적으로 무단 전재 또는 사용하는 것을 금지하오니 협조 부탁드립니다. 모든 문항에 성실하게
+									안녕하십니까? 본 테스트는 READIT 당신의 문해력+에서 준비한 성인 문해력 테스트로, 우리나라 성인들의
+									문해력을 대략적으로 조사하기 위한 것입니다. 검사지는 비문학에서 접하는 글을 파악하고 활용하는
+									능력을 묻는 간단한 2개의 문항으로 구성되어 있습니다. 챌린지는 하루에 한번만 응시 가능합니다. 모든 문항에 성실하게
 									답해주시기 바랍니다. 감사합니다.
 								</div>
 								<div className='flex flex-row w-full items-start justify-between h-3/5'>
@@ -200,6 +196,14 @@ const Challenge = () => {
 												<div>{member.name}</div>
 											</div>
 										))}
+										<div>
+											{challengeScoreList ? (
+												<>
+													내 점수 : {challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}
+													내 등수 : {rank?.myRank}
+												</>
+											) : null}
+										</div>
 									</div>
 									<div className='w-3/5 h-full items-center flex flex-row justify-center'>
 										<Line data={challengegraphData}></Line>
