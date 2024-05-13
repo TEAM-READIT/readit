@@ -9,10 +9,7 @@ import readit.auth.dto.AuthCredentials;
 import readit.auth.presentation.Auth;
 import readit.challenge.application.ChallengeService;
 import readit.challenge.domain.dto.request.SubmitAnswerRequest;
-import readit.challenge.domain.dto.response.GetChallengeRankResponse;
-import readit.challenge.domain.dto.response.GetChallengeStatisticsResponse;
-import readit.challenge.domain.dto.response.GetProblemsResponse;
-import readit.challenge.domain.dto.response.SubmitAnswerResponse;
+import readit.challenge.domain.dto.response.*;
 
 @RestController
 @AllArgsConstructor
@@ -50,5 +47,13 @@ public class ChallengeController {
     ) {
         GetChallengeStatisticsResponse getChallengeStatisticsResponse = challengeService.getChallengeStatistics(authCredentials.id());
         return ResponseEntity.ok(getChallengeStatisticsResponse);
+    }
+
+    @GetMapping("/stats/total")
+    public ResponseEntity<GetTotalChallengeStatisticsResponse> getTotalChallengeStatistics(
+            @Parameter(hidden = true) @Auth AuthCredentials authCredentials
+    ) {
+        GetTotalChallengeStatisticsResponse getTotalChallengeStatisticsResponse = challengeService.getTotalChallengeStatistics(authCredentials.id());
+        return ResponseEntity.ok(getTotalChallengeStatisticsResponse);
     }
 }
