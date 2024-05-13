@@ -5,6 +5,7 @@ import readit.community.domain.entity.Chat;
 import java.time.LocalDateTime;
 
 public record SimpChat(
+        Integer memberId,
         String memberName,
         String memberProfile,
         String content,
@@ -13,6 +14,7 @@ public record SimpChat(
     public static SimpChat from(Chat chat) {
 
         return new SimpChat(
+                chat.getParticipant().getMember().getId(),
                 chat.getParticipant().getMember().getName(),
                 chat.getParticipant().getMember().getProfile(),
                 chat.getContent(),
