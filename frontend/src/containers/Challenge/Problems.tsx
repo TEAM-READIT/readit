@@ -73,6 +73,10 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 		else return selectedOptions[problemIndex] === optionIndex;
 	};
 
+	const exitButton = () => {
+		navigate('/');
+	}
+
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
@@ -161,7 +165,13 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 							</div>
 
 							<div className='flex justify-end'>
-								{accurateAns ? null : (
+								{accurateAns ? <Button
+										className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
+										onClick={exitButton}
+									>
+										홈으로 이동
+
+									</Button> : (
 									<Button
 										className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
 										onClick={handleAnswer}
