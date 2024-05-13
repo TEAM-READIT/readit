@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import readit.common.asepect.ApiQueryCounter;
+import readit.common.asepect.querycount.ApiQueryCounter;
 
 @Slf4j
 @Component
