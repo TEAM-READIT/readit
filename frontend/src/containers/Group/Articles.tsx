@@ -23,7 +23,7 @@ return (
 								>
 									<div className='w-full flex flex-row gap-10'>
 										<div className='flex flex-col'>
-											<img src={article.member.memberProfile} alt='사용자프로필' className='w-12 aspect-auto rounded-full' />
+											<img src={article.member.memberProfile} alt='사용자프로필' className='w-12 h-12 aspect-auto rounded-full' />
 											<div className=''>{article.member.memberName}</div>
 										</div>
 										<div className='flex flex-col gap-4'>
