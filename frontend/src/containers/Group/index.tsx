@@ -136,7 +136,6 @@ const Group = () => {
 						console.log('내가 읽은 글 받아오는거 에러');
 					});
 	}, [handlenoticePost]);
-
 	return (
 		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
 			<Headers />
@@ -156,7 +155,7 @@ const Group = () => {
 									<div className='flex flex-col gap-5'>
 										{myGroup.chatList.map((chat, index) => (
 											<div key={index}>
-												{chat.memberId != myGroup.myId ? (
+												{chat.memberId !== myGroup.myId ? (
 													<div className='flex flex-row gap-x-2'>
 														<img
 															src={chat.memberProfile}
