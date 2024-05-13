@@ -17,10 +17,10 @@ interface FeedBackProps {
 	feedback: string;
 }
 
-// interface wordListProps {
-// 	word: string;
-// 	definition: string;
-// }
+interface wordListProps {
+	word: string;
+	definition: string;
+}
 
 interface RequestBody {
 	content: string;
@@ -40,10 +40,8 @@ export const ViewerPage = () => {
 	const linkdata = location.state?.linkdata;
 	const [id, setId] = useState<number>();
 	const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
-	// console.log(communityId);
 	const navigate = useNavigate();
-	// const [wordList, setWordList] = useState<wordListProps[]>();
-	// console.log(wordList);
+	const [wordList, setWordList] = useState<wordListProps[]>();
 	const [isOpen, open, close] = useModal();
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
@@ -58,21 +56,27 @@ export const ViewerPage = () => {
 
 	const total = document.querySelector('#text')?.outerHTML;
 	// 어려운 단어 불러오기
-	// const fetchWord = async () => {
-	// 	const headers = {
-	// 		Authorization: `Bearer ${accessToken}`,
-	// 	};
-	// 	const response = await fetch(`${baseUrl}/viewer/${id}`, {
-	// 		headers: headers,
-	// 	});
-	// 	const data = await response.json();
-	// 	return data;
-	// };
+	const fetchWord = async () => {
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/viewer/${id}`, {
+			headers: headers,
+		});
+		const data = await response.json();
+		setWordList(data)
+		return data;
+	};
 
 	useEffect(() => {}, [
 		change,
 		// setId
 	]);
+	useEffect(() => {
+		if (id) {
+			fetchWord();
+		}
+	}, [id]);
 	useEffect(() => {
 		// fetchUnreadData();
 		if (article?.id) {
@@ -151,10 +155,10 @@ export const ViewerPage = () => {
 							<div className='w-full h-full relative'>
 								{linkdata ? (
 									<>
-										<MainText setMemos={setMemos} article={linkdata} setChange={setChange} />
+										<MainText setMemos={setMemos} article={linkdata} setChange={setChange} wordList={wordList} />
 									</>
 								) : (
-									<MainText setMemos={setMemos} article={article} setChange={setChange} />
+									<MainText setMemos={setMemos} article={article} setChange={setChange} wordList={wordList} />
 								)}
 							</div>
 						</div>

@@ -48,7 +48,6 @@ const Chart = () => {
 		const response = await fetch(`${baseUrl}/article/stats`, {
 			headers: headers,
 		});
-
 		const data = await response.json();
 		return data;
 	};
@@ -61,7 +60,6 @@ const Chart = () => {
 		const response = await fetch(`${baseUrl}/challenge/stats`, {
 			headers: headers,
 		});
-
 		const data = await response.json();
 		return data;
 	};
@@ -157,7 +155,7 @@ const Chart = () => {
 				},
 			],
 		});
-	}, [scoreList]);
+	}, [scoreList,challengeScoreList]);
 
 	return (
 		<>
