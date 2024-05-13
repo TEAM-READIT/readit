@@ -92,7 +92,11 @@ public class ViewerService {
                 },
                 () -> {
                     Article article = articleRepository.getById(articleId);
-                    memberArticleRepository.save(MemberArticle.create(article, memberId, request));
+                    MemberArticle memberArticle = memberArticleRepository.save(MemberArticle.create(article, memberId, request));
+                    request.memoList().stream()
+                            .map(m -> GetMemoRequest.toEntity(m, memberArticle))
+                            .forEach(memoRepository::save);
+                    memberArticleRepository.save(memberArticle);
                 }
         );
 
