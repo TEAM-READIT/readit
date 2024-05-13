@@ -27,6 +27,13 @@ interface ChallengeScore {
 	score: number;
 }
 
+interface ChallengeScores {
+	totalScoreList: ChallengeScore[];
+	isSubmitToday: boolean;
+}
+
+
+
 interface ChallengeScoreList {
 	scoreList: ChallengeScore[];
 }
@@ -39,9 +46,11 @@ const Challenge = () => {
 		datasets: [],
 	});
 	const { accessToken } = useAuthStore();
-
 	const [number, setNumber] = useState<number>(0);
 	const [rank, setRank] = useState<scoreRanking>();
+	const [challengeScoreList, setChallengeScoreList] = useState<ChallengeScoreList>();
+	const [challengeScoresList, setChallengeScoresList] = useState<ChallengeScores>();
+
 	// 챌린지 문제 받아오기
 	const RankData = async () => {
 		const headers = {
@@ -70,31 +79,29 @@ const Challenge = () => {
 		return data;
 	};
 
-
-	// const challengScoreDatas = async () => {
-	// 	const headers = {
-	// 		Authorization: `Bearer ${accessToken}`,
-	// 	};
-	// 	const response = await fetch(`${baseUrl}/challenge/stats/total`, {
-	// 		headers: headers,
-	// 	});
-
-	// 	const data = await response.json();
-	// 	console.log(data)
-	// 	return data;
-	// };
-
-	// useEffect(()=>{
-	// 	challengScoreDatas()
-	// })
-
-
-
-	const [challengeScoreList, setChallengeScoreList] = useState<ChallengeScoreList>();
+	// 전체 사용자 챌린지 점수 통계 받아오기
+	const challengScoreDatas = async () => {
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/challenge/stats/total`, {
+			headers: headers,
+		});
+		const data = await response.json();
+		return data;
+	};
 
 	useEffect(() => {
 		challengScoreData()
 			.then((res) => setChallengeScoreList(res))
+			.catch((_err) => {
+				console.log('챌린지 요약 점수 받아오는거 에러');
+			});
+		challengScoreDatas()
+			.then((res) => {
+				setChallengeScoresList(res);
+				console.log(res);
+			})
 			.catch((_err) => {
 				console.log('챌린지 요약 점수 받아오는거 에러');
 			});
@@ -124,76 +131,44 @@ const Challenge = () => {
 	}, []);
 
 	useEffect(() => {
-		const liter: number[] = [];
-		const news: number[] = [];
 		const challengescore: number[] = [];
 		const challengeXlist: string[] = [];
-
-		// const scores = scoreList?.scoreList;
-		// scores?.forEach((score: scoreList) => {
-		// 	// score 변수 사용
-		// 	if (score.type === 'NEWS') {
-		// 		// 각 score 객체의 type 속성 확인
-		// 		news.push(score.score);
-		// 	} else {
-		// 		liter.push(score.score);
-		// 	}
-		// });
-		// console.log(challengeScoreList?.scoreList);
+		const challengescores: number[] = [];
 		const cs = challengeScoreList?.scoreList;
+		const css = challengeScoresList?.totalScoreList;
 
 		cs?.forEach((score: ChallengeScore) => {
 			challengescore.push(score.score);
+		});
+		css?.forEach((score: ChallengeScore) => {
+			challengescores.push(score.score);
 			challengeXlist.push(score.date.toString());
 		});
 
-		const arraylength = () => {
-			if (liter.length > news.length) {
-				return liter.length;
-			} else {
-				return news.length;
-			}
-		};
-		// const faceColor = 'rgba(255, 165, 0, 1)';
+		const faceColor = 'rgba(255, 165, 0, 1)';
 		// const pronunciationColor = 'rgba(154, 205, 50, 1)';
 		const challengeColor = 'rgba(55,117,255,1)';
-		const xlist = new Array(arraylength()).fill('');
-		xlist[0] = '이전';
-		xlist[xlist.length - 1] = '현재';
 
 		setChallengeGraphData({
 			labels: challengeXlist,
 			datasets: [
 				{
-					label: '점수',
+					label: '내 점수',
 					data: challengescore,
 					borderColor: challengeColor,
 					backgroundColor: challengeColor,
 					fill: false,
 				},
+				{
+					label: '전체 사용자 평균 점수',
+					data: challengescores,
+					borderColor: faceColor,
+					backgroundColor: faceColor,
+					fill: false,
+				},
 			],
 		});
-		// setGraphData({
-		// 	labels: xlist,
-		// 	datasets: [
-		// 		{
-		// 			label: '뉴스',
-		// 			data: liter,
-		// 			borderColor: faceColor,
-		// 			backgroundColor: faceColor,
-		// 			fill: false,
-		// 		},
-		// 		{
-		// 			label: '비문학',
-		// 			data: news,
-		// 			borderColor: pronunciationColor,
-		// 			backgroundColor: pronunciationColor,
-		// 			fill: false,
-		// 		},
-		// 	],
-		// });
-	}, [challengeScoreList]);
-
+	}, [challengeScoreList, challengeScoresList]);
 
 	return (
 		<>
@@ -201,11 +176,11 @@ const Challenge = () => {
 				<Headers />
 				{number === 0 ? (
 					<>
-						<div className='flex flex-col w-3/5 justify-start items-center '>
+						<div className='flex flex-col w-3/5 justify-start items-center h-full'>
 							<ChallengeHeader />
 
-							<div className='flex flex-col w-full h-full gap-20'>
-								<div className='flex flex-row w-full h-full text-start bg-yellow-200 border border-yellow-400 rounded-lg p-3'>
+							<div className='flex flex-col w-full h-full'>
+								<div className='flex flex-row w-full text-start bg-blue-100 border border-blue-400 rounded-lg p-5'>
 									안녕하십니까? 본 테스트는 EBS 당신의 문해력+에서 준비한 성인 문해력 테스트로, 우리나라 성인들의
 									문해력을 대략적으로 조사하기 위한 것입니다. 검사지는 일상생활에서 접하는 글과 자료를 파악하고 활용하는
 									능력을 묻는 본 문항 15개와 기타 추가 문항으로 구성되어 있습니다. 응답 내용은 오직 방송 제작 및 연구를
@@ -213,10 +188,10 @@ const Challenge = () => {
 									없이 상업적 목적으로 무단 전재 또는 사용하는 것을 금지하오니 협조 부탁드립니다. 모든 문항에 성실하게
 									답해주시기 바랍니다. 감사합니다.
 								</div>
-								<div className='flex flex-row w-full h-full items-start justify-between gap-20'>
-									<div className='flex flex-col gap-5 w-1/5'>
+								<div className='flex flex-row w-full items-start justify-between h-3/5'>
+									<div className='flex flex-col gap-5 w-1/5 h-full justify-center'>
 										<span className='font-bold'>랭킹</span>
-										{rank?.memberList.slice(0,5).map((member, index) => (
+										{rank?.memberList.slice(0, 5).map((member, index) => (
 											<div key={index} className='flex flex-row gap-5 items-center'>
 												<img src={member.profile} alt='프로필 사진' className='w-12 rounded-full' />
 												<div className=''>{index + 1}등</div>
@@ -231,7 +206,7 @@ const Challenge = () => {
 								{problems && problems.status === 400 ? (
 									<div className='text-red-500 text-2xl pt-20'>오늘의 챌린지에 이미 참여하였습니다.</div>
 								) : (
-									<div className='flex flex-row justify-end'>
+									<div className='flex flex-row justify-end pt-20'>
 										<button
 											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
 											onClick={() => setNumber(1)}

@@ -127,7 +127,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 						<>
 							<div className='bg-[#E1EDFF] border-none w-5/6 p-2'>{myGroup.notice}</div>
 							<span
-								className='material-symbols-outlined hover:cursor-pointer text-3xl'
+								className='material-symbols-outlined hover:cursor-pointer text-3xl pl-10 '
 								onClick={() => {
 									setNumber((prev) => prev + 1);
 								}}
@@ -146,7 +146,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 								onChange={(e) => setnoticebody(e.target.value)}
 							/>
 							<span
-								className='material-symbols-outlined hover:cursor-pointer text-3xl'
+								className='material-symbols-outlined hover:cursor-pointer text-3xl  pl-10'
 								onClick={() => {
 									setNumber((prev) => prev - 1);
 									handlenoticePost();

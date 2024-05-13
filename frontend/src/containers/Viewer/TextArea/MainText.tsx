@@ -5,14 +5,22 @@ import {
 import { articleList } from '../../../types/articleProps';
 import useModal from '../../../hooks/useModal';
 
+
+interface wordListProps {
+	word: string;
+	definition: string;
+}
+
 export const MainText = ({
 	article,
 	setMemos,
 	setChange,
+	wordList,
 }: {
 	article: articleList;
 	setMemos: React.Dispatch<React.SetStateAction<string[]>>;
 	setChange: React.Dispatch<React.SetStateAction<number>>;
+	wordList: wordListProps[] | undefined;
 }) => {
 	const [isOpen, open, close] = useModal();
 	const [position, setPosition] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
@@ -21,18 +29,8 @@ export const MainText = ({
 	const [openMenu, setOpenMenu] = useState<boolean>(false);
 	const [memo, setMemo] = useState('');
 	const [number, setNumber] = useState(0);
-	// useEffect(() => {
-	// 	highlightedRanges.forEach((range) => {
-	// 		const selection = window.getSelection();
-	// 		if (selection!.rangeCount > 0) {
-	// 			const range = selection!.getRangeAt(0);
-	// 			const span = document.createElement('span');
-	// 			span.style.backgroundColor = `${color}`;
-	// 			range.surroundContents(span);
-	// 			selection!.removeAllRanges();
-	// 		}
-	// 	});
-	// }, [highlightedRanges]);
+
+	console.log(wordList)
 	const handleBold = () => {
 		if (selectedRange) {
 			const span = document.createElement('span');
@@ -40,7 +38,7 @@ export const MainText = ({
 			span.style.fontWeight = 'bold';
 			selectedRange.surroundContents(span);
 			setOpenMenu(false);
-			setChange((prev)=>prev+1)
+			setChange((prev) => prev + 1);
 		}
 	};
 
@@ -50,8 +48,7 @@ export const MainText = ({
 			span.style.backgroundColor = color;
 			selectedRange.surroundContents(span);
 			setOpenMenu(false);
-						setChange((prev) => prev + 1);
-
+			setChange((prev) => prev + 1);
 		}
 	};
 	const handleMouseUp = () => {
@@ -137,8 +134,7 @@ export const MainText = ({
 			document.body.appendChild(spanMemoWrapper);
 		}
 		setNumber((prev) => prev + 1);
-					setChange((prev) => prev + 1);
-
+		setChange((prev) => prev + 1);
 	};
 
 	//텍스트 줄바꿈
@@ -147,6 +143,22 @@ export const MainText = ({
 	};
 
 	const realarticle = linechange(article?.content);
+
+	
+// useEffect(() => {
+// 	if (wordList && realarticle) {
+// 		wordList.forEach((word: string, index: number) => {
+// 			// specifying types for word and index
+// 			const articleKeys = Object.keys(realarticle);
+// 			const firstWord = articleKeys.find((articleWord: string) => articleWord === word); // specifying type for articleWord
+// 			if (firstWord) {
+// 				const firstWordIndex = wordList.indexOf(firstWord);
+// 				console.log(`The index of the first word "${firstWord}" in wordList is ${firstWordIndex}`);
+// 			}
+// 		});
+// 	}
+// }, [wordList, realarticle]);
+
 	return (
 		<>
 			<div className=' w-full h-full border-solid border-t-2 border-b-2 bg-white overflow-y-auto whitespace-pre-wrap px-3'>
@@ -221,10 +233,13 @@ export const MainText = ({
 				{article ? (
 					<>
 						<div className='text-2xl font-bold m-[3%]'>{article.title}</div>
-						<div id='text' className='text-lg text-start mx-[2%] mb-[3%]
+						<div
+							id='text'
+							className='text-lg text-start mx-[2%] mb-[3%]
 						 line-loose tracking-wide
-						 ' 
-						 onMouseUp={handleMouseUp}>
+						 '
+							onMouseUp={handleMouseUp}
+						>
 							<>{realarticle}</>
 						</div>
 					</>
