@@ -5,7 +5,7 @@ import DownArrow from '../../assets/images/down-arrow.png';
 import { DictionarySearch } from './DictionarySearch';
 import { TextBox } from './Summary/TextBox';
 import { Memos } from './Memo/Memos';
-import { Button, Card } from 'flowbite-react';
+import { Button, Card, Modal } from 'flowbite-react';
 import { MainText } from './TextArea/MainText';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
@@ -50,7 +50,7 @@ export const ViewerPage = () => {
 	const toggleBottom = () => {
 		setBottomOpen(!isBottomOpen);
 	};
-
+	const [modalOpen, setModalOpen] = useState(false);
 	const [change, setChange] = useState<number>(0);
 
 	const total = document.querySelector('#text')?.outerHTML;
@@ -63,7 +63,7 @@ export const ViewerPage = () => {
 			headers: headers,
 		});
 		const data = await response.json();
-		setWordList(data)
+		setWordList(data);
 		return data;
 	};
 
@@ -130,6 +130,7 @@ export const ViewerPage = () => {
 	const handleTempSubmit = async () => {
 		try {
 			await tempSubmit.mutateAsync();
+			setModalOpen(true);
 		} catch (error) {
 			console.error('임시저장 실패', error);
 		}
@@ -143,6 +144,31 @@ export const ViewerPage = () => {
 
 	return (
 		<>
+			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
+				<Modal.Body>
+					<div className='text-center flex flex-col p-3 gap-3'>
+						<h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>임시 저장 되었습니다</h3>
+						<div className='flex justify-center gap-4'>
+							<Button
+								className='border bg-gray-400 text-white border-gray-300 hover:bg-gray-500 '
+								onClick={() => {
+									setModalOpen(false);
+									navigate('/');
+								}}
+							>
+								홈으로
+							</Button>
+							<Button
+								className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
+								onClick={() => setModalOpen(false)}
+							>
+								계속 읽기
+							</Button>
+						</div>
+					</div>
+				</Modal.Body>
+			</Modal>
+
 			<div className=' z-50 w-full h-screen flex flex-col items-center  overflow-hidden'>
 				<Headers />
 				<div className='relative flex w-full'>
