@@ -157,7 +157,7 @@ const RecruitText = () => {
 				</div>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
 					<div className='flex justify-start'>마감일</div>
-					<Datepicker onSelectedDateChanged={handleDateChange} />
+					<Datepicker language='kor' onSelectedDateChanged={handleDateChange}/>
 				</div>
 			</div>
 			<div className='flex flex-col items-start h-full  w-full gap-y-5 px-5'>

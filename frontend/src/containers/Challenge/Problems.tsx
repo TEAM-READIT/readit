@@ -1,14 +1,21 @@
-import { Button, Card } from 'flowbite-react';
+import { Button, Card, Modal } from 'flowbite-react';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import { problemListProps, answerList, answeranswer } from '../../types/challengeProps';
+import { HiOutlineExclamationCircle, HiLightBulb } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
+
 const Problems = ({ articleId, problemList }: { problemList: problemListProps[]; articleId: number }) => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
 	const [answer, setAnswer] = useState<answeranswer>();
 	const [myAnswer, setMyAnswer] = useState<answerList[]>([]);
 	const [selectedOptions, setSelectedOptions] = useState<number[]>([]); // 추가된 state
+	const [modalOpen, setModalOpen] = useState(false);
+	const [confirmSubmit, setConfirmSubmit] = useState(false);
+	const navigate = useNavigate();
+
 	const requestBody = {
 		articleId: articleId,
 		submitList: myAnswer,
@@ -26,18 +33,23 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 		return response.json();
 	});
 
-const handleAnswer = async () => {
-	if (myAnswer.length >= 2 && myAnswer[0]?.optionNumber && myAnswer[1]?.optionNumber) {
+	const handleAnswer = async () => {
+		if (myAnswer.length >= 2 && myAnswer[0]?.optionNumber && myAnswer[1]?.optionNumber) {
+			setConfirmSubmit(true);
+		} else {
+			setModalOpen(true);
+		}
+	};
+
+	const handleConfirmSubmit = async () => {
+		setConfirmSubmit(false);
 		try {
 			const data = await answerPost.mutateAsync();
 			setAnswer(data);
 		} catch (error) {
 			console.error('정답을 불러오기 실패', error);
 		}
-	} else {
-		alert('두 문제 다 풀어라 얍 ');
-	}
-};
+	};
 
 	const handleAnswerSelection = (problemIndex: number, optionIndex: number) => {
 		setMyAnswer((prevState) => {
@@ -55,14 +67,45 @@ const handleAnswer = async () => {
 		});
 	};
 
-	const accurateAns = answer?.answerList
+	const accurateAns = answer?.answerList;
 	const isOptionSelected = (problemIndex: number, optionIndex: number) => {
-		if (accurateAns) return
+		if (accurateAns) return;
 		else return selectedOptions[problemIndex] === optionIndex;
 	};
 
 	return (
 		<>
+			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
+				<Modal.Header />
+				<Modal.Body>
+					<div className='text-center'>
+						<HiOutlineExclamationCircle className='mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200' />
+						<h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>두 문제를 모두 풀어주세요!</h3>
+						<div className='flex justify-center gap-4'>
+							<Button color='failure' onClick={() => setModalOpen(false)}>
+								확인
+							</Button>
+						</div>
+					</div>
+				</Modal.Body>
+			</Modal>
+			<Modal show={confirmSubmit} size='md' onClose={() => setConfirmSubmit(false)}>
+				<Modal.Header />
+				<Modal.Body>
+					<div className='text-center'>
+						<HiLightBulb className='mx-auto mb-4 h-14 w-14 text-yellow-400' />
+						<h3 className='mb-5 text-lg font-normal text-gray-500'>정말로 제출하시겠습니까?</h3>
+						<div className='flex justify-center gap-4'>
+							<Button color='blue' onClick={handleConfirmSubmit}>
+								확인
+							</Button>
+							<Button color='gray' onClick={() => setConfirmSubmit(false)}>
+								취소
+							</Button>
+						</div>
+					</div>
+				</Modal.Body>
+			</Modal>
 			<div className='h-full w-1/3 flex flex-col'>
 				<div className='flex h-4/5  '>
 					<Card className='w-full'>
@@ -118,9 +161,7 @@ const handleAnswer = async () => {
 							</div>
 
 							<div className='flex justify-end'>
-								{accurateAns ? (
-										null
-								) : (
+								{accurateAns ? null : (
 									<Button
 										className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
 										onClick={handleAnswer}
