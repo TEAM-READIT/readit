@@ -1,4 +1,4 @@
-package readit.common.asepect;
+package readit.common.asepect.querycount;
 
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;

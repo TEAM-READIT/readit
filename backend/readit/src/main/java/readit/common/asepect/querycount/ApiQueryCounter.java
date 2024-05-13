@@ -1,4 +1,4 @@
-package readit.common.asepect;
+package readit.common.asepect.querycount;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
