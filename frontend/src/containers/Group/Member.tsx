@@ -8,12 +8,13 @@ const Member = ({ myGroup }: { myGroup: communityProps }) => {
 						<div key={index}>
 							{member.readCount === myGroup.communityDetail.articleCount ? (
 								<>
-									<div className='bg-positive-500 rounded-full'>
+									<div className='bg-[#33FF33] rounded-full flex flex-row items-center relative justify-center'>
 										<img
 											src={member.memberProfile}
 											alt='사용자프로필'
-											className='w-16 h-16 aspect-square rounded-full'
+											className='w-16 h-16 aspect-square rounded-full p-1 '
 										/>
+										{/* <span className='absolute bottom-0 right-0 material-symbols-outlined text-2xl font-bold  text-green-500 bg-white rounded-full aspect-auto h-9 w-9  border border-black items-center'>check</span> */}
 									</div>
 								</>
 							) : (
