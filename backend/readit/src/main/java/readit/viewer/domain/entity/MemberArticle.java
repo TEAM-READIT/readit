@@ -3,6 +3,9 @@ package readit.viewer.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import readit.article.domain.Article;
 import readit.common.entity.BaseTimeEntity;
 import readit.viewer.domain.dto.request.PostTempSaveRequest;
@@ -16,6 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@CacheConfig(cacheNames = "article")
 public class MemberArticle extends BaseTimeEntity {
     @Id
     @EqualsAndHashCode.Include
@@ -65,6 +69,7 @@ public class MemberArticle extends BaseTimeEntity {
         }
     }
 
+    @CacheEvict(key = "'stats'")
     public void updateWhenComplete(LocalDateTime completedAt, Integer score, String feedback) {
         this.completedAt =  completedAt;
         this.score = score;

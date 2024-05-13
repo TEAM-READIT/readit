@@ -5,6 +5,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.application.support.SupportServiceDelegate;
@@ -16,24 +20,20 @@ import readit.article.domain.repository.ArticleRepository;
 import readit.article.domain.repository.CategoryRepository;
 import readit.article.dto.Page;
 import readit.article.dto.response.*;
-import readit.article.exception.JsonConvertException;
 import readit.article.infra.FastAPIClient;
-import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.entity.MemberArticle;
 import readit.viewer.domain.entity.Memo;
 import readit.viewer.domain.repository.MemberArticleRepository;
 import readit.viewer.domain.repository.MemoRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = {"article","article::article_list"})
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
@@ -45,6 +45,7 @@ public class ArticleService {
     private final SupportServiceDelegate supportServiceDelegate;
 
     @Transactional(readOnly = true)
+    @Cacheable(key = "'popular_articles'")
     public GetPopularArticleResponse getPopularArticles(){
         List<Article> articleList = supportServiceDelegate.getArticleList();
         List<Article> epigraphyList = supportServiceDelegate.getArticleListByType(ArticleType.EPIGRAPHY);
@@ -53,6 +54,7 @@ public class ArticleService {
         return GetPopularArticleResponse.from(articleList,epigraphyList,newsList);
     }
 
+    @CacheEvict(value = "article::article_list", allEntries = true)
     public GetArticleFromLinkResponse getArticleFromLink(String link){
         FastAPIArticleResponse response = fastAPIClient.getArticle(link);
         Integer id = saveArticleFromLink(response);
@@ -68,6 +70,7 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(key = "'stats'")
     public GetStatsResponse getStats(Integer id){
         List<MemberArticle> memberArticleList = supportServiceDelegate.getMemberArticleListByMemberId(id);
 
@@ -85,6 +88,7 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "article::article_list", key = "#category + '::' + #title + '::' + #content + '::' + #reporter + '::' + #hit.toString() + '::' + #cursor.toString() + '::' + #limit.toString()")
     public GetArticleSearchResponse getArticleSearchList(String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
         Article article = articleRepository.getById(cursor);
         Integer hitCursor = Optional.ofNullable(article)
@@ -101,6 +105,7 @@ public class ArticleService {
         return article.getId();
     }
 
+    @CacheEvict(key = "'popular_articles'")
     public void updateHit(Integer id){
         Article article = articleRepository.getById(id);
         article.increaseHit();

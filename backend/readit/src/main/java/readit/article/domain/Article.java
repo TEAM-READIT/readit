@@ -3,6 +3,9 @@ package readit.article.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import readit.common.entity.BaseTimeEntity;
 import static lombok.EqualsAndHashCode.Include;
 

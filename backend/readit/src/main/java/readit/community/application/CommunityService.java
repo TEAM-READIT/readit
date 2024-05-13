@@ -2,6 +2,9 @@ package readit.community.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.dto.Page;
@@ -35,6 +38,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "community")
 public class CommunityService {
 
     private final CommunityRepository communityRepository;
@@ -44,6 +48,7 @@ public class CommunityService {
     private final MemberArticleRepository memberArticleRepository;
     private final CommunityQueryRepository communityQueryRepository;
 
+    @CacheEvict(key = "'list_community'")
     public void createCommunity(GetCreateCommunityRequest request, Integer memberId) {
         Member member = memberRepository.getById(memberId);
         Community community = communityRepository.save(GetCreateCommunityRequest.toEntity(request, member));
@@ -112,6 +117,7 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(key = "'popular_community'")
     public GetHotCommunityResponse getHotCommunityList() {
         List<Community> communityList = communityRepository.findTop8ByOrderByHitsDesc();
         List<CommunityDetail> communityDetailList = mapToCommunityDetails(communityList);
@@ -130,11 +136,13 @@ public class CommunityService {
         return GetMyCommunityResponse.from(communityList);
     }
 
+    @CacheEvict(key = "'popular_community'")
     public void increaseHits(Integer communityId) {
         communityRepository.increaseHitsById(communityId);
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(key = "'list_community'")
     public GetCommunityListResponse getCommunityList(String category, String title, String content, String writerName, Integer maxParticipants, Integer cursor, Boolean hit, Integer limit) {
         Community community = communityRepository.getByIdForQuery(cursor);
         Integer hitCursor = Optional.ofNullable(community)
