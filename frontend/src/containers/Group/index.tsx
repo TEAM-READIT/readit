@@ -156,7 +156,7 @@ const Group = () => {
 									<div className='flex flex-col gap-5'>
 										{myGroup.chatList.map((chat, index) => (
 											<div key={index}>
-												{chat.memberId === 1 ? (
+												{chat.memberId != myGroup.myId ? (
 													<div className='flex flex-row gap-x-2'>
 														<img
 															src={chat.memberProfile}
