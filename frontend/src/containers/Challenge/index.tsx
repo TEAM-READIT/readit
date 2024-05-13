@@ -21,6 +21,7 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend);
 import { Line } from 'react-chartjs-2';
 import ChallengeHeader from './ChallengeHeader';
+import { useNavigate } from 'react-router-dom';
 
 interface ChallengeScore {
 	date: Date;
@@ -170,6 +171,7 @@ const Challenge = () => {
 		});
 	}, [challengeScoreList, challengeScoresList]);
 
+	const navigate = useNavigate();
 	return (
 		<>
 			<div className='w-full h-screen flex flex-col items-center  overflow-hidden'>
@@ -204,7 +206,14 @@ const Challenge = () => {
 									</div>
 								</div>
 								{problems && problems.status === 400 ? (
-									<div className='text-red-500 text-2xl pt-20'>오늘의 챌린지에 이미 참여하였습니다.</div>
+									<div className='flex flex-row justify-end pt-20'>
+										<button
+											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-red-700 text-white border-red-300 hover:bg-red-800 '
+											onClick={() => navigate('/')}
+										>
+											<span>참여 완료</span>
+										</button>
+									</div>
 								) : (
 									<div className='flex flex-row justify-end pt-20'>
 										<button
