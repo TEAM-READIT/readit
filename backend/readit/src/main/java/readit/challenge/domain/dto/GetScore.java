@@ -1,7 +1,6 @@
 package readit.challenge.domain.dto;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public record GetScore(
         LocalDate date,
