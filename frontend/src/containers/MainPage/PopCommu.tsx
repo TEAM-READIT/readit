@@ -9,8 +9,8 @@ const PopCommu = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const [page, setPage] = useState<number>(1);
 	const navigate = useNavigate();
-	const {accessToken} = useAuthStore();
-	
+	const { accessToken } = useAuthStore();
+
 	// 조회수 ++
 	const hits = useMutation(async (id: number) => {
 		await fetch(`${baseUrl}/community/hits/${id}`, {
@@ -32,7 +32,6 @@ const PopCommu = () => {
 		navigate('/detail', { state: { community } });
 		handlehits(community?.communityId!);
 	};
-
 
 	const [popCommunity, setPopCommunity] = useState<{ communityList: CommunityList[] }>();
 	//인기 있는 모임 받아오기
@@ -98,7 +97,7 @@ const PopCommu = () => {
 								{communitys?.slice(4, 8).map((community, index) => (
 									<Card
 										key={index}
-										className='flex flex-col w-64 h-44  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+										className='flex flex-col w-64 h-52 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 										onClick={() => handleCardClick(community)}
 									>
 										<div className='flex justify-end gap-2 h-1/5'>

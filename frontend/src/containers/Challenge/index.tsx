@@ -70,6 +70,26 @@ const Challenge = () => {
 		return data;
 	};
 
+
+	// const challengScoreDatas = async () => {
+	// 	const headers = {
+	// 		Authorization: `Bearer ${accessToken}`,
+	// 	};
+	// 	const response = await fetch(`${baseUrl}/challenge/stats/total`, {
+	// 		headers: headers,
+	// 	});
+
+	// 	const data = await response.json();
+	// 	console.log(data)
+	// 	return data;
+	// };
+
+	// useEffect(()=>{
+	// 	challengScoreDatas()
+	// })
+
+
+
 	const [challengeScoreList, setChallengeScoreList] = useState<ChallengeScoreList>();
 
 	useEffect(() => {
@@ -196,7 +216,7 @@ const Challenge = () => {
 								<div className='flex flex-row w-full h-full items-start justify-between gap-20'>
 									<div className='flex flex-col gap-5 w-1/5'>
 										<span className='font-bold'>랭킹</span>
-										{rank?.memberList.map((member, index) => (
+										{rank?.memberList.slice(0,5).map((member, index) => (
 											<div key={index} className='flex flex-row gap-5 items-center'>
 												<img src={member.profile} alt='프로필 사진' className='w-12 rounded-full' />
 												<div className=''>{index + 1}등</div>
