@@ -49,7 +49,7 @@ public class CommunityQueryRepository {
                     if (isHit) {
                         return Optional.ofNullable(hitCursor).map(community.hits::loe);
                     } else {
-                        return Optional.ofNullable(cursor).map(community.id::gt);
+                        return Optional.ofNullable(cursor).map(community.id::lt);
                     }
                 })
                 .orElse(null);

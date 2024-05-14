@@ -36,8 +36,7 @@ public class RestTemplateConfig {
 
     @Bean
     public HttpComponentsClientHttpRequestFactory clientHttpRequestFactory(HttpClient httpClient) {
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
-        return factory;
+        return new HttpComponentsClientHttpRequestFactory(httpClient);
     }
 
     @Bean
