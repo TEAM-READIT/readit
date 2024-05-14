@@ -58,7 +58,7 @@ const Read = () => {
 					</Button>
 				</div>
 				<div className='px-10 h-full flex flex-col justify-between gap-y-2'>
-					{top3Articles && Array.isArray(top3Articles) ? (
+					{top3Articles.length > 0 && Array.isArray(top3Articles) ? (
 						<>
 							{top3Articles!.map((article, index) => (
 								<div
@@ -96,7 +96,9 @@ const Read = () => {
 							))}
 						</>
 					) : (
-						<></>
+						<>
+						읽은 글이 없습니다
+						</>
 					)}
 				</div>
 			</div>

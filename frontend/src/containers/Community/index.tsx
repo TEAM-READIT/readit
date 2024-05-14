@@ -29,8 +29,6 @@ const Community = () => {
 			headers: headers,
 		});
 		const data = await response.json();
-		console.log(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`);
-		console.log(data);
 		return data;
 	};
 
@@ -364,7 +362,7 @@ const Community = () => {
 											<div className='flex flex-col gap-2 items-end'>
 												<div className='flex flex-row justify-end'>
 													<div
-														className={`${getDaysBefore(community.endAt!) === 0 ? 'border bg-red-200 text-red-600 border-red-600 ' : getDaysBefore(community.endAt!) < 3 ? 'bg-yellow-100 border border-yellow-400' : 'bg-green-400 border border-green-600 text-white'} rounded-md text-xs p-1 px-2`}
+														className={`${getDaysBefore(community.endAt!) === 0 ? 'border bg-red-200 text-red-600' : getDaysBefore(community.endAt!) < 3 ? 'bg-yellow-100' : 'bg-green-400 text-white'} rounded-md text-xs p-1 px-2`}
 													>
 														{getDaysBefore(community.endAt!) === 0 ? (
 															<>오늘 마감</>

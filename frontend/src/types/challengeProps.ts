@@ -36,6 +36,8 @@ interface optionListProps {
 interface memberRanking {
 	name: string;
 	profile: string;
+	challengeScore:number;
+	rank:number
 }
 
 interface scoreRanking {
