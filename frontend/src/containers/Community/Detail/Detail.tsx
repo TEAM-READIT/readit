@@ -116,7 +116,7 @@ const Detail = () => {
 									</div>
 									<div className='flex flex-row gap-x-3'>
 										<div className='font-bold'>모집 기간 |</div>
-										<div>~ {new Date(community.endAt).toLocaleString()}</div>
+										<div>~ {new Date(community.endAt).toLocaleDateString()}</div>
 									</div>
 								</div>
 							</div>
