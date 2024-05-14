@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import readit.auth.dto.AuthCredentials;
 import readit.auth.presentation.Auth;
+import readit.common.asepect.exectime.ExecutionTime;
 import readit.community.application.CommunityService;
 import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
@@ -26,6 +27,7 @@ public class CommunityController {
 
     private final CommunityService communityService;
 
+    @ExecutionTime
     @GetMapping("/list")
     @Operation(summary = "커뮤니티 모집글 조회", description = "커뮤니티 리스트 조회 기능입니다.")
     public ResponseEntity<GetCommunityListResponse> getCommunityList(@RequestParam(required = false) String category,
@@ -47,7 +49,6 @@ public class CommunityController {
     public ResponseEntity<GetCommunityDetailResponse> getCommunityDetails(@PathVariable Integer communityId,
                                                                           @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-//        memberId = 3;
         GetCommunityDetailResponse response = communityService.getCommunityDetail(communityId, memberId);
         return ResponseEntity.ok(response);
     }
@@ -57,7 +58,6 @@ public class CommunityController {
     public ResponseEntity<Void> joinCommunity(@PathVariable Integer communityId,
                                               @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-//        memberId = 3;
         communityService.joinCommunity(communityId, memberId);
         return ResponseEntity.ok().build();
     }
@@ -67,7 +67,6 @@ public class CommunityController {
     public ResponseEntity<Void> leaveCommunity(@PathVariable Integer communityId,
                                                @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-//        memberId = 3;
         communityService.leaveCommunity(communityId, memberId);
         return ResponseEntity.ok().build();
     }
@@ -77,7 +76,6 @@ public class CommunityController {
     public ResponseEntity<Void> createCommunity(@Valid @RequestBody GetCreateCommunityRequest request,
                                                 @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-//        memberId = 3;
         communityService.createCommunity(request, memberId);
         return ResponseEntity.ok().build();
     }
@@ -87,11 +85,11 @@ public class CommunityController {
     public ResponseEntity<Void> sendChat(@Valid @RequestBody PostChatRequest request,
                                          @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-//        memberId = 3;
         communityService.sendChat(request, memberId);
         return ResponseEntity.ok().build();
     }
 
+    @ExecutionTime
     @GetMapping("/hot")
     @Operation(summary = "커뮤니티 인기글 8개 조회", description = "커뮤니티 인기글 조회 기능입니다.")
     public ResponseEntity<GetHotCommunityResponse> getHotCommunityList() {
@@ -103,7 +101,6 @@ public class CommunityController {
     @Operation(summary = "내 커뮤니티 조회", description = "내 커뮤니티 조회 기능입니다.")
     public ResponseEntity<GetMyCommunityResponse> getMyCommunityList(@Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-//        memberId = 3;
         GetMyCommunityResponse response = communityService.getMyCommunityList(memberId);
         return ResponseEntity.ok(response);
     }

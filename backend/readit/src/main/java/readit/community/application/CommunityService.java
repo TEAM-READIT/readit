@@ -2,9 +2,9 @@ package readit.community.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import readit.article.domain.Article;
 import readit.article.dto.Page;
 import readit.community.domain.dto.CommunityDetail;
 import readit.community.domain.dto.CommunityDetailMember;
@@ -113,6 +113,7 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "popular_community")
     public GetHotCommunityResponse getHotCommunityList() {
         List<Community> communityList = communityRepository.findTop8ByOrderByHitsDesc();
         List<CommunityDetail> communityDetailList = mapToCommunityDetails(communityList);
@@ -142,6 +143,7 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "popular_search", key = "#category + #title + #content + #writerName + #maxParticipants + #cursor + #limit")
     public GetCommunityListResponse getCommunityList(String category, String title, String content, String writerName, Integer maxParticipants,
                                                      Integer cursor, Boolean hit, Integer limit) {
         Community community = communityRepository.getByIdForQuery(cursor);
