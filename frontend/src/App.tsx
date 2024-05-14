@@ -17,6 +17,7 @@ import { GoogleCallback } from './containers/MainPage/Login/Google.tsx';
 import ReadDetail from './containers/MyPage.tsx/Read/ReadDetail.tsx';
 import GroupDetail from './containers/MyPage.tsx/Group/GroupDeatail.tsx';
 import ReadDetailModal from './components/ReadDetailModal.tsx';
+import SavedDetail from './containers/MyPage.tsx/Read/SavedDetail.tsx';
 function App() {
 	const queryClient = new QueryClient();
 	return (
@@ -34,6 +35,7 @@ function App() {
 						<Route path='/group' element={<Group />} />
 						<Route path='/mypage' element={<MyPage />} />
 						<Route path='/mypage/read' element={<ReadDetail />} />
+						<Route path='/mypage/temp' element={<SavedDetail />} />
 						<Route path='/mypage/group' element={<GroupDetail />} />
 						<Route path='/viewer' element={<ViewerPage />} />
 						<Route path='/summary' element={<ReadDetailModal />} />

@@ -5,7 +5,6 @@ import {
 import { articleList } from '../../../types/articleProps';
 import useModal from '../../../hooks/useModal';
 
-
 interface wordListProps {
 	word: string;
 	definition: string;
@@ -16,11 +15,13 @@ export const MainText = ({
 	setMemos,
 	setChange,
 	wordList,
+	setDefaultSummaryValue,
 }: {
 	article: articleList;
 	setMemos: React.Dispatch<React.SetStateAction<string[]>>;
 	setChange: React.Dispatch<React.SetStateAction<number>>;
 	wordList: wordListProps[] | undefined;
+	setDefaultSummaryValue: React.Dispatch<React.SetStateAction<string>>
 }) => {
 	const [isOpen, open, close] = useModal();
 	const [position, setPosition] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
@@ -30,7 +31,7 @@ export const MainText = ({
 	const [memo, setMemo] = useState('');
 	const [number, setNumber] = useState(0);
 
-	console.log(wordList)
+	console.log(wordList);
 	const handleBold = () => {
 		if (selectedRange) {
 			const span = document.createElement('span');
@@ -79,7 +80,6 @@ export const MainText = ({
 	const handleKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter') {
 			setMemos((prevMemos) => [...prevMemos, memo]);
-
 			makeMemo(memo);
 			setOpenMemo(false);
 			setOpenMenu(false);
@@ -144,21 +144,20 @@ export const MainText = ({
 
 	const realarticle = linechange(article?.content);
 
-	
-// useEffect(() => {
-// 	if (wordList && realarticle) {
-// 		wordList.forEach((word: string, index: number) => {
-// 			// specifying types for word and index
-// 			const articleKeys = Object.keys(realarticle);
-// 			const firstWord = articleKeys.find((articleWord: string) => articleWord === word); // specifying type for articleWord
-// 			if (firstWord) {
-// 				const firstWordIndex = wordList.indexOf(firstWord);
-// 				console.log(`The index of the first word "${firstWord}" in wordList is ${firstWordIndex}`);
-// 			}
-// 		});
-// 	}
-// }, [wordList, realarticle]);
-
+	// useEffect(() => {
+	// 	if (wordList && realarticle) {
+	// 		wordList.forEach((word: string, index: number) => {
+	// 			// specifying types for word and index
+	// 			const articleKeys = Object.keys(realarticle);
+	// 			const firstWord = articleKeys.find((articleWord: string) => articleWord === word); // specifying type for articleWord
+	// 			if (firstWord) {
+	// 				const firstWordIndex = wordList.indexOf(firstWord);
+	// 				console.log(`The index of the first word "${firstWord}" in wordList is ${firstWordIndex}`);
+	// 			}
+	// 		});
+	// 	}
+	// }, [wordList, realarticle]);
+	console.log(article)
 	return (
 		<>
 			<div className=' w-full h-full border-solid border-t-2 border-b-2 bg-white overflow-y-auto whitespace-pre-wrap px-3'>
@@ -240,7 +239,17 @@ export const MainText = ({
 						 '
 							onMouseUp={handleMouseUp}
 						>
-							<>{realarticle}</>
+							<>
+								{article.completedAt === null ? (
+									<div
+										className='leading-8 tracking-wide text-lg'
+										id='text'
+										dangerouslySetInnerHTML={{ __html: article.content }}
+									></div>
+								) : (
+									<>{realarticle}</>
+								)}
+							</>
 						</div>
 					</>
 				) : null}

@@ -42,6 +42,8 @@ export const ViewerPage = () => {
 	const navigate = useNavigate();
 	const [wordList, setWordList] = useState<wordListProps[]>();
 	const [isOpen, open, close] = useModal();
+	const [defaultSummaryValue, setDefaultSummaryValue] = useState<string>('요약문을 작성해주세요!');
+	const [istemp, setIstemp] = useState<boolean>(false)
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
 	// 피드백
@@ -180,10 +182,22 @@ export const ViewerPage = () => {
 							<div className='w-full h-full relative'>
 								{linkdata ? (
 									<>
-										<MainText setMemos={setMemos} article={linkdata} setChange={setChange} wordList={wordList} />
+										<MainText
+											setMemos={setMemos}
+											article={linkdata}
+											setChange={setChange}
+											wordList={wordList}
+											setDefaultSummaryValue={setDefaultSummaryValue}
+										/>
 									</>
 								) : (
-									<MainText setMemos={setMemos} article={article} setChange={setChange} wordList={wordList} />
+									<MainText
+										setMemos={setMemos}
+										article={article}
+										setChange={setChange}
+										wordList={wordList}
+										setDefaultSummaryValue={setDefaultSummaryValue}
+									/>
 								)}
 							</div>
 						</div>
@@ -196,7 +210,7 @@ export const ViewerPage = () => {
 							<div
 								className={`w-full h-full p-[1vw] transition-all duration-300 ease-in-out border-solid  ${isBottomOpen ? 'block' : 'hidden'}`}
 							>
-								<TextBox setSummary={setSummary} />
+								<TextBox setSummary={setSummary} defaultSummaryValue={defaultSummaryValue} />
 							</div>
 						</div>
 					</div>

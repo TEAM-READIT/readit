@@ -4,11 +4,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { articleList } from '../../../types/articleProps';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
-
 import { Card, Checkbox } from 'flowbite-react';
 import { useAuthStore } from '../../../store/auth';
 
-const ReadDetail = () => {
+const SavedDetail = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
 
@@ -26,9 +25,12 @@ const ReadDetail = () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const response = await fetch(`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}&isComplete=true`, {
-			headers: headers,
-		});
+		const response = await fetch(
+			`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}&isComplete=false`,
+			{
+				headers: headers,
+			},
+		);
 		const data = await response.json();
 		return data;
 	};
@@ -131,10 +133,8 @@ const ReadDetail = () => {
 
 	const navigate = useNavigate();
 
-	
-
 	const handleCardClick = (article: articleList, communityId: number | null) => {
-		navigate('/summary', { state: { article, communityId } });
+		navigate('/viewer', { state: { article, communityId } });
 	};
 
 	let filtered = '';
@@ -159,14 +159,14 @@ const ReadDetail = () => {
 		fetchData(filtered);
 	};
 
-	const handleOrigin = (text:string) => {
+	const handleOrigin = (text: string) => {
 		const newText = text?.replace(/<[^>]+>/g, '');
-		return newText
-	}
+		return newText;
+	};
 
-		const handleKeyPress = (e: any) => {
+	const handleKeyPress = (e: any) => {
 		if (e.key === 'Enter') {
-					handleApplyFilter();
+			handleApplyFilter();
 		}
 	};
 
@@ -271,10 +271,10 @@ const ReadDetail = () => {
 				<div ref={observerRef} className=''>
 					<br />
 					{totalArticles?.articleList?.length === 0
-						? '읽은 글이 없습니다'
+						? '읽고 있는 글이 없습니다'
 						: isFetchingNextPage && hasNextPage
-							? '읽은 글을 로딩 중입니다'
-							: '더 이상 남은 읽은 글이 없습니다'}
+							? '읽고 있는 글을 로딩 중입니다'
+							: '더 이상 남은 읽고 있는 글이 없습니다'}
 
 					<br />
 					<br />
@@ -284,4 +284,4 @@ const ReadDetail = () => {
 	);
 };
 
-export default ReadDetail;
+export default SavedDetail;
