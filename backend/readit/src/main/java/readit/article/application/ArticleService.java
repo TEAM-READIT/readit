@@ -26,6 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArticleService {
 
+
     private final ArticleRepository articleRepository;
     private final MemoRepository memoRepository;
     private final ArticleQueryRepository articleQueryRepository;
