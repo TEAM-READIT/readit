@@ -113,7 +113,7 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "popular_community")
+//    @Cacheable(value = "popular_community")
     public GetHotCommunityResponse getHotCommunityList() {
         List<Community> communityList = communityRepository.findTop8ByOrderByHitsDesc();
         List<CommunityDetail> communityDetailList = mapToCommunityDetails(communityList);
@@ -143,7 +143,7 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "popular_search", key = "#category + #title + #content + #writerName + #maxParticipants + #cursor + #limit")
+//    @Cacheable(value = "popular_search", key = "#category + #title + #content + #writerName + #maxParticipants + #cursor + #limit")
     public GetCommunityListResponse getCommunityList(String category, String title, String content, String writerName, Integer maxParticipants,
                                                      Integer cursor, Boolean hit, Integer limit) {
         Community community = communityRepository.getByIdForQuery(cursor);
