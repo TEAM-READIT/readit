@@ -208,7 +208,7 @@ const Challenge = () => {
 
 	return (
 		<>
-			<div className='w-full h-screen flex flex-col items-center  overflow-hidden'>
+			<div className='w-full h-screen flex flex-col items-center  overflow-hidden pr-5'>
 				<Headers />
 				{number === 0 ? (
 					<>
@@ -227,11 +227,13 @@ const Challenge = () => {
 										<>
 											<div className=' flex flex-row gap-20 font-bold text-xl'>
 												<span>
-													내 점수 : {challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score ? <>
-													{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}
-													</> 
-													:  '   1000'}점
-													
+													내 점수 :{' '}
+													{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score ? (
+														<>{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}</>
+													) : (
+														'   1000'
+													)}
+													점
 												</span>
 												<span>내 등수 : {rank?.myRank}등</span>
 											</div>
@@ -263,9 +265,7 @@ const Challenge = () => {
 
 								<div className='flex flex-row justify-end'>
 									{problems && problems.status === 400 ? (
-										<div
-											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-gray-400 text-white border-gray-300'
-										>
+										<div className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-gray-400 text-white border-gray-300'>
 											<span>오늘 이미 참여했습니다</span>
 										</div>
 									) : (
