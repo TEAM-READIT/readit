@@ -6,7 +6,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import readit.article.dto.response.GetWordResponse;
 import readit.article.exception.JsonConvertException;
-import readit.viewer.domain.dto.Word;
 
 import java.util.List;
 import java.util.stream.Collectors;
