@@ -352,10 +352,10 @@ const Community = () => {
 													)}
 												</div>
 												<div className='text-sm'>
-													{community.content.length <= 120 ? (
+													{community.content.length <= 70 ? (
 														<div>{community.content} </div>
 													) : (
-														<div>{community.content.slice(0, 120)}...</div>
+														<div>{community.content.slice(0, 70)}...</div>
 													)}
 												</div>
 											</div>
