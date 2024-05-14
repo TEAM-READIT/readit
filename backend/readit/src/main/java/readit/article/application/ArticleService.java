@@ -1,10 +1,6 @@
 package readit.article.application;
 
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.application.support.SupportServiceDelegate;
@@ -16,20 +12,14 @@ import readit.article.domain.repository.ArticleRepository;
 import readit.article.domain.repository.CategoryRepository;
 import readit.article.dto.Page;
 import readit.article.dto.response.*;
-import readit.article.exception.JsonConvertException;
 import readit.article.infra.FastAPIClient;
-import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.entity.MemberArticle;
 import readit.viewer.domain.entity.Memo;
 import readit.viewer.domain.repository.MemberArticleRepository;
 import readit.viewer.domain.repository.MemoRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 @Transactional
