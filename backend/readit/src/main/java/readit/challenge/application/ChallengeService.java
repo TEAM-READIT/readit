@@ -41,7 +41,8 @@ public class ChallengeService {
     public GetChallengeRankResponse getChallengeRank(Integer memberId) {
 
         List<GetRankMember> memberList = memberRepository.findTop7ByOrderByChallengeScoreDesc().stream()
-                .map(member -> GetRankMember.of(member.getName(), member.getProfile()))
+                .map(member -> GetRankMember.of(member.getName(), member.getProfile(), member.getChallengeScore(),
+                        memberRepository.countPlayersWithHigherScore(member.getChallengeScore()).orElseThrow() + 1))
                 .toList();
 
         int myScore = memberRepository.getById(memberId).getChallengeScore();
@@ -136,6 +137,5 @@ public class ChallengeService {
         List<GetTotalScore> totalList = memberProblemQueryRepository.findTotalDateScore();
 
         return GetTotalChallengeStatisticsResponse.of(totalList, isSubmitToday);
-
     }
 }
