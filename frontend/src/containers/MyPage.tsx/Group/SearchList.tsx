@@ -12,6 +12,22 @@ interface groupListProps {
 
 const SearchList = ({ communityList }: { communityList: groupListProps[] }) => {
 	const navigate = useNavigate();
+
+	const categoryStyles: { [key: string]: string } = {
+		비문학: 'bg-blue-200 border border-blue-500',
+		정치: 'bg-gray-200 border border-gray-400 text-black',
+		경제: 'bg-green-200 border border-green-400 text-black',
+		사회: 'bg-yellow-100 border-yellow-400 text-black',
+		'생활/문화': 'bg-purple-200 border-purple-400 text-black',
+		'IT/과학': 'bg-indigo-200 border-indigo-400 text-black',
+		세계: 'bg-pink-200 border-pink-400 text-black',
+		오피니언: 'bg-red-200 border-red-400 text-black',
+	};
+
+	function getCategoryStyle(categoryName: string) {
+		return categoryStyles[categoryName] || 'bg-gray-200 text-gray-800';
+	}
+
 	const handleCardClick = (community: groupListProps) => {
 		navigate('/group', { state: { community } });
 	};
@@ -22,16 +38,19 @@ const SearchList = ({ communityList }: { communityList: groupListProps[] }) => {
 					<Card
 						key={index}
 						className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
-						onClick={() => handleCardClick(community)}
+						onClick={() => {
+							handleCardClick(community);
+						}}
 					>
 						<div className='flex flex-row justify-between text-center text-sm'>
 							<div>👀 {community.hit}</div>
-							<div className='w-16 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
+
+							<div className={`w-16 border rounded-md text-sm ${getCategoryStyle(community.categoryName)}`}>
 								{community.categoryName}
 							</div>
 						</div>
-						<div className='flex flex-col h-4/5 text-start font-bold gap-y-2'>
-							<div className='text-l border-gray-200 border-b'>
+						<div className='flex flex-col h-4/5 text-start  gap-y-2'>
+							<div className='text-l border-gray-200 border-b font-bold'>
 								{community.title.length <= 13 ? (
 									<div>{community.title} </div>
 								) : (
@@ -39,16 +58,12 @@ const SearchList = ({ communityList }: { communityList: groupListProps[] }) => {
 								)}
 							</div>
 							<div className='text-sm'>
-								{community.content.length <= 120 ? (
+								{community.content.length <= 70 ? (
 									<div>{community.content} </div>
 								) : (
-									<div>{community.content.slice(0, 120)}...</div>
+									<div>{community.content.slice(0, 70)}...</div>
 								)}
 							</div>
-						</div>
-						<div className='flex flex-col gap-2'>
-							<div className='w-32 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>마감일 13일전</div>
-							<div className='border border-gray-700 rounded-md text-sm'>2024. 02. 26. 13:00</div>
 						</div>
 					</Card>
 				))}

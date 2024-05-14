@@ -189,7 +189,7 @@ export const ViewerPage = () => {
 				</Modal.Body>
 			</Modal>
 
-			<div className=' z-50 w-full h-screen flex flex-col items-center overflow-hidden'>
+			<div className=' z-50 w-full h-screen flex flex-col items-center overflow-hidden pr-5'>
 				<Headers />
 				<div className='relative flex w-full'>
 					<div className={` relative flex flex-col w-4/5 h-screen transition-all duration-300 ease-in-out`}>

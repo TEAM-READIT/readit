@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useInfiniteQuery, useMutation } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import { Card, Checkbox } from 'flowbite-react';
+import useStore from '../../store';
 
 const Essay = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -15,11 +16,20 @@ const Essay = () => {
 	const communityId = location.state?.communityId;
 	const categoryName = location.state?.categoryName;
 	// const [isMember, setIsMember] = useState<boolean>(false);
-
+	const { lastfilter,setLastfilter } = useStore();
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
 	const limit = 12;
 	const [page, setPage] = useState<number>(0);
 	const [totalArticles, setTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
+
+
+	useEffect(() => {
+		if (lastfilter) {
+			filtered = lastfilter 
+		}
+	},[])
+
+
 
 	// 전체 아티클 데이터를 가져오는 함수
 	const totalArticleData = async (page: number, filtered: string) => {
@@ -63,6 +73,7 @@ const Essay = () => {
 			//페이지에 1번 넣고 데이터 호출
 			const data = await totalArticleData(1, filtered);
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
+			setLastfilter(filtered)
 			window.scrollTo(0, 0);
 		} catch (error) {
 			console.error('Error fetching data:', error);
