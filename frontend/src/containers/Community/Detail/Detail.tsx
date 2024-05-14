@@ -112,7 +112,7 @@ const Detail = () => {
 									</div>
 									<div className='flex flex-row gap-x-3'>
 										<div className='font-bold'>모임 시작일 |</div>
-										<div>{new Date(community.startAt).toLocaleString()}</div>
+										<div>{new Date(community.startAt).toLocaleDateString()}</div>
 									</div>
 									<div className='flex flex-row gap-x-3'>
 										<div className='font-bold'>모집 기간 |</div>
