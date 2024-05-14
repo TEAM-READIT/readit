@@ -1,8 +1,10 @@
 import { Button } from 'flowbite-react';
-import { Datepicker } from 'flowbite-react';
+import Datepicker from 'react-datepicker';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/auth';
+import { ko } from 'date-fns/locale';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const RecruitText = () => {
 	const [title, setTitle] = useState('');
@@ -157,7 +159,15 @@ const RecruitText = () => {
 				</div>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
 					<div className='flex justify-start'>마감일</div>
-					<Datepicker language='kor' onSelectedDateChanged={handleDateChange}/>
+					<Datepicker
+						showIcon
+						locale={ko}
+						dateFormat='yyyy년 MM월 dd일'
+						shouldCloseOnSelect
+						selected={endAt}
+						minDate={startAt}
+						onChange={handleDateChange}
+					/>
 				</div>
 			</div>
 			<div className='flex flex-col items-start h-full  w-full gap-y-5 px-5'>
