@@ -9,7 +9,6 @@ export const NaverCallback = () => {
 	const { login } = useAuthStore();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const code = new URL(document.location.toString()).searchParams.get('code');
-	console.log(code)
 	const { setEmail, setId,setName, setProfileImageUrl } = userStore();
 
 	const naverLogin = useMutation(async () => {
