@@ -236,7 +236,7 @@ export const MainText = ({
 						<div
 							id='text'
 							className='text-lg text-start mx-[2%] mb-[3%]
-						 line-loose tracking-wide
+						 leading-8 tracking-wide
 						 '
 							onMouseUp={handleMouseUp}
 						>

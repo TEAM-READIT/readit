@@ -57,15 +57,15 @@ const TextDetail = () => {
 							<div className='flex flex-row gap-5 items-center justify-end'>
 								<div className='flex flex-row gap-1 items-center justify-center'>
 									<span className='material-symbols-outlined'>visibility</span>
-									<span>{article.hit}</span>
+									<span>{article.hit +1}</span>
 								</div>
 								<div>{article.categoryName}</div>
 							</div>
-							<div className='w-full flex justify-start whitespace-pre-wrap'>
-								{article.content.length <= 950 ? (
+							<div className='w-full flex justify-start whitespace-pre-wrap leading-8'>
+								{article.content.length <= 750 ? (
 									<div className='text-start pt-5'>{realarticle} </div>
 								) : (
-									<div className='text-start pt-5'>{realarticle.slice(0, 950)}...</div>
+									<div className='text-start pt-5'>{realarticle.slice(0, 750)}...</div>
 								)}
 							</div>
 						</div>

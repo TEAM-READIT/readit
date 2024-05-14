@@ -110,7 +110,7 @@ const ReadDetailModal = () => {
 						<div className='text-start flex flex-col gap-5'>
 							<Card className='p-5'>
 								<div
-									className='line-loose tracking-wide text-lg'
+									className='leading-8 tracking-wide text-lg'
 									id='text'
 									dangerouslySetInnerHTML={{ __html: article.content }}
 								></div>

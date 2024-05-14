@@ -33,8 +33,6 @@ interface ChallengeScores {
 	isSubmitToday: boolean;
 }
 
-
-
 interface ChallengeScoreList {
 	scoreList: ChallengeScore[];
 }
@@ -170,6 +168,17 @@ const Challenge = () => {
 		});
 	}, [challengeScoreList, challengeScoresList]);
 	const navigate = useNavigate();
+
+	const options = {
+		scales: {
+			y: {
+				min: 750,
+				max: 1250,
+			},
+		},
+	};
+
+
 	return (
 		<>
 			<div className='w-full h-screen flex flex-col items-center  overflow-hidden'>
@@ -182,9 +191,9 @@ const Challenge = () => {
 							<div className='flex flex-col w-full h-full'>
 								<div className='flex flex-row w-full text-start bg-blue-100 border border-blue-400 rounded-lg p-5'>
 									안녕하십니까? 본 테스트는 READIT 당신의 문해력+에서 준비한 성인 문해력 테스트로, 우리나라 성인들의
-									문해력을 대략적으로 조사하기 위한 것입니다. 검사지는 비문학에서 접하는 글을 파악하고 활용하는
-									능력을 묻는 간단한 2개의 문항으로 구성되어 있습니다. 챌린지는 하루에 한번만 응시 가능합니다. 모든 문항에 성실하게
-									답해주시기 바랍니다. 감사합니다.
+									문해력을 대략적으로 조사하기 위한 것입니다. 검사지는 비문학에서 접하는 글을 파악하고 활용하는 능력을
+									묻는 간단한 2개의 문항으로 구성되어 있습니다. 챌린지는 하루에 한번만 응시 가능합니다. 모든 문항에
+									성실하게 답해주시기 바랍니다. 감사합니다.
 								</div>
 								<div className='flex flex-row w-full items-start justify-between h-3/5'>
 									<div className='flex flex-col gap-5 w-1/5 h-full justify-center'>
@@ -196,38 +205,45 @@ const Challenge = () => {
 												<div>{member.name}</div>
 											</div>
 										))}
-										<div>
-											{challengeScoreList ? (
-												<>
-													내 점수 : {challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}
-													내 등수 : {rank?.myRank}
-												</>
-											) : null}
-										</div>
 									</div>
 									<div className='w-3/5 h-full items-center flex flex-row justify-center'>
-										<Line data={challengegraphData}></Line>
+										<Line data={challengegraphData} options={options}></Line>
 									</div>
 								</div>
-								{problems && problems.status === 400 ? (
-									<div className='flex flex-row justify-end pt-20'>
-										<button
-											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-red-700 text-white border-red-300 hover:bg-red-800 '
-											onClick={() => navigate('/')}
-										>
-											<span>참여 완료</span>
-										</button>
+
+								<div className='flex flex-row justify-between pt-20'>
+									<div className=''>
+										{challengeScoreList ? (
+											<>
+												<div className=' flex flex-row gap-20'>
+													<span>
+														내 점수 : {challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}
+													</span>
+													<span>내 등수 : {rank?.myRank}</span>
+												</div>
+											</>
+										) : null}
 									</div>
-								) : (
-									<div className='flex flex-row justify-end pt-20'>
-										<button
-											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
-											onClick={() => setNumber(1)}
-										>
-											<span>시작하기</span>
-										</button>
-									</div>
-								)}
+									{problems && problems.status === 400 ? (
+										<div className='flex flex-row justify-end'>
+											<button
+												className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-red-700 text-white border-red-300 hover:bg-red-800 '
+												onClick={() => navigate('/')}
+											>
+												<span>참여 완료</span>
+											</button>
+										</div>
+									) : (
+										<div className='flex flex-row justify-end'>
+											<button
+												className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+												onClick={() => setNumber(1)}
+											>
+												<span>시작하기</span>
+											</button>
+										</div>
+									)}
+								</div>
 							</div>
 						</div>
 					</>
