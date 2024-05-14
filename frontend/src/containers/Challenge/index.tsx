@@ -78,6 +78,38 @@ const Challenge = () => {
 		return data;
 	};
 
+	const myScoreList: number[] = [];
+	// 빈 값 넣을 함수 만들어보자
+	useEffect(() => {
+		if (challengeScoreList) {
+			const mychallangeData = challengeScoreList?.scoreList;
+			myScoreList.push(mychallangeData[0].score);
+			if (mychallangeData.length > 0) {
+				for (let i = 1; i < mychallangeData?.length!; i++) {
+					const daybeforelatest = mychallangeData[i - 1].date;
+					const latest = mychallangeData[i].date;
+					const timediff = Math.floor(
+						(new Date(latest).getTime() - new Date(daybeforelatest).getTime()) / (1000 * 3600 * 24),
+					);
+					if (timediff > 1) {
+						for (let j = 0; j < timediff; j++) {
+							myScoreList.push(mychallangeData[i - 1].score);
+						}
+					}
+					else{
+						myScoreList.push(mychallangeData[i].score);
+					}
+				}
+				if (myScoreList.length < challengeScoresList?.totalScoreList.length!) {
+					for (let i = 0; i <= challengeScoresList?.totalScoreList.length! - myScoreList.length; i++) {
+						myScoreList.unshift(myScoreList[0]);
+					}
+				}
+			}
+		}
+
+	});
+
 	// 전체 사용자 챌린지 점수 통계 받아오기
 	const challengScoreDatas = async () => {
 		const headers = {
@@ -152,7 +184,7 @@ const Challenge = () => {
 			datasets: [
 				{
 					label: '내 점수',
-					data: challengescore,
+					data: myScoreList,
 					borderColor: challengeColor,
 					backgroundColor: challengeColor,
 					fill: false,
@@ -177,7 +209,6 @@ const Challenge = () => {
 			},
 		},
 	};
-
 
 	return (
 		<>
@@ -225,19 +256,19 @@ const Challenge = () => {
 
 								<div className='flex flex-row justify-end'>
 									{problems && problems.status === 400 ? (
-											<button
-												className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-red-700 text-white border-red-300 hover:bg-red-800 '
-												onClick={() => navigate('/')}
-											>
-												<span>참여 완료</span>
-											</button>
+										<button
+											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-red-700 text-white border-red-300 hover:bg-red-800 '
+											onClick={() => navigate('/')}
+										>
+											<span>참여 완료</span>
+										</button>
 									) : (
-											<button
-												className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
-												onClick={() => setNumber(1)}
-											>
-												<span>시작하기</span>
-											</button>
+										<button
+											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+											onClick={() => setNumber(1)}
+										>
+											<span>시작하기</span>
+										</button>
 									)}
 								</div>
 							</div>

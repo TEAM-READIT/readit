@@ -29,6 +29,8 @@ const Community = () => {
 			headers: headers,
 		});
 		const data = await response.json();
+		console.log(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`);
+		console.log(data);
 		return data;
 	};
 
@@ -222,17 +224,17 @@ const Community = () => {
 	};
 
 	// 날짜 차이 계산 함수
-	function getDaysBefore(endAt: Date): string {
+	function getDaysBefore(endAt: Date): number {
 		const now = new Date();
 		const endDate = new Date(endAt);
 		const timeDiff = endDate.getTime() - now.getTime();
 
 		if (timeDiff < 0) {
-			return '마감일 지남';
+			return 0;
 		}
 		const daysBefore = Math.floor(timeDiff / (1000 * 3600 * 24));
 
-		return `마감일 ${daysBefore}일 전`;
+		return daysBefore;
 	}
 
 	// 날짜 형식 변경 함수
@@ -245,19 +247,19 @@ const Community = () => {
 	}
 
 	const categoryStyles: { [key: string]: string } = {
-		비문학: 'bg-blue-500 text-white',
-		정치: 'bg-red-500 text-white',
-		경제: 'bg-green-500 text-white',
-		사회: 'bg-yellow-500 text-black',
-		'생활/문화': 'bg-purple-500 text-white',
-		'IT/과학': 'bg-indigo-500 text-white',
-		세계: 'bg-pink-500 text-white',
-		오피니언: 'bg-gray-500 text-white',
+		비문학: 'bg-blue-200 border border-blue-500',
+		정치: 'bg-gray-200 border border-gray-400 text-black',
+		경제: 'bg-green-200 border border-green-400 text-black',
+		사회: 'bg-yellow-100 border-yellow-400 text-black',
+		'생활/문화': 'bg-purple-200 border-purple-400 text-black',
+		'IT/과학': 'bg-indigo-200 border-indigo-400 text-black',
+		세계: 'bg-pink-200 border-pink-400 text-black',
+		오피니언: 'bg-red-200 border-red-400 text-black',
 	};
 
 	function getCategoryStyle(categoryName: string) {
 		return categoryStyles[categoryName] || 'bg-gray-200 text-gray-800';
-	};
+	}
 
 	return (
 		<>
@@ -338,7 +340,8 @@ const Community = () => {
 										>
 											<div className='flex flex-row justify-between text-center text-sm'>
 												<div>👀 {community.hits}</div>
-												<div className={`w-16 border rounded-md text-tag-100 text-sm ${getCategoryStyle(community.categoryName)}`}>
+
+												<div className={`w-16 border rounded-md text-sm ${getCategoryStyle(community.categoryName)}`}>
 													{community.categoryName}
 												</div>
 											</div>
@@ -358,11 +361,19 @@ const Community = () => {
 													)}
 												</div>
 											</div>
-											<div className='flex flex-col gap-2'>
-												<div className='w-32 border border-tag-100 bg-tag-50 rounded-md text-tag-100 text-sm'>
-													{getDaysBefore(community.endAt!)}
+											<div className='flex flex-col gap-2 items-end'>
+												<div className='flex flex-row justify-end'>
+													<div
+														className={`${getDaysBefore(community.endAt!) === 0 ? 'border bg-red-200 text-red-600 border-red-600 ' : getDaysBefore(community.endAt!) < 3 ? 'bg-yellow-100 border border-yellow-400' : 'bg-green-400 border border-green-600 text-white'} rounded-md text-xs p-1 px-2`}
+													>
+														{getDaysBefore(community.endAt!) === 0 ? (
+															<>오늘 마감</>
+														) : (
+															<>{getDaysBefore(community.endAt!)}일 남음</>
+														)}
+													</div>
 												</div>
-												<div className='border border-gray-700 rounded-md text-sm'>{formatDate(community.endAt!)}</div>
+												<div className='w-full text-xs text-end'>모집 기간 ~{formatDate(community.endAt!)}</div>
 											</div>
 										</Card>
 									))}
