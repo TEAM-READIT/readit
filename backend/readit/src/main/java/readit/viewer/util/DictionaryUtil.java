@@ -2,9 +2,6 @@ package readit.viewer.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,11 +9,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.dto.dictionary.DictionarySearchResult;
 import readit.viewer.domain.dto.gpt.Item;
-import readit.viewer.domain.dto.Word;
 import readit.viewer.exception.APIResponseMissingException;
 import readit.viewer.exception.JsonParsingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Component
@@ -43,19 +42,17 @@ public class DictionaryUtil {
             throw new APIResponseMissingException();
         }
 
-        DictionarySearchResult result = parseJson(response.getBody())
-                .orElseThrow(JsonParsingException::new);
+        DictionarySearchResult result = parseJson(response.getBody());
 
-        return Word.of(keyword, parseDefinition(result));
+        return new Word(keyword, parseDefinition(result));
     }
 
-    private Optional<DictionarySearchResult> parseJson(String response) {
+    private DictionarySearchResult parseJson(String response) {
         try {
             ObjectMapper om = new ObjectMapper();
-            DictionarySearchResult responseBody = om.readValue(response, DictionarySearchResult.class);
-            return Optional.of(responseBody);
+            return om.readValue(response, DictionarySearchResult.class);
         } catch (JsonProcessingException e) {
-            return Optional.empty();
+            throw new JsonParsingException();
         }
     }
 
