@@ -36,6 +36,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class ArticleService {
 
+
     private final ArticleRepository articleRepository;
     private final MemoRepository memoRepository;
     private final ArticleQueryRepository articleQueryRepository;
