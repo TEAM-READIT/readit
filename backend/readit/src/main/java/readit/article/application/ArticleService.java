@@ -37,7 +37,7 @@ public class ArticleService {
     private final SupportServiceDelegate supportServiceDelegate;
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "popularArticles")
+//    @Cacheable(value = "popularArticles")
     public GetPopularArticleResponse getPopularArticles(){
         List<Article> articleList = supportServiceDelegate.getArticleList();
         List<Article> epigraphyList = supportServiceDelegate.getArticleListByType(ArticleType.EPIGRAPHY);
@@ -78,7 +78,7 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "articleSearch", key = "#category + #title + #content + #reporter + #cursor + #limit")
+//    @Cacheable(value = "articleSearch", key = "#category + #title + #content + #reporter + #cursor + #limit")
     public GetArticleSearchResponse getArticleSearchList(String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
         Article article = articleRepository.getById(cursor);
         Integer hitCursor = Optional.ofNullable(article)
