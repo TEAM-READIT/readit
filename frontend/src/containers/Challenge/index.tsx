@@ -102,7 +102,7 @@ const Challenge = () => {
 				}
 				if (myScoreList.length < challengeScoresList?.totalScoreList.length!) {
 					for (let i = 0; i <= challengeScoresList?.totalScoreList.length! - myScoreList.length; i++) {
-						myScoreList.unshift(myScoreList[0]);
+						myScoreList.unshift(1000);
 					}
 				}
 			}
