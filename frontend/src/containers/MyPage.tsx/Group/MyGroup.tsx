@@ -55,25 +55,31 @@ const MyGroup = () => {
 					</Button>
 				</div>
 				<div className='px-10 h-full flex flex-col justify-between gap-y-2'>
-					{top3Communities?.map((community, index) => (
-						<div
-							key={index}
-							className='border border-gray-200 w-full flex flex-row items-center justify-between p-5 rounded-xl'
-						>
-							<div className='flex flex-col gap-2'>
-								<div className='font-bold text-start'>{community.title}</div>
-								<div className='flex flex-row justify-start gap-5'>
-									<div className='text-gray-500'>{community.startAt!.toLocaleString()}</div>
-									<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
-										#{community.categoryName}
+					{top3Communities?.length! > 0  ? (
+						<>
+							{top3Communities?.map((community, index) => (
+								<div
+									key={index}
+									className='border border-gray-200 w-full flex flex-row items-center justify-between p-5 rounded-xl'
+								>
+									<div className='flex flex-col gap-2'>
+										<div className='font-bold text-start'>{community.title}</div>
+										<div className='flex flex-row justify-start gap-5'>
+											<div className='text-gray-500'>{community.startAt!.toLocaleString()}</div>
+											<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
+												#{community.categoryName}
+											</div>
+										</div>
 									</div>
+									<Button className='bg-primary-500 border border-black' onClick={() => handleMyCommunity(community)}>
+										모임 페이지 이동하기
+									</Button>
 								</div>
-							</div>
-							<Button className='bg-primary-500 border border-black' onClick={() => handleMyCommunity(community)}>
-								모임 페이지 이동하기
-							</Button>
-						</div>
-					))}
+							))}
+						</>
+					) : (
+						<>참여 중인 모임이 없습니다</>
+					)}
 				</div>
 			</div>
 		</>
