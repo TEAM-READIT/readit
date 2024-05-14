@@ -172,8 +172,8 @@ const Challenge = () => {
 	const options = {
 		scales: {
 			y: {
-				min: 750,
-				max: 1250,
+				min: 975,
+				max: 1025,
 			},
 		},
 	};
@@ -195,6 +195,18 @@ const Challenge = () => {
 									묻는 간단한 2개의 문항으로 구성되어 있습니다. 챌린지는 하루에 한번만 응시 가능합니다. 모든 문항에
 									성실하게 답해주시기 바랍니다. 감사합니다.
 								</div>
+								<div className='flex flex-row justify-center pt-10'>
+									{challengeScoreList ? (
+										<>
+											<div className=' flex flex-row gap-20 font-bold text-xl'>
+												<span>
+													내 점수 : {challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}
+												</span>
+												<span>내 등수 : {rank?.myRank}</span>
+											</div>
+										</>
+									) : null}
+								</div>
 								<div className='flex flex-row w-full items-start justify-between h-3/5'>
 									<div className='flex flex-col gap-5 w-1/5 h-full justify-center'>
 										<span className='font-bold'>랭킹</span>
@@ -211,37 +223,21 @@ const Challenge = () => {
 									</div>
 								</div>
 
-								<div className='flex flex-row justify-between pt-20'>
-									<div className=''>
-										{challengeScoreList ? (
-											<>
-												<div className=' flex flex-row gap-20'>
-													<span>
-														내 점수 : {challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}
-													</span>
-													<span>내 등수 : {rank?.myRank}</span>
-												</div>
-											</>
-										) : null}
-									</div>
+								<div className='flex flex-row justify-end'>
 									{problems && problems.status === 400 ? (
-										<div className='flex flex-row justify-end'>
 											<button
 												className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-red-700 text-white border-red-300 hover:bg-red-800 '
 												onClick={() => navigate('/')}
 											>
 												<span>참여 완료</span>
 											</button>
-										</div>
 									) : (
-										<div className='flex flex-row justify-end'>
 											<button
 												className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
 												onClick={() => setNumber(1)}
 											>
 												<span>시작하기</span>
 											</button>
-										</div>
 									)}
 								</div>
 							</div>
