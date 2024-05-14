@@ -21,7 +21,6 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend);
 import { Line } from 'react-chartjs-2';
 import ChallengeHeader from './ChallengeHeader';
-import { useNavigate } from 'react-router-dom';
 
 interface ChallengeScore {
 	date: Date;
@@ -197,7 +196,6 @@ const Challenge = () => {
 			],
 		});
 	}, [challengeScoreList, challengeScoresList]);
-	const navigate = useNavigate();
 
 	const options = {
 		scales: {
