@@ -9,7 +9,10 @@ import readit.article.domain.repository.ArticleRepository;
 import readit.challenge.domain.MemberProblem;
 import readit.challenge.domain.Problem;
 import readit.challenge.domain.dto.*;
-import readit.challenge.domain.dto.response.*;
+import readit.challenge.domain.dto.response.GetChallengeRankResponse;
+import readit.challenge.domain.dto.response.GetChallengeStatisticsResponse;
+import readit.challenge.domain.dto.response.GetProblemsResponse;
+import readit.challenge.domain.dto.response.SubmitAnswerResponse;
 import readit.challenge.domain.repository.MemberProblemQueryRepository;
 import readit.challenge.domain.repository.MemberProblemRepository;
 import readit.challenge.domain.repository.ProblemRepository;
@@ -41,8 +44,7 @@ public class ChallengeService {
     public GetChallengeRankResponse getChallengeRank(Integer memberId) {
 
         List<GetRankMember> memberList = memberRepository.findTop7ByOrderByChallengeScoreDesc().stream()
-                .map(member -> GetRankMember.of(member.getName(), member.getProfile(), member.getChallengeScore(),
-                        memberRepository.countPlayersWithHigherScore(member.getChallengeScore()).orElseThrow() + 1))
+                .map(member -> GetRankMember.of(member.getName(), member.getProfile()))
                 .toList();
 
         int myScore = memberRepository.getById(memberId).getChallengeScore();
@@ -57,7 +59,7 @@ public class ChallengeService {
         Member member = memberRepository.getById(memberId);
         List<MemberProblem> list = memberProblemRepository.findByMemberAndSolvedAt(member, LocalDate.now());
         //오늘 이미 챌린지를 참여한 경우 확인
-        if (!memberProblemRepository.findByMemberAndSolvedAt(member, LocalDate.now()).isEmpty()) {
+        if(!memberProblemRepository.findByMemberAndSolvedAt(member, LocalDate.now()).isEmpty()){
             throw new TodayChallengeFinishedException();
         }
 
@@ -130,12 +132,5 @@ public class ChallengeService {
 
         return GetChallengeStatisticsResponse.from(scoreList);
 
-    }
-
-    public GetTotalChallengeStatisticsResponse getTotalChallengeStatistics(Integer memberId) {
-        boolean isSubmitToday = !memberProblemRepository.findByMember_IdAndSolvedAt(memberId, LocalDate.now()).isEmpty();
-        List<GetTotalScore> totalList = memberProblemQueryRepository.findTotalDateScore();
-
-        return GetTotalChallengeStatisticsResponse.of(totalList, isSubmitToday);
     }
 }

@@ -11,7 +11,6 @@ import readit.article.dto.response.GetStatsResponse;
 import readit.article.dto.response.*;
 import readit.auth.dto.AuthCredentials;
 import readit.auth.presentation.Auth;
-import readit.common.asepect.exectime.ExecutionTime;
 
 
 @RestController
@@ -21,7 +20,6 @@ public class ArticleController {
 
     private ArticleService articleService;
 
-    @ExecutionTime
     @GetMapping("/hot")
     public ResponseEntity<GetPopularArticleResponse> getPopularArticle(){
         GetPopularArticleResponse popularArticleResponses = articleService.getPopularArticles();

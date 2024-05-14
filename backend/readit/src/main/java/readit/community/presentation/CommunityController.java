@@ -47,7 +47,7 @@ public class CommunityController {
     public ResponseEntity<GetCommunityDetailResponse> getCommunityDetails(@PathVariable Integer communityId,
                                                                           @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
-//        memberId = 3;
+//        memberId = 1;
         GetCommunityDetailResponse response = communityService.getCommunityDetail(communityId, memberId);
         return ResponseEntity.ok(response);
     }
@@ -112,12 +112,6 @@ public class CommunityController {
     @Operation(summary = "커뮤니티 글 방문", description = "커뮤니티 글 방문 기능입니다.")
     public ResponseEntity<Void> increaseHits(@PathVariable Integer communityId) {
         communityService.increaseHits(communityId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/notice/{communityId}")
-    public ResponseEntity<Void> communityNotice(@PathVariable Integer communityId, @RequestBody String notice){
-        communityService.communityNotice(communityId, notice);
         return ResponseEntity.ok().build();
     }
 
