@@ -1,6 +1,7 @@
 package readit.article.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.application.support.SupportServiceDelegate;
@@ -13,6 +14,7 @@ import readit.article.domain.repository.CategoryRepository;
 import readit.article.dto.Page;
 import readit.article.dto.response.*;
 import readit.article.infra.FastAPIClient;
+import readit.common.asepect.exectime.ExecutionTime;
 import readit.viewer.domain.entity.MemberArticle;
 import readit.viewer.domain.entity.Memo;
 import readit.viewer.domain.repository.MemberArticleRepository;
@@ -35,6 +37,7 @@ public class ArticleService {
     private final SupportServiceDelegate supportServiceDelegate;
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "popularArticles")
     public GetPopularArticleResponse getPopularArticles(){
         List<Article> articleList = supportServiceDelegate.getArticleList();
         List<Article> epigraphyList = supportServiceDelegate.getArticleListByType(ArticleType.EPIGRAPHY);
@@ -75,11 +78,12 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "articleSearch", key = "#category + #title + #content + #reporter + #cursor + #limit")
     public GetArticleSearchResponse getArticleSearchList(String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
         Article article = articleRepository.getById(cursor);
         Integer hitCursor = Optional.ofNullable(article)
                 .map(Article::getHit)
-                .orElse(null);;
+                .orElse(null);
         Page<Article> searchList = articleQueryRepository.findArticleWithFilter(hitCursor,category,title,content,reporter,hit,cursor,limit);
         return GetArticleSearchResponse.from(searchList);
     }
