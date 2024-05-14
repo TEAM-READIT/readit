@@ -156,7 +156,22 @@ const Chart = () => {
 			],
 		});
 	}, [scoreList,challengeScoreList]);
-
+	const options = {
+		scales: {
+			y: {
+				min: 750,
+				max: 1250,
+			},
+		},
+	};
+	const options2 = {
+		scales: {
+			y: {
+				min: 0,
+				max: 100,
+			},
+		},
+	};
 	return (
 		<>
 			<div className='w-2/3 h-1/3 flex flex-col'>
@@ -174,7 +189,11 @@ const Chart = () => {
 						챌린지 점수 변화
 					</div>
 				</div>
-				{mode == summary ? <Line data={graphData}></Line> : <Line data={challengegraphData}></Line>}
+				{mode == summary ? (
+					<Line data={graphData} options={options2}></Line>
+				) : (
+					<Line data={challengegraphData} options={options}></Line>
+				)}
 			</div>
 		</>
 	);
