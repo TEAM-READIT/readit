@@ -14,13 +14,11 @@ interface Article {
 const SearchList = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-		const articles: Article[] = location.state?.articles;
+	const articles: Article[] = location.state?.articles;
 
-
-	const handleCard = (article:Article) => {
-		navigate('/summary', {state: {article}})
-	}
-
+	const handleCard = (article: Article) => {
+		navigate('/summary', { state: { article } });
+	};
 
 	return (
 		<>
@@ -55,13 +53,15 @@ const SearchList = () => {
 										) : (
 											<div>{article.content?.slice(0, 130)}...</div>
 										)} */}
-										<div id='text' dangerouslySetInnerHTML={{ __html: article.content?.slice(0,130) }}></div>
+										<div id='text' dangerouslySetInnerHTML={{ __html: article.content?.slice(0, 130) }}></div>
 									</div>
 								</div>
 							</Card>
 						))}
 					</>
-				) : null}
+				) : (
+					<>읽은 글이 없습니다</>
+				)}
 			</div>
 		</>
 	);

@@ -59,7 +59,6 @@ const Challenge = () => {
 			headers: headers,
 		}).then((response) => response.json());
 		setRank(data);
-		console.log(data)
 		return data;
 	};
 
@@ -96,8 +95,7 @@ const Challenge = () => {
 						for (let j = 0; j < timediff; j++) {
 							myScoreList.push(mychallangeData[i - 1]?.score);
 						}
-					}
-					else{
+					} else {
 						myScoreList.push(mychallangeData[i]?.score);
 					}
 				}
@@ -108,7 +106,6 @@ const Challenge = () => {
 				}
 			}
 		}
-
 	});
 
 	// 전체 사용자 챌린지 점수 통계 받아오기
@@ -232,21 +229,32 @@ const Challenge = () => {
 										<>
 											<div className=' flex flex-row gap-20 font-bold text-xl'>
 												<span>
-													내 점수 : {challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}
+													내 점수 : {challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score ? <>
+													{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}
+													</> 
+													:  '   1000'}점
+													
 												</span>
-												<span>내 등수 : {rank?.myRank}</span>
+												<span>내 등수 : {rank?.myRank}등</span>
 											</div>
 										</>
 									) : null}
 								</div>
 								<div className='flex flex-row w-full items-start justify-between h-3/5'>
-									<div className='flex flex-col gap-5 w-1/5 h-full justify-center'>
-										<span className='font-bold'>랭킹</span>
+									<div className='flex flex-col gap-3 w-2/6 h-full justify-center  px-2'>
+										<span className='font-bold pb-10'>랭킹</span>
 										{rank?.memberList.slice(0, 5).map((member, index) => (
-											<div key={index} className='flex flex-row gap-5 items-center'>
-												<img src={member.profile} alt='프로필 사진' className='w-12 rounded-full' />
-												<div className=''>{index + 1}등</div>
-												<div>{member.name}</div>
+											<div key={index} className='flex flex-row items-center'>
+												<div className='flex flex-row items-center gap-5 w-3/4'>
+													<img src={member.profile} alt='프로필 사진' className='w-12 rounded-full' />
+													<div className=''>{member.rank}등</div>
+													<div>{member.name}</div>
+												</div>
+												<div className='w-'>
+													<div className='flex flex-row justify-end  '>
+														<div>{member.challengeScore}점</div>
+													</div>
+												</div>
 											</div>
 										))}
 									</div>
@@ -257,12 +265,11 @@ const Challenge = () => {
 
 								<div className='flex flex-row justify-end'>
 									{problems && problems.status === 400 ? (
-										<button
-											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-red-700 text-white border-red-300 hover:bg-red-800 '
-											onClick={() => navigate('/')}
+										<div
+											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-gray-400 text-white border-gray-300'
 										>
-											<span>참여 완료</span>
-										</button>
+											<span>오늘 이미 참여했습니다</span>
+										</div>
 									) : (
 										<button
 											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
