@@ -22,7 +22,6 @@ interface FeedBackProps {
 	feedback: string;
 }
 
-
 interface RequestBody {
 	content: string;
 	summary: string;
@@ -33,7 +32,6 @@ interface RequestBody {
 export const ViewerPage = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
-
 	const [isBottomOpen, setBottomOpen] = useState(true);
 	const location = useLocation();
 	const [memos, setMemos] = useState<string[]>([]);
@@ -55,7 +53,6 @@ export const ViewerPage = () => {
 	const [change, setChange] = useState<number>(0);
 
 	const total = document.querySelector('#text')?.outerHTML;
-	
 
 	useEffect(() => {}, [
 		change,
@@ -152,13 +149,16 @@ export const ViewerPage = () => {
 	};
 
 	useEffect(() => {
-		fetchMemo();
+		if (article.completedAt === null) {
+			fetchMemo();
+		}
 	}, []);
 
 	useEffect(() => {
 		const refresh = setTimeout(() => {}, 3000);
 		return () => clearTimeout(refresh);
 	});
+
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
@@ -225,26 +225,26 @@ export const ViewerPage = () => {
 					<div className='relative flex h-screen transition-all duration-300 ease-in-out w-1/5 pb-10'>
 						<div className='w-full h-full transition-all duration-300 ease-in-out block px-5'>
 							<div className='overflow-y-auto overflow-x-hidden h-[85%] p-10 border-2 border-solid rounded-lg'>
-									<Memos memos={memos} />
+								<Memos memos={memos} />
 							</div>
-								<div className='flex flex-row items-center w-full justify-center gap-5 pt-5'>
-									<Button
-										className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500 '
-										onClick={handleTempSubmit}
-									>
-										<div className='flex items-center'>
-											<span>임시 저장</span>
-										</div>
-									</Button>
-									<Button
-										className='w-full border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
-										onClick={handleSubmit}
-									>
-										<div className='flex items-center'>
-											<span>제출</span>
-										</div>
-									</Button>
-								</div>
+							<div className='flex flex-row items-center w-full justify-center gap-5 pt-5'>
+								<Button
+									className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500 '
+									onClick={handleTempSubmit}
+								>
+									<div className='flex items-center'>
+										<span>임시 저장</span>
+									</div>
+								</Button>
+								<Button
+									className='w-full border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
+									onClick={handleSubmit}
+								>
+									<div className='flex items-center'>
+										<span>제출</span>
+									</div>
+								</Button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -252,17 +252,17 @@ export const ViewerPage = () => {
 			{isOpen ? (
 				<>
 					<div className='bg-black absolute z-50 w-full h-screen opacity-70 flex flex-col  justify-center items-center'></div>
-					<Card className='flex flex-col w-full max-w-[800px] h-[500px] mt-24 absolute z-50  border-2 justify-start left-1/2 top-1/3  transform -translate-x-1/2 -translate-y-1/2'>
+					<Card className='flex flex-col w-full max-w-[800px] h-[600px] mt-24 absolute z-50  border-2 justify-start left-1/2 top-1/3  transform -translate-x-1/2 -translate-y-1/2'>
 						<div className='flex flex-row w-full  justify-between font-nicolast'>
 							<div>READIT</div>
 							<div onClick={handleExit}>
 								<span className='material-symbols-outlined text-[1.2rem] hover:cursor-pointer'>close</span>
 							</div>
 						</div>
-						<div className='w-full h-full p-10 flex flex-col justify-between pt-20'>
+						<div className='w-full h-full p- flex flex-col justify-between'>
 							{summarySubmit.isLoading ? (
 								<>
-									<div className=' flex h-4/5 flex-col justify-center gap-20'>
+									<div className=' flex h-4/5 flex-col justify-center gap-20 pt-20'>
 										글을 분석하고 있습니다
 										<div role='status'>
 											<svg
@@ -287,10 +287,12 @@ export const ViewerPage = () => {
 								</>
 							) : (
 								<>
-									<div className='text-start'>요약 : {summary}</div>
-									<div className='text-start'>{feedback?.feedback}</div>
-									<div className='flex flex-row justify-end'>
-										<span>{feedback?.score} / 100</span>
+									<div className='h-5/6 flex flex-col justify-between pt-5'>
+										<div className='text-start break-words'>요약 : {summary.slice(0, 500)}</div>
+										<div className='text-start whitespace-pre-wrap'>{feedback?.feedback!}</div>
+										<div className='flex flex-row justify-end'>
+											<span>{feedback?.score}점</span>
+										</div>
 									</div>
 									<div className='flex flex-row justify-end'>
 										<div className='flex flex-row justify-between gap-5 h-10'>
