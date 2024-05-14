@@ -29,6 +29,7 @@ const Essay = () => {
 		const response = await fetch(`${baseUrl}/article/search/article?${filtered}&cursor=${page}&limit=${limit}`, {
 			headers: headers,
 		});
+		// console.log(`${baseUrl}/article/search/article?${filtered}&cursor=${page}&limit=${limit}`);
 		const data = await response.json();
 		return data;
 	};
@@ -189,7 +190,7 @@ const Essay = () => {
 
 
 	const handleCardClick = (article: articleList, communityId: number | null) => {
-		navigate('/text', { state: { article, communityId } });
+		navigate('/viewer', { state: { article, communityId } });
 		handlehits(article.id!);
 	};
 
@@ -222,6 +223,8 @@ const Essay = () => {
 					handleApplyFilter();
 		}
 	};
+
+
 	return (
 		<>
 			<div className='w-full h-full flex justify-center flex-col items-center'>
@@ -245,19 +248,6 @@ const Essay = () => {
 												<div className='flex flex-row items-center gap-10'>
 													{/* <Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div> */}
 												</div>
-												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
-													<option value='title'>제목</option>
-													<option value='content'>내용</option>
-													<option value='writerName'>작성자</option>
-												</select>
-												<input
-													type='text'
-													name='keyword'
-													placeholder='검색어'
-													className='input'
-													onChange={(e) => setKeyword(e.target.value)}
-													onKeyDown={handleKeyPress}
-												/>
 												{categoryName ? null : (
 													<>
 														<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
@@ -273,6 +263,20 @@ const Essay = () => {
 														</select>
 													</>
 												)}
+												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
+													<option value='title'>제목</option>
+													<option value='content'>내용</option>
+													<option value='repoter'>작성자</option>
+												</select>
+
+												<input
+													type='text'
+													name='keyword'
+													placeholder='검색어'
+													className='input'
+													onChange={(e) => setKeyword(e.target.value)}
+													onKeyDown={handleKeyPress}
+												/>
 											</div>
 
 											<button

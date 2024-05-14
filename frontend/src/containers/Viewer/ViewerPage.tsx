@@ -12,15 +12,16 @@ import { useMutation } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import useModal from '../../hooks/useModal';
 
+interface MemoList {
+	id: number;
+	content: string;
+}
+
 interface FeedBackProps {
 	score: number;
 	feedback: string;
 }
 
-interface wordListProps {
-	word: string;
-	definition: string;
-}
 
 interface RequestBody {
 	content: string;
@@ -32,6 +33,7 @@ interface RequestBody {
 export const ViewerPage = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
+
 	const [isBottomOpen, setBottomOpen] = useState(true);
 	const location = useLocation();
 	const [memos, setMemos] = useState<string[]>([]);
@@ -40,10 +42,7 @@ export const ViewerPage = () => {
 	const [id, setId] = useState<number>();
 	const communityId = location.state?.communityId; // 커뮤니티 내에서 읽으려면 커뮤니티 아이디를 추가로 보내야되는데 어디다가?
 	const navigate = useNavigate();
-	const [wordList, setWordList] = useState<wordListProps[]>();
 	const [isOpen, open, close] = useModal();
-	const [defaultSummaryValue, setDefaultSummaryValue] = useState<string>('요약문을 작성해주세요!');
-	const [istemp, setIstemp] = useState<boolean>(false)
 	// 요약한 내용
 	const [summary, setSummary] = useState<string>('');
 	// 피드백
@@ -56,28 +55,13 @@ export const ViewerPage = () => {
 	const [change, setChange] = useState<number>(0);
 
 	const total = document.querySelector('#text')?.outerHTML;
-	// 어려운 단어 불러오기
-	const fetchWord = async () => {
-		const headers = {
-			Authorization: `Bearer ${accessToken}`,
-		};
-		const response = await fetch(`${baseUrl}/viewer/${id}`, {
-			headers: headers,
-		});
-		const data = await response.json();
-		setWordList(data);
-		return data;
-	};
+	
 
 	useEffect(() => {}, [
 		change,
 		// setId
 	]);
-	useEffect(() => {
-		if (id) {
-			fetchWord();
-		}
-	}, [id]);
+
 	useEffect(() => {
 		// fetchUnreadData();
 		if (article?.id) {
@@ -144,12 +128,46 @@ export const ViewerPage = () => {
 		navigate('/');
 	};
 
+	const getMemo = async () => {
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const response = await fetch(`${baseUrl}/article/memo/${article.id}`, {
+			headers: headers,
+		});
+		const data = await response.json();
+		return data;
+	};
+
+	const fetchMemo = async () => {
+		try {
+			const data = await getMemo();
+			const mem = data.memoList;
+			mem.forEach((me: MemoList) => {
+				memos.push(me.content);
+			});
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	};
+
+	useEffect(() => {
+		fetchMemo();
+	}, []);
+
+	useEffect(() => {
+		const refresh = setTimeout(() => {}, 3000);
+		return () => clearTimeout(refresh);
+	});
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
 				<Modal.Body>
-					<div className='text-center flex flex-col p-3 gap-3'>
-						<h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>임시 저장 되었습니다</h3>
+					<div className='text-center flex flex-col py-3 gap-10'>
+						<div className='flex flex-col gap-2'>
+							<span className='text-lg text-black dark:text-gray-400'>임시 저장 되었습니다</span>
+							<span className='text-gray-500'>(마이페이지 읽고 있는 글에서 확인하실 수 있습니다)</span>
+						</div>
 						<div className='flex justify-center gap-4'>
 							<Button
 								className='border bg-gray-400 text-white border-gray-300 hover:bg-gray-500 '
@@ -171,33 +189,23 @@ export const ViewerPage = () => {
 				</Modal.Body>
 			</Modal>
 
-			<div className=' z-50 w-full h-screen flex flex-col items-center  overflow-hidden'>
+			<div className=' z-50 w-full h-screen flex flex-col items-center overflow-hidden'>
 				<Headers />
 				<div className='relative flex w-full'>
-					<div className={` relative flex flex-col w-5/6 h-screen transition-all duration-300 ease-in-out`}>
+					<div className={` relative flex flex-col w-4/5 h-screen transition-all duration-300 ease-in-out`}>
 						<div
 							className={`relative flex w-full ${isBottomOpen ? 'h-3/5' : 'h-[88%]'} transition-all duration-300 ease-in-out`}
 						>
-							<DictionarySearch />
-							<div className='w-full h-full relative'>
+							<div className='w-1/4 h-full'>
+								<DictionarySearch />
+							</div>
+							<div className='w-3/4 h-full relative'>
 								{linkdata ? (
 									<>
-										<MainText
-											setMemos={setMemos}
-											article={linkdata}
-											setChange={setChange}
-											wordList={wordList}
-											setDefaultSummaryValue={setDefaultSummaryValue}
-										/>
+										<MainText setMemos={setMemos} article={linkdata} setChange={setChange} memos={memos} />
 									</>
 								) : (
-									<MainText
-										setMemos={setMemos}
-										article={article}
-										setChange={setChange}
-										wordList={wordList}
-										setDefaultSummaryValue={setDefaultSummaryValue}
-									/>
+									<MainText setMemos={setMemos} article={article} setChange={setChange} memos={memos} />
 								)}
 							</div>
 						</div>
@@ -208,35 +216,35 @@ export const ViewerPage = () => {
 								<img src={isBottomOpen ? DownArrow : UpArrow} />
 							</div>
 							<div
-								className={`w-full h-full p-[1vw] transition-all duration-300 ease-in-out border-solid  ${isBottomOpen ? 'block' : 'hidden'}`}
+								className={`w-full h-full pl-10 pb-10 transition-all duration-300 ease-in-out ${isBottomOpen ? 'block' : 'hidden'}`}
 							>
-								<TextBox setSummary={setSummary} defaultSummaryValue={defaultSummaryValue} />
+								<TextBox setSummary={setSummary} article={article} />
 							</div>
 						</div>
 					</div>
-					<div className='relative flex h-screen transition-all duration-300 ease-in-out border-solid border-2 w-1/6'>
-						<div className='w-full h-full transition-all duration-300 ease-in-out block '>
-							<div className='overflow-y-auto overflow-x-hidden h-[85%] p-10'>
-								<Memos memos={memos} />
+					<div className='relative flex h-screen transition-all duration-300 ease-in-out w-1/5 pb-10'>
+						<div className='w-full h-full transition-all duration-300 ease-in-out block px-5'>
+							<div className='overflow-y-auto overflow-x-hidden h-[85%] p-10 border-2 border-solid rounded-lg'>
+									<Memos memos={memos} />
 							</div>
-							<div className='flex flex-row items-center w-full justify-center px-10 gap-5  '>
-								<Button
-									className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500 '
-									onClick={handleTempSubmit}
-								>
-									<div className='flex items-center'>
-										<span>임시 저장</span>
-									</div>
-								</Button>
-								<Button
-									className='w-full border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
-									onClick={handleSubmit}
-								>
-									<div className='flex items-center'>
-										<span>제출</span>
-									</div>
-								</Button>
-							</div>
+								<div className='flex flex-row items-center w-full justify-center gap-5 pt-5'>
+									<Button
+										className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500 '
+										onClick={handleTempSubmit}
+									>
+										<div className='flex items-center'>
+											<span>임시 저장</span>
+										</div>
+									</Button>
+									<Button
+										className='w-full border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
+										onClick={handleSubmit}
+									>
+										<div className='flex items-center'>
+											<span>제출</span>
+										</div>
+									</Button>
+								</div>
 						</div>
 					</div>
 				</div>

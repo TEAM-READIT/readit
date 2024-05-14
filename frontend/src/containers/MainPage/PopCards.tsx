@@ -28,7 +28,7 @@ const PopCards = () => {
 	};
 
 	const handleCardClick = (article: articleList| null) => {
-		navigate('/text', { state: { article  } });
+		navigate('/viewer', { state: { article  } });
 		handlehits(article?.id!);
 	};
 
@@ -56,8 +56,8 @@ const PopCards = () => {
 
 	return (
 		<>
-			<div className='flex flex-col w-full items-center pb-10'>
-				<div className='flex flex-row w-full h-28 items-center text-gray-400 font-bold text-2xl text-end gap-x-16 '>
+			<div className='flex flex-col w-full items-center'>
+				<div className='flex flex-row w-full h-24 items-center text-gray-400 font-bold text-2xl text-end gap-x-16 '>
 					{mode == total ? (
 						<div className='text-black hover:cursor-pointer'>
 							<div onClick={() => setMode(total)}>🔥 이번 주 리딧 인기글</div>
@@ -92,7 +92,7 @@ const PopCards = () => {
 							{popArticles?.articleList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-52 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+									className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 									onClick={() => {
 										handleCardClick(article);
 									}}
@@ -124,7 +124,7 @@ const PopCards = () => {
 							{popArticles?.newsList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-52  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+									className='flex flex-col w-64 h-48  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 									onClick={() => {
 										handleCardClick(article);
 									}}
@@ -156,7 +156,7 @@ const PopCards = () => {
 							{popArticles?.epigraphyList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-52  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+									className='flex flex-col w-64 h-48  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 									onClick={() => handleCardClick(article)}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>

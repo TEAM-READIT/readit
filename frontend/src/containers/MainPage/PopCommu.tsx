@@ -51,15 +51,15 @@ const PopCommu = () => {
 	const communitys = popCommunity?.communityList;
 	return (
 		<>
-			<div className='flex flex-col w-full items-center pb-32'>
-				<div className='flex flex-row w-full h-28 items-center text-gray-400 font-bold text-2xl text-end gap-x-16'>
+			<div className='flex flex-col w-full items-center'>
+				<div className='flex flex-row w-full h-24 items-center text-gray-400 font-bold text-2xl text-end gap-x-16'>
 					<div className='text-black hover:cursor-pointer flex flex-row justify-between items-center w-full pr-10'>
 						<div>🔥 이번 주 리딧 인기 모임</div>
 						<div className='flex'>
-							<span className='material-symbols-outlined' onClick={() => setPage(1)}>
+							<span className='material-symbols-outlined' onClick={() => setPage((prev) => prev * -1)}>
 								arrow_circle_left
 							</span>
-							<span className='material-symbols-outlined' onClick={() => setPage(2)}>
+							<span className='material-symbols-outlined' onClick={() => setPage((prev) => prev * -1)}>
 								arrow_circle_right
 							</span>
 						</div>
@@ -72,7 +72,7 @@ const PopCommu = () => {
 								{communitys?.slice(0, 4).map((community, index) => (
 									<Card
 										key={index}
-										className='flex flex-col w-64 h-52  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+										className='flex flex-col w-64 h-48  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 										onClick={() => handleCardClick(community)}
 									>
 										<div className='flex justify-end gap-2 h-1/5'>
@@ -97,7 +97,7 @@ const PopCommu = () => {
 								{communitys?.slice(4, 8).map((community, index) => (
 									<Card
 										key={index}
-										className='flex flex-col w-64 h-52 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+										className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
 										onClick={() => handleCardClick(community)}
 									>
 										<div className='flex justify-end gap-2 h-1/5'>
