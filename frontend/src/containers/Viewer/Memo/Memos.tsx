@@ -1,4 +1,16 @@
+import { useEffect, useState } from 'react';
+
 export const Memos = ({ memos }: { memos: string[] }) => {
+	const [refresh, setrefresh] = useState<number>(0);
+
+	useEffect(() => {
+		const hardrefresh = setTimeout(() => {
+			setrefresh(1);
+		}, 1000);
+		return () => clearTimeout(hardrefresh);
+	}, []);
+
+	useEffect(() => {}, [refresh]);
 	return (
 		<>
 			<div className='text-start flex flex-col gap-10'>
@@ -8,7 +20,7 @@ export const Memos = ({ memos }: { memos: string[] }) => {
 						<>
 							<div className='flex flex-col gap-10'>
 								{memos.map((memo, index) => (
-									<div key={index} className='bg-yellow-200 shadow-lg max-w-[300px] h-full p-5 '>
+									<div key={index} className='bg-yellow-200 shadow-lg max-w-[300px] h-full p-5 break-words'>
 										{memo}
 									</div>
 								))}

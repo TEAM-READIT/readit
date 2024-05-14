@@ -8,8 +8,9 @@ interface Dictionary {
 
 export const DictionarySearch = () => {
 	const [searchWord, setSearchWord] = useState('');
-	const [history, setHistory] = useState<Dictionary[]>([]); // history 배열을 useState를 이용하여 관리
+	// const [history, setHistory] = useState<Dictionary[]>([]); // history 배열을 useState를 이용하여 관리
 	const {accessToken} = useAuthStore();
+
 	const [dictionaryData, setDictionaryData] = useState<Dictionary>();
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const WordData = async () => {
@@ -39,7 +40,8 @@ export const DictionarySearch = () => {
 					alert('없는 단어 입니다')
 					return
 				}
-				setDictionaryData(res), setHistory((prevHistory) => [...prevHistory, res]);
+				setDictionaryData(res)
+					// , setHistory((prevHistory) => [...prevHistory, res]);
 			})
 			.catch((_err) => {
 				console.log('단어 검색하는거 에러');
@@ -50,9 +52,9 @@ export const DictionarySearch = () => {
 
 	return (
 		<>
-			<div className={`relative flex flex-col w-1/6 h-full justify-between`}>
-				<div className='w-full h-full border-solid overflow-auto border p-[1vw]'>
-					<div className='flex w-full justify-center items-center pt-5'>
+			<div className={`relative flex flex-col h-full justify-between px-10 `}>
+				<div className='w-full h-full overflow-auto border-solid border-2 p-5 rounded-lg'>
+					<div className='flex w-full justify-center items-center'>
 						<input
 							type='search'
 							className='text-sm w-[90%] m-[0.5vw] block rounded border border-solid border-neutral-200 bg-transparent bg-clip-padding py-[0.2rem] font-normal leading-[1.6] text-surface outline-none transition duration-200 ease-in-out placeholder:text-neutral-500 focus:z-[3] focus:border-primary focus:shadow-inset focus:outline-none motion-reduce:transition-none dark:border-white/10 dark:text-white dark:placeholder:text-neutral-200 dark:autofill:shadow-autofill dark:focus:border-primary'
@@ -67,7 +69,7 @@ export const DictionarySearch = () => {
 					<div className='flex flex-col p-[1.5vw]  gap-5 text-start'>
 						<h3 className='font-bold text-lg'>{dictionaryData?.word}</h3>
 						<div className=''>{dictionaryData?.definition}</div>
-						<div>
+						{/* <div>
 							{history
 								?.slice(0, -1)
 								.reverse()
@@ -77,7 +79,7 @@ export const DictionarySearch = () => {
 										<div>{word.definition}</div>
 									</div>
 								))}
-						</div>
+						</div> */}
 					</div>
 				</div>
 

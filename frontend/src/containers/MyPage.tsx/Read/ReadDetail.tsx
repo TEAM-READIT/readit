@@ -26,7 +26,7 @@ const ReadDetail = () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const response = await fetch(`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}`, {
+		const response = await fetch(`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}&isComplete=true`, {
 			headers: headers,
 		});
 		const data = await response.json();
@@ -271,10 +271,10 @@ const ReadDetail = () => {
 				<div ref={observerRef} className=''>
 					<br />
 					{totalArticles?.articleList?.length === 0
-						? '검색하려는 기사가 없습니다'
+						? '읽은 글이 없습니다'
 						: isFetchingNextPage && hasNextPage
-							? '기사를 로딩 중입니다'
-							: '더 이상 남은 기사가 없습니다'}
+							? '읽은 글을 로딩 중입니다'
+							: '더 이상 남은 읽은 글이 없습니다'}
 
 					<br />
 					<br />

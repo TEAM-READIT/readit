@@ -1,20 +1,19 @@
-import Headers from '../../components/Headers';
-import EssayHeader from './EssayHeader';
+import Headers from '../../../components/Headers';
+import ReadDetailHeaders from './ReadDeatilHeaders';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { articleList } from '../../types/articleProps';
+import { articleList } from '../../../types/articleProps';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useInfiniteQuery, useMutation } from 'react-query';
-import { useAuthStore } from '../../store/auth';
+import { useInfiniteQuery } from 'react-query';
 import { Card, Checkbox } from 'flowbite-react';
+import { useAuthStore } from '../../../store/auth';
 
-const Essay = () => {
+const SavedDetail = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
+
 	const observerRef = useRef(null);
 	const location = useLocation();
 	const communityId = location.state?.communityId;
-	const categoryName = location.state?.categoryName;
-	// const [isMember, setIsMember] = useState<boolean>(false);
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
 	const limit = 12;
@@ -26,35 +25,14 @@ const Essay = () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const response = await fetch(`${baseUrl}/article/search/article?${filtered}&cursor=${page}&limit=${limit}`, {
-			headers: headers,
-		});
-		// console.log(`${baseUrl}/article/search/article?${filtered}&cursor=${page}&limit=${limit}`);
+		const response = await fetch(
+			`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}&isComplete=false`,
+			{
+				headers: headers,
+			},
+		);
 		const data = await response.json();
 		return data;
-	};
-
-	// 내가 안읽은 글이 더 맞는거 같은데
-	const unreadArticleData = async (page: number, filtered: string) => {
-		const headers = {
-			Authorization: `Bearer ${accessToken}`,
-		};
-		const response = await fetch(`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}`, {
-			headers: headers,
-		});
-		const data = await response.json();
-		return data;
-	};
-
-	// 안읽은 글 호출 함수
-	const fetchUnreadData = async (filtered: string) => {
-		try {
-			const data = await unreadArticleData(1, filtered);
-			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
-			window.scrollTo(0, 0);
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		}
 	};
 
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
@@ -69,22 +47,8 @@ const Essay = () => {
 		}
 	};
 
-	useEffect(() => {}, [fetchData, fetchUnreadData]);
-	
-	// const categoryStyles: { [key: string]: string } = {
-	// 	비문학: 'bg-blue-200 border border-blue-500',
-	// 	정치: 'bg-gray-200 border border-gray-400 text-black',
-	// 	경제: 'bg-green-200 border border-green-400 text-black',
-	// 	사회: 'bg-yellow-100 border-yellow-400 text-black',
-	// 	'생활/문화': 'bg-purple-200 border-purple-400 text-black',
-	// 	'IT/과학': 'bg-indigo-200 border-indigo-400 text-black',
-	// 	세계: 'bg-pink-200 border-pink-400 text-black',
-	// 	오피니언: 'bg-red-200 border-red-400 text-black',
-	// };
+	useEffect(() => {}, [fetchData]);
 
-	// function getCategoryStyle(categoryName: string) {
-	// 	return categoryStyles[categoryName] || 'bg-gray-200 text-gray-800';
-	// }
 	// 무한 스크롤을 사용하여 데이터 가져오기
 	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
 		'articles',
@@ -98,7 +62,7 @@ const Essay = () => {
 
 							if (res.articleList && typeof res.articleList[Symbol.iterator] === 'function') {
 								newArticleList.push(...res.articleList);
-							} 
+							}
 							return {
 								articleList: newArticleList,
 								hasNext: res.hasNext,
@@ -123,8 +87,7 @@ const Essay = () => {
 	// 마지막 아티클 ID를 기반으로 페이지 설정
 	useEffect(() => {
 		if (totalArticles) {
-
-			if (totalArticles?.articleList?.length > 0 ) {
+			if (totalArticles?.articleList?.length > 0) {
 				const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
 				setPage(lastArticleId!);
 			} else {
@@ -170,34 +133,11 @@ const Essay = () => {
 
 	const navigate = useNavigate();
 
-	// 조회수 ++
-	const hits = useMutation(async (id:number) => {
-		await fetch(`${baseUrl}/article/hit/${id}`, {
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
-				'Content-Type': 'application/json',
-			},
-		});
-	});
-	const handlehits = async (id:number) => {
-		try {
-			await hits.mutateAsync(id);
-		} catch (error) {
-			console.error('', error);
-		}
-	};
-
-
 	const handleCardClick = (article: articleList, communityId: number | null) => {
 		navigate('/viewer', { state: { article, communityId } });
-		handlehits(article.id!);
 	};
 
 	let filtered = '';
-	if (categoryName) {
-		filtered += `category=${categoryName}`;
-	}
 
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');
@@ -218,19 +158,24 @@ const Essay = () => {
 		// 필터 넣어서 fetchData 요청
 		fetchData(filtered);
 	};
-	const handleKeyPress = (e: any) => {
-		if (e.key === 'Enter') {
-					handleApplyFilter();
-		}
+
+	const handleOrigin = (text: string) => {
+		const newText = text?.replace(/<[^>]+>/g, '');
+		return newText;
 	};
 
+	const handleKeyPress = (e: any) => {
+		if (e.key === 'Enter') {
+			handleApplyFilter();
+		}
+	};
 
 	return (
 		<>
 			<div className='w-full h-full flex justify-center flex-col items-center'>
 				<Headers />
 				<div className='flex flex-col w-3/5 justify-start items-center '>
-					<EssayHeader />
+					<ReadDetailHeaders />
 				</div>
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
@@ -248,27 +193,11 @@ const Essay = () => {
 												<div className='flex flex-row items-center gap-10'>
 													{/* <Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div> */}
 												</div>
-												{categoryName ? null : (
-													<>
-														<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
-															<option value=''>카테고리 선택</option>
-															<option value='비문학'>비문학</option>
-															<option value='정치'>정치</option>
-															<option value='경제'>경제</option>
-															<option value='사회'>사회</option>
-															<option value='생활/문화'>생활/문화</option>
-															<option value='IT/과학'>IT/과학</option>
-															<option value='세계'>세계</option>
-															<option value='오피니언'>오피니언</option>
-														</select>
-													</>
-												)}
 												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
 													<option value='title'>제목</option>
 													<option value='content'>내용</option>
-													<option value='repoter'>작성자</option>
+													<option value='writerName'>작성자</option>
 												</select>
-
 												<input
 													type='text'
 													name='keyword'
@@ -277,6 +206,17 @@ const Essay = () => {
 													onChange={(e) => setKeyword(e.target.value)}
 													onKeyDown={handleKeyPress}
 												/>
+												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
+													<option value=''>카테고리 선택</option>
+													<option value='비문학'>비문학</option>
+													<option value='정치'>정치</option>
+													<option value='경제'>경제</option>
+													<option value='사회'>사회</option>
+													<option value='생활/문화'>생활/문화</option>
+													<option value='IT/과학'>IT/과학</option>
+													<option value='세계'>세계</option>
+													<option value='오피니언'>오피니언</option>
+												</select>
 											</div>
 
 											<button
@@ -319,13 +259,8 @@ const Essay = () => {
 													<div>{article.title.slice(0, 14)}...</div>
 												)}
 											</div>
-											<div className='text-sm'>
-												{article.content.length <= 120 ? (
-													<div>{article.content} </div>
-												) : (
-													<div>{article.content.slice(0, 120)}...</div>
-												)}
-											</div>
+											{/* <div id='text' dangerouslySetInnerHTML={{ __html: article.content?.slice(0, 130)}}></div> */}
+											<div className='text-sm'>{handleOrigin(article.content)?.slice(0, 130)}</div>
 										</div>
 									</Card>
 								))}
@@ -333,13 +268,13 @@ const Essay = () => {
 						) : null}
 					</div>
 				</div>
-				<div ref={observerRef}>
+				<div ref={observerRef} className=''>
 					<br />
 					{totalArticles?.articleList?.length === 0
-						? '검색하려는 기사가 없습니다'
+						? '읽고 있는 글이 없습니다'
 						: isFetchingNextPage && hasNextPage
-							? '기사를 로딩 중입니다'
-							: '더 이상 남은 기사가 없습니다'}
+							? '읽고 있는 글을 로딩 중입니다'
+							: '더 이상 남은 읽고 있는 글이 없습니다'}
 
 					<br />
 					<br />
@@ -349,4 +284,4 @@ const Essay = () => {
 	);
 };
 
-export default Essay;
+export default SavedDetail;
