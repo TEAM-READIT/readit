@@ -1,26 +1,17 @@
-import {
-	useState,
-	// useEffect, useRef
-} from 'react';
+import { useEffect, useState } from 'react';
 import { articleList } from '../../../types/articleProps';
 import useModal from '../../../hooks/useModal';
-
-
-interface wordListProps {
-	word: string;
-	definition: string;
-}
 
 export const MainText = ({
 	article,
 	setMemos,
 	setChange,
-	wordList,
+	memos,
 }: {
 	article: articleList;
 	setMemos: React.Dispatch<React.SetStateAction<string[]>>;
 	setChange: React.Dispatch<React.SetStateAction<number>>;
-	wordList: wordListProps[] | undefined;
+	memos: string[];
 }) => {
 	const [isOpen, open, close] = useModal();
 	const [position, setPosition] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
@@ -30,7 +21,66 @@ export const MainText = ({
 	const [memo, setMemo] = useState('');
 	const [number, setNumber] = useState(0);
 
-	console.log(wordList)
+	useEffect(() => {
+		const hardrefresh = setTimeout(() => {
+			if (memos.length > 0) {
+				setNumber(memos.length);
+			}
+		}, 1000);
+		return () => clearTimeout(hardrefresh);
+	}, []);
+
+	useEffect(() => {}, [number]);
+	useEffect(() => {
+		for (let i = 0; i < memos?.length!; i++) {
+			var divElement = document.getElementById(i.toString());
+			const spanMemoWrapper = document.createElement('span');
+			spanMemoWrapper.className =
+				'memo-wrapper z-50 text-black bg-white shadow-lg max-w-[500px] absolute rounded-lg text-center px-10 border flex flex-row'; // 클래스 추가
+
+			// 메모를 표시하는 span 엘리먼트 생성
+			const spanMemo = document.createElement('span');
+			spanMemo.className = 'memo-span whitespace-pre-wrap';
+			if (memos[i].length > 15) {
+				spanMemo.innerText = memos[i].slice(0, 15) + '  ...'; // 메모 내용 설정
+			} else {
+				spanMemo.innerText = memos[i]; // 메모 내용 설정
+			}
+			spanMemoWrapper.style.display = 'none';
+
+			// spanOriginal에 마우스 호버 이벤트 추가
+			divElement?.addEventListener('mouseenter', (e) => {
+				// 화면 중앙에 메모 표시
+				spanMemoWrapper.style.visibility = 'visible';
+				spanMemoWrapper.style.display = '';
+
+				const mouseX = e.clientX;
+				const mouseY = e.clientY + window.scrollY;
+				spanMemoWrapper.style.left = `${mouseX}px`;
+				spanMemoWrapper.style.top = `${mouseY}px`;
+			});
+
+			divElement?.addEventListener('mouseleave', () => {
+				// 메모 숨기기
+				spanMemoWrapper.style.visibility = 'hidden';
+			});
+
+			// spanMemoWrapper에 spanMemo 추가
+			spanMemoWrapper.appendChild(spanMemo);
+
+			// 문서 body에 spanMemoWrapper 추가
+			document.body.appendChild(spanMemoWrapper);
+
+			const computedStyle = window.getComputedStyle(spanMemoWrapper); // 계산된 스타일 가져오기
+			const width = parseFloat(computedStyle.width); // 요소의 너비
+			const height = parseFloat(computedStyle.height); // 요소의 높이
+			// 필요에 따라 너비와 높이에 패딩, 여백 등을 추가하여 최종 크기를 조정할 수 있습니다.
+			spanMemoWrapper.style.width = width + 'px';
+			spanMemoWrapper.style.height = height + 'px';
+			spanMemoWrapper.style.display = 'none';
+		}
+	}, [number]);
+
 	const handleBold = () => {
 		if (selectedRange) {
 			const span = document.createElement('span');
@@ -65,7 +115,7 @@ export const MainText = ({
 			const buttonY = rect.top - 30;
 
 			setPosition({
-				x: buttonX - 420,
+				x: buttonX - 640,
 				y: buttonY - 150,
 				width: rect.width,
 				height: rect.height,
@@ -79,7 +129,6 @@ export const MainText = ({
 	const handleKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter') {
 			setMemos((prevMemos) => [...prevMemos, memo]);
-
 			makeMemo(memo);
 			setOpenMemo(false);
 			setOpenMenu(false);
@@ -95,21 +144,20 @@ export const MainText = ({
 			// 메모를 감싸는 span 엘리먼트 생성
 			const spanMemoWrapper = document.createElement('span');
 			spanMemoWrapper.className =
-				'memo-wrapper z-50 text-black bg-white shadow-xl h-[30px] max-w-[500px] absolute rounded-lg text-center px-10 border '; // 클래스 추가
+				'memo-wrapper z-50 text-black bg-white  h-[30px] max-w-[500px] absolute rounded-lg text-center px-10  '; // 클래스 추가
 
 			// 메모를 표시하는 span 엘리먼트 생성
 			const spanMemo = document.createElement('span');
 			spanMemo.className = 'memo-span';
 			if (memo.length > 15) {
-				spanMemo.innerText = memo.slice(0, 15) + '...';
+				spanMemo.innerText = memo.slice(0, 15) + '  ...'; // 메모 내용 설정
 			} else {
 				spanMemo.innerText = memo; // 메모 내용 설정
 			}
-
 			// 선택된 텍스트를 spanOriginal에 감싸기
 			selectedRange.surroundContents(spanOriginal);
 			spanMemoWrapper.style.display = 'none';
-
+			spanMemo.style.wordBreak = 'break-all';
 			// spanOriginal에 마우스 호버 이벤트 추가
 			spanOriginal.addEventListener('mouseenter', (e) => {
 				// 화면 중앙에 메모 표시
@@ -144,24 +192,9 @@ export const MainText = ({
 
 	const realarticle = linechange(article?.content);
 
-	
-// useEffect(() => {
-// 	if (wordList && realarticle) {
-// 		wordList.forEach((word: string, index: number) => {
-// 			// specifying types for word and index
-// 			const articleKeys = Object.keys(realarticle);
-// 			const firstWord = articleKeys.find((articleWord: string) => articleWord === word); // specifying type for articleWord
-// 			if (firstWord) {
-// 				const firstWordIndex = wordList.indexOf(firstWord);
-// 				console.log(`The index of the first word "${firstWord}" in wordList is ${firstWordIndex}`);
-// 			}
-// 		});
-// 	}
-// }, [wordList, realarticle]);
-
 	return (
 		<>
-			<div className=' w-full h-full border-solid border-t-2 border-b-2 bg-white overflow-y-auto whitespace-pre-wrap px-3'>
+			<div className=' w-full h-full border-solid border-2 rounded-lg bg-white overflow-y-auto whitespace-pre-wrap px-3'>
 				{openMenu ? (
 					<>
 						{position && (
@@ -240,7 +273,17 @@ export const MainText = ({
 						 '
 							onMouseUp={handleMouseUp}
 						>
-							<>{realarticle}</>
+							<>
+								{article.completedAt === null ? (
+									<div
+										className='leading-8 tracking-wide text-lg'
+										id='text'
+										dangerouslySetInnerHTML={{ __html: article.content }}
+									></div>
+								) : (
+									<>{realarticle}</>
+								)}
+							</>
 						</div>
 					</>
 				) : null}

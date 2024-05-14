@@ -19,9 +19,9 @@ const IndexPage = () => {
 
 	return (
 		<>
-			<div className='w-full flex justify-center flex-col items-center'>
+			<div className='w-full flex justify-center flex-col items-center pr-10'>
 				<Headers />
-				<div className='w-3/5 pt-10'>
+				<div className='w-3/5 pt-5'>
 					<Carousels />
 					<Cards />
 				</div>
