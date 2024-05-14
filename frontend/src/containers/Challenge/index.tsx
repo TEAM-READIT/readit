@@ -59,6 +59,7 @@ const Challenge = () => {
 			headers: headers,
 		}).then((response) => response.json());
 		setRank(data);
+		console.log(data)
 		return data;
 	};
 
@@ -83,21 +84,21 @@ const Challenge = () => {
 	useEffect(() => {
 		if (challengeScoreList) {
 			const mychallangeData = challengeScoreList?.scoreList;
-			myScoreList.push(mychallangeData[0].score);
+			myScoreList.push(mychallangeData[0]?.score);
 			if (mychallangeData.length > 0) {
 				for (let i = 1; i < mychallangeData?.length!; i++) {
-					const daybeforelatest = mychallangeData[i - 1].date;
-					const latest = mychallangeData[i].date;
+					const daybeforelatest = mychallangeData[i - 1]?.date;
+					const latest = mychallangeData[i]?.date;
 					const timediff = Math.floor(
 						(new Date(latest).getTime() - new Date(daybeforelatest).getTime()) / (1000 * 3600 * 24),
 					);
 					if (timediff > 1) {
 						for (let j = 0; j < timediff; j++) {
-							myScoreList.push(mychallangeData[i - 1].score);
+							myScoreList.push(mychallangeData[i - 1]?.score);
 						}
 					}
 					else{
-						myScoreList.push(mychallangeData[i].score);
+						myScoreList.push(mychallangeData[i]?.score);
 					}
 				}
 				if (myScoreList.length < challengeScoresList?.totalScoreList.length!) {
