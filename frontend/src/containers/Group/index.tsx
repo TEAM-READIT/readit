@@ -10,6 +10,7 @@ import { useMutation } from 'react-query';
 
 const Group = () => {
 	const { accessToken } = useAuthStore();
+
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const location = useLocation();
 	const community = location.state?.community;
@@ -26,18 +27,11 @@ const Group = () => {
 		return data;
 	};
 
-	// setTimeout(() => {
-	// 	groupData()
-	// 		.then((res) => setMyGroup(res))
-	// 		.catch((_err) => {
-	// 			console.log('내가 읽은 글 받아오는거 에러');
-	// 		});
-	// }, 3000);
+
 	useEffect(() => {
 		groupData()
 			.then((res) => setMyGroup(res))
 			.catch((_err) => {
-				console.log('내가 읽은 글 받아오는거 에러');
 			});
 	}, []);
 
@@ -70,10 +64,8 @@ const Group = () => {
 			groupData()
 				.then((res) => setMyGroup(res))
 				.catch((_err) => {
-					console.log('내가 읽은 글 받아오는거 에러');
 				});
 		} catch (error) {
-			console.error('채팅 보내기 실패');
 		}
 		setChatValue('');
 	};
@@ -117,7 +109,6 @@ const Group = () => {
 		try {
 			await noticePost.mutateAsync();
 		} catch (error) {
-			console.error('공지 등록 실패');
 		}
 	};
 
@@ -133,7 +124,6 @@ const Group = () => {
 				groupData()
 					.then((res) => setMyGroup(res))
 					.catch((_err) => {
-						console.log('내가 읽은 글 받아오는거 에러');
 					});
 	}, [handlenoticePost]);
 	return (

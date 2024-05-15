@@ -1,6 +1,4 @@
 import Headers from '../../components/Headers';
-// import SearchFilter from './SearchFilter';
-// import SearchList from './SearchList';
 import { Card } from 'flowbite-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery, useMutation } from 'react-query';
@@ -8,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/auth';
 import CommunityList from '../../types/communityProps';
 import CommunityHeader from './CommunityHeader';
+// import useStore from '../../store';
 
 const Community = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
@@ -49,7 +48,6 @@ const Community = () => {
 		try {
 			await hits.mutateAsync(id);
 		} catch (error) {
-			console.error('', error);
 		}
 	};
 
@@ -58,9 +56,9 @@ const Community = () => {
 		try {
 			const data = await totalCommunityData(1, filtered);
 			setTotalCommunity({ communityList: data.communityList, hasNext: data.hasNext });
+			// setCommunityfilter(filtered)
 			window.scrollTo(0, 0);
 		} catch (error) {
-			console.error('Error fetching data:', error);
 		}
 	};
 
@@ -82,7 +80,6 @@ const Community = () => {
 							if (res.communityList && typeof res.communityList[Symbol.iterator] === 'function') {
 								newCommunityList.push(...res.communityList);
 							} else {
-								console.error('res.communityList is not iterable');
 							}
 
 							return {
@@ -95,7 +92,6 @@ const Community = () => {
 					}
 				})
 				.catch((err) => {
-					console.log(err);
 				}),
 		{
 			getNextPageParam: (_lastPage) => {
@@ -155,40 +151,16 @@ const Community = () => {
 
 	const navigate = useNavigate();
 
-	// // 검색 필터 변경 시 다시 받아오기
-	// const handleFilterChange = (filter: string) => {
-	// 	console.log(filter);
-	// 	totalCommunityData(filter)
-	// 		.then((res) => setTotalCommunity(res))
-	// 		.catch((err) => {
-	// 			console.log('전체 글 목록 조회 or 필터링 된 글 불러오기 실패');
-	// 		});
-	// };
-
-	// useEffect(() => {
-	// 	totalCommunityData('')
-	// 		.then((res) => setTotalCommunity(res))
-	// 		.catch((err) => {
-	// 			console.log('전체 아티클 받아오는거 에러');
-	// 		});
-	// }, []);
-
-	// const fetchData = async ()=> {
-	// 	const response = await fetch(`${baseUrl}/community/list?`);
-	// 	const data = await response.json();
-	// 	console.log(data);
-	// 	setTotalCommunity(data);
-	// 	return data;
-	// }
-	// useEffect(() => {
-	// 	fetchData()
-	// }, []);
-
 	const handleCardClick = (community: CommunityList) => {
 		handlehits(community.communityId!);
 		navigate('/detail', { state: { community } });
 	};
-
+	// const { communityfilter, setCommunityfilter } = useStore();
+	// 	useEffect(() => {
+	// 		if (communityfilter) {
+	// 			filtered = communityfilter;
+	// 		}
+	// 	}, []);
 	let filtered = '';
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');

@@ -43,7 +43,6 @@ const SavedDetail = () => {
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
 		} catch (error) {
-			console.error('Error fetching data:', error);
 		}
 	};
 
@@ -73,7 +72,6 @@ const SavedDetail = () => {
 					}
 				})
 				.catch((err) => {
-					console.log(err);
 				}),
 		{
 			getNextPageParam: (_lastPage) => {

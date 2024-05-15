@@ -8,6 +8,7 @@ import useUserStore from "../../store/user";
 
 const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 	const { accessToken } = useAuthStore();
+
 	const [chatValue, setChatValue] = useState<string>('채팅 보내기');
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const {id} = useUserStore();
@@ -32,7 +33,6 @@ const Chat = ({ myGroup }: { myGroup: communityProps }) => {
 			await chatPost.mutateAsync();
 				
 		} catch (error) {
-			console.error('채팅 보내기 실패');
 		}
 		// setChatValue()
 	};

@@ -52,7 +52,7 @@ export const TextBox = ({ setSummary, article }: TextBoxProps) => {
 						<div className='flex-grow w-full px-4 py-2 bg-white rounded-b-lg dark:bg-gray-800'>
 							<textarea
 								id='editor'
-								className='w-full h-full px-0 text-sm border-none text-gray-800 bg-white dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400 resize-none'
+								className='w-full h-full px-0 text-lg border-none text-gray-800 bg-white dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400 resize-none'
 								required
 								placeholder='요약문을 작성해주세요!'
 								defaultValue={value}

@@ -95,7 +95,6 @@ export const ViewerPage = () => {
 			const data = await summarySubmit.mutateAsync();
 			setFeedback(data);
 		} catch (error) {
-			console.error('제출 실패', error);
 		}
 	};
 
@@ -115,7 +114,6 @@ export const ViewerPage = () => {
 			await tempSubmit.mutateAsync();
 			setModalOpen(true);
 		} catch (error) {
-			console.error('임시저장 실패', error);
 		}
 	};
 
@@ -144,7 +142,6 @@ export const ViewerPage = () => {
 				memos.push(me.content);
 			});
 		} catch (error) {
-			console.error('Error fetching data:', error);
 		}
 	};
 

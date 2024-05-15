@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAuthStore } from '../store/auth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Login from '../containers/MainPage/Login/Login';
 import useModal from '../hooks/useModal';
 import useStore from '../store';
@@ -8,10 +8,11 @@ import { useMutation } from 'react-query';
 
 const Headers = () => {
 	const { accessToken, logout } = useAuthStore();
-	const { setModal } = useStore();
+	const { setModal, setLastfilter } = useStore();
 	const navigate = useNavigate();
-
 	const [isOpen, open, close] = useModal();
+	const location = useLocation();
+
 	useEffect(() => {
 		if (isOpen) {
 			setModal(true);
@@ -36,11 +37,13 @@ const Headers = () => {
 		logout();
 		try {
 			await logoutPost.mutateAsync();
-		} catch (error) {
-			console.error('로그아웃 실패', error);
-		}
+		} catch (error) {}
 	};
 
+	const handleEssay = () => {
+		setLastfilter('');
+		navigate('/essay');
+	};
 	return (
 		<>
 			<div className='flex justify-center w-full '>
@@ -51,16 +54,40 @@ const Headers = () => {
 					<div className='flex flex-row justify-between gap-8 font-bold text-xl hover:cursor-pointer items-center'>
 						{accessToken ? (
 							<>
-								<div onClick={() => navigate('/challenge')}>챌린지</div>
-								<div onClick={() => navigate('/essay')}>글</div>
-								<div onClick={() => navigate('/community')}>커뮤니티</div>
-								<div onClick={() => navigate('/mypage')}>마이페이지</div>
+								<div
+									className={location.pathname === '/challenge' ? 'text-blue-800' : ''}
+									onClick={() => navigate('/challenge')}
+								>
+									챌린지
+								</div>
+								<div className={location.pathname === '/essay' ? 'text-blue-800' : ''} onClick={handleEssay}>
+									글 목록
+								</div>
+								<div
+									className={location.pathname === '/community' ? 'text-blue-800' : ''}
+									onClick={() => navigate('/community')}
+								>
+									커뮤니티
+								</div>
+								<div
+									className={location.pathname === '/mypage' ? 'text-blue-800' : ''}
+									onClick={() => navigate('/mypage')}
+								>
+									마이페이지
+								</div>
 							</>
 						) : (
 							<>
 								<div onClick={open}>챌린지</div>
-								<div onClick={() => navigate('/essay')}>글</div>
-								<div onClick={() => navigate('/community')}>커뮤니티</div>
+								<div className={location.pathname === '/essay' ? 'text-blue-800' : ''} onClick={handleEssay}>
+									글 목록
+								</div>
+								<div
+									className={location.pathname === '/community' ? 'text-blue-800' : ''}
+									onClick={() => navigate('/community')}
+								>
+									커뮤니티
+								</div>{' '}
 								<div onClick={open}>마이페이지</div>
 							</>
 						)}
