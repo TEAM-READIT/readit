@@ -91,7 +91,7 @@ const Community = () => {
 						setTotalCommunity(res);
 					}
 				})
-				.catch((err) => {
+				.catch((_err) => {
 				}),
 		{
 			getNextPageParam: (_lastPage) => {
