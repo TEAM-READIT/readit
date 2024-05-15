@@ -41,7 +41,6 @@ const ReadDetail = () => {
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
 		} catch (error) {
-			console.error('Error fetching data:', error);
 		}
 	};
 
@@ -70,8 +69,7 @@ const ReadDetail = () => {
 						setTotalArticle(res);
 					}
 				})
-				.catch((err) => {
-					console.log(err);
+				.catch((_err) => {
 				}),
 		{
 			getNextPageParam: (_lastPage) => {

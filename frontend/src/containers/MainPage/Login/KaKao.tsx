@@ -36,7 +36,6 @@ export const KakaoCallback = () => {
       setProfileImageUrl(userdata.profileImageUrl);
 			navigate('/')
 		} catch (error) {
-			console.log('error');
 		}
 	};
 
