@@ -43,7 +43,6 @@ const Detail = () => {
 		try {
 			await communityPost.mutateAsync();
 		} catch (error) {
-			console.error('모임 가입하기 실패', error);
 		}
 	};
 	const handleClickGroup = (community: GroupProps) => {

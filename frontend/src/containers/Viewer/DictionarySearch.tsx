@@ -44,7 +44,6 @@ export const DictionarySearch = () => {
 					// , setHistory((prevHistory) => [...prevHistory, res]);
 			})
 			.catch((_err) => {
-				console.log('단어 검색하는거 에러');
 			});
 	};
 

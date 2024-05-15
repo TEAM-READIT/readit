@@ -27,7 +27,6 @@ const EssayHeader = () => {
 				
 			})
 			.catch((_err) => {
-				console.log('챌린지 문제 받아오는거 에러');
 			});
 	};
 

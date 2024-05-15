@@ -55,7 +55,6 @@ const RecruitText = () => {
 
 			openModal();
 		} catch (error) {
-			console.error('등록 실패:', error);
 			alert('등록에 실패했습니다.');
 		}
 	};

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { communityProps } from '../../types/gropProps';
 import { useAuthStore } from '../../store/auth';
 import { useEffect, useState } from 'react';
+import useStore from '../../store';
 
 interface GroupHeader {
 	myGroup: communityProps;
@@ -12,12 +13,15 @@ interface GroupHeader {
 }
 const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: GroupHeader) => {
 	const navigate = useNavigate();
+	const { setLastfilter } = useStore();
 	const handleRead4Commu = (categoryName: string, communityId: number) => {
+		setLastfilter('')
 		navigate('/essay', { state: { categoryName, communityId } });
 	};
 
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
+
 
 
 	const [number, setNumber] = useState<number>(0);
@@ -33,13 +37,11 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 			});
 
 			if (response.ok) {
-				console.log('커뮤니티 탈퇴 성공');
 				navigate('/community');
 			} else {
 				throw new Error('Failed to delete community');
 			}
 		} catch (error) {
-			console.log('커뮤니티 탈퇴 에러: ', error);
 		}
 	};
 

@@ -23,7 +23,6 @@ const PopCards = () => {
 		try {
 			await hits.mutateAsync(id);
 		} catch (error) {
-			console.error('', error);
 		}
 	};
 
@@ -45,7 +44,6 @@ const PopCards = () => {
 		popArticleData()
 			.then((res) => setPopArticle(res))
 			.catch((_err) => {
-				console.log('아티클 받아오는거 에러');
 			});
 	}, []);
 

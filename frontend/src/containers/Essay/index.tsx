@@ -36,7 +36,6 @@ const Essay = () => {
 		const response = await fetch(`${baseUrl}/article/search/article?${filtered}&cursor=${page}&limit=${limit}`, {
 			headers: headers,
 		});
-		// console.log(`${baseUrl}/article/search/article?${filtered}&cursor=${page}&limit=${limit}`);
 		const data = await response.json();
 		return data;
 	};
@@ -60,7 +59,6 @@ const Essay = () => {
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
 		} catch (error) {
-			console.error('Error fetching data:', error);
 		}
 	};
 
@@ -79,7 +77,6 @@ const Essay = () => {
 			setLastfilter(filtered);
 			window.scrollTo(0, 0);
 		} catch (error) {
-			console.error('Error fetching data:', error);
 		}
 	};
 
@@ -123,7 +120,6 @@ const Essay = () => {
 					}
 				})
 				.catch((err) => {
-					console.log(err);
 				}),
 		{
 			getNextPageParam: (_lastPage) => {
@@ -197,7 +193,6 @@ const Essay = () => {
 		try {
 			await hits.mutateAsync(id);
 		} catch (error) {
-			console.error('', error);
 		}
 	};
 
@@ -236,7 +231,6 @@ const Essay = () => {
 		}
 	};
 
-	// console.log(totalArticles);
 
 	return (
 		<>

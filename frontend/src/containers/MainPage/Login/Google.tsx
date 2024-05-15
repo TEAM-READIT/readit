@@ -35,7 +35,6 @@ export const GoogleCallback = () => {
 			setProfileImageUrl(userdata.profileImageUrl);
 			navigate('/');
 		} catch (error) {
-			console.log('error');
 		}
 	};
 
