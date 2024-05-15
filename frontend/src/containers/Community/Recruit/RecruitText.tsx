@@ -159,15 +159,17 @@ const RecruitText = () => {
 				</div>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
 					<div className='flex justify-start'>마감일</div>
-					<Datepicker
-						showIcon
-						locale={ko}
-						dateFormat='yyyy년 MM월 dd일'
-						shouldCloseOnSelect
-						selected={endAt}
-						minDate={startAt}
-						onChange={handleDateChange}
-					/>
+					<div className='flex flex-row'>
+						<Datepicker
+							// showIcon
+							locale={ko}
+							dateFormat='yyyy년 MM월 dd일'
+							shouldCloseOnSelect
+							selected={endAt}
+							minDate={startAt}
+							onChange={handleDateChange}
+						/>
+					</div>
 				</div>
 			</div>
 			<div className='flex flex-col items-start h-full  w-full gap-y-5 px-5'>
@@ -184,12 +186,12 @@ const RecruitText = () => {
 					<span className='font-bold'>내용</span>
 					<textarea
 						id='textarea'
-						className='w-full h-4/5 resize-none rounded-lg'
+						className='w-full h-4/6 resize-none rounded-lg'
 						placeholder='내용을 입력하세요!'
 						onChange={(e) => setContent(e.target.value)}
 					></textarea>
 
-					<div className='flex flex-row w-full justify-end'>
+					<div className='flex flex-row w-full justify-end pt-10'>
 						<Button
 							className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
 							onClick={handleSubmit}
