@@ -7,7 +7,7 @@ import { useInfiniteQuery, useMutation } from 'react-query';
 import { useAuthStore } from '../../store/auth';
 import { Card, Checkbox } from 'flowbite-react';
 import useStore from '../../store';
-
+import topbtn from '../../assets/images/topbtn.png';
 const Essay = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
@@ -16,20 +16,17 @@ const Essay = () => {
 	const communityId = location.state?.communityId;
 	const categoryName = location.state?.categoryName;
 	// const [isMember, setIsMember] = useState<boolean>(false);
-	const { lastfilter,setLastfilter } = useStore();
+	const { lastfilter, setLastfilter } = useStore();
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
 	const limit = 12;
 	const [page, setPage] = useState<number>(0);
 	const [totalArticles, setTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
 
-
 	useEffect(() => {
 		if (lastfilter) {
-			filtered = lastfilter 
+			filtered = lastfilter;
 		}
-	},[])
-
-
+	}, []);
 
 	// 전체 아티클 데이터를 가져오는 함수
 	const totalArticleData = async (page: number, filtered: string) => {
@@ -67,13 +64,19 @@ const Essay = () => {
 		}
 	};
 
+	const handletop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
 	const fetchData = async (filtered: string) => {
 		try {
 			//페이지에 1번 넣고 데이터 호출
 			const data = await totalArticleData(1, filtered);
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
-			setLastfilter(filtered)
+			setLastfilter(filtered);
 			window.scrollTo(0, 0);
 		} catch (error) {
 			console.error('Error fetching data:', error);
@@ -81,7 +84,7 @@ const Essay = () => {
 	};
 
 	useEffect(() => {}, [fetchData, fetchUnreadData]);
-	
+
 	// const categoryStyles: { [key: string]: string } = {
 	// 	비문학: 'bg-blue-200 border border-blue-500',
 	// 	정치: 'bg-gray-200 border border-gray-400 text-black',
@@ -109,7 +112,7 @@ const Essay = () => {
 
 							if (res.articleList && typeof res.articleList[Symbol.iterator] === 'function') {
 								newArticleList.push(...res.articleList);
-							} 
+							}
 							return {
 								articleList: newArticleList,
 								hasNext: res.hasNext,
@@ -134,8 +137,7 @@ const Essay = () => {
 	// 마지막 아티클 ID를 기반으로 페이지 설정
 	useEffect(() => {
 		if (totalArticles) {
-
-			if (totalArticles?.articleList?.length > 0 ) {
+			if (totalArticles?.articleList?.length > 0) {
 				const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
 				setPage(lastArticleId!);
 			} else {
@@ -182,7 +184,7 @@ const Essay = () => {
 	const navigate = useNavigate();
 
 	// 조회수 ++
-	const hits = useMutation(async (id:number) => {
+	const hits = useMutation(async (id: number) => {
 		await fetch(`${baseUrl}/article/hit/${id}`, {
 			method: 'POST',
 			headers: {
@@ -191,14 +193,13 @@ const Essay = () => {
 			},
 		});
 	});
-	const handlehits = async (id:number) => {
+	const handlehits = async (id: number) => {
 		try {
 			await hits.mutateAsync(id);
 		} catch (error) {
 			console.error('', error);
 		}
 	};
-
 
 	const handleCardClick = (article: articleList, communityId: number | null) => {
 		navigate('/viewer', { state: { article, communityId } });
@@ -231,10 +232,11 @@ const Essay = () => {
 	};
 	const handleKeyPress = (e: any) => {
 		if (e.key === 'Enter') {
-					handleApplyFilter();
+			handleApplyFilter();
 		}
 	};
 
+	// console.log(totalArticles);
 
 	return (
 		<>
@@ -342,6 +344,9 @@ const Essay = () => {
 								))}
 							</div>
 						) : null}
+						<div className='fixed bottom-10 right-10 w-16'>
+							<img src={topbtn} alt='' onClick={handletop} />
+						</div>
 					</div>
 				</div>
 				<div ref={observerRef}>

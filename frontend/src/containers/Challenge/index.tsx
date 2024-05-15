@@ -242,11 +242,27 @@ const Challenge = () => {
 								</div>
 								<div className='flex flex-row w-full items-start justify-between h-3/5'>
 									<div className='flex flex-col gap-3 w-2/6 h-full justify-center  px-2'>
-										<span className='font-bold pb-10'>랭킹</span>
+										<span className='font-bold pb-10 text-2xl'>랭킹</span>
 										{rank?.memberList.slice(0, 5).map((member, index) => (
 											<div key={index} className='flex flex-row items-center'>
-												<div className='flex flex-row items-center gap-5 w-3/4'>
-													<img src={member.profile} alt='프로필 사진' className='w-12 rounded-full' />
+												<div className='flex flex-row items-center gap-5 w-3/4 relative'>
+													<img src={member.profile} alt='프로필 사진' className='w-12 rounded-full ' />
+													{member.rank === 1 && index === 0 ? (
+														<>
+															<div className='absolute -top-2 -left-1'>
+																<span className='text-2xl text-yellow-400'>
+																	<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+																		<path
+																			fill='currentColor'
+																			d='M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14z'
+																		/>
+																	</svg>
+																</span>
+															</div>
+														</>
+													) : (
+														<></>
+													)}
 													<div className=''>{member.rank}등</div>
 													<div>{member.name}</div>
 												</div>
