@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { articleList } from '../../../types/articleProps';
 import useModal from '../../../hooks/useModal';
+import { Button, Modal } from 'flowbite-react';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 export const MainText = ({
 	article,
@@ -20,6 +22,7 @@ export const MainText = ({
 	const [openMenu, setOpenMenu] = useState<boolean>(false);
 	const [memo, setMemo] = useState('');
 	const [number, setNumber] = useState(0);
+	const [modalOpen, setModalOpen] = useState(false);
 
 	useEffect(() => {
 		const hardrefresh = setTimeout(() => {
@@ -127,11 +130,14 @@ export const MainText = ({
 		}
 	};
 	const handleKeyDown = (e: React.KeyboardEvent) => {
-		if (e.key === 'Enter') {
+		if (e.shiftKey && e.key === 'Enter') {
+			e+'\n'
+		} else if (e.key === 'Enter') {
 			setMemos((prevMemos) => [...prevMemos, memo]);
 			makeMemo(memo);
 			setOpenMemo(false);
 			setOpenMenu(false);
+			setMemo('');
 		}
 	};
 
@@ -192,8 +198,31 @@ export const MainText = ({
 
 	const realarticle = linechange(article?.content);
 
+const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+	const inputText = e.target.value;
+	if (inputText.length <= 499) {
+		setMemo(inputText);
+	} else {
+		setModalOpen(true);
+	}
+};
 	return (
 		<>
+			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
+				<Modal.Body>
+					<div className='text-center'>
+						<HiOutlineExclamationCircle className='mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200' />
+						<h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>
+							최대 500자까지 작성할 수 있습니다.
+						</h3>
+						<div className='flex justify-center gap-4'>
+							<Button color='failure' onClick={() => setModalOpen(false)}>
+								확인
+							</Button>
+						</div>
+					</div>
+				</Modal.Body>
+			</Modal>
 			<div className=' w-full h-full border-solid border-2 rounded-lg bg-white overflow-y-auto whitespace-pre-wrap px-3'>
 				{openMenu ? (
 					<>
@@ -216,11 +245,10 @@ export const MainText = ({
 									{openMemo ? (
 										<>
 											<textarea
-												className={`absolute z-40 top-10 left-0 shadow-md w-[280px] h-[120px] text-start`}
-												onChange={(e) => {
-													setMemo(e.target.value);
-												}}
+												className={`absolute z-40 top-10 left-0 shadow-md w-[280px] h-[120px] text-start whitespace-pre-wrap`}
+												onChange={handleChange}
 												onKeyDown={handleKeyDown}
+												maxLength={500}
 											></textarea>
 											<span
 												className='absolute text-sm aspect-square top-10 z-50 left-64 rounded bg-whit material-symbols-outlined hover:cursor-pointer'

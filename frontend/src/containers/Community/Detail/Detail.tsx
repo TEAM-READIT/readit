@@ -64,10 +64,10 @@ const Detail = () => {
 				<div className='flex flex-col w-3/5 h-full justify-start  items-center '>
 					<CommunityDetailHeader />
 					{community ? (
-						<Card className='w-full p-10'>
-							<div className='flex flex-col gap-y-10'>
+						<Card className='w-full p-5'>
+							<div className='flex flex-col gap-y-5'>
 								<div className='flex flex-row justify-between items-center'>
-									<div className='text-2xl font-bold'>{community.title}</div>
+									<div className='text-2xl font-bold pb-5'>{community.title}</div>
 									{community.currentParticipants >= community.maxParticipants ? null : (
 										<>
 											{community.writerId === id ? null : (
