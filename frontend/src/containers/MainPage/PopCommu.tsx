@@ -24,7 +24,6 @@ const PopCommu = () => {
 		try {
 			await hits.mutateAsync(id);
 		} catch (error) {
-			console.error('', error);
 		}
 	};
 
@@ -44,7 +43,6 @@ const PopCommu = () => {
 		popCommunityData()
 			.then((res) => setPopCommunity(res))
 			.catch((_err) => {
-				console.log('커뮤니티 받아오기 에러');
 			});
 	}, []);
 

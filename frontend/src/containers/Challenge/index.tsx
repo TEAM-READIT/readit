@@ -123,14 +123,12 @@ const Challenge = () => {
 		challengScoreData()
 			.then((res) => setChallengeScoreList(res))
 			.catch((_err) => {
-				console.log('챌린지 요약 점수 받아오는거 에러');
 			});
 		challengScoreDatas()
 			.then((res) => {
 				setChallengeScoresList(res);
 			})
 			.catch((_err) => {
-				console.log('챌린지 요약 점수 받아오는거 에러');
 			});
 	}, []);
 
@@ -153,7 +151,6 @@ const Challenge = () => {
 				}
 			})
 			.catch((_err) => {
-				console.log('챌린지 받아오는거 에러');
 			});
 	}, []);
 

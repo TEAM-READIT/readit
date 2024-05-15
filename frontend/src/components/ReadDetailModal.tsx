@@ -33,7 +33,6 @@ const ReadDetailModal = () => {
 			const data = await getMemo();
 			setMemo(data);
 		} catch (error) {
-			console.error('Error fetching data:', error);
 		}
 	};
 

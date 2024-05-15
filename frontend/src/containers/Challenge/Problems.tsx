@@ -47,7 +47,6 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 			const data = await answerPost.mutateAsync();
 			setAnswer(data);
 		} catch (error) {
-			console.error('정답을 불러오기 실패', error);
 		}
 	};
 
