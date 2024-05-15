@@ -42,7 +42,13 @@ const Detail = () => {
 	const handleJoin = async () => {
 		try {
 			await communityPost.mutateAsync();
-		} catch (error) {
+		} catch (error: unknown) {
+			if (error instanceof Response && error.status == 409) {
+				alert('이미 가입한 모임입니다.');
+				navigate(-1);
+			} else {
+				alert('error');
+			}
 		}
 	};
 	const handleClickGroup = (community: GroupProps) => {

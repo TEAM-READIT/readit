@@ -47,8 +47,7 @@ const Community = () => {
 	const handlehits = async (id: number) => {
 		try {
 			await hits.mutateAsync(id);
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
@@ -58,8 +57,7 @@ const Community = () => {
 			setTotalCommunity({ communityList: data.communityList, hasNext: data.hasNext });
 			// setCommunityfilter(filtered)
 			window.scrollTo(0, 0);
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {
@@ -91,8 +89,7 @@ const Community = () => {
 						setTotalCommunity(res);
 					}
 				})
-				.catch((_err) => {
-				}),
+				.catch((_err) => {}),
 		{
 			getNextPageParam: (_lastPage) => {
 				if (totalCommunity?.hasNext) {
@@ -247,6 +244,17 @@ const Community = () => {
 										<div className='w-full flex flex-col gap-y-5'>
 											<p className='font-semibold text-md border-b-2 border-gray-200 mb-2 pb-1'>검색 필터</p>
 											<div className='flex flex-col gap-4'>
+												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
+													<option value=''>카테고리 선택</option>
+													<option value='비문학'>비문학</option>
+													<option value='정치'>정치</option>
+													<option value='경제'>경제</option>
+													<option value='사회'>사회</option>
+													<option value='생활/문화'>생활/문화</option>
+													<option value='IT/과학'>IT/과학</option>
+													<option value='세계'>세계</option>
+													<option value='오피니언'>오피니언</option>
+												</select>
 												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
 													<option value='title'>제목</option>
 													<option value='content'>내용</option>
@@ -260,17 +268,6 @@ const Community = () => {
 													onChange={(e) => setKeyword(e.target.value)}
 													onKeyDown={handleKeyPress}
 												/>
-												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
-													<option value=''>카테고리 선택</option>
-													<option value='비문학'>비문학</option>
-													<option value='정치'>정치</option>
-													<option value='경제'>경제</option>
-													<option value='사회'>사회</option>
-													<option value='생활/문화'>생활/문화</option>
-													<option value='IT/과학'>IT/과학</option>
-													<option value='세계'>세계</option>
-													<option value='오피니언'>오피니언</option>
-												</select>
 												<input
 													type='number'
 													name='maxParticipants'
