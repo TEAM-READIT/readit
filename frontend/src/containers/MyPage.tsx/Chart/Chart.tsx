@@ -69,12 +69,10 @@ const Chart = () => {
 		scoreData()
 			.then((res) => setScoreList(res))
 			.catch((_err) => {
-				console.log('글 요약 점수 받아오는거 에러');
 			});
 		challengScoreData()
 			.then((res) => setChallengeScoreList(res))
 			.catch((_err) => {
-					console.log('챌린지 요약 점수 받아오는거 에러')
 			});
 	},[]);
 

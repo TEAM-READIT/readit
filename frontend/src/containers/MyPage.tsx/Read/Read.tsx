@@ -50,12 +50,10 @@ const Read = () => {
 		myArticleData()
 			.then((res) => setArticles(res.articleList))
 			.catch((_err) => {
-				console.log('내가 읽은 글 받아오는거 에러');
 			});
 		myticleData()
 			.then((res) => setmyticles(res.articleList))
 			.catch((_err) => {
-				console.log('내가 읽고 있는 글 받아오는거 에러');
 			});
 	}, []);
 

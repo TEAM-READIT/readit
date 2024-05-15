@@ -33,7 +33,6 @@ export const NaverCallback = () => {
 			setProfileImageUrl(userdata.profileImageUrl);
 			navigate('/');
 		} catch (error) {
-			console.log('error');
 		}
 	};
 

@@ -34,7 +34,6 @@ const MyGroup = () => {
 		myCommunityData()
 			.then((res) => setCommunityList(res))
 			.catch((_err) => {
-				console.log('내가 읽은 글 받아오는거 에러');
 			});
 	}, []);
 

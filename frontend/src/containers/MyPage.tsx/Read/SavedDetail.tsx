@@ -71,7 +71,7 @@ const SavedDetail = () => {
 						setTotalArticle(res);
 					}
 				})
-				.catch((err) => {
+				.catch((_err) => {
 				}),
 		{
 			getNextPageParam: (_lastPage) => {
