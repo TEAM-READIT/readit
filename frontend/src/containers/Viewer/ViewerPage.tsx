@@ -130,7 +130,6 @@ export const ViewerPage = () => {
 		});
 		const data = await response.json();
 		console.log(`${baseUrl}/article/memo/${article.memberArticleId}`);
-		console.log(data);
 		return data;
 	};
 
@@ -156,6 +155,10 @@ export const ViewerPage = () => {
 		const refresh = setTimeout(() => {}, 3000);
 		return () => clearTimeout(refresh);
 	});
+
+	useEffect(()=>{
+		console.log(summary)
+	},[summary])
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
