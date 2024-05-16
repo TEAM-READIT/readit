@@ -39,7 +39,7 @@ public class SupportServiceDelegate {
         return supportEmptyToException(() -> articleRepository.findTop4ByTypeOrderByHitDesc(type), new ArticleNotFoundException());
     }
 
-    public List<MemberArticle> getMemberArticleListByMemberId(Integer id) {
-        return supportEmptyToNull(() -> memberArticleRepository.findMemberArticleByMemberId(id), new MemberArticleNotFoundException());
+    public List<MemberArticle> getSubmitedArticle(Integer id) {
+        return supportEmptyToNull(() -> memberArticleRepository.findSubmitedArticle(id), new MemberArticleNotFoundException());
     }
 }
