@@ -1,6 +1,7 @@
 package readit.article.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.application.support.SupportServiceDelegate;
@@ -35,6 +36,7 @@ public class ArticleService {
     private final SupportServiceDelegate supportServiceDelegate;
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "popularArticles")
     public GetPopularArticleResponse getPopularArticles(){
         List<Article> articleList = supportServiceDelegate.getArticleList();
         List<Article> epigraphyList = supportServiceDelegate.getArticleListByType(ArticleType.EPIGRAPHY);
@@ -50,12 +52,6 @@ public class ArticleService {
         return GetArticleFromLinkResponse.from(response,id);
     }
 
-    @Transactional(readOnly = true)
-    public GetMemberArticleListResponse getSubmitedArticle(Integer id){
-        List<MemberArticle> memberArticleList = supportServiceDelegate.getCompleteArticle(id);
-
-        return GetMemberArticleListResponse.from(memberArticleList);
-    }
 
     @Transactional(readOnly = true)
     public GetStatsResponse getStats(Integer id){
@@ -75,6 +71,7 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "articleSearch")
     public GetArticleSearchResponse getArticleSearchList(String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
         Article article = articleRepository.getById(cursor);
         Integer hitCursor = Optional.ofNullable(article)
