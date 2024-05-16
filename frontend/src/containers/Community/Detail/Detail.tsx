@@ -7,6 +7,8 @@ import { useAuthStore } from '../../../store/auth';
 import useUserStore from '../../../store/user';
 import useModal from '../../../hooks/useModal';
 import Login from '../../MainPage/Login/Login';
+import { useEffect, useState } from 'react';
+import CommunityList from '../../../types/communityProps';
 
 interface GroupProps {
 	communityId: number;
@@ -24,12 +26,12 @@ interface GroupProps {
 const Detail = () => {
 	const { accessToken } = useAuthStore();
 	const [isOpen, open, close] = useModal();
+	const [mycommu, setMycommu] = useState<number[]>([]);
 
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const location = useLocation();
 	const navigate = useNavigate();
 	const community = location.state?.community;
-
 	const communityPost = useMutation(async () => {
 		await fetch(`${baseUrl}/community/${community.communityId}`, {
 			method: 'POST',
@@ -39,6 +41,8 @@ const Detail = () => {
 			},
 		});
 	});
+	const [communityList, setCommunityList] = useState<{ communityList: CommunityList[] }>();
+
 	const handleJoin = async () => {
 		try {
 			await communityPost.mutateAsync();
@@ -51,6 +55,22 @@ const Detail = () => {
 			// }
 		}
 	};
+	const myCommunityData = async () => {
+		const headers = {
+			Authorization: `Bearer ${accessToken}`,
+		};
+		const data = await fetch(`${baseUrl}/community/myCommunity`, {
+			headers: headers,
+		}).then((response) => response.json());
+		return data;
+	};
+
+	useEffect(() => {
+		myCommunityData()
+			.then((res) => setCommunityList(res))
+			.catch((_err) => {});
+	}, []);
+
 	const handleClickGroup = (community: GroupProps) => {
 		if (accessToken) {
 			navigate('/group', { state: { community } });
@@ -59,7 +79,25 @@ const Detail = () => {
 			open();
 		}
 	};
+	const handleClickGroups = (community: GroupProps) => {
+		if (accessToken) {
+			navigate('/group', { state: { community } });
+		} else {
+			open();
+		}
+	};
 
+	useEffect(() => {
+		if (communityList?.communityList) {
+			communityList?.communityList.forEach((com) => {
+				setMycommu((prev) => [...prev, com.communityId!]);
+			});
+		}
+	}, [communityList]);
+
+	useEffect(() => {
+
+	}, [mycommu]);
 	const { id } = useUserStore();
 
 	return (
@@ -76,12 +114,31 @@ const Detail = () => {
 									{community.currentParticipants >= community.maxParticipants ? null : (
 										<>
 											{community.writerId === id ? null : (
-												<Button className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white' onClick={() => handleClickGroup(community)}>
-													<div className='flex items-center gap-2'>
-														<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-														<span>모임 가입하기</span>
-													</div>
-												</Button>
+												<>
+													{mycommu.includes(community.communityId) ? (
+														<>
+															<Button
+																className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
+																onClick={() => handleClickGroups(community)}
+															>
+																<div className='flex items-center gap-2'>
+																	<span className='material-symbols-outlined text-[1.2rem]'>done</span>
+																	<span>이미 가입된 모임입니다</span>
+																</div>
+															</Button>{' '}
+														</>
+													) : (
+														<Button
+															className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
+															onClick={() => handleClickGroup(community)}
+														>
+															<div className='flex items-center gap-2'>
+																<span className='material-symbols-outlined text-[1.2rem]'>done</span>
+																<span>모임 가입하기</span>
+															</div>
+														</Button>
+													)}
+												</>
 											)}
 										</>
 									)}

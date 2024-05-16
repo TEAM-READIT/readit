@@ -1,10 +1,11 @@
-import { Button } from 'flowbite-react';
+import { Button, Modal } from 'flowbite-react';
 import Datepicker from 'react-datepicker';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/auth';
 import { ko } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 const RecruitText = () => {
 	const [title, setTitle] = useState('');
@@ -16,6 +17,7 @@ const RecruitText = () => {
 	const [endAt, setEndAt] = useState<Date | null>(null);
 	const navigate = useNavigate();
 	const [showModal, setShowModal] = useState(false);
+	const [modalOpen, setModalOpen] = useState(false);
 
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
@@ -70,7 +72,19 @@ const RecruitText = () => {
 		navigate('/community');
 	};
 
-	const Modal = () => {
+
+		const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+			const inputText = e.target.value;
+			if (inputText.length <= 99) {
+				setContent(inputText);
+			} else {
+				// maxLength에 도달했을 때 알림
+				setModalOpen(true);
+			}
+		};
+
+
+	const Modals = () => {
 		if (!showModal) return null;
 
 		return (
@@ -115,6 +129,22 @@ const RecruitText = () => {
 
 	return (
 		<>
+			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
+				<Modal.Header />
+				<Modal.Body>
+					<div className='text-center'>
+						<HiOutlineExclamationCircle className='mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200' />
+						<h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>
+							최대 100자까지 작성할 수 있습니다.
+						</h3>
+						<div className='flex justify-center gap-4'>
+							<Button color='failure' onClick={() => setModalOpen(false)}>
+								확인
+							</Button>
+						</div>
+					</div>
+				</Modal.Body>
+			</Modal>
 			<div className='flex flex-row w-full'>
 				<div className='flex flex-col w-1/2 justify-center gap-3 p-3'>
 					<div className='flex justify-start'>모집 구분</div>
@@ -187,7 +217,8 @@ const RecruitText = () => {
 						id='textarea'
 						className='w-full h-4/6 resize-none rounded-lg'
 						placeholder='내용을 입력하세요!'
-						onChange={(e) => setContent(e.target.value)}
+						onChange={handleChange}
+						maxLength={100}
 					></textarea>
 
 					<div className='flex flex-row w-full justify-end pt-10'>
@@ -201,7 +232,7 @@ const RecruitText = () => {
 					</div>
 				</div>
 			</div>
-			<Modal />
+			<Modals />
 		</>
 	);
 };

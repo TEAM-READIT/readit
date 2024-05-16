@@ -152,7 +152,7 @@ const Group = () => {
 														<div className='flex flex-col items-start'>
 															<div className=''>{chat.memberName}</div>
 															<div className='flex flex-row items-center gap-x-2'>
-																<div className='bg-white border border-gray-500 text-xs w-full p-2 rounded-xl text-center'>
+																<div className='bg-white border border-gray-500 text-xs w-full p-2 rounded-xl text-center break-words whitespace-pre-wrap'>
 																	{chat.content}
 																</div>
 																<span className='text-xs'>{new Date(chat.createdAt).toLocaleTimeString()}</span>
@@ -166,7 +166,7 @@ const Group = () => {
 																<div className=''>{chat.memberName}</div>
 																<div className='flex flex-row items-center gap-x-2'>
 																	<span className='text-xs'>{new Date(chat.createdAt).toLocaleTimeString()}</span>
-																	<div className='bg-yellow-200 border border-gray-500 text-xs w-full p-2 rounded-xl text-center'>
+																	<div className='bg-yellow-200 border border-gray-500 text-xs w-full p-2 rounded-xl text-start break-words whitespace-pre-wrap'>
 																		{chat.content}
 																	</div>
 																</div>
