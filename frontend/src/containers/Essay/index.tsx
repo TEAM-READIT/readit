@@ -8,6 +8,8 @@ import { useAuthStore } from '../../store/auth';
 import { Card, Checkbox } from 'flowbite-react';
 import useStore from '../../store';
 import topbtn from '../../assets/images/topbtn.png';
+import useModal from '../../hooks/useModal';
+import Login from '../MainPage/Login/Login';
 const Essay = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
@@ -21,13 +23,23 @@ const Essay = () => {
 	const limit = 12;
 	const [page, setPage] = useState<number>(0);
 	const [totalArticles, setTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
+	const [isOpen, open, close] = useModal();
 
 	useEffect(() => {
 		if (lastfilter) {
 			filtered = lastfilter;
 		}
 	}, []);
-
+	useEffect(() => {
+		if (isOpen) {
+		window.scrollTo({
+			top: 0,
+		});
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	}, [isOpen]);
 	// 전체 아티클 데이터를 가져오는 함수
 	const totalArticleData = async (page: number, filtered: string) => {
 		const headers = {
@@ -196,6 +208,8 @@ const Essay = () => {
 		if (accessToken) {
 			navigate('/viewer', { state: { article, communityId } });
 			handlehits(article.id!);
+		} else {
+			open();
 		}
 	};
 
@@ -352,6 +366,7 @@ const Essay = () => {
 					<br />
 				</div>
 			</div>
+			{isOpen ? <Login close={close} /> : null}
 		</>
 	);
 };

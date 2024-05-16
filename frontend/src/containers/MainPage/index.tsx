@@ -3,9 +3,12 @@ import Headers from '../../components/Headers';
 import Carousels from './Carousels';
 import Cards from './Cards';
 import useStore from '../../store';
+import Login from './Login/Login';
+import useModal from '../../hooks/useModal';
 
 const IndexPage = () => {
 	const { modal } = useStore();
+	const [isOpen, open, close] = useModal();
 
 	useEffect(() => {
 		if (modal) {
@@ -21,9 +24,10 @@ const IndexPage = () => {
 				<Headers />
 				<div className='w-3/5 pt-5'>
 					<Carousels />
-					<Cards />
+					<Cards open={open} />
 				</div>
 			</div>
+			{isOpen ? <Login close={close} /> : null}
 		</>
 	);
 };

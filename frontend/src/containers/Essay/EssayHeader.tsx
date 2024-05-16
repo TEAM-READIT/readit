@@ -68,7 +68,7 @@ const EssayHeader = () => {
 							<input
 								type='text'
 								name='keyword'
-								placeholder='네이버 뉴스 기사 링크로 READIT 시작하기!'
+								placeholder='읽고 싶은 네이버 뉴스 기사의 링크를 입력하면 뷰어로 읽을 수 있어요!'
 								className='input w-full h-full'
 								onChange={(e) => setLink(e.target.value)}
 							/>

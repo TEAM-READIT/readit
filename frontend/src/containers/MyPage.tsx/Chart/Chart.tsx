@@ -95,16 +95,16 @@ const Chart = () => {
 			// score 변수 사용
 			if (score.type === 'NEWS') {
 				// 각 score 객체의 type 속성 확인
-				news.push(score.score);
+				news.unshift(score.score);
 			} else {
-				liter.push(score.score);
+				liter.unshift(score.score);
 			}
 		});
 		const cs = challengeScoreList?.scoreList;
 
 		cs?.forEach((score :ChallengeScore) => {
-			challengescore.push(score.score);
-			challengeXlist.push(score.date.toString());
+			challengescore.unshift(score.score);
+			challengeXlist.unshift(score.date.toString());
 		});
 
 		const arraylength = () => {

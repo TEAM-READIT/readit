@@ -200,7 +200,7 @@ export const MainText = ({
 
 const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 	const inputText = e.target.value;
-	if (inputText.length <= 499) {
+	if (inputText.length <= 99) {
 		setMemo(inputText);
 	} else {
 		setModalOpen(true);
@@ -213,7 +213,7 @@ const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 					<div className='text-center'>
 						<HiOutlineExclamationCircle className='mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200' />
 						<h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>
-							최대 500자까지 작성할 수 있습니다.
+							최대 100자까지 작성할 수 있습니다.
 						</h3>
 						<div className='flex justify-center gap-4'>
 							<Button color='failure' onClick={() => setModalOpen(false)}>
@@ -248,7 +248,7 @@ const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 												className={`absolute z-40 top-10 left-0 shadow-md w-[280px] h-[120px] text-start whitespace-pre-wrap`}
 												onChange={handleChange}
 												onKeyDown={handleKeyDown}
-												maxLength={500}
+												maxLength={100}
 											></textarea>
 											<span
 												className='absolute text-sm aspect-square top-10 z-50 left-64 rounded bg-whit material-symbols-outlined hover:cursor-pointer'

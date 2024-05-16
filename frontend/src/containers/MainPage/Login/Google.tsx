@@ -33,7 +33,7 @@ export const GoogleCallback = () => {
 			setId(userdata.id)
 			setName(userdata.name);
 			setProfileImageUrl(userdata.profileImageUrl);
-			navigate('/');
+			navigate(-1);
 		} catch (error) {
 		}
 	};
