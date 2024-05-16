@@ -21,6 +21,7 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend);
 import { Line } from 'react-chartjs-2';
 import ChallengeHeader from './ChallengeHeader';
+import useUserStore from '../../store/user';
 
 interface ChallengeScore {
 	date: Date;
@@ -43,6 +44,8 @@ const Challenge = () => {
 		labels: [],
 		datasets: [],
 	});
+	const { name, email, profileImageUrl } = useUserStore();
+
 	const { accessToken } = useAuthStore();
 	const [number, setNumber] = useState<number>(0);
 	const [rank, setRank] = useState<scoreRanking>();
@@ -122,14 +125,12 @@ const Challenge = () => {
 	useEffect(() => {
 		challengScoreData()
 			.then((res) => setChallengeScoreList(res))
-			.catch((_err) => {
-			});
+			.catch((_err) => {});
 		challengScoreDatas()
 			.then((res) => {
 				setChallengeScoresList(res);
 			})
-			.catch((_err) => {
-			});
+			.catch((_err) => {});
 	}, []);
 
 	// 챌린지 문제 받아오기
@@ -150,8 +151,7 @@ const Challenge = () => {
 					setProblems(res);
 				}
 			})
-			.catch((_err) => {
-			});
+			.catch((_err) => {});
 	}, []);
 
 	useEffect(() => {
@@ -203,7 +203,8 @@ const Challenge = () => {
 		},
 	};
 
-	const challengeIntro  = '안녕하십니까? 본 테스트는 READIT 당신의 문해력+에서 준비한 성인 문해력 테스트로, 우리나라 성인들의 문해력을 대략적으로 조사하기 위한 것입니다.\n 검사지는 비문학에서 접하는 글을 파악하고 활용하는 능력을 묻는 간단한 2개의 문항으로 구성되어 있습니다.\n 챌린지는 하루에 한번만 응시 가능합니다.\n 모든 문항에 성실하게 답해주시기 바랍니다. 감사합니다.'
+	const challengeIntro =
+		'안녕하십니까? 본 테스트는 READIT 당신의 문해력+에서 준비한 성인 문해력 테스트로, 우리나라 성인들의 문해력을 대략적으로 조사하기 위한 것입니다.\n검사지는 비문학에서 접하는 글을 파악하고 활용하는 능력을 묻는 간단한 2개의 문항으로 구성되어 있습니다. 챌린지는 하루에 한번만 응시 가능합니다.\n모든 문항에 성실하게 답해주시기 바랍니다. 감사합니다.';
 	return (
 		<>
 			<div className='w-full h-screen flex flex-col items-center  overflow-hidden pr-5'>
@@ -214,32 +215,15 @@ const Challenge = () => {
 							<ChallengeHeader />
 
 							<div className='flex flex-col w-full h-full'>
-								<div className='flex flex-row w-full text-center bg-blue-100 border border-blue-400 rounded-lg p-5 whitespace-pre-wrap '>
+								<div className='flex flex-col w-full text-start bg-blue-100 border border-blue-400 rounded-lg p-5 whitespace-pre-wrap gap-5'>
 									{challengeIntro}
 								</div>
-								<div className='flex flex-row justify-center pt-10'>
-									{challengeScoreList ? (
-										<>
-											<div className=' flex flex-row gap-20 font-bold text-xl'>
-												<span>
-													내 점수 :{' '}
-													{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score ? (
-														<>{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}</>
-													) : (
-														'   1000'
-													)}
-													점
-												</span>
-												<span>내 등수 : {rank?.myRank}등</span>
-											</div>
-										</>
-									) : null}
-								</div>
-								<div className='flex flex-row w-full items-start justify-between h-3/5'>
-									<div className='flex flex-col gap-3 w-2/6 h-full justify-center  px-2'>
-										<span className='font-bold pb-10 text-2xl'>랭킹</span>
+
+								<div className='flex flex-row w-full items-start justify-between h-4/5 pt-10'>
+									<div className='flex flex-col gap-3 w-2/6 h-full px-2'>
+										<span className='font-bold py-5 text-2xl'>랭킹</span>
 										{rank?.memberList.slice(0, 5).map((member, index) => (
-											<div key={index} className='flex flex-row items-center'>
+											<div key={index} className='flex flex-row items-center px-5'>
 												<div className='flex flex-row items-center gap-5 w-3/4 relative'>
 													<img src={member.profile} alt='프로필 사진' className='w-12 rounded-full ' />
 													{member.rank === 1 && index === 0 ? (
@@ -268,25 +252,51 @@ const Challenge = () => {
 												</div>
 											</div>
 										))}
-									</div>
-									<div className='w-3/5 h-full items-center flex flex-row justify-center'>
-										<Line data={challengegraphData} options={options}></Line>
-									</div>
-								</div>
-
-								<div className='flex flex-row justify-end'>
-									{problems && problems.status === 400 ? (
-										<div className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-gray-400 text-white border-gray-300'>
-											<span>오늘 이미 참여했습니다</span>
+										<div className='flex flex-col w-full justify-center gap-2 bg-yellow-100 border border-yellow-200 px-5 p-2 rounded-lg'>
+											{challengeScoreList ? (
+												<>
+													<div className='flex flex-row justify-start'>
+														<span className='font-bold '>My Rank</span>
+													</div>
+													<div className=' flex flex-row  items-center w-full'>
+														<div className='flex flex-row items-center gap-5 w-3/4 relative'>
+															<img src={profileImageUrl} alt='프로필' className='h-12 aspect-square rounded-full' />
+															<span>{rank?.myRank}등</span>
+															{name}
+														</div>
+														<div className='flex flex-row justify-end '>
+															<span>
+																{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score ? (
+																	<>{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}</>
+																) : (
+																	'   1000'
+																)}
+																점
+															</span>
+														</div>
+													</div>
+												</>
+											) : null}
 										</div>
-									) : (
-										<button
-											className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
-											onClick={() => setNumber(1)}
-										>
-											<span>시작하기</span>
-										</button>
-									)}
+									</div>
+									<div className='w-3/5 h-full items-center flex flex-col gap-3 '>
+										<span className='font-bold py-5 text-2xl'>통계</span>
+										<Line data={challengegraphData} options={options}></Line>
+										<div className='flex flex-row justify-end pt-10 w-full'>
+											{problems && problems.status === 400 ? (
+												<div className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-gray-400 text-white border-gray-300'>
+													<span>오늘 이미 참여했습니다</span>
+												</div>
+											) : (
+												<button
+													className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+													onClick={() => setNumber(1)}
+												>
+													<span>시작하기</span>
+												</button>
+											)}
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
