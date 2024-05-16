@@ -122,7 +122,8 @@ const Group = () => {
 		groupData()
 			.then((res) => setMyGroup(res))
 			.catch((_err) => {});
-	}, [handlenoticePost]);
+	}, [noticebody]);
+	
 	return (
 		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
 			<Headers />

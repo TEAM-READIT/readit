@@ -5,7 +5,8 @@ import { useAuthStore } from '../../store/auth';
 import { problemListProps, answerList, answeranswer } from '../../types/challengeProps';
 import { HiOutlineExclamationCircle, HiLightBulb } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
-
+import right from '../../assets/images/right.png';
+import wrong from '../../assets/images/wrong.png';
 const Problems = ({ articleId, problemList }: { problemList: problemListProps[]; articleId: number }) => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
@@ -46,8 +47,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 		try {
 			const data = await answerPost.mutateAsync();
 			setAnswer(data);
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	const handleAnswerSelection = (problemIndex: number, optionIndex: number) => {
@@ -74,12 +74,11 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 
 	const exitButton = () => {
 		navigate('/');
-	}
+	};
 
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
-				<Modal.Header />
 				<Modal.Body>
 					<div className='text-center'>
 						<HiOutlineExclamationCircle className='mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200' />
@@ -93,7 +92,6 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 				</Modal.Body>
 			</Modal>
 			<Modal show={confirmSubmit} size='md' onClose={() => setConfirmSubmit(false)}>
-				<Modal.Header />
 				<Modal.Body>
 					<div className='text-center'>
 						<HiLightBulb className='mx-auto mb-4 h-14 w-14 text-yellow-400' />
@@ -120,13 +118,17 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 											{problem.problemNumber}. {problem.problem}
 										</div>
 										{accurateAns && (
-											<div className='absolute -left-4 -top-2'>
+											<>
 												{accurateAns[index].isCorrect ? (
-													<div className='text-4xl'>⭕</div>
+													<div className='absolute -left-7 -top-5'>
+														<img src={right} alt='정답' />
+													</div>
 												) : (
-													<div className='text-4xl text-pink-800'>❌</div>
+													<div className='absolute -left-5 -top-3'>
+														<img src={wrong} alt='오답' />{' '}
+													</div>
 												)}
-											</div>
+											</>
 										)}
 										<br />
 										{problem.optionList.map((option, optionidx) => (
@@ -143,6 +145,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 														<div>
 															{optionidx + 1 === accurateAns[index].answerNumber ? (
 																<div className='bg-red-200'>{option.option}</div>
+																
 															) : (
 																<div>{option.option}</div>
 															)}
@@ -164,13 +167,14 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 							</div>
 
 							<div className='flex justify-end'>
-								{accurateAns ? <Button
+								{accurateAns ? (
+									<Button
 										className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
 										onClick={exitButton}
 									>
 										홈으로 이동
-
-									</Button> : (
+									</Button>
+								) : (
 									<Button
 										className='border w-1/3 bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
 										onClick={handleAnswer}
