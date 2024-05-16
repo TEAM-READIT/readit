@@ -52,7 +52,7 @@ const EssayHeader = () => {
 					</Breadcrumb>
 					<div className='flex flex-row justify-between items-center w-full py-0.5'>
 						<h1 className='text-2xl font-semibold leading-tight text-gray-700 '>전체 글 목록</h1>
-						<div className='flex h-full flex-row items-center gap-x-2 w-3/4 justify-center'>
+						<div className='flex h-full flex-row items-center gap-x-2 w-5/6 justify-center'>
 							<input
 								type='text'
 								name='keyword'

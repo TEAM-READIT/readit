@@ -32,6 +32,8 @@ const SavedDetail = () => {
 			},
 		);
 		const data = await response.json();
+		console.log(`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}&isComplete=false`);
+		console.log(data)
 		return data;
 	};
 
@@ -272,7 +274,7 @@ const SavedDetail = () => {
 						? '읽고 있는 글이 없습니다'
 						: isFetchingNextPage && hasNextPage
 							? '읽고 있는 글을 로딩 중입니다'
-							: '더 이상 남은 읽고 있는 글이 없습니다'}
+							: ''}
 
 					<br />
 					<br />

@@ -272,7 +272,7 @@ const ReadDetail = () => {
 						? '읽은 글이 없습니다'
 						: isFetchingNextPage && hasNextPage
 							? '읽은 글을 로딩 중입니다'
-							: '더 이상 남은 읽은 글이 없습니다'}
+							: ''}
 
 					<br />
 					<br />

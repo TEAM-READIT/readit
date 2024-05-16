@@ -29,7 +29,7 @@ const Read = () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const response = await fetch(`${baseUrl}/article/search/myarticle?&isComplete=true`, {
+		const response = await fetch(`${baseUrl}/article/recent/myarticle?&isComplete=true`, {
 			headers: headers,
 		});
 		const data = await response.json();
@@ -39,7 +39,7 @@ const Read = () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const response = await fetch(`${baseUrl}/article/search/myarticle?&isComplete=false`, {
+		const response = await fetch(`${baseUrl}/article/recent/myarticle?&isComplete=false`, {
 			headers: headers,
 		});
 		const data = await response.json();
@@ -72,12 +72,9 @@ const Read = () => {
 				<div className='flex flex-row justify-between items-center pr-10'>
 					{number === 0 ? (
 						<>
-							<div className='flex flex-row'>
-								<div className='p-10 text-lg font-bold flex hover:cursor-pointer'>내가 읽은 글</div>
-								<div
-									className='p-10 text-lg font-bold flex hover:cursor-pointer text-gray-400'
-									onClick={() => setNumber(1)}
-								>
+							<div className='flex flex-row p-10 gap-10'>
+								<div className='text-lg font-bold flex hover:cursor-pointer'>내가 읽은 글</div>
+								<div className='text-lg font-bold flex hover:cursor-pointer text-gray-400' onClick={() => setNumber(1)}>
 									읽고 있는 글
 								</div>
 							</div>
@@ -91,14 +88,14 @@ const Read = () => {
 						</>
 					) : (
 						<>
-							<div className='flex flex-row'>
+							<div className='flex flex-row p-10 gap-10'>
 								<div
-									className='p-10 text-lg font-bold text-gray-400 flex hover:cursor-pointer'
+									className='text-lg font-bold text-gray-400 flex hover:cursor-pointer'
 									onClick={() => setNumber(0)}
 								>
 									내가 읽은 글
 								</div>
-								<div className='p-10 text-lg font-bold flex hover:cursor-pointer'>읽고 있는 글</div>
+								<div className='text-lg font-bold flex hover:cursor-pointer'>읽고 있는 글</div>
 							</div>
 							<Button
 								className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
