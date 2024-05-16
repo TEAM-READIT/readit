@@ -1,7 +1,6 @@
 package readit.article.application;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.application.support.SupportServiceDelegate;
@@ -14,7 +13,6 @@ import readit.article.domain.repository.CategoryRepository;
 import readit.article.dto.Page;
 import readit.article.dto.response.*;
 import readit.article.infra.FastAPIClient;
-import readit.common.asepect.exectime.ExecutionTime;
 import readit.viewer.domain.entity.MemberArticle;
 import readit.viewer.domain.entity.Memo;
 import readit.viewer.domain.repository.MemberArticleRepository;
@@ -37,7 +35,6 @@ public class ArticleService {
     private final SupportServiceDelegate supportServiceDelegate;
 
     @Transactional(readOnly = true)
-//    @Cacheable(value = "popularArticles")
     public GetPopularArticleResponse getPopularArticles(){
         List<Article> articleList = supportServiceDelegate.getArticleList();
         List<Article> epigraphyList = supportServiceDelegate.getArticleListByType(ArticleType.EPIGRAPHY);
@@ -54,31 +51,30 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
-    public GetMemberArticleListResponse getMyArticle(Integer id){
-        List<MemberArticle> memberArticleList = supportServiceDelegate.getMemberArticleListByMemberId(id);
+    public GetMemberArticleListResponse getSubmitedArticle(Integer id){
+        List<MemberArticle> memberArticleList = supportServiceDelegate.getSubmitedArticle(id);
 
         return GetMemberArticleListResponse.from(memberArticleList);
     }
 
     @Transactional(readOnly = true)
     public GetStatsResponse getStats(Integer id){
-        List<MemberArticle> memberArticleList = supportServiceDelegate.getMemberArticleListByMemberId(id);
+        List<MemberArticle> memberArticleList = supportServiceDelegate.getSubmitedArticle(id);
 
         return GetStatsResponse.from(memberArticleList);
     }
 
     @Transactional(readOnly = true)
-    public GetMemberArticleSearchResponse getMyArticleSearchList(Integer id,String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
+    public GetMemberArticleSearchResponse getMyArticleSearchList(Integer id,String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit, Boolean isComplete){
         MemberArticle memberArticle = memberArticleRepository.getById(id,cursor);
         Integer hitCursor = Optional.ofNullable(memberArticle)
                 .map(m -> memberArticle.getArticle().getHit())
                 .orElse(null);;
-        Page<MemberArticle> searchList = articleQueryRepository.findMemberArticleWithFilter(id,hitCursor,category,title,content,reporter,hit,cursor,limit);
+        Page<MemberArticle> searchList = articleQueryRepository.findMemberArticleWithFilter(id,hitCursor,category,title,content,reporter,hit,cursor,limit,isComplete);
         return GetMemberArticleSearchResponse.from(searchList);
     }
 
     @Transactional(readOnly = true)
-//    @Cacheable(value = "articleSearch", key = "#category + #title + #content + #reporter + #cursor + #limit")
     public GetArticleSearchResponse getArticleSearchList(String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
         Article article = articleRepository.getById(cursor);
         Integer hitCursor = Optional.ofNullable(article)
