@@ -32,8 +32,6 @@ const SavedDetail = () => {
 			},
 		);
 		const data = await response.json();
-		console.log(`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}&isComplete=false`);
-		console.log(data)
 		return data;
 	};
 

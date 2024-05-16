@@ -1,9 +1,10 @@
-import { Breadcrumb, BreadcrumbItem, Button } from 'flowbite-react';
+import { Breadcrumb, BreadcrumbItem, Button, Modal } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { communityProps } from '../../types/gropProps';
 import { useAuthStore } from '../../store/auth';
 import { useEffect, useState } from 'react';
 import useStore from '../../store';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 interface GroupHeader {
 	myGroup: communityProps;
@@ -21,11 +22,8 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
-
-
-
+	const [modalOpen, setModalOpen] = useState(false);
 	const [number, setNumber] = useState<number>(0);
-
 	const deleteCommunity = async (communityId: number) => {
 		try {
 			const response = await fetch(`${baseUrl}/community/${communityId}`, {
@@ -59,9 +57,34 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 		}
 	}, [noticebody]);
 
+		const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+			const inputText = e.target.value;
+			if (inputText.length <=49) {
+				setnoticebody(inputText);
+			} else {
+				// maxLength에 도달했을 때 알림
+				setModalOpen(true);
+			}
+		};
 
 	return (
 		<>
+			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
+				<Modal.Header />
+				<Modal.Body>
+					<div className='text-center'>
+						<HiOutlineExclamationCircle className='mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200' />
+						<h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>
+							최대 50자까지 작성할 수 있습니다.
+						</h3>
+						<div className='flex justify-center gap-4'>
+							<Button color='failure' onClick={() => setModalOpen(false)}>
+								확인
+							</Button>
+						</div>
+					</div>
+				</Modal.Body>
+			</Modal>
 			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>
 				<div className=' w-full'>
 					<Breadcrumb className='pb-8'>
@@ -145,7 +168,8 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 								placeholder='공지 등록하기'
 								className=' bg-[#E1EDFF] border-none w-5/6 font-normal'
 								onKeyDown={handleKeyPress}
-								onChange={(e) => setnoticebody(e.target.value)}
+								maxLength={50}
+								onChange={handleChange}
 							/>
 							<span
 								className='material-symbols-outlined hover:cursor-pointer text-3xl  pl-10'

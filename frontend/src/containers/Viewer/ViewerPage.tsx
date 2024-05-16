@@ -121,6 +121,7 @@ export const ViewerPage = () => {
 		navigate('/');
 	};
 
+	console.log(article)
 	const getMemo = async () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
