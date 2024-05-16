@@ -100,7 +100,6 @@ const Chart = () => {
 				liter.push(score.score);
 			}
 		});
-		// console.log(challengeScoreList?.scoreList);
 		const cs = challengeScoreList?.scoreList;
 
 		cs?.forEach((score :ChallengeScore) => {

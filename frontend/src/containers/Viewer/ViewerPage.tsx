@@ -85,7 +85,6 @@ export const ViewerPage = () => {
 			},
 			body: JSON.stringify(requestbody),
 		});
-		console.log(requestbody);
 		return response.json();
 	});
 
@@ -121,7 +120,6 @@ export const ViewerPage = () => {
 		navigate('/');
 	};
 
-	console.log(article)
 	const getMemo = async () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
@@ -130,7 +128,6 @@ export const ViewerPage = () => {
 			headers: headers,
 		});
 		const data = await response.json();
-		console.log(`${baseUrl}/article/memo/${article.memberArticleId}`);
 		return data;
 	};
 
@@ -158,7 +155,6 @@ export const ViewerPage = () => {
 	});
 
 	useEffect(()=>{
-		console.log(summary)
 	},[summary])
 	return (
 		<>
