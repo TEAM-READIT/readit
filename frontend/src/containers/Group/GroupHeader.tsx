@@ -2,7 +2,7 @@ import { Breadcrumb, BreadcrumbItem, Button, Modal } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { communityProps } from '../../types/gropProps';
 import { useAuthStore } from '../../store/auth';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useStore from '../../store';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
