@@ -43,7 +43,6 @@ const Read = () => {
 			headers: headers,
 		});
 		const data = await response.json();
-
 		return data;
 	};
 
