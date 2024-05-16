@@ -30,7 +30,16 @@ const Essay = () => {
 			filtered = lastfilter;
 		}
 	}, []);
-
+	useEffect(() => {
+		if (isOpen) {
+		window.scrollTo({
+			top: 0,
+		});
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	}, [isOpen]);
 	// 전체 아티클 데이터를 가져오는 함수
 	const totalArticleData = async (page: number, filtered: string) => {
 		const headers = {
