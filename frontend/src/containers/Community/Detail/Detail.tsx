@@ -39,9 +39,10 @@ const Detail = () => {
 			},
 		});
 	});
-	const handleJoin = async () => {
+	const handleJoin = async (community: GroupProps) => {
 		try {
 			await communityPost.mutateAsync();
+			navigate('/group', { state: { community } });
 		} catch (error: unknown) {
 			if (error instanceof Response && error.status == 409) {
 				alert('이미 가입한 모임입니다.');
@@ -53,8 +54,7 @@ const Detail = () => {
 	};
 	const handleClickGroup = (community: GroupProps) => {
 		if (accessToken) {
-			navigate('/group', { state: { community } });
-			handleJoin();
+			handleJoin(community);
 		} else {
 			open();
 		}
