@@ -273,7 +273,6 @@ const Essay = () => {
 												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
 													<option value='title'>제목</option>
 													<option value='content'>내용</option>
-													<option value='repoter'>작성자</option>
 												</select>
 
 												<input
