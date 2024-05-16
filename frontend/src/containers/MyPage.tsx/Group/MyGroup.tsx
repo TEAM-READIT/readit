@@ -40,6 +40,21 @@ const MyGroup = () => {
 	// 상위 3개만 추출
 	const top3Communities = communityList?.communityList.reverse().slice(0, 3);
 
+	const categoryStyles: { [key: string]: string } = {
+		비문학: 'bg-blue-200 border border-blue-500',
+		정치: 'bg-gray-200 border border-gray-400 text-black',
+		경제: 'bg-green-200 border border-green-400 text-black',
+		사회: 'bg-yellow-100 border-yellow-400 text-black',
+		'생활/문화': 'bg-purple-200 border-purple-400 text-black',
+		'IT/과학': 'bg-indigo-200 border-indigo-400 text-black',
+		세계: 'bg-pink-200 border-pink-400 text-black',
+		오피니언: 'bg-red-200 border-red-400 text-black',
+	};
+
+	function getCategoryStyle(categoryName: string) {
+		return categoryStyles[categoryName] || 'bg-gray-200 text-gray-800';
+	}
+
 	return (
 		<>
 			<div className='flex flex-col w-full border border-gray-200 pb-10 rounded-xl shadow-md'>
@@ -54,7 +69,7 @@ const MyGroup = () => {
 					</Button>
 				</div>
 				<div className='px-10 h-full flex flex-col justify-between gap-y-2'>
-					{top3Communities?.length! > 0  ? (
+					{top3Communities?.length! > 0 ? (
 						<>
 							{top3Communities?.map((community, index) => (
 								<div
@@ -65,12 +80,14 @@ const MyGroup = () => {
 										<div className='font-bold text-start'>{community.title}</div>
 										<div className='flex flex-row justify-start gap-5'>
 											<div className='text-gray-500'>{community.startAt!.toLocaleString()}</div>
-											<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
+											<div
+												className={`px-3 border rounded-lg text-sm flex flex-row items-center justify-center ${getCategoryStyle(community.categoryName!)}`}
+											>
 												#{community.categoryName}
 											</div>
 										</div>
 									</div>
-									<Button className='bg-primary-500 border border-black' onClick={() => handleMyCommunity(community)}>
+									<Button className='bg-green-500 border border-black' onClick={() => handleMyCommunity(community)}>
 										모임 페이지 이동하기
 									</Button>
 								</div>

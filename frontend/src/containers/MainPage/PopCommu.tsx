@@ -47,6 +47,23 @@ const PopCommu = () => {
 	}, []);
 
 	const communitys = popCommunity?.communityList;
+
+		const categoryStyles: { [key: string]: string } = {
+			비문학: 'bg-blue-200 border border-blue-500',
+			정치: 'bg-gray-200 border border-gray-400 text-black',
+			경제: 'bg-green-200 border border-green-400 text-black',
+			사회: 'bg-yellow-100 border-yellow-400 text-black',
+			'생활/문화': 'bg-purple-200 border-purple-400 text-black',
+			'IT/과학': 'bg-indigo-200 border-indigo-400 text-black',
+			세계: 'bg-pink-200 border-pink-400 text-black',
+			오피니언: 'bg-red-200 border-red-400 text-black',
+		};
+
+		function getCategoryStyle(categoryName: string) {
+			return categoryStyles[categoryName] || 'bg-gray-200 text-gray-800';
+		}
+
+
 	return (
 		<>
 			<div className='flex flex-col w-full items-center'>
@@ -74,7 +91,10 @@ const PopCommu = () => {
 										onClick={() => handleCardClick(community)}
 									>
 										<div className='flex justify-end gap-2 h-1/5'>
-											<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
+											<div
+												className={`px-3 border rounded-lg text-sm flex flex-row items-center justify-center ${getCategoryStyle(community.categoryName!)}`}
+											>
+												{' '}
 												#{community.categoryName}
 											</div>
 										</div>
@@ -99,7 +119,9 @@ const PopCommu = () => {
 										onClick={() => handleCardClick(community)}
 									>
 										<div className='flex justify-end gap-2 h-1/5'>
-											<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
+											<div
+												className={`px-3 border rounded-lg text-sm flex flex-row items-center justify-center ${getCategoryStyle(community.categoryName!)}`}
+											>
 												#{community.categoryName}
 											</div>
 										</div>

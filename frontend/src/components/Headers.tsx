@@ -8,7 +8,7 @@ import { useMutation } from 'react-query';
 
 const Headers = () => {
 	const { accessToken, logout } = useAuthStore();
-	const { setModal, setLastfilter } = useStore();
+	const { setModal, setLastfilter, setCommunityfilter } = useStore();
 	const navigate = useNavigate();
 	const [isOpen, open, close] = useModal();
 	const location = useLocation();
@@ -44,6 +44,10 @@ const Headers = () => {
 		setLastfilter('');
 		navigate('/essay');
 	};
+	const handleCommu = () => {
+		setCommunityfilter('');
+		navigate('/community');
+	};
 	return (
 		<>
 			<div className='flex justify-center w-full '>
@@ -66,10 +70,7 @@ const Headers = () => {
 								>
 									글 목록
 								</div>
-								<div
-									className={location.pathname === '/community' ? 'text-blue-800' : ''}
-									onClick={() => navigate('/community')}
-								>
+								<div className={location.pathname === '/community' ? 'text-blue-800' : ''} onClick={handleCommu}>
 									커뮤니티
 								</div>
 								<div
@@ -92,10 +93,7 @@ const Headers = () => {
 								<div className={location.pathname === '/essay' ? 'text-blue-800' : ''} onClick={handleEssay}>
 									글 목록
 								</div>
-								<div
-									className={location.pathname === '/community' ? 'text-blue-800' : ''}
-									onClick={() => navigate('/community')}
-								>
+								<div className={location.pathname === '/community' ? 'text-blue-800' : ''} onClick={handleCommu}>
 									커뮤니티
 								</div>{' '}
 								<div onClick={open}>마이페이지</div>

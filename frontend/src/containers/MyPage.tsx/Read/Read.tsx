@@ -49,12 +49,10 @@ const Read = () => {
 	useEffect(() => {
 		myArticleData()
 			.then((res) => setArticles(res.articleList))
-			.catch((_err) => {
-			});
+			.catch((_err) => {});
 		myticleData()
 			.then((res) => setmyticles(res.articleList))
-			.catch((_err) => {
-			});
+			.catch((_err) => {});
 	}, []);
 
 	// 상위 3개만 추출
@@ -66,6 +64,22 @@ const Read = () => {
 	if (myticles && Array.isArray(myticles)) {
 		top3myticles = myticles.reverse().slice(0, 3);
 	}
+
+	const categoryStyles: { [key: string]: string } = {
+		비문학: 'bg-blue-200 border border-blue-500',
+		정치: 'bg-gray-200 border border-gray-400 text-black',
+		경제: 'bg-green-200 border border-green-400 text-black',
+		사회: 'bg-yellow-100 border-yellow-400 text-black',
+		'생활/문화': 'bg-purple-200 border-purple-400 text-black',
+		'IT/과학': 'bg-indigo-200 border-indigo-400 text-black',
+		세계: 'bg-pink-200 border-pink-400 text-black',
+		오피니언: 'bg-red-200 border-red-400 text-black',
+	};
+
+	function getCategoryStyle(categoryName: string) {
+		return categoryStyles[categoryName] || 'bg-gray-200 text-gray-800';
+	}
+
 	return (
 		<>
 			<div className='flex flex-col w-full border border-gray-200 pb-10 rounded-xl shadow-md'>
@@ -89,10 +103,7 @@ const Read = () => {
 					) : (
 						<>
 							<div className='flex flex-row p-10 gap-10'>
-								<div
-									className='text-lg font-bold text-gray-400 flex hover:cursor-pointer'
-									onClick={() => setNumber(0)}
-								>
+								<div className='text-lg font-bold text-gray-400 flex hover:cursor-pointer' onClick={() => setNumber(0)}>
 									내가 읽은 글
 								</div>
 								<div className='text-lg font-bold flex hover:cursor-pointer'>읽고 있는 글</div>
@@ -125,11 +136,17 @@ const Read = () => {
 														{article.completedAt ? new Date(article.completedAt).toLocaleDateString() : '날짜 없음'}
 													</div>
 													<div className='flex justify-end gap-2 h-1/5'>
-														<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
-															{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
-														</div>
+														{article.type === 'NEWS' ? null : (
+															<>
+																<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
+																	#비문학
+																</div>
+															</>
+														)}
 														{article.type === 'NEWS' ? (
-															<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
+															<div
+																className={`px-3 border rounded-lg text-sm flex flex-row items-center justify-center ${getCategoryStyle(article.categoryName!)}`}
+															>
 																#{article.categoryName}
 															</div>
 														) : null}
@@ -137,7 +154,7 @@ const Read = () => {
 												</div>
 											</div>
 											<Button
-												className='bg-primary-500 border w-1/6 border-black'
+												className='bg-green-500 border w-1/6 border-black'
 												onClick={() => {
 													handleArticle(article);
 												}}
@@ -167,11 +184,17 @@ const Read = () => {
 														{article.completedAt ? new Date(article.completedAt).toLocaleDateString() : '읽는 중'}
 													</div>
 													<div className='flex justify-end gap-2 h-1/5'>
-														<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
-															{article.type === 'NEWS' ? <>#뉴스</> : <>#비문학</>}
-														</div>
+														{article.type === 'NEWS' ? null : (
+															<>
+																<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
+																	#비문학
+																</div>
+															</>
+														)}
 														{article.type === 'NEWS' ? (
-															<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm'>
+															<div
+																className={`px-3 border rounded-lg text-sm flex flex-row items-center justify-center ${getCategoryStyle(article.categoryName!)}`}
+															>
 																#{article.categoryName}
 															</div>
 														) : null}
@@ -179,7 +202,7 @@ const Read = () => {
 												</div>
 											</div>
 											<Button
-												className='bg-primary-500 border w-1/6 border-black'
+												className='bg-green-500 border w-1/6 border-black'
 												onClick={() => {
 													handlemyticle(article);
 												}}
