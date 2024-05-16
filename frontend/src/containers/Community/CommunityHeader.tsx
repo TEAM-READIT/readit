@@ -21,7 +21,7 @@ const CommunityHeader = () => {
 						<h1 className='text-2xl font-semibold leading-tight text-gray-700'>모집 글 목록</h1>
 						<div className='flex gap-3'>
 							<Button
-								className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+								className='border bg-blue-800 text-white border-blue-300 hover:bg-blue-900 '
 								onClick={() => navigate('/recruit')}
 							>
 								<div className='flex items-center gap-2'>

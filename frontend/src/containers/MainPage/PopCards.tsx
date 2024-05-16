@@ -90,7 +90,7 @@ const PopCards = () => {
 							{popArticles?.articleList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+									className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'
 									onClick={() => {
 										handleCardClick(article);
 									}}
@@ -122,7 +122,7 @@ const PopCards = () => {
 							{popArticles?.newsList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-48  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+									className='flex flex-col w-64 h-48  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'
 									onClick={() => {
 										handleCardClick(article);
 									}}
@@ -154,7 +154,7 @@ const PopCards = () => {
 							{popArticles?.epigraphyList?.map((article, index) => (
 								<Card
 									key={index}
-									className='flex flex-col w-64 h-48  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+									className='flex flex-col w-64 h-48  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'
 									onClick={() => handleCardClick(article)}
 								>
 									<div className='flex justify-end gap-2 h-1/5'>
