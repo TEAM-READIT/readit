@@ -21,7 +21,7 @@ const ReadDetailModal = () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const response = await fetch(`${baseUrl}/article/memo/${article.id}`, {
+		const response = await fetch(`${baseUrl}/article/memo/${article.memberArticleId}`, {
 			headers: headers,
 		});
 		const data = await response.json();

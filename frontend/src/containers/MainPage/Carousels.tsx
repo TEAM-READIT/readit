@@ -6,12 +6,14 @@ import Banner3 from '../../assets/images/banner-3.jpg';
 const Carousels = () => {
 	return (
 		<>
-			<div className='relative h-52 border-2 rounded-xl'>
-				<Carousel slideInterval={5000} className='rounded-3xl '>
-					<img src={Banner1} alt='banner1' className='w-full h-full object-cover' />
-					<img src={Banner2} alt='banner2' className='w-full h-full object-cover' />
-					<img src={Banner3} alt='banner3' className='w-full h-full object-cover' />
-				</Carousel>
+			<div className='h-1/3'>
+				<div className='relative h-52 border-2 rounded-xl'>
+					<Carousel slideInterval={5000} className='rounded-3xl '>
+						<img src={Banner1} alt='banner1' className='w-full h-full object-cover' />
+						<img src={Banner2} alt='banner2' className='w-full h-full object-cover' />
+						<img src={Banner3} alt='banner3' className='w-full h-full object-cover' />
+					</Carousel>
+				</div>
 			</div>
 		</>
 	);

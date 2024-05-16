@@ -186,9 +186,6 @@ const SavedDetail = () => {
 											<p className='font-semibold text-md border-b-2 border-gray-200 mb-2 pb-1'>검색 필터</p>
 											<div className='flex flex-col gap-4'>
 												<div className='flex flex-row items-center gap-10'>
-													<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수</div>
-												</div>
-												<div className='flex flex-row items-center gap-10'>
 													{/* <Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div> */}
 												</div>
 												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
@@ -215,6 +212,9 @@ const SavedDetail = () => {
 													<option value='세계'>세계</option>
 													<option value='오피니언'>오피니언</option>
 												</select>
+												<div className='flex flex-row items-center gap-3'>
+													<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수로 정렬하기</div>
+												</div>
 											</div>
 
 											<button
