@@ -67,6 +67,13 @@ public class ArticleController {
         return ResponseEntity.ok(searchListResponse);
     }
 
+    @GetMapping("/recent/myarticle")
+    public ResponseEntity<GetRecentMemberArticlesResponse> getRecentMyArticles(@RequestParam(required = false) Boolean isComplete,
+                                                                               @Auth AuthCredentials authCredentials){
+        GetRecentMemberArticlesResponse recentListResponse = articleService.getRecentMyArticles(authCredentials.id(),isComplete);
+        return ResponseEntity.ok(recentListResponse);
+    }
+
     @PostMapping("/hit/{id}")
     public ResponseEntity<Void> increaseHit(
             @PathVariable Integer id){

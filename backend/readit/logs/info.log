@@ -1,0 +1,122 @@
+[2024-05-16 09:34:51:501][background-preinit] [32mINFO [0;39m o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+[2024-05-16 09:34:51:539][main] [32mINFO [0;39m readit.ReaditApplication - Starting ReaditApplication using Java 17.0.10 with PID 13760 (C:\Users\SSAFY\Desktop\Github\S10P31A705\backend\readit\build\classes\java\main started by SSAFY in C:\Users\SSAFY\Desktop\Github\S10P31A705\backend\readit)
+[2024-05-16 09:34:51:540][main] [32mINFO [0;39m readit.ReaditApplication - The following 1 profile is active: "apikeys"
+[2024-05-16 09:34:52:1591][main] [32mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2024-05-16 09:34:52:1732][main] [32mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 134 ms. Found 11 JPA repository interfaces.
+[2024-05-16 09:34:53:2711][main] [32mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+[2024-05-16 09:34:53:2720][main] [32mINFO [0;39m o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2024-05-16 09:34:53:2723][main] [32mINFO [0;39m o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2024-05-16 09:34:53:2723][main] [32mINFO [0;39m o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+[2024-05-16 09:34:53:2796][main] [32mINFO [0;39m o.a.c.c.C.[.[localhost].[/readit] - Initializing Spring embedded WebApplicationContext
+[2024-05-16 09:34:53:2797][main] [32mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2221 ms
+[2024-05-16 09:34:53:3227][main] [32mINFO [0;39m o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2024-05-16 09:34:54:3331][main] [32mINFO [0;39m org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+[2024-05-16 09:34:54:3380][main] [32mINFO [0;39m o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[2024-05-16 09:34:54:3701][main] [32mINFO [0;39m o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2024-05-16 09:34:54:3732][main] [32mINFO [0;39m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2024-05-16 09:34:55:4452][main] [32mINFO [0;39m com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@174f0d06
+[2024-05-16 09:34:55:4463][main] [32mINFO [0;39m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2024-05-16 09:34:56:5385][main] [32mINFO [0;39m o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2024-05-16 09:34:58:7452][main] [32mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2024-05-16 09:34:58:7791][main] [32mINFO [0;39m o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+[2024-05-16 09:34:59:8686][main] [32mINFO [0;39m readit.community.util.DateUtil - 2024-05-13T00:00
+[2024-05-16 09:34:59:8686][main] [32mINFO [0;39m readit.community.util.DateUtil - 2024-05-19T23:59:59
+[2024-05-16 09:35:01:10482][main] [32mINFO [0;39m o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+[2024-05-16 09:35:01:10569][main] [32mINFO [0;39m o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2024-05-16 09:35:01:10590][main] [32mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/readit'
+[2024-05-16 09:35:01:10603][main] [32mINFO [0;39m readit.ReaditApplication - Started ReaditApplication in 10.474 seconds (process running for 10.792)
+[2024-05-16 09:38:29:219245][http-nio-8080-exec-4] [32mINFO [0;39m o.a.c.c.C.[.[localhost].[/readit] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2024-05-16 09:38:29:219246][http-nio-8080-exec-4] [32mINFO [0;39m o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2024-05-16 09:38:29:219247][http-nio-8080-exec-4] [32mINFO [0;39m o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+[2024-05-16 09:38:30:219276][http-nio-8080-exec-1] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/article/recent, QUERY_COUNT: 0
+[2024-05-16 09:38:30:219276][http-nio-8080-exec-2] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/article/stats, QUERY_COUNT: 0
+[2024-05-16 09:38:30:219276][http-nio-8080-exec-6] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/challenge/stats, QUERY_COUNT: 0
+[2024-05-16 09:38:30:219276][http-nio-8080-exec-4] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/community/myCommunity, QUERY_COUNT: 0
+[2024-05-16 09:38:30:219276][http-nio-8080-exec-3] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/article/recent, QUERY_COUNT: 0
+[2024-05-16 09:38:30:219347][http-nio-8080-exec-5] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent, QUERY_COUNT: 0
+[2024-05-16 09:38:30:219347][http-nio-8080-exec-8] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent, QUERY_COUNT: 0
+[2024-05-16 09:38:30:219735][http-nio-8080-exec-7] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/article/stats, QUERY_COUNT: 2
+[2024-05-16 09:38:30:219743][http-nio-8080-exec-9] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/community/myCommunity, QUERY_COUNT: 1
+[2024-05-16 09:38:30:220046][http-nio-8080-exec-10] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/challenge/stats, QUERY_COUNT: 3
+[2024-05-16 09:39:07:257249][http-nio-8080-exec-1] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:07:257249][http-nio-8080-exec-4] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:10:260254][http-nio-8080-exec-2] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:10:260254][http-nio-8080-exec-3] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:31:281235][http-nio-8080-exec-7] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/myarticle/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:31:281241][http-nio-8080-exec-9] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:31:281263][http-nio-8080-exec-10] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/myarticle/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:33:283234][http-nio-8080-exec-1] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/myarticle/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:33:283243][http-nio-8080-exec-4] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/myarticle/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:33:283252][http-nio-8080-exec-2] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/myarticle/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:43:293072][http-nio-8080-exec-7] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/myarticle/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:43:293073][http-nio-8080-exec-6] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/myarticle/recent, QUERY_COUNT: 0
+[2024-05-16 09:39:43:293154][http-nio-8080-exec-8] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/community/myCommunity, QUERY_COUNT: 1
+[2024-05-16 09:39:43:293164][http-nio-8080-exec-5] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/article/stats, QUERY_COUNT: 2
+[2024-05-16 09:39:43:293167][http-nio-8080-exec-3] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/challenge/stats, QUERY_COUNT: 3
+[2024-05-16 09:41:01:547][background-preinit] [32mINFO [0;39m o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+[2024-05-16 09:41:01:583][main] [32mINFO [0;39m readit.ReaditApplication - Starting ReaditApplication using Java 17.0.10 with PID 3760 (C:\Users\SSAFY\Desktop\Github\S10P31A705\backend\readit\build\classes\java\main started by SSAFY in C:\Users\SSAFY\Desktop\Github\S10P31A705\backend\readit)
+[2024-05-16 09:41:01:584][main] [32mINFO [0;39m readit.ReaditApplication - The following 1 profile is active: "apikeys"
+[2024-05-16 09:41:02:1551][main] [32mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2024-05-16 09:41:02:1684][main] [32mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 125 ms. Found 11 JPA repository interfaces.
+[2024-05-16 09:41:03:2540][main] [32mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+[2024-05-16 09:41:03:2550][main] [32mINFO [0;39m o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2024-05-16 09:41:03:2552][main] [32mINFO [0;39m o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2024-05-16 09:41:03:2552][main] [32mINFO [0;39m o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+[2024-05-16 09:41:03:2624][main] [32mINFO [0;39m o.a.c.c.C.[.[localhost].[/readit] - Initializing Spring embedded WebApplicationContext
+[2024-05-16 09:41:03:2624][main] [32mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2004 ms
+[2024-05-16 09:41:04:3109][main] [32mINFO [0;39m o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2024-05-16 09:41:04:3188][main] [32mINFO [0;39m org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+[2024-05-16 09:41:04:3245][main] [32mINFO [0;39m o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[2024-05-16 09:41:04:3587][main] [32mINFO [0;39m o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2024-05-16 09:41:04:3611][main] [32mINFO [0;39m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2024-05-16 09:41:05:3972][main] [32mINFO [0;39m com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2d36add1
+[2024-05-16 09:41:05:3973][main] [32mINFO [0;39m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2024-05-16 09:41:06:4859][main] [32mINFO [0;39m o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2024-05-16 09:41:06:5819][main] [32mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2024-05-16 09:41:07:6131][main] [32mINFO [0;39m o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+[2024-05-16 09:41:08:7082][main] [32mINFO [0;39m readit.community.util.DateUtil - 2024-05-13T00:00
+[2024-05-16 09:41:08:7082][main] [32mINFO [0;39m readit.community.util.DateUtil - 2024-05-19T23:59:59
+[2024-05-16 09:41:10:9237][main] [32mINFO [0;39m o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+[2024-05-16 09:41:10:9282][main] [32mINFO [0;39m o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2024-05-16 09:41:10:9300][main] [32mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/readit'
+[2024-05-16 09:41:10:9311][main] [32mINFO [0;39m readit.ReaditApplication - Started ReaditApplication in 9.185 seconds (process running for 9.486)
+[2024-05-16 09:41:17:16555][http-nio-8080-exec-3] [32mINFO [0;39m o.a.c.c.C.[.[localhost].[/readit] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2024-05-16 09:41:17:16555][http-nio-8080-exec-3] [32mINFO [0;39m o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2024-05-16 09:41:17:16556][http-nio-8080-exec-3] [32mINFO [0;39m o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+[2024-05-16 09:41:17:16622][http-nio-8080-exec-3] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/myarticle/recent, QUERY_COUNT: 0
+[2024-05-16 09:41:17:16622][http-nio-8080-exec-5] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/myarticle/recent, QUERY_COUNT: 0
+[2024-05-16 09:41:17:16806][http-nio-8080-exec-6] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/community/myCommunity, QUERY_COUNT: 1
+[2024-05-16 09:41:18:16919][http-nio-8080-exec-1] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/article/stats, QUERY_COUNT: 2
+[2024-05-16 09:41:18:16969][http-nio-8080-exec-2] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/challenge/stats, QUERY_COUNT: 3
+[2024-05-16 09:41:32:31814][http-nio-8080-exec-4] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:41:32:31820][http-nio-8080-exec-8] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/myarticle/recent, QUERY_COUNT: 0
+[2024-05-16 09:41:32:31837][http-nio-8080-exec-7] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:41:35:34810][http-nio-8080-exec-10] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/recent/recent, QUERY_COUNT: 0
+[2024-05-16 09:41:35:34812][http-nio-8080-exec-9] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:41:35:34824][http-nio-8080-exec-5] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/recent/recent, QUERY_COUNT: 0
+[2024-05-16 09:41:37:36020][http-nio-8080-exec-3] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:41:37:36021][http-nio-8080-exec-6] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:41:37:36036][http-nio-8080-exec-1] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:41:42:41752][http-nio-8080-exec-10] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:41:42:41752][http-nio-8080-exec-8] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:41:42:41843][http-nio-8080-exec-4] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/community/myCommunity, QUERY_COUNT: 1
+[2024-05-16 09:41:42:41844][http-nio-8080-exec-7] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/article/stats, QUERY_COUNT: 2
+[2024-05-16 09:41:43:41870][http-nio-8080-exec-2] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/challenge/stats, QUERY_COUNT: 3
+[2024-05-16 09:42:11:70817][http-nio-8080-exec-9] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:42:11:70819][http-nio-8080-exec-5] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:42:11:70832][http-nio-8080-exec-3] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:42:17:76809][http-nio-8080-exec-6] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: OPTIONS, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:42:17:76812][http-nio-8080-exec-1] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:42:17:76827][http-nio-8080-exec-10] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:42:20:79824][http-nio-8080-exec-2] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:42:20:79825][http-nio-8080-exec-4] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:42:21:79916][http-nio-8080-exec-7] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/community/myCommunity, QUERY_COUNT: 1
+[2024-05-16 09:42:21:79929][http-nio-8080-exec-9] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/challenge/stats, QUERY_COUNT: 3
+[2024-05-16 09:42:21:79948][http-nio-8080-exec-8] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/article/stats, QUERY_COUNT: 2
+[2024-05-16 09:42:33:92818][http-nio-8080-exec-5] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:42:33:92819][http-nio-8080-exec-3] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:43:06:124884][http-nio-8080-exec-1] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:43:06:124884][http-nio-8080-exec-4] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 404, METHOD: GET, URL: /readit/article/recent/myarticle, QUERY_COUNT: 0
+[2024-05-16 09:43:06:125005][http-nio-8080-exec-2] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/community/myCommunity, QUERY_COUNT: 1
+[2024-05-16 09:43:06:125015][http-nio-8080-exec-6] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/article/stats, QUERY_COUNT: 2
+[2024-05-16 09:43:06:125049][http-nio-8080-exec-10] [32mINFO [0;39m r.c.interceptor.LoggingInterceptor - STATUS_CODE: 200, METHOD: GET, URL: /readit/challenge/stats, QUERY_COUNT: 3
