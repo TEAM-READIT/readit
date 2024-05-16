@@ -85,13 +85,11 @@ public class ViewerService {
         optionalMemberArticle.ifPresentOrElse(
                 memberArticle -> {
                     memberArticle.updateForSaveTemp(request);
-                    request.memoList().stream()
-                            .map(m -> GetMemoRequest.toEntity(m, memberArticle))
-                            .forEach(memoRepository::save);
-                    memberArticleRepository.save(memberArticle);
+                    updateMemo(memberArticle,request);
                 },
                 () -> {
                     Article article = articleRepository.getById(articleId);
+
                     MemberArticle memberArticle = memberArticleRepository.save(MemberArticle.create(article, memberId, request));
                     request.memoList().stream()
                             .map(m -> GetMemoRequest.toEntity(m, memberArticle))
