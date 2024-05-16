@@ -30,8 +30,8 @@ export const NaverCallback = () => {
 			setEmail(userdata.email);
 			setId(userdata.id)
 			setName(userdata.name);
-			setProfileImageUrl(userdata.profileImageUrl);
-			navigate(-1);
+			setProfileImageUrl(userdata.profileImageUrl);				
+				navigate('/');
 		} catch (error) {
 		}
 	};

@@ -34,7 +34,7 @@ export const KakaoCallback = () => {
 			setId(userdata.id)
       setName(userdata.name);
       setProfileImageUrl(userdata.profileImageUrl);
-			navigate(-1)
+			navigate('/')
 		} catch (error) {
 		}
 	};

@@ -123,7 +123,13 @@ const Group = () => {
 			.then((res) => setMyGroup(res))
 			.catch((_err) => {});
 	}, [noticebody]);
-	
+
+	// setTimeout(() => {
+	// 	groupData()
+	// 		.then((res) => setMyGroup(res))
+	// 		.catch((_err) => {});
+	// }, 5000);
+
 	return (
 		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
 			<Headers />
