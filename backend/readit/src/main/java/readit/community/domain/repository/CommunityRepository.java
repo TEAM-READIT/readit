@@ -7,10 +7,11 @@ import org.springframework.data.repository.query.Param;
 import readit.community.domain.entity.Community;
 import readit.community.exception.CommunityMissingException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface CommunityRepository extends JpaRepository<Community, Integer> {
-    List<Community> findTop8ByOrderByHitsDesc();
+    List<Community> findTop8ByEndAtAfterOrderByHitsDesc(LocalDate date);
 
     @Query("SELECT DISTINCT p.community FROM Participants p WHERE p.member.id = :memberId")
     List<Community> findAllByMemberId(@Param("memberId") Integer memberId);
@@ -27,6 +28,10 @@ public interface CommunityRepository extends JpaRepository<Community, Integer> {
     default Community getByIdForQuery(Integer id) {
         return findById(id)
                 .orElse(null);
+    }
+
+    default List<Community> getTop8CommunityList() {
+        return findTop8ByEndAtAfterOrderByHitsDesc(LocalDate.now());
     }
 
 }

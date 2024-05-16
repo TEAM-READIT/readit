@@ -2,7 +2,6 @@ package readit.community.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.dto.Page;
@@ -115,7 +114,7 @@ public class CommunityService {
     @Transactional(readOnly = true)
 //    @Cacheable(value = "popular_community")
     public GetHotCommunityResponse getHotCommunityList() {
-        List<Community> communityList = communityRepository.findTop8ByOrderByHitsDesc();
+        List<Community> communityList = communityRepository.getTop8CommunityList();
         List<CommunityDetail> communityDetailList = mapToCommunityDetails(communityList);
         return GetHotCommunityResponse.from(communityDetailList);
     }
