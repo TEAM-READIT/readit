@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Headers from '../../components/Headers';
 import GroupHeader from './GroupHeader';
 import { communityProps } from '../../types/gropProps';
@@ -16,7 +16,6 @@ const Group = () => {
 	const community = location.state?.community;
 	const [myGroup, setMyGroup] = useState<communityProps>();
 	const [noticebody, setnoticebody] = useState<string>('');
-	const navigate = useNavigate();
 
 	// 내가 속한 모임 받아오기
 	const groupData = async () => {
