@@ -13,19 +13,26 @@ import readit.article.domain.repository.ArticleRepository;
 import readit.article.domain.repository.CategoryRepository;
 import readit.article.dto.Page;
 import readit.article.dto.response.*;
+import readit.article.exception.JsonConvertException;
 import readit.article.infra.FastAPIClient;
+import readit.viewer.domain.dto.Word;
 import readit.viewer.domain.entity.MemberArticle;
 import readit.viewer.domain.entity.Memo;
 import readit.viewer.domain.repository.MemberArticleRepository;
 import readit.viewer.domain.repository.MemoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ArticleService {
+
 
     private final ArticleRepository articleRepository;
     private final MemoRepository memoRepository;

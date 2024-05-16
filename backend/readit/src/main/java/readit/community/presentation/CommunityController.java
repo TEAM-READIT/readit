@@ -112,10 +112,4 @@ public class CommunityController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/notice/{communityId}")
-    public ResponseEntity<Void> communityNotice(@PathVariable Integer communityId, @RequestBody String notice){
-        communityService.communityNotice(communityId, notice);
-        return ResponseEntity.ok().build();
-    }
-
 }
