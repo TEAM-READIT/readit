@@ -158,9 +158,23 @@ const Group = () => {
 														/>
 														<div className='flex flex-col items-start'>
 															<div className=''>{chat.memberName}</div>
-															<div className='flex flex-row items-center gap-x-2'>
-																<div className='bg-white border border-gray-500 text-xs px-3 p-2 rounded-xl text-start break-words whitespace-pre-wrap max-w-[150px]'>
-																	{chat.content}
+															<div className='flex flex-row items-end gap-x-2'>
+																<div className='bg-white border border-gray-500 text-xs px-3 p-2 rounded-lg text-start break-words whitespace-pre-wrap max-w-[150px]'>
+																	{chat.content === '/박수' ? (
+																		<>
+																			<img src={clap} alt='걸렷네'></img>
+																		</>
+																	) : chat.content === '/고양이' ? (
+																		<>
+																			<img src={sakura} alt='걸렷네'></img>
+																		</>
+																	) : chat.content === '/ㅌㅌ' ? (
+																		<>
+																			<img src={xx} alt='걸렷네'></img>
+																		</>
+																	) : (
+																		<>{chat.content}</>
+																	)}
 																</div>
 																<span className='text-xs'>{new Date(chat.createdAt).toLocaleTimeString()}</span>
 															</div>
@@ -171,9 +185,9 @@ const Group = () => {
 														<div className='flex flex-row gap-x-2 justify-end'>
 															<div className='flex flex-col items-end'>
 																<div className=''>{chat.memberName}</div>
-																<div className='flex flex-row items-center gap-x-2'>
+																<div className='flex flex-row items-end gap-x-2'>
 																	<span className='text-xs'>{new Date(chat.createdAt).toLocaleTimeString()}</span>
-																	<div className='bg-yellow-200 border border-gray-500 text-xs px-3 p-2 rounded-xl text-start break-words whitespace-pre-wrap max-w-[150px]'>
+																	<div className='bg-yellow-200 border border-gray-500 text-xs px-3 p-2 rounded-lg text-start break-words whitespace-pre-wrap max-w-[150px]'>
 																		{chat.content === '/박수' ? (
 																			<>
 																				<img src={clap} alt='걸렷네'></img>
@@ -182,7 +196,7 @@ const Group = () => {
 																			<>
 																				<img src={sakura} alt='걸렷네'></img>
 																			</>
-																		) :  chat.content === '/ㅌㅌ' ? (
+																		) : chat.content === '/ㅌㅌ' ? (
 																			<>
 																				<img src={xx} alt='걸렷네'></img>
 																			</>
