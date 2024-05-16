@@ -53,7 +53,7 @@ const Community = () => {
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
 	const fetchData = async (filtered: string) => {
 		try {
-			const data = await totalCommunityData(1, filtered);
+			const data = await totalCommunityData(0, filtered);
 			setTotalCommunity({ communityList: data.communityList, hasNext: data.hasNext });
 			// setCommunityfilter(filtered)
 			window.scrollTo(0, 0);

@@ -144,10 +144,8 @@ export const ViewerPage = () => {
 
 	useEffect(() => {
 		if (article) {
-			if (article.completedAt) {
-				if (article.completedAt === null) {
-					fetchMemo();
-				}
+			if (article.completedAt === null) {
+				fetchMemo();
 			}
 		}
 	}, []);
@@ -156,7 +154,6 @@ export const ViewerPage = () => {
 		const refresh = setTimeout(() => {}, 3000);
 		return () => clearTimeout(refresh);
 	});
-	console.log(linkdata);
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
