@@ -52,14 +52,14 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public GetMemberArticleListResponse getSubmitedArticle(Integer id){
-        List<MemberArticle> memberArticleList = supportServiceDelegate.getSubmitedArticle(id);
+        List<MemberArticle> memberArticleList = supportServiceDelegate.getCompleteArticle(id);
 
         return GetMemberArticleListResponse.from(memberArticleList);
     }
 
     @Transactional(readOnly = true)
     public GetStatsResponse getStats(Integer id){
-        List<MemberArticle> memberArticleList = supportServiceDelegate.getSubmitedArticle(id);
+        List<MemberArticle> memberArticleList = supportServiceDelegate.getCompleteArticle(id);
 
         return GetStatsResponse.from(memberArticleList);
     }
@@ -82,6 +82,14 @@ public class ArticleService {
                 .orElse(null);
         Page<Article> searchList = articleQueryRepository.findArticleWithFilter(hitCursor,category,title,content,reporter,hit,cursor,limit);
         return GetArticleSearchResponse.from(searchList);
+    }
+
+    public GetRecentMemberArticlesResponse getRecentMyArticles(Integer id, Boolean isComplete){
+        if(isComplete){
+            return GetRecentMemberArticlesResponse.from(supportServiceDelegate.getRecentCompleteArticle(id));
+        } else {
+            return GetRecentMemberArticlesResponse.from(supportServiceDelegate.getRecentTempArticles(id));
+        }
     }
 
     public Integer saveArticleFromLink(FastAPIArticleResponse response){
