@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/auth';
 import userStore from '../../../store/user';
 
@@ -21,7 +21,6 @@ export const NaverCallback = () => {
 
 		return response.json();
 	});
-	const location = useLocation();
 
 	const naverLoginAction = async () => {
 		try {
