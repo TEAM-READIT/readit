@@ -1,5 +1,5 @@
 import Headers from '../../components/Headers';
-import { Card } from 'flowbite-react';
+import { Card, Checkbox } from 'flowbite-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery, useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
@@ -9,11 +9,10 @@ import CommunityHeader from './CommunityHeader';
 import useStore from '../../store';
 import topbtn from '../../assets/images/topbtn.png';
 
-
 const Community = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
-
+	// const [ishit, setIshit] = useState<boolean>(false);
 	const observerRef = useRef(null);
 	let filtered = '';
 
@@ -37,6 +36,7 @@ const Community = () => {
 			headers: headers,
 		});
 		const data = await response.json();
+		console.log(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`);
 		return data;
 	};
 
@@ -64,7 +64,7 @@ const Community = () => {
 		try {
 			const data = await totalCommunityData(0, filtered);
 			setTotalCommunity({ communityList: data.communityList, hasNext: data.hasNext });
-			setCommunityfilter(filtered)
+			setCommunityfilter(filtered);
 			window.scrollTo(0, 0);
 		} catch (error) {}
 	};
@@ -170,6 +170,9 @@ const Community = () => {
 		if (searchType != '' && keyword) {
 			filtered += `${searchType}=${encodeURIComponent(keyword)}&`;
 		}
+		// if (ishit) {
+		// 	filtered += `hit=true&`;
+		// }
 		if (category != '') {
 			filtered += `category=${encodeURIComponent(category)}&`;
 		}
@@ -231,13 +234,13 @@ const Community = () => {
 		return categoryStyles[categoryName] || 'bg-gray-200 text-gray-800';
 	}
 
-		const handletop = () => {
-			window.scrollTo({
-				top: 0,
-				behavior: 'smooth',
-			});
-		};
-		
+	const handletop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
+
 	return (
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-full'>
@@ -286,6 +289,9 @@ const Community = () => {
 													onChange={handleParticipantChange}
 													onKeyDown={handleKeyPress}
 												/>
+												{/* <div className='flex flex-row items-center gap-3'>
+													<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수로 정렬하기</div>
+												</div> */}
 											</div>
 
 											<button

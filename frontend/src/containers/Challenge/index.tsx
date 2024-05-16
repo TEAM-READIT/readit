@@ -215,11 +215,14 @@ const Challenge = () => {
 							<ChallengeHeader />
 
 							<div className='flex flex-col w-full h-full'>
+								<div className='h-1/5'>
+
 								<div className='flex flex-col w-full text-start bg-blue-100 border border-blue-400 rounded-lg p-5 whitespace-pre-wrap gap-5'>
 									{challengeIntro}
 								</div>
+								</div>
 
-								<div className='flex flex-row w-full items-start justify-between h-4/5 pt-10'>
+								<div className='flex flex-row w-full items-start justify-between h-4/5'>
 									<div className='flex flex-col gap-3 w-2/6 h-full px-2'>
 										<span className='font-bold py-5 text-2xl'>랭킹</span>
 										{rank?.memberList.slice(0, 5).map((member, index) => (
