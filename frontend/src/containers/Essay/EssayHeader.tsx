@@ -3,10 +3,15 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { articleList } from '../../types/articleProps';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { useAuthStore } from '../../store/auth';
+import useModal from '../../hooks/useModal';
+import Login from '../MainPage/Login/Login';
 
 const EssayHeader = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
+	const [isOpen, open, close] = useModal();
+	const { accessToken } = useAuthStore();
 	const [link, setLink] = useState<string>('');
 	const [linkdata, setLinkData] = useState<articleList>();
 	// 링크로 검색하기
@@ -36,6 +41,15 @@ const EssayHeader = () => {
 		}
 	}, [linkdata?.id]);
 
+	const handleKeyPress = (e: any) => {
+		if (e.key === 'Enter') {
+			if (accessToken) {
+				handleLink();
+			} else {
+				open();
+			}
+		} 
+	};
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
@@ -71,11 +85,14 @@ const EssayHeader = () => {
 								placeholder='읽고 싶은 네이버 뉴스 기사의 링크를 입력하면 뷰어로 읽을 수 있어요!'
 								className='input w-full h-full'
 								onChange={(e) => setLink(e.target.value)}
+								onKeyDown={handleKeyPress}
 							/>
 							<span
 								className='material-symbols-outlined hover:cursor-pointer'
 								onClick={() => {
-									handleLink();
+									{
+										accessToken ? handleLink() : open();
+									}
 								}}
 							>
 								search
@@ -84,6 +101,7 @@ const EssayHeader = () => {
 					</div>
 				</div>
 			</div>
+			{isOpen ? <Login close={close} /> : null}
 		</>
 	);
 };

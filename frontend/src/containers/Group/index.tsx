@@ -7,7 +7,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuthStore } from '../../store/auth';
 import { Button } from 'flowbite-react';
 import { useMutation } from 'react-query';
-
+import clap from '../../assets/images/박수.gif';
+import sakura from '../../assets/images/sakura.gif';
+import xx from '../../assets/images/ㅌㅌ.gif';
 const Group = () => {
 	const { accessToken } = useAuthStore();
 
@@ -16,7 +18,6 @@ const Group = () => {
 	const community = location.state?.community;
 	const [myGroup, setMyGroup] = useState<communityProps>();
 	const [noticebody, setnoticebody] = useState<string>('');
-
 	// 내가 속한 모임 받아오기
 	const groupData = async () => {
 		const headers = {
@@ -28,7 +29,7 @@ const Group = () => {
 		return data;
 	};
 
-	// 처음에 받아오고 
+	// 처음에 받아오고
 	useEffect(() => {
 		groupData()
 			.then((res) => {
@@ -60,6 +61,14 @@ const Group = () => {
 				// 빈 값이면 전송하지 않음
 				return;
 			}
+			if (chatValue.startsWith('/공지')) {
+				setnoticebody(chatValue.substring(4));
+				setChatValue('');
+				return;
+			}
+			if (chatContainerRef.current) {
+				chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+			}
 			await chatPost.mutateAsync();
 
 			groupData()
@@ -72,23 +81,28 @@ const Group = () => {
 	const handleKeyPress = (e: any) => {
 		// 입력 필드에서 엔터 키가 눌렸을 때
 		if (e.key === 'Enter') {
-			// 빈 값인지 확인 후 메시지 전송 함수 호출
-			if (!chatValue.trim()) {
-				// 빈 값이면 전송하지 않음
-				return;
-			}
-			if (chatValue.startsWith('/공지')) {
-				setnoticebody(chatValue.substring(4));
-				setChatValue('');
-				return;
-			}
+			// // 빈 값인지 확인 후 메시지 전송 함수 호출
+			// if (!chatValue.trim()) {
+			// 	// 빈 값이면 전송하지 않음
+			// 	return;
+			// }
+			// if (chatValue.startsWith('/공지')) {
+			// 	setnoticebody(chatValue.substring(4));
+			// 	setChatValue('');
+			// 	return;
+			// }
+			// if (chatContainerRef.current) {
+			// 	chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+			// }
 			handleSendingChat();
 			// 입력 필드 초기화
 			setChatValue('');
 		}
 	};
 
-	useEffect(()=> {handlenoticePost()},[noticebody])
+	useEffect(() => {
+		handlenoticePost();
+	}, [noticebody]);
 	const noticePost = useMutation(async () => {
 		await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
 			method: 'POST',
@@ -109,7 +123,6 @@ const Group = () => {
 	};
 
 	const chatContainerRef = useRef<HTMLDivElement>(null);
-
 	useEffect(() => {
 		if (chatContainerRef.current) {
 			chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -132,7 +145,7 @@ const Group = () => {
 						<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
 							<Articles myGroup={myGroup} />
 							<div className='w-2/5 flex flex-col gap-5 pt-3'>
-								<div className='h-[530px] overflow-y-auto bg-blue-200 rounded-xl p-5' ref={chatContainerRef}>
+								<div className='h-[530px] overflow-y-auto bg-blue-200 rounded-xl p-5 relative' ref={chatContainerRef}>
 									<div className='flex flex-col gap-5'>
 										{myGroup.chatList.map((chat, index) => (
 											<div key={index}>
@@ -146,7 +159,7 @@ const Group = () => {
 														<div className='flex flex-col items-start'>
 															<div className=''>{chat.memberName}</div>
 															<div className='flex flex-row items-center gap-x-2'>
-																<div className='bg-white border border-gray-500 text-xs w-full p-2 rounded-xl text-center break-words whitespace-pre-wrap max-w-[150px]'>
+																<div className='bg-white border border-gray-500 text-xs px-3 p-2 rounded-xl text-start break-words whitespace-pre-wrap max-w-[150px]'>
 																	{chat.content}
 																</div>
 																<span className='text-xs'>{new Date(chat.createdAt).toLocaleTimeString()}</span>
@@ -161,7 +174,21 @@ const Group = () => {
 																<div className='flex flex-row items-center gap-x-2'>
 																	<span className='text-xs'>{new Date(chat.createdAt).toLocaleTimeString()}</span>
 																	<div className='bg-yellow-200 border border-gray-500 text-xs px-3 p-2 rounded-xl text-start break-words whitespace-pre-wrap max-w-[150px]'>
-																		{chat.content}
+																		{chat.content === '/박수' ? (
+																			<>
+																				<img src={clap} alt='걸렷네'></img>
+																			</>
+																		) : chat.content === '/고양이' ? (
+																			<>
+																				<img src={sakura} alt='걸렷네'></img>
+																			</>
+																		) :  chat.content === '/ㅌㅌ' ? (
+																			<>
+																				<img src={xx} alt='걸렷네'></img>
+																			</>
+																		) : (
+																			<>{chat.content}</>
+																		)}
 																	</div>
 																</div>
 															</div>
