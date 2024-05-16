@@ -94,8 +94,7 @@ export const ViewerPage = () => {
 		try {
 			const data = await summarySubmit.mutateAsync();
 			setFeedback(data);
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	// 임시 제출하기
@@ -113,8 +112,7 @@ export const ViewerPage = () => {
 		try {
 			await tempSubmit.mutateAsync();
 			setModalOpen(true);
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	//TODO: 점수 보고 어디로 이동해야될가요?
@@ -141,13 +139,16 @@ export const ViewerPage = () => {
 			mem.forEach((me: MemoList) => {
 				memos.push(me.content);
 			});
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {
-		if (article.completedAt === null) {
-			fetchMemo();
+		if (article) {
+			if (article.completedAt) {
+				if (article.completedAt === null) {
+					fetchMemo();
+				}
+			}
 		}
 	}, []);
 
@@ -155,7 +156,7 @@ export const ViewerPage = () => {
 		const refresh = setTimeout(() => {}, 3000);
 		return () => clearTimeout(refresh);
 	});
-
+	console.log(linkdata);
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
