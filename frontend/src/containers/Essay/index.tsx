@@ -307,7 +307,7 @@ const Essay = () => {
 								{totalArticles.articleList?.map((article, index) => (
 									<Card
 										key={index}
-										className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+										className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'
 										onClick={() => handleCardClick(article, communityId)}
 									>
 										<div className='flex flex-row justify-between text-center text-sm'>
