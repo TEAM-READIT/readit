@@ -87,7 +87,7 @@ const MyGroup = () => {
 											</div>
 										</div>
 									</div>
-									<Button className='bg-green-500 border border-black' onClick={() => handleMyCommunity(community)}>
+									<Button className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white' onClick={() => handleMyCommunity(community)}>
 										모임 페이지 이동하기
 									</Button>
 								</div>

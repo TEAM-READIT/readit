@@ -29,19 +29,12 @@ const Group = () => {
 		return data;
 	};
 
-
 	useEffect(() => {
 		groupData()
-			.then((res) => setMyGroup(res))
-			.catch((error) => {
-				if (error.status == 409) {
-					alert('이미 가입한 모임입니다.');
-					navigate(-1);
-				} else {
-					alert('오류가 발생했습니다. 다시 시도해주세요.');
-					navigate(-1);
-				}
-			});
+			.then((res) => {
+				setMyGroup(res);
+			})
+			.catch((_err) => {});
 	}, []);
 
 	useEffect(() => {}, [groupData]);
@@ -72,10 +65,8 @@ const Group = () => {
 
 			groupData()
 				.then((res) => setMyGroup(res))
-				.catch((_err) => {
-				});
-		} catch (error) {
-		}
+				.catch((_err) => {});
+		} catch (error) {}
 		setChatValue('');
 	};
 
@@ -89,8 +80,8 @@ const Group = () => {
 			}
 			if (chatValue.startsWith('/공지')) {
 				setnoticebody(chatValue.substring(4));
-				setChatValue('')
-				return
+				setChatValue('');
+				return;
 			}
 			handleSendingChat();
 			// 입력 필드 초기화
@@ -117,8 +108,7 @@ const Group = () => {
 	const handlenoticePost = async () => {
 		try {
 			await noticePost.mutateAsync();
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -130,10 +120,9 @@ const Group = () => {
 	}, [myGroup?.chatList]);
 
 	useEffect(() => {
-				groupData()
-					.then((res) => setMyGroup(res))
-					.catch((_err) => {
-					});
+		groupData()
+			.then((res) => setMyGroup(res))
+			.catch((_err) => {});
 	}, [handlenoticePost]);
 	return (
 		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>

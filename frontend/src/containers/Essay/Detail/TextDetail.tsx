@@ -47,7 +47,7 @@ const TextDetail = () => {
 									)}
 								</div>
 								<Button
-									className='bg-green-500 flex items-center gap-2'
+									className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white flex items-center gap-2'
 									onClick={() => handleArticle(article, communityId)}
 								>
 									<span className='material-symbols-outlined'>done</span>

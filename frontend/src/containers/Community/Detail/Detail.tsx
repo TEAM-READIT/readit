@@ -76,7 +76,7 @@ const Detail = () => {
 									{community.currentParticipants >= community.maxParticipants ? null : (
 										<>
 											{community.writerId === id ? null : (
-												<Button className='bg-green-500 ' onClick={() => handleClickGroup(community)}>
+												<Button className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white' onClick={() => handleClickGroup(community)}>
 													<div className='flex items-center gap-2'>
 														<span className='material-symbols-outlined text-[1.2rem]'>done</span>
 														<span>모임 가입하기</span>
