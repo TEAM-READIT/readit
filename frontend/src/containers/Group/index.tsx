@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Headers from '../../components/Headers';
 import GroupHeader from './GroupHeader';
 import { communityProps } from '../../types/gropProps';
@@ -16,6 +16,8 @@ const Group = () => {
 	const community = location.state?.community;
 	const [myGroup, setMyGroup] = useState<communityProps>();
 	const [noticebody, setnoticebody] = useState<string>('');
+	const navigate = useNavigate();
+
 	// 내가 속한 모임 받아오기
 	const groupData = async () => {
 		const headers = {
@@ -31,7 +33,14 @@ const Group = () => {
 	useEffect(() => {
 		groupData()
 			.then((res) => setMyGroup(res))
-			.catch((_err) => {
+			.catch((error) => {
+				if (error.status == 409) {
+					alert('이미 가입한 모임입니다.');
+					navigate(-1);
+				} else {
+					alert('오류가 발생했습니다. 다시 시도해주세요.');
+					navigate(-1);
+				}
 			});
 	}, []);
 

@@ -39,22 +39,22 @@ const Detail = () => {
 			},
 		});
 	});
-	const handleJoin = async (community: GroupProps) => {
+	const handleJoin = async () => {
 		try {
 			await communityPost.mutateAsync();
-			navigate('/group', { state: { community } });
-		} catch (error: unknown) {
-			if (error instanceof Response && error.status == 409) {
-				alert('이미 가입한 모임입니다.');
-				navigate(-1);
-			} else {
-				alert('error');
-			}
+		} catch (error) {
+			// if (error instanceof Response && error.status == 409) {
+			// 	alert('이미 가입한 모임입니다.');
+			// 	navigate(-1);
+			// } else {
+			// 	alert('error');
+			// }
 		}
 	};
 	const handleClickGroup = (community: GroupProps) => {
 		if (accessToken) {
-			handleJoin(community);
+			navigate('/group', { state: { community } });
+			handleJoin();
 		} else {
 			open();
 		}
