@@ -153,7 +153,6 @@ export const ViewerPage = () => {
 		const refresh = setTimeout(() => {}, 3000);
 		return () => clearTimeout(refresh);
 	});
-
 	useEffect(()=>{
 	},[summary])
 	return (
