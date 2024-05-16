@@ -6,18 +6,27 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/auth';
 import CommunityList from '../../types/communityProps';
 import CommunityHeader from './CommunityHeader';
-// import useStore from '../../store';
+import useStore from '../../store';
+import topbtn from '../../assets/images/topbtn.png';
+
 
 const Community = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
 
 	const observerRef = useRef(null);
+	let filtered = '';
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
 	const limit = 12;
 	const [page, setPage] = useState<number>(0);
 	const [totalCommunity, setTotalCommunity] = useState<{ communityList: CommunityList[]; hasNext: boolean }>();
+	const { communityfilter, setCommunityfilter } = useStore();
+	useEffect(() => {
+		if (communityfilter) {
+			filtered = communityfilter;
+		}
+	}, []);
 
 	// // 전체 커뮤니티 조회
 	const totalCommunityData = async (page: number, filtered: string) => {
@@ -55,7 +64,7 @@ const Community = () => {
 		try {
 			const data = await totalCommunityData(0, filtered);
 			setTotalCommunity({ communityList: data.communityList, hasNext: data.hasNext });
-			// setCommunityfilter(filtered)
+			setCommunityfilter(filtered)
 			window.scrollTo(0, 0);
 		} catch (error) {}
 	};
@@ -152,13 +161,7 @@ const Community = () => {
 		handlehits(community.communityId!);
 		navigate('/detail', { state: { community } });
 	};
-	// const { communityfilter, setCommunityfilter } = useStore();
-	// 	useEffect(() => {
-	// 		if (communityfilter) {
-	// 			filtered = communityfilter;
-	// 		}
-	// 	}, []);
-	let filtered = '';
+
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
@@ -228,6 +231,13 @@ const Community = () => {
 		return categoryStyles[categoryName] || 'bg-gray-200 text-gray-800';
 	}
 
+		const handletop = () => {
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth',
+			});
+		};
+		
 	return (
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-full'>
@@ -347,6 +357,9 @@ const Community = () => {
 								</div>
 							</>
 						) : null}
+					</div>
+					<div className='fixed bottom-10 right-10 w-16 hover:cursor-pointer'>
+						<img src={topbtn} alt='' onClick={handletop} />
 					</div>
 				</div>
 				<div ref={observerRef}>
