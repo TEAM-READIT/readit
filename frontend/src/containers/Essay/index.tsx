@@ -273,7 +273,7 @@ const Essay = () => {
 												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
 													<option value='title'>제목</option>
 													<option value='content'>내용</option>
-													<option value='repoter'>작성자</option>
+													<option value='reporter'>작성자</option>
 												</select>
 
 												<input
@@ -349,7 +349,7 @@ const Essay = () => {
 						? '검색하려는 기사가 없습니다'
 						: isFetchingNextPage && hasNextPage
 							? '기사를 로딩 중입니다'
-							: '더 이상 남은 기사가 없습니다'}
+							: ''}
 
 					<br />
 					<br />
