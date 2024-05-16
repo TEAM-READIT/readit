@@ -170,7 +170,7 @@ export const ViewerPage = () => {
 						</div>
 						<div className='flex justify-center gap-4'>
 							<Button
-								className='border bg-gray-400 text-white border-gray-300 hover:bg-gray-500 '
+								className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white '
 								onClick={() => {
 									setModalOpen(false);
 									navigate('/');
@@ -229,7 +229,7 @@ export const ViewerPage = () => {
 							</div>
 							<div className='flex flex-row items-center w-full justify-center gap-5 pt-5'>
 								<Button
-									className='w-full border bg-gray-400 text-white border-gray-300 hover:bg-gray-500 '
+									className='w-full border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
 									onClick={handleTempSubmit}
 								>
 									<div className='flex items-center'>
@@ -297,7 +297,7 @@ export const ViewerPage = () => {
 									<div className='flex flex-row justify-end'>
 										<div className='flex flex-row justify-between gap-5 h-10'>
 											<button
-												className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm  border bg-gray-500 text-white border-gray-500 hover:bg-gray-400 px-3 '
+												className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm  border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white px-3 '
 												onClick={() => navigate('/')}
 											>
 												<div className='flex items-center gap-2'>
