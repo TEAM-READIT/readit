@@ -155,7 +155,7 @@ const Read = () => {
 												</div>
 											</div>
 											<Button
-												className='bg-green-500 border w-1/6 border-black'
+												className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white w-1/6'
 												onClick={() => {
 													handleArticle(article);
 												}}
@@ -203,7 +203,7 @@ const Read = () => {
 												</div>
 											</div>
 											<Button
-												className='bg-green-500 border w-1/6 border-black'
+												className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 w-1/6 hover:text-white'
 												onClick={() => {
 													handlemyticle(article);
 												}}
