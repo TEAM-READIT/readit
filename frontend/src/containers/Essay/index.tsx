@@ -58,8 +58,7 @@ const Essay = () => {
 			const data = await unreadArticleData(1, filtered);
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	const handletop = () => {
@@ -76,8 +75,7 @@ const Essay = () => {
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			setLastfilter(filtered);
 			window.scrollTo(0, 0);
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {}, [fetchData, fetchUnreadData]);
@@ -119,8 +117,7 @@ const Essay = () => {
 						setTotalArticle(res);
 					}
 				})
-				.catch((_err) => {
-				}),
+				.catch((_err) => {}),
 		{
 			getNextPageParam: (_lastPage) => {
 				if (totalArticles?.hasNext) {
@@ -192,13 +189,14 @@ const Essay = () => {
 	const handlehits = async (id: number) => {
 		try {
 			await hits.mutateAsync(id);
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	const handleCardClick = (article: articleList, communityId: number | null) => {
-		navigate('/viewer', { state: { article, communityId } });
-		handlehits(article.id!);
+		if (accessToken) {
+			navigate('/viewer', { state: { article, communityId } });
+			handlehits(article.id!);
+		}
 	};
 
 	let filtered = '';
@@ -231,7 +229,6 @@ const Essay = () => {
 		}
 	};
 
-
 	return (
 		<>
 			<div className='w-full h-full flex justify-center flex-col items-center'>
@@ -249,9 +246,6 @@ const Essay = () => {
 										<div className='w-full flex flex-col gap-y-5'>
 											<p className='font-semibold text-md border-b-2 border-gray-200 mb-2 pb-1'>검색 필터</p>
 											<div className='flex flex-col gap-4'>
-												<div className='flex flex-row items-center gap-10'>
-													<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수</div>
-												</div>
 												<div className='flex flex-row items-center gap-10'>
 													{/* <Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div> */}
 												</div>
@@ -284,6 +278,9 @@ const Essay = () => {
 													onChange={(e) => setKeyword(e.target.value)}
 													onKeyDown={handleKeyPress}
 												/>
+												<div className='flex flex-row items-center gap-3'>
+													<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수로 정렬하기</div>
+												</div>
 											</div>
 
 											<button

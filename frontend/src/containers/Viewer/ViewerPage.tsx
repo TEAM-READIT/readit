@@ -288,7 +288,7 @@ export const ViewerPage = () => {
 										<div className='text-start break-words'>요약 : {summary.slice(0, 500)}</div>
 										<div className='text-start whitespace-pre-wrap'>{feedback?.feedback!}</div>
 										<div className='flex flex-row justify-end'>
-											<span>{feedback?.score}점</span>
+											<span className='bg-yellow-200 p-5 text-lg'>{feedback?.score}점</span>
 										</div>
 									</div>
 									<div className='flex flex-row justify-end'>

@@ -66,7 +66,7 @@ const PopCommu = () => {
 
 	return (
 		<>
-			<div className='flex flex-col w-full items-center'>
+			<div className='flex flex-col w-full items-center h-1/3'>
 				<div className='flex flex-row w-full h-24 items-center text-gray-400 font-bold text-2xl text-end gap-x-16'>
 					<div className='text-black hover:cursor-pointer flex flex-row justify-between items-center w-full pr-10'>
 						<div>🔥 이번 주 리딧 인기 모임</div>
