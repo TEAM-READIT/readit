@@ -51,7 +51,6 @@ export const ViewerPage = () => {
 	};
 	const [modalOpen, setModalOpen] = useState(false);
 	const [change, setChange] = useState<number>(0);
-
 	const total = document.querySelector('#text')?.outerHTML;
 
 	useEffect(() => {}, [
@@ -86,6 +85,7 @@ export const ViewerPage = () => {
 			},
 			body: JSON.stringify(requestbody),
 		});
+		console.log(requestbody);
 		return response.json();
 	});
 
@@ -125,10 +125,12 @@ export const ViewerPage = () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const response = await fetch(`${baseUrl}/article/memo/${article.id}`, {
+		const response = await fetch(`${baseUrl}/article/memo/${article.memberArticleId}`, {
 			headers: headers,
 		});
 		const data = await response.json();
+		console.log(`${baseUrl}/article/memo/${article.memberArticleId}`);
+		console.log(data);
 		return data;
 	};
 

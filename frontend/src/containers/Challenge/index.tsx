@@ -44,7 +44,7 @@ const Challenge = () => {
 		labels: [],
 		datasets: [],
 	});
-	const { name, email, profileImageUrl } = useUserStore();
+	const { name, profileImageUrl } = useUserStore();
 
 	const { accessToken } = useAuthStore();
 	const [number, setNumber] = useState<number>(0);
