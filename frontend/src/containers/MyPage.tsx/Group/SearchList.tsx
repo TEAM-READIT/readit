@@ -34,39 +34,45 @@ const SearchList = ({ communityList }: { communityList: groupListProps[] }) => {
 	return (
 		<>
 			<div className='flex flex-row w-full h-full justify-start p-3 gap-5 flex-wrap '>
-				{communityList.map((community, index) => (
-					<Card
-						key={index}
-						className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
-						onClick={() => {
-							handleCardClick(community);
-						}}
-					>
-						<div className='flex flex-row justify-between text-center text-sm'>
-							<div>👀 {community.hit}</div>
+				{communityList.length > 0 ? (
+					<>
+						{communityList.map((community, index) => (
+							<Card
+								key={index}
+								className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+								onClick={() => {
+									handleCardClick(community);
+								}}
+							>
+								<div className='flex flex-row justify-between text-center text-sm'>
+									<div>👀 {community.hit}</div>
 
-							<div className={`w-16 border rounded-md text-sm ${getCategoryStyle(community.categoryName)}`}>
-								{community.categoryName}
-							</div>
-						</div>
-						<div className='flex flex-col h-4/5 text-start  gap-y-2'>
-							<div className='text-l border-gray-200 border-b font-bold'>
-								{community.title.length <= 13 ? (
-									<div>{community.title} </div>
-								) : (
-									<div>{community.title.slice(0, 12)}...</div>
-								)}
-							</div>
-							<div className='text-sm'>
-								{community.content.length <= 70 ? (
-									<div>{community.content} </div>
-								) : (
-									<div>{community.content.slice(0, 70)}...</div>
-								)}
-							</div>
-						</div>
-					</Card>
-				))}
+									<div className={`w-16 border rounded-md text-sm ${getCategoryStyle(community.categoryName)}`}>
+										{community.categoryName}
+									</div>
+								</div>
+								<div className='flex flex-col h-4/5 text-start  gap-y-2'>
+									<div className='text-l border-gray-200 border-b font-bold'>
+										{community.title.length <= 13 ? (
+											<div>{community.title} </div>
+										) : (
+											<div>{community.title.slice(0, 12)}...</div>
+										)}
+									</div>
+									<div className='text-sm'>
+										{community.content.length <= 70 ? (
+											<div>{community.content} </div>
+										) : (
+											<div>{community.content.slice(0, 70)}...</div>
+										)}
+									</div>
+								</div>
+							</Card>
+						))}
+					</>
+				) : (
+					<div className='flex w-full flex-row justify-center'>참여 중인 모임이 없습니다</div>
+				)}
 			</div>
 		</>
 	);
