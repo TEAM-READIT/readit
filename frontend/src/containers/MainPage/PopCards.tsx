@@ -5,10 +5,14 @@ import { articleList, PopArticleList } from '../../types/articleProps';
 import { useAuthStore } from '../../store/auth';
 import { useMutation } from 'react-query';
 
-const PopCards = () => {
+interface Open {
+	open: () => void;
+}
+const PopCards = ({ open }: Open) => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(true);
+
 	// 조회수 ++
 	const hits = useMutation(async (id: number) => {
 		await fetch(`${baseUrl}/article/hit/${id}`, {
@@ -26,12 +30,13 @@ const PopCards = () => {
 	};
 
 	const handleCardClick = (article: articleList | null) => {
-		if(accessToken){
-
+		if (accessToken) {
 			navigate('/viewer', { state: { article } });
 			handlehits(article?.id!);
+		} else {
+			open();
 		}
-		};
+	};
 
 	const [popArticles, setPopArticle] = useState<PopArticleList>();
 	// 인기있는 아티클 받아오기
@@ -105,10 +110,50 @@ const PopCards = () => {
 				<div className='flex flex-row w-full justify-start px-5 gap-5 flex-wrap'>
 					{isLoading ? (
 						<>
-							<Card className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'></Card>
-							<Card className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'></Card>
-							<Card className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'></Card>
-							<Card className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'></Card>
+							<Card className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'>
+								<div className='flex justify-end gap-2 h-1/5'>
+									<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
+										<>#로딩중...</>
+									</div>
+								</div>
+								<div className='h-3/5 text-start font-bold'>
+									<div>로딩중...</div>
+								</div>
+								<div className='text-end text-sm'>👀 조회수 로딩중...</div>
+							</Card>
+							<Card className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'>
+								<div className='flex justify-end gap-2 h-1/5'>
+									<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
+										<>#로딩중...</>
+									</div>
+								</div>
+								<div className='h-3/5 text-start font-bold'>
+									<div>로딩중...</div>
+								</div>
+								<div className='text-end text-sm'>👀 조회수 로딩중...</div>
+							</Card>
+							<Card className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'>
+								<div className='flex justify-end gap-2 h-1/5'>
+									<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
+										<>#로딩중...</>
+									</div>
+								</div>
+								<div className='h-3/5 text-start font-bold'>
+									<div>로딩중...</div>
+								</div>
+								<div className='text-end text-sm'>👀 조회수 로딩중...</div>
+							</Card>
+							<Card className='flex flex-col w-64 h-48 justify-between rounded-3xl border-gray-400 border hover:cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'>
+								<div className='flex justify-end gap-2 h-1/5'>
+									<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
+										<>#로딩중...</>
+									</div>
+								</div>
+								<div className='h-3/5 text-start font-bold'>
+									<div>로딩중...</div>
+								</div>
+								<div className='text-end text-sm'>👀 조회수 로딩중...</div>
+							</Card>
 						</>
 					) : (
 						<>

@@ -215,46 +215,52 @@ const Challenge = () => {
 							<ChallengeHeader />
 
 							<div className='flex flex-col w-full h-full'>
-								<div className='h-1/5'>
-
 								<div className='flex flex-col w-full text-start bg-blue-100 border border-blue-400 rounded-lg p-5 whitespace-pre-wrap gap-5'>
 									{challengeIntro}
 								</div>
-								</div>
 
-								<div className='flex flex-row w-full items-start justify-between h-4/5'>
+								<div className='flex flex-row w-full items-start justify-between h-4/5 pt-5'>
 									<div className='flex flex-col gap-3 w-2/6 h-full px-2'>
 										<span className='font-bold py-5 text-2xl'>랭킹</span>
-										{rank?.memberList.slice(0, 5).map((member, index) => (
-											<div key={index} className='flex flex-row items-center px-5'>
-												<div className='flex flex-row items-center gap-5 w-3/4 relative'>
-													<img src={member.profile} alt='프로필 사진' className='w-12 rounded-full ' />
-													{member.rank === 1 && index === 0 ? (
-														<>
-															<div className='absolute -top-2 -left-1'>
-																<span className='text-2xl text-yellow-400'>
-																	<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
-																		<path
-																			fill='currentColor'
-																			d='M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14z'
-																		/>
-																	</svg>
-																</span>
+										{rank ? (
+											<>
+												{rank?.memberList?.slice(0,5).map((member, index) => (
+													<div key={index} className='flex flex-row items-center px-5'>
+														<div className='flex flex-row items-center gap-5 w-3/4 relative'>
+															<img src={member.profile} alt='프로필 사진' className='w-12 rounded-full ' />
+															{member.rank === 1 && index === 0 ? (
+																<>
+																	<div className='absolute -top-2 -left-1'>
+																		<span className='text-2xl text-yellow-400'>
+																			<svg
+																				xmlns='http://www.w3.org/2000/svg'
+																				width='1em'
+																				height='1em'
+																				viewBox='0 0 24 24'
+																			>
+																				<path
+																					fill='currentColor'
+																					d='M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14z'
+																				/>
+																			</svg>
+																		</span>
+																	</div>
+																</>
+															) : (
+																<></>
+															)}
+															<div className=''>{member.rank}등</div>
+															<div>{member.name}</div>
+														</div>
+														<div className='w-'>
+															<div className='flex flex-row justify-end  '>
+																<div>{member.challengeScore}점</div>
 															</div>
-														</>
-													) : (
-														<></>
-													)}
-													<div className=''>{member.rank}등</div>
-													<div>{member.name}</div>
-												</div>
-												<div className='w-'>
-													<div className='flex flex-row justify-end  '>
-														<div>{member.challengeScore}점</div>
+														</div>
 													</div>
-												</div>
-											</div>
-										))}
+												))}
+											</>
+										) : null}
 										<div className='flex flex-col w-full justify-center gap-2 bg-yellow-100 border border-yellow-200 px-5 p-2 rounded-lg'>
 											{challengeScoreList ? (
 												<>
@@ -269,12 +275,14 @@ const Challenge = () => {
 														</div>
 														<div className='flex flex-row justify-end '>
 															<span>
+																{challengeScoreList ? <>
 																{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score ? (
 																	<>{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}</>
 																) : (
 																	'   1000'
 																)}
 																점
+																</> : null}
 															</span>
 														</div>
 													</div>

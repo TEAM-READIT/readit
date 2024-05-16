@@ -8,6 +8,8 @@ import { useAuthStore } from '../../store/auth';
 import { Card, Checkbox } from 'flowbite-react';
 import useStore from '../../store';
 import topbtn from '../../assets/images/topbtn.png';
+import useModal from '../../hooks/useModal';
+import Login from '../MainPage/Login/Login';
 const Essay = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
@@ -21,6 +23,7 @@ const Essay = () => {
 	const limit = 12;
 	const [page, setPage] = useState<number>(0);
 	const [totalArticles, setTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
+	const [isOpen, open, close] = useModal();
 
 	useEffect(() => {
 		if (lastfilter) {
@@ -196,6 +199,8 @@ const Essay = () => {
 		if (accessToken) {
 			navigate('/viewer', { state: { article, communityId } });
 			handlehits(article.id!);
+		} else {
+			open();
 		}
 	};
 
@@ -352,6 +357,7 @@ const Essay = () => {
 					<br />
 				</div>
 			</div>
+			{isOpen ? <Login close={close} /> : null}
 		</>
 	);
 };

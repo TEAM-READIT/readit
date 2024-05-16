@@ -28,7 +28,7 @@ export const TextBox = ({ setSummary, article }: TextBoxProps) => {
 			setValue(article.summary);
 			setSummary(article.summary);
 		}}
-	});
+	},[]);
 
 	useEffect(() => {}, [value]);
 	return (

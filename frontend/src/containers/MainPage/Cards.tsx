@@ -1,10 +1,14 @@
 import PopCards from './PopCards';
 import TotalCards from './PopCommu';
 
-const Cards = () => {
+interface Open{
+	open:()=>void
+}
+
+const Cards = ({open}:Open) => {
 	return (
 		<>
-			<PopCards />
+			<PopCards open={open} />
 			<TotalCards />
 		</>
 	);

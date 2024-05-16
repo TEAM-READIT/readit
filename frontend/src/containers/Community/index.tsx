@@ -36,7 +36,6 @@ const Community = () => {
 			headers: headers,
 		});
 		const data = await response.json();
-		console.log(`${baseUrl}/community/list?${filtered}&cursor=${page}&limit=${limit}`);
 		return data;
 	};
 
