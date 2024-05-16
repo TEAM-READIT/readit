@@ -26,6 +26,7 @@ export const TextBox = ({ setSummary, article }: TextBoxProps) => {
 		if (article){
 		if (article.summary) {
 			setValue(article.summary);
+			setSummary(article.summary);
 		}}
 	});
 
