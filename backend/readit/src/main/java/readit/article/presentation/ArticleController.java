@@ -81,4 +81,11 @@ public class ArticleController {
         GetMemoListResponse memoListResponse = articleService.getMemoList(id);
         return ResponseEntity.ok(memoListResponse);
     }
+
+    @GetMapping("/recent/myarticle")
+    public ResponseEntity<GetRecentMemberArticlesResponse> getRecentMyArticles(@RequestParam(required = false) Boolean isComplete,
+                                                                               @Auth AuthCredentials authCredentials){
+        GetRecentMemberArticlesResponse recentListResponse = articleService.getRecentMyArticles(authCredentials.id(),isComplete);
+        return ResponseEntity.ok(recentListResponse);
+    }
 }
