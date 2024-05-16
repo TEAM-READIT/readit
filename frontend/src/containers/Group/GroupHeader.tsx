@@ -51,11 +51,11 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 		}
 	};
 
-	useEffect(() => {
+	const handlenotice = () => {
 		if (noticebody.length > 0) {
 			handlenoticePost();
 		}
-	}, [noticebody]);
+	}
 
 		const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 			const inputText = e.target.value;
@@ -175,7 +175,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 								className='material-symbols-outlined hover:cursor-pointer text-3xl  pl-10'
 								onClick={() => {
 									setNumber((prev) => prev - 1);
-									handlenoticePost();
+									handlenotice();
 								}}
 							>
 								check

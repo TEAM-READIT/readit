@@ -28,6 +28,7 @@ const Group = () => {
 		return data;
 	};
 
+	// 처음에 받아오고 
 	useEffect(() => {
 		groupData()
 			.then((res) => {
@@ -36,7 +37,6 @@ const Group = () => {
 			.catch((_err) => {});
 	}, []);
 
-	useEffect(() => {}, [groupData]);
 	const [chatValue, setChatValue] = useState<string>('');
 
 	// 채팅 보내기
@@ -87,13 +87,8 @@ const Group = () => {
 			setChatValue('');
 		}
 	};
-	// 공지 등록된 글이 바뀌면 공지 등록 요청
-	useEffect(() => {
-		if (noticebody.length > 0) {
-			handlenoticePost();
-		}
-	}, [noticebody]);
 
+	useEffect(()=> {handlenoticePost()},[noticebody])
 	const noticePost = useMutation(async () => {
 		await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
 			method: 'POST',
@@ -107,6 +102,9 @@ const Group = () => {
 	const handlenoticePost = async () => {
 		try {
 			await noticePost.mutateAsync();
+			groupData()
+				.then((res) => setMyGroup(res))
+				.catch((_err) => {});
 		} catch (error) {}
 	};
 
@@ -118,17 +116,6 @@ const Group = () => {
 		}
 	}, [myGroup?.chatList]);
 
-	useEffect(() => {
-		groupData()
-			.then((res) => setMyGroup(res))
-			.catch((_err) => {});
-	}, [noticebody]);
-
-	// setTimeout(() => {
-	// 	groupData()
-	// 		.then((res) => setMyGroup(res))
-	// 		.catch((_err) => {});
-	// }, 5000);
 
 	return (
 		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
@@ -173,7 +160,7 @@ const Group = () => {
 																<div className=''>{chat.memberName}</div>
 																<div className='flex flex-row items-center gap-x-2'>
 																	<span className='text-xs'>{new Date(chat.createdAt).toLocaleTimeString()}</span>
-																	<div className='bg-yellow-200 border border-gray-500 text-xs w-full p-2 rounded-xl text-start break-words whitespace-pre-wrap max-w-[150px]'>
+																	<div className='bg-yellow-200 border border-gray-500 text-xs px-3 p-2 rounded-xl text-start break-words whitespace-pre-wrap max-w-[150px]'>
 																		{chat.content}
 																	</div>
 																</div>
