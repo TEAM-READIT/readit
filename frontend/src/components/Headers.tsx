@@ -60,7 +60,10 @@ const Headers = () => {
 								>
 									챌린지
 								</div>
-								<div className={location.pathname === '/essay' ? 'text-blue-800' : ''} onClick={handleEssay}>
+								<div
+									className={location.pathname === '/essay' || location.pathname === '/viewer' ? 'text-blue-800' : ''}
+									onClick={handleEssay}
+								>
 									글 목록
 								</div>
 								<div
@@ -70,7 +73,14 @@ const Headers = () => {
 									커뮤니티
 								</div>
 								<div
-									className={location.pathname === '/mypage' ? 'text-blue-800' : ''}
+									className={
+										location.pathname === '/mypage' ||
+										location.pathname === '/mypage/read' ||
+										location.pathname === '/mypage/temp' ||
+										location.pathname === '/mypage/group'
+											? 'text-blue-800'
+											: ''
+									}
 									onClick={() => navigate('/mypage')}
 								>
 									마이페이지
