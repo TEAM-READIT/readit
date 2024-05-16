@@ -14,7 +14,10 @@ public interface MemberArticleRepository extends JpaRepository<MemberArticle, In
     Optional<MemberArticle> findMemberArticleByArticleIdAndMemberId(Integer articleId, Integer memberId);
 
     @Query("SELECT ma FROM MemberArticle ma WHERE ma.memberId = :memberId AND ma.completedAt IS NOT NULL")
-    List<MemberArticle> findSubmitedArticle(Integer memberId);
+    List<MemberArticle> findCompleteArticle(Integer memberId);
+
+    @Query("SELECT ma FROM MemberArticle ma WHERE ma.memberId = :memberId AND ma.completedAt IS NULL")
+    List<MemberArticle> findTempArticle(Integer memberId);
     default MemberArticle getById(Integer memberId, Integer id){
         return findMemberArticleByArticleIdAndMemberId(id,memberId).orElse(null);
     }
