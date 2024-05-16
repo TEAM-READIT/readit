@@ -203,6 +203,7 @@ const Challenge = () => {
 		},
 	};
 
+	const challengeIntro  = '안녕하십니까? 본 테스트는 READIT 당신의 문해력+에서 준비한 성인 문해력 테스트로, 우리나라 성인들의 문해력을 대략적으로 조사하기 위한 것입니다.\n 검사지는 비문학에서 접하는 글을 파악하고 활용하는 능력을 묻는 간단한 2개의 문항으로 구성되어 있습니다.\n 챌린지는 하루에 한번만 응시 가능합니다.\n 모든 문항에 성실하게 답해주시기 바랍니다. 감사합니다.'
 	return (
 		<>
 			<div className='w-full h-screen flex flex-col items-center  overflow-hidden pr-5'>
@@ -213,11 +214,8 @@ const Challenge = () => {
 							<ChallengeHeader />
 
 							<div className='flex flex-col w-full h-full'>
-								<div className='flex flex-row w-full text-start bg-blue-100 border border-blue-400 rounded-lg p-5'>
-									안녕하십니까? 본 테스트는 READIT 당신의 문해력+에서 준비한 성인 문해력 테스트로, 우리나라 성인들의
-									문해력을 대략적으로 조사하기 위한 것입니다. 검사지는 비문학에서 접하는 글을 파악하고 활용하는 능력을
-									묻는 간단한 2개의 문항으로 구성되어 있습니다. 챌린지는 하루에 한번만 응시 가능합니다. 모든 문항에
-									성실하게 답해주시기 바랍니다. 감사합니다.
+								<div className='flex flex-row w-full text-center bg-blue-100 border border-blue-400 rounded-lg p-5 whitespace-pre-wrap '>
+									{challengeIntro}
 								</div>
 								<div className='flex flex-row justify-center pt-10'>
 									{challengeScoreList ? (

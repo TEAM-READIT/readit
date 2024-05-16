@@ -319,7 +319,7 @@ const Essay = () => {
 											) : null}
 										</div>
 										<div className='flex flex-col h-4/5 text-start gap-y-2'>
-											<div className='text-l border-gray-200 border-b  font-bold'>
+											<div className='border-gray-200 border-b  font-bold'>
 												{article.title.length <= 14 ? (
 													<div>{article.title} </div>
 												) : (
@@ -338,7 +338,7 @@ const Essay = () => {
 								))}
 							</div>
 						) : null}
-						<div className='fixed bottom-10 right-10 w-16'>
+						<div className='fixed bottom-10 right-10 w-16 hover:cursor-pointer'>
 							<img src={topbtn} alt='' onClick={handletop} />
 						</div>
 					</div>
