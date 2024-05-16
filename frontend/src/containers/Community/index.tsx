@@ -1,5 +1,5 @@
 import Headers from '../../components/Headers';
-import { Card, Checkbox } from 'flowbite-react';
+import { Card } from 'flowbite-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery, useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
