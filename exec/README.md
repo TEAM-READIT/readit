@@ -10,6 +10,7 @@
     - FastAPI: 0.110.2
 - AWS EC2 Ubuntu 24.04 LTS (운영 서버 2대)
 - AWS EC2 Ubuntu 20.04.6 LTS (개발 서버)
+- AWS ELB
 ---
 
 ## 개발서버 기본 세팅
@@ -685,4 +686,4 @@ pipeline {
 ---
 
 ## 시연 시나리오
-- [프로젝트 README.md 참고](../README.md)
+- 프로젝트 README.md 참고
