@@ -123,7 +123,8 @@ const Group = () => {
 	};
 
 	useEffect(() => {
-		handlenoticePost();
+		if (noticebody.length > 0)
+		{handlenoticePost();}
 	}, [noticebody]);
 	const noticePost = useMutation(async () => {
 		await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
