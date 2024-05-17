@@ -124,7 +124,7 @@ const Read = () => {
 									{top3Articles!.map((article, index) => (
 										<div
 											key={index}
-											className='border border-gray-300 w-full flex flex-row items-center justify-between p-5 rounded-xl'
+											className='border border-gray-300 w-full flex flex-row items-center justify-between p-5 rounded-xl hover:cursor-pointer'
 											onClick={() => {
 												handleArticle(article);
 											}}
@@ -176,7 +176,7 @@ const Read = () => {
 									{top3myticles!.map((article, index) => (
 										<div
 											key={index}
-											className='border border-gray-300 w-full flex flex-row items-center justify-between p-5 rounded-xl'
+											className='border border-gray-300 w-full flex flex-row items-center justify-between p-5 rounded-xl hover:cursor-pointer'
 											onClick={() => {
 												handlemyticle(article);
 											}}

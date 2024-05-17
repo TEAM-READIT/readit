@@ -40,10 +40,10 @@ export const KakaoCallback = () => {
 	};
 
 useEffect(() => {
-	if (code && !kakaoLogin.isLoading) {
+	if (code) {
 		kakaoLoginAction();
 	}
-}, [code, kakaoLogin.isLoading]);
+}, [code]);
 
 	return <></>;
 };
