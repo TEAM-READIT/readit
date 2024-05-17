@@ -20,7 +20,7 @@ const IndexPage = () => {
 
 	return (
 		<>
-			<div className='w-full flex justify-center flex-col items-center pr-5'>
+			<div className='w-full flex justify-center flex-col items-center pr-5 select-none'>
 				<Headers />
 				<div className='w-3/5 pt-5'>
 					<Carousels />

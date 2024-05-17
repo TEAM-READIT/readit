@@ -137,7 +137,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 												className={`flex flex-row gap-x-2 hover:cursor-pointer ${
 													isOptionSelected(index, optionidx) ? 'bg-yellow-100' : ''
 												}`}
-												onClick={() => handleAnswerSelection(index, optionidx)}
+												onClick={() => {accurateAns ? null : handleAnswerSelection(index, optionidx)} }
 												style={{ paddingRight: '5px' }}
 											>
 												<div className='relative'>
@@ -147,7 +147,7 @@ const Problems = ({ articleId, problemList }: { problemList: problemListProps[];
 																<div className='bg-red-200'>{option.option}</div>
 																
 															) : (
-																<div>{option.option}</div>
+																<div >{option.option}</div>
 															)}
 														</div>
 													) : (

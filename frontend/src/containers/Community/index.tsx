@@ -242,7 +242,7 @@ const Community = () => {
 
 	return (
 		<>
-			<div className='w-full flex justify-center flex-col items-center h-full'>
+			<div className='w-full flex justify-center flex-col items-center h-full select-none'>
 				<Headers />
 				<div className='flex flex-col w-3/5 h-full justify-start items-center '>
 					<CommunityHeader />

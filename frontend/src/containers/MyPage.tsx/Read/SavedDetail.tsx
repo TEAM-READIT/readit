@@ -1,5 +1,3 @@
-import Headers from '../../../components/Headers';
-import ReadDetailHeaders from './ReadDeatilHeaders';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { articleList } from '../../../types/articleProps';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -11,22 +9,22 @@ const SavedDetail = () => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const { accessToken } = useAuthStore();
 
-	const observerRef = useRef(null);
+	const saveobserverRef = useRef(null);
 	const location = useLocation();
 	const communityId = location.state?.communityId;
 
 	// 한 페이지에 표시할 데이터(기사) 수 및 페이지 번호 설정
-	const limit = 12;
-	const [page, setPage] = useState<number>(0);
-	const [totalArticles, setTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
+	const savelimit = 12;
+	const [savepage, setSavePage] = useState<number>(0);
+	const [savetotalArticles, setSaveTotalArticle] = useState<{ articleList: articleList[]; hasNext: boolean }>();
 
 	// 전체 아티클 데이터를 가져오는 함수
-	const totalArticleData = async (page: number, filtered: string) => {
+	const savetotalArticleData = async (savepage: number, savefiltered: string) => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
 		const response = await fetch(
-			`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}&isComplete=false`,
+			`${baseUrl}/article/search/myarticle?${savefiltered}&cursor=${savepage}&limit=${savelimit}&isComplete=false`,
 			{
 				headers: headers,
 			},
@@ -36,27 +34,27 @@ const SavedDetail = () => {
 	};
 
 	// 검색 필터 또는 페이지 변경 시 데이터 다시 불러오기
-	const fetchData = async (filtered: string) => {
+	const savefetchData = async (filtered: string) => {
 		try {
 			//페이지에 1번 넣고 데이터 호출
-			const data = await totalArticleData(1, filtered);
-			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
+			const data = await savetotalArticleData(1, filtered);
+			setSaveTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
 		} catch (error) {
 		}
 	};
 
-	useEffect(() => {}, [fetchData]);
+	useEffect(() => {}, [savefetchData]);
 
 	// 무한 스크롤을 사용하여 데이터 가져오기
 	const { isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
 		'articles',
-		({ pageParam = page }) =>
-			totalArticleData(pageParam, filtered)
+		({ pageParam = savepage }) =>
+			savetotalArticleData(pageParam, savefiltered)
 				.then((res) => {
-					if (totalArticles) {
+					if (savetotalArticles) {
 						// 이전 페이지에 있는 기사들과 새로운 페이지에 있는 기사들을 합쳐서 업데이트합니다.
-						setTotalArticle((prevTotalArticles) => {
+						setSaveTotalArticle((prevTotalArticles) => {
 							let newArticleList = prevTotalArticles ? [...prevTotalArticles.articleList] : [];
 
 							if (res.articleList && typeof res.articleList[Symbol.iterator] === 'function') {
@@ -68,15 +66,14 @@ const SavedDetail = () => {
 							};
 						});
 					} else {
-						setTotalArticle(res);
+						setSaveTotalArticle(res);
 					}
 				})
-				.catch((_err) => {
-				}),
+				.catch((_err) => {}),
 		{
 			getNextPageParam: (_lastPage) => {
-				if (totalArticles?.hasNext) {
-					return page;
+				if (savetotalArticles?.hasNext) {
+					return savepage;
 				}
 			},
 		},
@@ -84,15 +81,15 @@ const SavedDetail = () => {
 
 	// 마지막 아티클 ID를 기반으로 페이지 설정
 	useEffect(() => {
-		if (totalArticles) {
-			if (totalArticles?.articleList?.length > 0) {
-				const lastArticleId = totalArticles?.articleList[totalArticles?.articleList?.length - 1]?.id;
-				setPage(lastArticleId!);
+		if (savetotalArticles) {
+			if (savetotalArticles?.articleList?.length > 0) {
+				const lastArticleId = savetotalArticles?.articleList[savetotalArticles?.articleList?.length - 1]?.id;
+				setSavePage(lastArticleId!);
 			} else {
-				setPage(0);
+				setSavePage(0);
 			}
 		}
-	}, [totalArticles]);
+	}, [savetotalArticles]);
 
 	// 스크롤 이벤트 핸들러
 	useEffect(() => {
@@ -112,7 +109,7 @@ const SavedDetail = () => {
 	}, [fetchNextPage, hasNextPage]);
 
 	// 관찰자 설정
-	const handleObserver = useCallback(
+	const handlesaveObserver = useCallback(
 		(entries: any) => {
 			const [target] = entries;
 			if (target.isIntersecting) {
@@ -122,59 +119,55 @@ const SavedDetail = () => {
 	);
 
 	useEffect(() => {
-		const element = observerRef.current!;
+		const element = saveobserverRef.current!;
 		const option = { threshold: 0 };
-		const observer = new IntersectionObserver(handleObserver, option);
+		const observer = new IntersectionObserver(handlesaveObserver, option);
 		observer.observe(element);
 		return () => observer.unobserve(element);
-	}, [fetchNextPage, hasNextPage, handleObserver]);
+	}, [fetchNextPage, hasNextPage, handlesaveObserver]);
 
 	const navigate = useNavigate();
 
-	const handleCardClick = (article: articleList, communityId: number | null) => {
+	const handlesaveCardClick = (article: articleList, communityId: number | null) => {
 		navigate('/viewer', { state: { article, communityId } });
 	};
 
-	let filtered = '';
+	let savefiltered = '';
 
 	const [searchType, setSearchType] = useState<string>('title');
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
 	const [ishit, setIshit] = useState<boolean>(false);
-	const handleApplyFilter = () => {
+	const handlesaveApplyFilter = () => {
 		if (searchType != '' && keyword) {
-			filtered += `${searchType}=${keyword}&`;
+			savefiltered += `${searchType}=${keyword}&`;
 		}
 		if (ishit) {
-			filtered += `hit=true&`;
+			savefiltered += `hit=true&`;
 		}
 		if (category != '') {
-			filtered += `category=${category}&`;
+			savefiltered += `category=${category}&`;
 		}
 		// 마지막 & 제거
-		filtered = filtered.slice(0, -1);
+		savefiltered = savefiltered.slice(0, -1);
 		// 필터 넣어서 fetchData 요청
-		fetchData(filtered);
+		savefetchData(savefiltered);
 	};
 
-	const handleOrigin = (text: string) => {
+	const handlesaveOrigin = (text: string) => {
 		const newText = text?.replace(/<[^>]+>/g, '');
 		return newText;
 	};
 
-	const handleKeyPress = (e: any) => {
+	const handlesaveKeyPress = (e: any) => {
 		if (e.key === 'Enter') {
-			handleApplyFilter();
+			handlesaveApplyFilter();
 		}
 	};
 
 	return (
 		<>
-			<div className='w-full h-full flex justify-center flex-col items-center'>
-				<Headers />
-				<div className='flex flex-col w-3/5 justify-start items-center '>
-					<ReadDetailHeaders />
-				</div>
+
 				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
 					<div className='h-auto w-1/6 px-10'>
 						{/* <SearchFilter setFilter={setFilter} setIsMember={setIsMember} /> */}
@@ -188,19 +181,7 @@ const SavedDetail = () => {
 												<div className='flex flex-row items-center gap-10'>
 													{/* <Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div> */}
 												</div>
-												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
-													<option value='title'>제목</option>
-													<option value='content'>내용</option>
-													<option value='writerName'>작성자</option>
-												</select>
-												<input
-													type='text'
-													name='keyword'
-													placeholder='검색어'
-													className='input'
-													onChange={(e) => setKeyword(e.target.value)}
-													onKeyDown={handleKeyPress}
-												/>
+
 												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
 													<option value=''>카테고리 선택</option>
 													<option value='비문학'>비문학</option>
@@ -212,6 +193,19 @@ const SavedDetail = () => {
 													<option value='세계'>세계</option>
 													<option value='오피니언'>오피니언</option>
 												</select>
+												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
+													<option value='title'>제목</option>
+													<option value='content'>내용</option>
+													<option value='writerName'>작성자</option>
+												</select>
+												<input
+													type='text'
+													name='keyword'
+													placeholder='검색어'
+													className='input'
+													onChange={(e) => setKeyword(e.target.value)}
+													onKeyDown={handlesaveKeyPress}
+												/>
 												<div className='flex flex-row items-center gap-3'>
 													<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수로 정렬하기</div>
 												</div>
@@ -219,7 +213,7 @@ const SavedDetail = () => {
 
 											<button
 												className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
-												onClick={handleApplyFilter}
+												onClick={handlesaveApplyFilter}
 											>
 												<div className='flex items-center gap-2'>
 													<span className='material-symbols-outlined text-[1.2rem]'>search</span>
@@ -233,13 +227,13 @@ const SavedDetail = () => {
 						</div>
 					</div>
 					<div className='flex w-4/6 h-auto flex-col justify-start gap-5 '>
-						{isSuccess && totalArticles ? (
+						{isSuccess && savetotalArticles ? (
 							<div className='flex flex-row w-full h-full justify-start px-4 p-3 gap-5 flex-wrap'>
-								{totalArticles.articleList?.map((article, index) => (
+								{savetotalArticles.articleList?.map((article, index) => (
 									<Card
 										key={index}
 										className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
-										onClick={() => handleCardClick(article, communityId)}
+										onClick={() => handlesaveCardClick(article, communityId)}
 									>
 										<div className='flex flex-row justify-between text-center text-sm'>
 											<div>👀 {article.hit}</div>
@@ -258,7 +252,7 @@ const SavedDetail = () => {
 												)}
 											</div>
 											{/* <div id='text' dangerouslySetInnerHTML={{ __html: article.content?.slice(0, 130)}}></div> */}
-											<div className='text-sm'>{handleOrigin(article.content)?.slice(0, 130)}</div>
+											<div className='text-sm'>{handlesaveOrigin(article.content)?.slice(0, 130)}</div>
 										</div>
 									</Card>
 								))}
@@ -266,9 +260,9 @@ const SavedDetail = () => {
 						) : null}
 					</div>
 				</div>
-				<div ref={observerRef} className=''>
+				<div ref={saveobserverRef} className=''>
 					<br />
-					{totalArticles?.articleList?.length === 0
+					{savetotalArticles?.articleList?.length === 0
 						? '읽고 있는 글이 없습니다'
 						: isFetchingNextPage && hasNextPage
 							? '읽고 있는 글을 로딩 중입니다'
@@ -277,7 +271,6 @@ const SavedDetail = () => {
 					<br />
 					<br />
 				</div>
-			</div>
 		</>
 	);
 };
