@@ -149,7 +149,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 					<div className='font-bold'>📢 공지</div>:
 					{number === 0 ? (
 						<>
-							<div className='bg-[#E1EDFF] border-none w-5/6 p-2'>{myGroup.notice}</div>
+							<div className='bg-[#E1EDFF] border-none w-5/6'>{myGroup.notice}</div>
 							<span
 								className='material-symbols-outlined hover:cursor-pointer text-3xl pl-10 '
 								onClick={() => {
@@ -165,7 +165,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 								type='text'
 								name='keyword'
 								placeholder='공지 등록하기'
-								className=' bg-[#E1EDFF] border-none w-5/6 font-normal'
+								className=' bg-[#E1EDFF] border-none w-5/6 font-normal h-full'
 								onKeyDown={handleKeyPress}
 								maxLength={50}
 								onChange={handleChange}
