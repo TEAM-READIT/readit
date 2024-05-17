@@ -1,7 +1,7 @@
 import { Breadcrumb, BreadcrumbItem } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 
-const ReadDetailHeaders = () => {
+const SavedDetailHeaders = () => {
 	return (
 		<>
 			<div className='flex flex-row w-full justify-between px-5 pb-10 items-center'>
@@ -14,16 +14,13 @@ const ReadDetailHeaders = () => {
 							<Link to='/mypage'>마이 페이지</Link>
 						</BreadcrumbItem>
 						<BreadcrumbItem>
-							<div className='hover:cursor-pointer'>내가 읽은 글</div>
+							<div className='hover:cursor-pointer'>내가 읽고 있는 글</div>
 						</BreadcrumbItem>
 					</Breadcrumb>
-					<div className='flex flex-row justify-between items-center w-full py-0.5'>
-						<h1 className='text-2xl font-semibold leading-tight text-gray-700 '>내가 읽은 글 목록</h1>
-					</div>
 				</div>
 			</div>
 		</>
 	);
 };
 
-export default ReadDetailHeaders;
+export default SavedDetailHeaders;

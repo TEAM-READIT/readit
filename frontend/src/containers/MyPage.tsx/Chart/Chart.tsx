@@ -103,8 +103,8 @@ const Chart = () => {
 		const cs = challengeScoreList?.scoreList;
 
 		cs?.forEach((score :ChallengeScore) => {
-			challengescore.unshift(score.score);
-			challengeXlist.unshift(score.date.toString());
+			challengescore.push(score.score);
+			challengeXlist.push(score.date.toString());
 		});
 
 		const arraylength = () => {

@@ -10,9 +10,7 @@ const Read = () => {
 	const handleArticles = () => {
 		navigate('/mypage/read');
 	};
-	const handlemyticles = () => {
-		navigate('/mypage/temp');
-	};
+
 	const handleArticle = (article: articleList) => {
 		navigate('/summary', { state: { article } });
 	};
@@ -58,11 +56,11 @@ const Read = () => {
 	// 상위 3개만 추출
 	let top3Articles: articleList[] = [];
 	if (articles && Array.isArray(articles)) {
-		top3Articles = articles.reverse().slice(0, 3);
+		top3Articles = articles.slice(0, 3);
 	}
 	let top3myticles: articleList[] = [];
 	if (myticles && Array.isArray(myticles)) {
-		top3myticles = myticles.reverse().slice(0, 3);
+		top3myticles = myticles.slice(0, 3);
 	}
 
 	const categoryStyles: { [key: string]: string } = {
@@ -110,7 +108,7 @@ const Read = () => {
 							</div>
 							<Button
 								className='border bg-blue-700 text-white border-blue-300 hover:bg-blue-800'
-								onClick={() => handlemyticles()}
+								onClick={() => handleArticles()}
 							>
 								<span className='material-symbols-outlined text-[1.2rem]'>add</span>
 								<span>더보기</span>
@@ -127,6 +125,9 @@ const Read = () => {
 										<div
 											key={index}
 											className='border border-gray-300 w-full flex flex-row items-center justify-between p-5 rounded-xl'
+											onClick={() => {
+												handleArticle(article);
+											}}
 										>
 											<div className='flex flex-col gap-2'>
 												<div className='font-bold text-start'>{article.title}</div>
@@ -176,6 +177,9 @@ const Read = () => {
 										<div
 											key={index}
 											className='border border-gray-300 w-full flex flex-row items-center justify-between p-5 rounded-xl'
+											onClick={() => {
+												handlemyticle(article);
+											}}
 										>
 											<div className='flex flex-col gap-2'>
 												<div className='font-bold text-start'>{article.title}</div>

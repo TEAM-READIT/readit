@@ -1,5 +1,3 @@
-import Headers from '../../../components/Headers';
-import ReadDetailHeaders from './ReadDeatilHeaders';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { articleList } from '../../../types/articleProps';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -26,9 +24,12 @@ const ReadDetail = () => {
 		const headers = {
 			Authorization: `Bearer ${accessToken}`,
 		};
-		const response = await fetch(`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}&isComplete=true`, {
-			headers: headers,
-		});
+		const response = await fetch(
+			`${baseUrl}/article/search/myarticle?${filtered}&cursor=${page}&limit=${limit}&isComplete=true`,
+			{
+				headers: headers,
+			},
+		);
 		const data = await response.json();
 		return data;
 	};
@@ -40,8 +41,7 @@ const ReadDetail = () => {
 			const data = await totalArticleData(1, filtered);
 			setTotalArticle({ articleList: data.articleList, hasNext: data.hasNext });
 			window.scrollTo(0, 0);
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {}, [fetchData]);
@@ -69,8 +69,7 @@ const ReadDetail = () => {
 						setTotalArticle(res);
 					}
 				})
-				.catch((_err) => {
-				}),
+				.catch((_err) => {}),
 		{
 			getNextPageParam: (_lastPage) => {
 				if (totalArticles?.hasNext) {
@@ -129,8 +128,6 @@ const ReadDetail = () => {
 
 	const navigate = useNavigate();
 
-	
-
 	const handleCardClick = (article: articleList, communityId: number | null) => {
 		navigate('/summary', { state: { article, communityId } });
 	};
@@ -157,126 +154,120 @@ const ReadDetail = () => {
 		fetchData(filtered);
 	};
 
-	const handleOrigin = (text:string) => {
+	const handleOrigin = (text: string) => {
 		const newText = text?.replace(/<[^>]+>/g, '');
-		return newText
-	}
+		return newText;
+	};
 
-		const handleKeyPress = (e: any) => {
+	const handleKeyPress = (e: any) => {
 		if (e.key === 'Enter') {
-					handleApplyFilter();
+			handleApplyFilter();
 		}
 	};
 
 	return (
 		<>
-			<div className='w-full h-full flex justify-center flex-col items-center'>
-				<Headers />
-				<div className='flex flex-col w-3/5 justify-start items-center '>
-					<ReadDetailHeaders />
-				</div>
-				<div className='flex flex-row w-full justify-start gap-20 h-auto'>
-					<div className='h-auto w-1/6 px-10'>
-						{/* <SearchFilter setFilter={setFilter} setIsMember={setIsMember} /> */}
-						<div className='w-full h-full'>
-							<div className='fixed top-50'>
-								<div className='flex items-start h-full flex-row'>
-									<Card>
-										<div className='w-full flex flex-col gap-y-5'>
-											<p className='font-semibold text-md border-b-2 border-gray-200 mb-2 pb-1'>검색 필터</p>
-											<div className='flex flex-col gap-4'>
-												<div className='flex flex-row items-center gap-10'>
-													{/* <Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div> */}
-												</div>
-												<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
-													<option value='title'>제목</option>
-													<option value='content'>내용</option>
-													<option value='writerName'>작성자</option>
-												</select>
-												<input
-													type='text'
-													name='keyword'
-													placeholder='검색어'
-													className='input'
-													onChange={(e) => setKeyword(e.target.value)}
-													onKeyDown={handleKeyPress}
-												/>
-												<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
-													<option value=''>카테고리 선택</option>
-													<option value='비문학'>비문학</option>
-													<option value='정치'>정치</option>
-													<option value='경제'>경제</option>
-													<option value='사회'>사회</option>
-													<option value='생활/문화'>생활/문화</option>
-													<option value='IT/과학'>IT/과학</option>
-													<option value='세계'>세계</option>
-													<option value='오피니언'>오피니언</option>
-												</select>
-												<div className='flex flex-row items-center gap-3'>
-													<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수로 정렬하기</div>
-												</div>
+			<div className='flex flex-row w-full justify-start gap-20 h-auto'>
+				<div className='h-auto w-1/6 px-10'>
+					{/* <SearchFilter setFilter={setFilter} setIsMember={setIsMember} /> */}
+					<div className='w-full h-full'>
+						<div className='fixed top-50'>
+							<div className='flex items-start h-full flex-row'>
+								<Card>
+									<div className='w-full flex flex-col gap-y-5'>
+										<p className='font-semibold text-md border-b-2 border-gray-200 mb-2 pb-1'>검색 필터</p>
+										<div className='flex flex-col gap-4'>
+											<div className='flex flex-row items-center gap-10'>
+												{/* <Checkbox onClick={() => setIsMember((prev) => !prev)} /> <div>내가 읽은 글 </div> */}
 											</div>
-
-											<button
-												className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
-												onClick={handleApplyFilter}
-											>
-												<div className='flex items-center gap-2'>
-													<span className='material-symbols-outlined text-[1.2rem]'>search</span>
-													<span>검색</span>
-												</div>
-											</button>
+											<select name='category' className='select' onChange={(e) => setCategory(e.target.value)}>
+												<option value=''>카테고리 선택</option>
+												<option value='비문학'>비문학</option>
+												<option value='정치'>정치</option>
+												<option value='경제'>경제</option>
+												<option value='사회'>사회</option>
+												<option value='생활/문화'>생활/문화</option>
+												<option value='IT/과학'>IT/과학</option>
+												<option value='세계'>세계</option>
+												<option value='오피니언'>오피니언</option>
+											</select>{' '}
+											<select name='category' className='select' onChange={(e) => setSearchType(e.target.value)}>
+												<option value='title'>제목</option>
+												<option value='content'>내용</option>
+												<option value='reporter'>작성자</option>
+											</select>
+											<input
+												type='text'
+												name='keyword'
+												placeholder='검색어'
+												className='input'
+												onChange={(e) => setKeyword(e.target.value)}
+												onKeyDown={handleKeyPress}
+											/>
+											<div className='flex flex-row items-center gap-3'>
+												<Checkbox onClick={() => setIshit((prev) => !prev)} /> <div>조회수로 정렬하기</div>
+											</div>
 										</div>
-									</Card>
-								</div>
+
+										<button
+											className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm h-[45px] border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 '
+											onClick={handleApplyFilter}
+										>
+											<div className='flex items-center gap-2'>
+												<span className='material-symbols-outlined text-[1.2rem]'>search</span>
+												<span>검색</span>
+											</div>
+										</button>
+									</div>
+								</Card>
 							</div>
 						</div>
 					</div>
-					<div className='flex w-4/6 h-auto flex-col justify-start gap-5 '>
-						{isSuccess && totalArticles ? (
-							<div className='flex flex-row w-full h-full justify-start px-4 p-3 gap-5 flex-wrap'>
-								{totalArticles.articleList?.map((article, index) => (
-									<Card
-										key={index}
-										className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
-										onClick={() => handleCardClick(article, communityId)}
-									>
-										<div className='flex flex-row justify-between text-center text-sm'>
-											<div>👀 {article.hit}</div>
-											{article.categoryName ? (
-												<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
-													{article.categoryName}
-												</div>
-											) : null}
-										</div>
-										<div className='flex flex-col h-4/5 text-start gap-y-2'>
-											<div className='text-l border-gray-200 border-b  font-bold'>
-												{article.title.length <= 14 ? (
-													<div>{article.title} </div>
-												) : (
-													<div>{article.title.slice(0, 14)}...</div>
-												)}
+				</div>
+				<div className='flex w-4/6 h-auto flex-col justify-start gap-5 '>
+					{isSuccess && totalArticles ? (
+						<div className='flex flex-row w-full h-full justify-start px-4 p-3 gap-5 flex-wrap'>
+							{totalArticles.articleList?.map((article, index) => (
+								<Card
+									key={index}
+									className='flex flex-col w-64 h-72  justify-between rounded-3xl border-gray-400 border hover:cursor-pointer'
+									onClick={() => handleCardClick(article, communityId)}
+								>
+									<div className='flex flex-row justify-between text-center text-sm'>
+										<div>👀 {article.hit}</div>
+										{article.categoryName ? (
+											<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
+												{article.categoryName}
 											</div>
-											{/* <div id='text' dangerouslySetInnerHTML={{ __html: article.content?.slice(0, 130)}}></div> */}
-											<div className='text-sm'>{handleOrigin(article.content)?.slice(0, 130)}</div>
+										) : null}
+									</div>
+									<div className='flex flex-col h-4/5 text-start gap-y-2'>
+										<div className='text-l border-gray-200 border-b  font-bold'>
+											{article.title.length <= 14 ? (
+												<div>{article.title} </div>
+											) : (
+												<div>{article.title.slice(0, 14)}...</div>
+											)}
 										</div>
-									</Card>
-								))}
-							</div>
-						) : null}
-					</div>
+										{/* <div id='text' dangerouslySetInnerHTML={{ __html: article.content?.slice(0, 130)}}></div> */}
+										<div className='text-sm'>{handleOrigin(article.content)?.slice(0, 130)}</div>
+									</div>
+								</Card>
+							))}
+						</div>
+					) : null}
 				</div>
-				<div ref={observerRef} className=''>
-					<br />
-					{totalArticles?.articleList?.length === 0
-						? '읽은 글이 없습니다'
-						: isFetchingNextPage && hasNextPage
-							? '읽은 글을 로딩 중입니다'
-							: ''}
+			</div>
+			<div ref={observerRef} className=''>
+				<br />
+				{totalArticles?.articleList?.length === 0
+					? '읽은 글이 없습니다'
+					: isFetchingNextPage && hasNextPage
+						? '읽은 글을 로딩 중입니다'
+						: ''}
 
-					<br />
-					<br />
-				</div>
+				<br />
+				<br />
 			</div>
 		</>
 	);

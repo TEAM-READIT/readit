@@ -211,11 +211,11 @@ const Challenge = () => {
 				<Headers />
 				{number === 0 ? (
 					<>
-						<div className='flex flex-col w-3/5 justify-start items-center h-full'>
+						<div className='flex flex-col w-3/5 justify-start items-center h-full select-none'>
 							<ChallengeHeader />
 
 							<div className='flex flex-col w-full h-full'>
-								<div className='flex flex-col w-full text-start bg-blue-100 border border-blue-400 rounded-lg p-5 whitespace-pre-wrap gap-5'>
+								<div className='flex flex-col w-full text-start bg-blue-100 border border-blue-400 rounded-lg p-5 whitespace-pre-wrap gap-5 '>
 									{challengeIntro}
 								</div>
 
@@ -224,7 +224,7 @@ const Challenge = () => {
 										<span className='font-bold py-5 text-2xl'>랭킹</span>
 										{rank ? (
 											<>
-												{rank?.memberList?.slice(0,5).map((member, index) => (
+												{rank?.memberList?.slice(0, 5).map((member, index) => (
 													<div key={index} className='flex flex-row items-center px-5'>
 														<div className='flex flex-row items-center gap-5 w-3/4 relative'>
 															<img src={member.profile} alt='프로필 사진' className='w-12 rounded-full ' />
@@ -275,14 +275,21 @@ const Challenge = () => {
 														</div>
 														<div className='flex flex-row justify-end '>
 															<span>
-																{challengeScoreList ? <>
-																{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score ? (
-																	<>{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score}</>
-																) : (
-																	'   1000'
-																)}
-																점
-																</> : null}
+																{challengeScoreList ? (
+																	<>
+																		{challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]?.score ? (
+																			<>
+																				{
+																					challengeScoreList?.scoreList[challengeScoreList?.scoreList.length! - 1]
+																						?.score
+																				}
+																			</>
+																		) : (
+																			'   1000'
+																		)}
+																		점
+																	</>
+																) : null}
 															</span>
 														</div>
 													</div>

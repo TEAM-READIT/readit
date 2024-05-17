@@ -245,7 +245,7 @@ const Essay = () => {
 
 	return (
 		<>
-			<div className='w-full h-full flex justify-center flex-col items-center'>
+			<div className='w-full h-full flex justify-center flex-col items-center select-none'>
 				<Headers />
 				<div className='flex flex-col w-3/5 justify-start items-center '>
 					<EssayHeader />
@@ -344,6 +344,10 @@ const Essay = () => {
 													<div>{article.content.slice(0, 120)}...</div>
 												)}
 											</div>
+											{article.reporter ? 
+											<div className='text-sm w-full text-end'>{article.reporter}</div>
+											: null
+											}
 										</div>
 									</Card>
 								))}
