@@ -293,25 +293,31 @@ const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 
 				{article ? (
 					<>
-						<div className='text-2xl font-bold m-[3%]'>{article.title}</div>
-						<div
-							id='text'
-							className='text-lg text-start mx-[2%] mb-[3%]
+						<div className='flex flex-col pt-10 p-5 gap-5 '>
+							<div className='text-2xl font-bold'>{article.title}</div>
+							{article.reporter ?
+								<div className='w-full text-end px-5'>{article.reporter}
+								</div>
+								: null}
+							<div
+								id='text'
+								className='text-lg text-start 
 						 leading-8 tracking-wide
 						 '
-							onMouseUp={handleMouseUp}
-						>
-							<>
-								{article.completedAt === null ? (
-									<div
-										className='leading-8 tracking-wide text-lg'
-										id='text'
-										dangerouslySetInnerHTML={{ __html: article.content }}
-									></div>
-								) : (
-									<>{realarticle}</>
-								)}
-							</>
+								onMouseUp={handleMouseUp}
+							>
+								<>
+									{article.completedAt === null ? (
+										<div
+											className='leading-8 tracking-wide text-lg'
+											id='text'
+											dangerouslySetInnerHTML={{ __html: article.content }}
+										></div>
+									) : (
+										<>{realarticle}</>
+									)}
+								</>
+							</div>
 						</div>
 					</>
 				) : null}

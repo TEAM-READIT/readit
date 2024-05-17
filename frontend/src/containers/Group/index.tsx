@@ -39,7 +39,6 @@ const Group = () => {
 	}, []);
 
 	const [chatValue, setChatValue] = useState<string>('');
-
 	// 채팅 보내기
 	const chatBody = {
 		communityId: myGroup?.communityDetail.communityId,
@@ -77,23 +76,46 @@ const Group = () => {
 		} catch (error) {}
 		setChatValue('');
 	};
+	const [isScrolling, setIsScrolling] = useState(false);
+	const scrollTimeout = useRef<number | null>(null);
+
+	useEffect(() => {
+		const handleScrollStart = () => {
+			setIsScrolling(true);
+			// 스크롤이 멈추면 1초 후에 isScrolling을 false로 설정합니다.
+			if (scrollTimeout.current !== null) {
+				clearTimeout(scrollTimeout.current);
+			}
+			scrollTimeout.current = setTimeout(() => {
+				setIsScrolling(false);
+			}, 1000);
+		};
+
+		const handleScrollEnd = () => {
+			// 스크롤 종료 시 이벤트 핸들러를 호출하지 않고 isScrolling을 false로 설정합니다.
+			setIsScrolling(false);
+			if (scrollTimeout.current !== null) {
+				clearTimeout(scrollTimeout.current);
+			}
+		};
+
+		// scroll 이벤트 리스너를 추가합니다.
+		window.addEventListener('scroll', handleScrollStart);
+		window.addEventListener('scroll', handleScrollEnd);
+
+		return () => {
+			// 컴포넌트가 언마운트될 때 이벤트 리스너를 제거합니다.
+			window.removeEventListener('scroll', handleScrollStart);
+			window.removeEventListener('scroll', handleScrollEnd);
+			if (scrollTimeout.current !== null) {
+				clearTimeout(scrollTimeout.current);
+			}
+		};
+	}, []);
 
 	const handleKeyPress = (e: any) => {
 		// 입력 필드에서 엔터 키가 눌렸을 때
 		if (e.key === 'Enter') {
-			// // 빈 값인지 확인 후 메시지 전송 함수 호출
-			// if (!chatValue.trim()) {
-			// 	// 빈 값이면 전송하지 않음
-			// 	return;
-			// }
-			// if (chatValue.startsWith('/공지')) {
-			// 	setnoticebody(chatValue.substring(4));
-			// 	setChatValue('');
-			// 	return;
-			// }
-			// if (chatContainerRef.current) {
-			// 	chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-			// }
 			handleSendingChat();
 			// 입력 필드 초기화
 			setChatValue('');
@@ -124,12 +146,21 @@ const Group = () => {
 
 	const chatContainerRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
-		if (chatContainerRef.current) {
-			chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+		if (!isScrolling) {
+			if (chatContainerRef.current) {
+				chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+			}
 		}
-	}, [myGroup?.chatList]);
-
-
+	}, [myGroup?.chatList.length]);
+	// const [a, setA] = useState<number>(1);
+	// setTimeout(() => {
+	// 	setA((prev) => prev * -1);
+	// }, 100);
+	// useEffect(() => {
+	// 	groupData()
+	// 		.then((res) => setMyGroup(res))
+	// 		.catch((_err) => {});
+	// }, [a]);
 	return (
 		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
 			<Headers />

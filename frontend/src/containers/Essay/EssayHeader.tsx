@@ -50,6 +50,18 @@ const EssayHeader = () => {
 			}
 		} 
 	};
+
+	useEffect(() => {
+		if (isOpen) {
+			window.scrollTo({
+				top: 0,
+			});
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	}, [isOpen]);
+
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
