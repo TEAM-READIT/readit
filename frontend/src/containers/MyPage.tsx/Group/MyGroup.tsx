@@ -74,7 +74,8 @@ const MyGroup = () => {
 							{top3Communities?.map((community, index) => (
 								<div
 									key={index}
-									className='border border-gray-200 w-full flex flex-row items-center justify-between p-5 rounded-xl'
+									className='border border-gray-200 w-full flex flex-row items-center justify-between p-5 rounded-xl hover:cursor-pointer'
+									onClick={() => handleMyCommunity(community)}
 								>
 									<div className='flex flex-col gap-2'>
 										<div className='font-bold text-start'>{community.title}</div>
@@ -87,7 +88,10 @@ const MyGroup = () => {
 											</div>
 										</div>
 									</div>
-									<Button className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white' onClick={() => handleMyCommunity(community)}>
+									<Button
+										className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
+										onClick={() => handleMyCommunity(community)}
+									>
 										모임 페이지 이동하기
 									</Button>
 								</div>
