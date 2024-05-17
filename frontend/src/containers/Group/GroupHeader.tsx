@@ -70,7 +70,6 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
-				<Modal.Header />
 				<Modal.Body>
 					<div className='text-center'>
 						<HiOutlineExclamationCircle className='mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200' />

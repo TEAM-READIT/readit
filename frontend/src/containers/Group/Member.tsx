@@ -6,7 +6,7 @@ const Member = ({ myGroup }: { myGroup: communityProps }) => {
 				<div className='flex flex-row gap-x-2'>
 					{myGroup.memberList.map((member, index) => (
 						<div key={index}>
-							{member.readCount === myGroup.communityDetail.articleCount ? (
+							{member.readCount >= myGroup.communityDetail.articleCount ? (
 								<>
 									<div className='bg-[#33FF33] rounded-full flex flex-row items-center relative justify-center'>
 										<img
