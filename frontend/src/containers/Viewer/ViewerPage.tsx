@@ -57,7 +57,6 @@ export const ViewerPage = () => {
 		change,
 		// setId
 	]);
-
 	useEffect(() => {
 		// fetchUnreadData();
 		if (article?.id) {
@@ -72,8 +71,12 @@ export const ViewerPage = () => {
 		summary: summary,
 		memoList: memos,
 	};
+
 	if (communityId) {
 		requestbody.communityId = communityId;
+	}
+	if (article.communityId) {
+		requestbody.communityId = article.communityId;
 	}
 
 	const summarySubmit = useMutation(async () => {
@@ -163,8 +166,8 @@ export const ViewerPage = () => {
 		const endIndex = feedback?.feedback.indexOf('못한 점:')!;
 		const endStartIndex = feedback?.feedback.indexOf('못한 점:')! + '못한 점:'.length;
 
-		const extractedgoodText = feedback?.feedback.substring(startIndex+1, endIndex-1)!;
-		const extractedbadText = feedback?.feedback.substring(endStartIndex+1)!;
+		const extractedgoodText = feedback?.feedback.substring(startIndex + 1, endIndex - 1)!;
+		const extractedbadText = feedback?.feedback.substring(endStartIndex + 1)!;
 		setGood(extractedgoodText);
 		setBad(extractedbadText);
 	}, [feedback]);
@@ -264,11 +267,11 @@ export const ViewerPage = () => {
 					<div className='bg-black absolute z-50 w-full h-screen opacity-70 flex flex-col  justify-center items-center'></div>
 					<Card className='flex flex-col w-full max-w-[800px] h-[700px] mt-32 absolute z-50  border-2 justify-start left-1/2 top-1/3  transform -translate-x-1/2 -translate-y-1/2'>
 						<div className='w-full h-full p- flex flex-col justify-between'>
-						<div className='flex flex-row w-full justify-end'>
-							<div onClick={handleExit} className='flex flex-row items-center'>
-								<span className='material-symbols-outlined text-[1.2rem] hover:cursor-pointer'>close</span>
+							<div className='flex flex-row w-full justify-end'>
+								<div onClick={handleExit} className='flex flex-row items-center'>
+									<span className='material-symbols-outlined text-[1.2rem] hover:cursor-pointer'>close</span>
+								</div>
 							</div>
-						</div>
 							{summarySubmit.isLoading ? (
 								<>
 									<div className=' flex h-5/6 flex-col gap-20 pt-36'>
