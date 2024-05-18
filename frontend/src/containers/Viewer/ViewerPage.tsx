@@ -263,15 +263,15 @@ export const ViewerPage = () => {
 				<>
 					<div className='bg-black absolute z-50 w-full h-screen opacity-70 flex flex-col  justify-center items-center'></div>
 					<Card className='flex flex-col w-full max-w-[800px] h-[700px] mt-32 absolute z-50  border-2 justify-start left-1/2 top-1/3  transform -translate-x-1/2 -translate-y-1/2'>
+						<div className='w-full h-full p- flex flex-col justify-between'>
 						<div className='flex flex-row w-full justify-end'>
 							<div onClick={handleExit} className='flex flex-row items-center'>
 								<span className='material-symbols-outlined text-[1.2rem] hover:cursor-pointer'>close</span>
 							</div>
 						</div>
-						<div className='w-full h-full p- flex flex-col justify-between'>
 							{summarySubmit.isLoading ? (
 								<>
-									<div className=' flex h-4/5 flex-col justify-center gap-20 pt-20'>
+									<div className=' flex h-5/6 flex-col gap-20 pt-36'>
 										글을 분석하고 있습니다
 										<div role='status'>
 											<svg
@@ -296,22 +296,22 @@ export const ViewerPage = () => {
 								</>
 							) : (
 								<>
-									<div className='h-5/6 flex flex-col gap-5'>
+									<div className='h-4/6 flex flex-col gap-5'>
 										<div className='text-start flex flex-col break-words h-1/3 gap-3'>
 											<span className='text-blue-700 font-bold'>요약 </span>
-											<div className='border-2 rounded-lg border-blue-700 max-h-full flex overflow-auto p-3 whitespace-pre-wrap'>
+											<div className='border-2 rounded-lg border-blue-700 max-h-full flex overflow-auto p-3 whitespace-pre-wrap break-all'>
 												{summary.slice(0, 500)}
 											</div>
 										</div>
 										<div className='text-start flex flex-col break-words h-1/3 gap-3'>
 											<span className='text-blue-700 font-bold'>잘한 점 </span>
-											<div className='border-2 rounded-lg border-blue-700 max-h-full flex overflow-auto p-3 whitespace-pre-wrap'>
+											<div className='border-2 rounded-lg border-blue-700 max-h-full flex overflow-auto p-3 whitespace-pre-wrap break-all'>
 												{good}
 											</div>
 										</div>
 										<div className='text-start flex flex-col break-words h-1/3 gap-3'>
 											<span className='text-blue-700 font-bold'>못한 점 </span>
-											<div className='border-2 rounded-lg border-blue-700 max-h-full flex overflow-auto p-3 whitespace-pre-wrap'>
+											<div className='border-2 rounded-lg border-blue-700 max-h-full flex overflow-auto p-3 whitespace-pre-wrap break-all'>
 												{bad}
 											</div>
 										</div>
