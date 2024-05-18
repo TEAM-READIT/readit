@@ -1,19 +1,38 @@
-import {useMemo } from 'react';
-import { aricleDetail, communityProps } from '../../types/gropProps';
+import { useState, useEffect } from 'react';
+import { aricleDetail, articleProps, communityProps } from '../../types/gropProps';
 import Member from './Member';
 import { useNavigate } from 'react-router-dom';
 
 const Articles = ({ myGroup }: { myGroup: communityProps }) => {
 	const navigate = useNavigate();
+	const [sortedArticles, setSortedArticles] = useState<articleProps[]>([]);
 
 	const handleArticle = (article: aricleDetail) => {
 		navigate('/summary', { state: { article } });
 	};
 
-	const sortedArticles = useMemo(() => {
-		return [...myGroup.articleList].reverse();
+	const linechange = (text: string) => {
+		return text?.replace(/\n/g, '\n\n');
+	};
+	
+	useEffect(() => {
+		const updatedArticles = myGroup.articleList.map((article) => ({
+			articleDetail: {
+				...article.articleDetail,
+				content: linechange(article.articleDetail.content),
+				articleId: article.articleDetail.articleId,
+				title: article.articleDetail.title,
+				completedAt: article.articleDetail.completedAt,
+				summary: article.articleDetail.summary,
+				score: article.articleDetail.score,
+				feedback: article.articleDetail.feedback,
+			},
+			member: {
+				...article.member,
+			},
+		}));
+		setSortedArticles(updatedArticles.reverse());
 	}, [myGroup.articleList]);
-
 	return (
 		<>
 			<div className='w-3/5 flex flex-col h-full gap-3'>
@@ -47,9 +66,7 @@ const Articles = ({ myGroup }: { myGroup: communityProps }) => {
 													<div>
 														<div className='flex justify-start font-bold'>{article.articleDetail.title} </div>
 														{article.articleDetail.summary.length > 40 ? (
-															<div className='flex justify-start'>
-																{article.articleDetail.summary.slice(0, 40)}...
-															</div>
+															<div className='flex justify-start'>{article.articleDetail.summary.slice(0, 40)}...</div>
 														) : (
 															<div className='flex justify-start'>{article.articleDetail.summary}</div>
 														)}
