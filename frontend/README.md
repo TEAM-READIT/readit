@@ -60,28 +60,28 @@ npm run build
 
   | 메인 페이지 | 로그인 |
   |:------------------------------------------------:|:------------------------------------------------:|
-  | <img src="src/assets/screen/메인페이지.png" width='300px'> | <img src="src/assets/screen/로그인.png" width='300px'>|
+  | <img src="src/assets/screen/메인페이지.png" width='500px'> | <img src="src/assets/screen/로그인.png" width='500px'>|
 
 
   | 챌린지 페이지 | 
   |:------------------------------------------------:|
-  | <img src="src/assets/screen/로그인.png" width='300px'>|
+  | <img src="src/assets/screen/로그인.png" width='500px'>|
 
 
   | 글 목록 페이지 |
   |:------------------------------------------------:|
-  | <img src="src/assets/screen/글 목록.png" width='300px'>|
+  | <img src="src/assets/screen/글 목록.png" width='500px'>|
 
 
   | 뷰어 페이지 | 뷰어 체점 |
   |:------------------------------------------------:|:------------------------------------------------:|
-  | <img src="src/assets/screen/뷰어.png" width='300px'> | <img src="src/assets/screen/뷰어 - 체점.png" width='300px'>|
+  | <img src="src/assets/screen/뷰어.png" width='500px'> | <img src="src/assets/screen/뷰어 - 체점.png" width='500px'>|
   
   
 
   | 커뮤니티 페이지 | 커뮤니티 상세 |
   |:------------------------------------------------:|:------------------------------------------------:|
-  | <img src="src/assets/screen/커뮤니티 목록.png" width='300px'> | <img src="src/assets/screen/커뮤니티 페이지.png" width='300px'>|
+  | <img src="src/assets/screen/커뮤니티 목록.png" width='500px'> | <img src="src/assets/screen/커뮤니티 페이지.png" width='500px'>|
 
   | 마이 페이지 | |
 
