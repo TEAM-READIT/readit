@@ -46,8 +46,8 @@ const Articles = ({ myGroup }: { myGroup: communityProps }) => {
 													</div>
 													<div>
 														<div className='flex justify-start font-bold'>{article.articleDetail.title} </div>
-														{article.articleDetail.summary.length > 45 ? (
-															<div className='flex justify-start'>{article.articleDetail.summary.slice(0, 45)}... </div>
+														{article.articleDetail.summary.length > 42 ? (
+															<div className='flex justify-start'>{article.articleDetail.summary.slice(0, 42)}... </div>
 														) : (
 															<div className='flex justify-start'>{article.articleDetail.summary}</div>
 														)}
