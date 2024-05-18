@@ -11,7 +11,8 @@ interface articleList {
 	memoList?: memo[];
 	score?: number;
 	summary?: string;
-	memberArticleId? : number
+	memberArticleId?: number
+	communityId?: number
 }
 
 interface PopArticleList {
