@@ -7,7 +7,7 @@ import { useAuthStore } from '../../store/auth';
 import useModal from '../../hooks/useModal';
 import Login from '../MainPage/Login/Login';
 
-const EssayHeader = () => {
+const EssayHeader = ({communityId}:{communityId:number|null}) => {
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const navigate = useNavigate();
 	const [isOpen, open, close] = useModal();
@@ -16,7 +16,6 @@ const EssayHeader = () => {
 	const [linkdata, setLinkData] = useState<articleList>();
 	// 링크로 검색하기
 	const [modalOpen, setModalOpen] = useState(false);
-
 	const fetchlinkData = async () => {
 		const data = await fetch(`${baseUrl}/article/link?url=${link}`).then((response) => response.json());
 		return data;
@@ -37,7 +36,7 @@ const EssayHeader = () => {
 
 	useEffect(() => {
 		if (linkdata?.id) {
-			navigate('/viewer', { state: { linkdata } });
+			navigate('/viewer', { state: { linkdata, communityId } });
 		}
 	}, [linkdata?.id]);
 
@@ -48,7 +47,7 @@ const EssayHeader = () => {
 			} else {
 				open();
 			}
-		} 
+		}
 	};
 
 	useEffect(() => {
