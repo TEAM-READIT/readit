@@ -18,6 +18,6 @@ def start_crawler(background_tasks: BackgroundTasks):
     today = datetime.date.today()
     yesterday = str(today - timedelta(days=1))
     today = str(today)
-    crawler.set_date_range(yesterday, today)
+    crawler.set_date_range(2024-5-15, 2023-5-18)
     background_tasks(crawler.start())
     return {"mssage": "Crawler started"}

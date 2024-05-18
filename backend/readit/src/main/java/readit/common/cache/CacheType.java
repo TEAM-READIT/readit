@@ -7,11 +7,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CacheType {
     Article("articles", 10, 10000),
-    PopularArticles("popularArticles", 10, 30),
-    ArticleSearch("articleSearch", 5, 5000),
-    PopularCommunity("popular_community", 10, 30),
-    PopularSearch("popular_search", 10, 30);
-
+    PopularArticles("popularArticles", 10, 100),
+    ArticleSearch("articleSearch", 60, 5000),
+    PopularCommunity("popular_community", 60, 100),
+    PopularSearch("popular_search", 60, 100),
+    ChallengeRank("challengeRank", 60, 100);
     private final String cacheName;
     private final int expireAfterWrite;
     private final int maximumSize;
