@@ -17,6 +17,7 @@ public record GetMemberArticleResponse(
     Integer score,
     String summary,
     String feedback,
+    Integer communityId,
     LocalDateTime completedAt
 ) {
     public static GetMemberArticleResponse from(MemberArticle memberArticle){
@@ -32,6 +33,7 @@ public record GetMemberArticleResponse(
                 memberArticle.getScore(),
                 memberArticle.getSummary(),
                 memberArticle.getFeedback(),
+                memberArticle.getCommunityId(),
                 memberArticle.getCompletedAt()
         );
     }
