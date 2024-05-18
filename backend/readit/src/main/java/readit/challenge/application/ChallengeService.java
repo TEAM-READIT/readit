@@ -20,9 +20,11 @@ import readit.challenge.util.ProblemParser;
 import readit.member.domain.Member;
 import readit.member.domain.repository.MemberRepository;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Transactional
@@ -39,18 +41,26 @@ public class ChallengeService {
 
     @Transactional(readOnly = true)
     public GetChallengeRankResponse getChallengeRank(Integer memberId) {
+        List<Object[]> results = memberRepository.findTop7MembersWithRank();
+        AtomicReference<Integer> myRank = new AtomicReference<>(null);
 
-        List<GetRankMember> memberList = memberRepository.findTop7ByOrderByChallengeScoreDesc().stream()
-                .map(member -> GetRankMember.of(member.getName(), member.getProfile(), member.getChallengeScore(),
-                        memberRepository.countPlayersWithHigherScore(member.getChallengeScore()).orElseThrow() + 1))
-                .toList();
+        List<GetRankMember> memberList = results.stream().map(result -> {
+            Integer id = (Integer) result[0];
+            String name = (String) result[1];
+            String profile = (String) result[2];
+            Integer challengeScore = (Integer) result[3];
+            Integer rank = ((Number) result[4]).intValue();
 
-        int myScore = memberRepository.getById(memberId).getChallengeScore();
-        int myRank = memberRepository.countPlayersWithHigherScore(myScore).orElseThrow() + 1;
+            if (id.equals(memberId)) {
+                myRank.set(rank);
+            }
 
-        return new GetChallengeRankResponse(memberList, myRank);
+            return GetRankMember.of(name, profile, challengeScore, rank);
+        }).toList();
 
+        return new GetChallengeRankResponse(memberList, myRank.get());
     }
+
 
     @Transactional(readOnly = true)
     public GetProblemsResponse getProblems(Integer memberId) {
