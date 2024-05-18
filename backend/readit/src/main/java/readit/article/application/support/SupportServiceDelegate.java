@@ -40,7 +40,7 @@ public class SupportServiceDelegate {
     }
 
     public List<MemberArticle> getCompleteArticle(Integer id) {
-        return supportEmptyToNull(() -> memberArticleRepository.findCompleteArticle(id));
+        return supportEmptyToNull(() -> memberArticleRepository.findAllCompleteArticle(id));
     }
 
     public List<MemberArticle> getRecentCompleteArticle(Integer id) {
