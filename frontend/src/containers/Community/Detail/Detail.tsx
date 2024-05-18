@@ -108,8 +108,10 @@ const Detail = () => {
 					{community ? (
 						<Card className='w-full p-5'>
 							<div className='flex flex-col gap-y-5'>
-								<div className='flex flex-row justify-between items-center'>
-									<div className='text-2xl font-bold pb-5'>{community.title}</div>
+								<div className='flex flex-row justify-between items-center pb-5'>
+									<div className='text-2xl font-bold flex flex-row items-center '>
+										{community.title}
+									</div>
 									{community.currentParticipants < community.maxParticipants ? (
 										<>
 											{community.writerId === id ? (
