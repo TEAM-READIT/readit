@@ -12,7 +12,6 @@ import sakura from '../../assets/images/sakura.gif';
 import xx from '../../assets/images/ㅌㅌ.gif';
 const Group = () => {
 	const { accessToken } = useAuthStore();
-
 	const baseUrl = import.meta.env.VITE_APP_PUBLIC_BASE_URL;
 	const location = useLocation();
 	const community = location.state?.community;
@@ -76,42 +75,6 @@ const Group = () => {
 		} catch (error) {}
 		setChatValue('');
 	};
-	const [isScrolling, setIsScrolling] = useState(false);
-	const scrollTimeout = useRef<number | null>(null);
-
-	useEffect(() => {
-		const handleScrollStart = () => {
-			setIsScrolling(true);
-			// 스크롤이 멈추면 1초 후에 isScrolling을 false로 설정합니다.
-			if (scrollTimeout.current !== null) {
-				clearTimeout(scrollTimeout.current);
-			}
-			scrollTimeout.current = setTimeout(() => {
-				setIsScrolling(false);
-			}, 1000);
-		};
-
-		const handleScrollEnd = () => {
-			// 스크롤 종료 시 이벤트 핸들러를 호출하지 않고 isScrolling을 false로 설정합니다.
-			setIsScrolling(false);
-			if (scrollTimeout.current !== null) {
-				clearTimeout(scrollTimeout.current);
-			}
-		};
-
-		// scroll 이벤트 리스너를 추가합니다.
-		window.addEventListener('scroll', handleScrollStart);
-		window.addEventListener('scroll', handleScrollEnd);
-
-		return () => {
-			// 컴포넌트가 언마운트될 때 이벤트 리스너를 제거합니다.
-			window.removeEventListener('scroll', handleScrollStart);
-			window.removeEventListener('scroll', handleScrollEnd);
-			if (scrollTimeout.current !== null) {
-				clearTimeout(scrollTimeout.current);
-			}
-		};
-	}, []);
 
 	const handleKeyPress = (e: any) => {
 		// 입력 필드에서 엔터 키가 눌렸을 때
@@ -123,8 +86,9 @@ const Group = () => {
 	};
 
 	useEffect(() => {
-		if (noticebody.length > 0)
-		{handlenoticePost();}
+		if (noticebody.length > 0) {
+			handlenoticePost();
+		}
 	}, [noticebody]);
 	const noticePost = useMutation(async () => {
 		await fetch(`${baseUrl}/community/notice/${myGroup?.communityDetail.communityId}`, {
@@ -147,23 +111,30 @@ const Group = () => {
 
 	const chatContainerRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
-		if (!isScrolling) {
-			if (chatContainerRef.current) {
-				chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+		if (myGroup && myGroup.chatList.length > 0) {
+			if (myGroup?.chatList[myGroup.chatList.length - 1].memberId === myGroup?.myId) {
+				if (chatContainerRef.current) {
+					chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+				}
 			}
 		}
 	}, [myGroup?.chatList.length]);
-	// const [a, setA] = useState<number>(1);
-	// setTimeout(() => {
-	// 	setA((prev) => prev * -1);
-	// }, 100);
-	// useEffect(() => {
-	// 	groupData()
-	// 		.then((res) => setMyGroup(res))
-	// 		.catch((_err) => {});
-	// }, [a]);
+	useEffect(() => {
+		if (chatContainerRef.current) {
+			chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+		}
+	}, [chatContainerRef.current]);
+	const [a, setA] = useState<number>(1);
+	setTimeout(() => {
+		setA((prev) => prev * -1);
+	}, 5000);
+	useEffect(() => {
+		groupData()
+			.then((res) => setMyGroup(res))
+			.catch((_err) => {});
+	}, [a]);
 	return (
-		<div className='w-full h-screen flex flex-col items-center overflow-hidden'>
+		<div className='w-full h-screen flex flex-col items-center overflow-hidden select-none'>
 			<Headers />
 			<div className='flex flex-col w-3/5 h-full items-start'>
 				{myGroup ? (
