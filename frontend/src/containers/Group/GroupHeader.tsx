@@ -140,7 +140,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 								</span>
 								<span className='font-semibold'>{detail.writerName}</span>
 								<div className='flex gap-2'>
-									<span className='material-symbols-outlined hover:cursor-pointer'>person</span>
+									<span className='material-symbols-outlined'>person</span>
 									<span>
 										{detail.currentParticipants} / {detail.maxParticipants}
 									</span>
