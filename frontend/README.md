@@ -4,9 +4,17 @@
 
 ## 🙋FE 팀원 소개
 
-| <img src="https://github.com/gnaak.png" width="200" height="200"> | <img src="" width="200" height="200"> | 
-| :-------------------------------------------------------------------: | :------------------------------------------------------------------: | 
-|           [이근학](https://github.com/gnaak)                 |                [박현춘](https://github.com/)                 |             
+
+<table>
+  <tr>
+    <td style="padding: 10px;"><img src="https://github.com/gnaak.png" width="200" height="200"></td>
+    <td style="padding: 10px;"><img src="" width="200" height="200"></td>
+  </tr>
+  <tr>
+    <td style="padding: 10px;"><a href="https://github.com/gnaak">이근학</a></td>
+    <td style="padding: 10px;"><a href="https://github.com/">박현춘</a></td>
+  </tr>
+</table>    
 
 ## 🛠️기술 스택
 
@@ -56,50 +64,73 @@ npm run build
 > 마이페이지에서 내가 읽은 글에 대한 점수와 챌린지 점수를 확인할 수 있습니다.<br>내가 읽은 글에서 내 요약과 메모, 피드백을 확인하고 읽고 있는 글을 통해 임시 저장된 글들을 계속 작성할 수 있습니다.
 
 
-### 페이지 
-
-  | 메인 페이지 | 로그인 |
-  |:------------------------------------------------:|:------------------------------------------------:|
-  | <img src="src/assets/screen/메인페이지.png" width='500px'> | <img src="src/assets/screen/로그인.png" width='500px'>|
-
-
-  | 챌린지 페이지 | 
-  |:------------------------------------------------:|
-  | <img src="src/assets/screen/로그인.png" width='500px'>|
-
-
-  | 글 목록 페이지 |
-  |:------------------------------------------------:|
-  | <img src="src/assets/screen/글 목록.png" width='500px'>|
-
-
-  | 뷰어 페이지 | 뷰어 체점 |
-  |:------------------------------------------------:|:------------------------------------------------:|
-  | <img src="src/assets/screen/뷰어.png" width='500px'> | <img src="src/assets/screen/뷰어 - 체점.png" width='500px'>|
-  
-  
-
-  | 커뮤니티 페이지 | 커뮤니티 상세 |
-  |:------------------------------------------------:|:------------------------------------------------:|
-  | <img src="src/assets/screen/커뮤니티 목록.png" width='500px'> | <img src="src/assets/screen/커뮤니티 페이지.png" width='500px'>|
-
-  | 마이 페이지 | |
-
+### 📄 페이지 
+<table>
+  <tr>
+    <td style="padding: 10px;">메인 페이지</td>
+    <td style="padding: 10px;">로그인</td>
+  </tr>
+  <tr>
+    <td style="padding: 10px;"><img src="src/assets/screen/메인페이지.png" width="500" height="230"></td>
+    <td style="padding: 10px;"><img src="src/assets/screen/로그인.png" width="500" height="230"></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td style="padding: 10px;">챌린지 페이지</td>
+  </tr>
+  <tr>
+    <td style="padding: 10px;"><img src="src/assets/screen/로그인.png" width="500" height="230"></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td style="padding: 10px;">글 목록 페이지</td>
+  </tr>
+  <tr>
+    <td style="padding: 10px;"><img src="src/assets/screen/글 목록.png" width="500" height="230"></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td style="padding: 10px;">뷰어 페이지</td>
+    <td style="padding: 10px;">뷰어 체점</td>
+  </tr>
+  <tr>
+    <td style="padding: 10px;"><img src="src/assets/screen/뷰어.png" width="500" height="230"></td>
+    <td style="padding: 10px;"><img src="src/assets/screen/뷰어 - 점수.png" width="500" height="230"></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td style="padding: 10px;">커뮤니티 페이지</td>
+    <td style="padding: 10px;">커뮤니티 상세</td>
+  </tr>
+  <tr>
+    <td style="padding: 10px;"><img src="src/assets/screen/커뮤니티 목록.png" width="500" height="230"></td>
+    <td style="padding: 10px;"><img src="src/assets/screen/커뮤니티 페이지.png" width="500" height="230"></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td style="padding: 10px;">마이 페이지</td>
+  </tr>
+</table>
 
  
 
-- 📁 폴더 구조
+  - 📁 폴더 구조
 
-```
-.
+  ```
+  .
 
-├── src
-│   ├── assets
-│   ├── components
-│   ├── containers
-│   ├── hooks
-│   ├── store
-│   └── types
-│   
-└── README.md
-```
+  ├── src
+  │   ├── assets
+  │   ├── components
+  │   ├── containers
+  │   ├── hooks
+  │   ├── store
+  │   └── types
+  │   
+  └── README.md
+  ```
