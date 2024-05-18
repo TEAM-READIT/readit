@@ -33,7 +33,7 @@ const Member = ({ myGroup }: { myGroup: communityProps }) => {
 							)}
 							<div className='text-sm'>{member.memberName.slice(0, 10)}</div>
 							{hoveredMemberIndex === index && (
-								<div className='absolute bg-gray-200 p-2 rounded shadow'>{myGroup.memberList[index].memberName}</div>
+								<div className='absolute bg-white border border-black p-2 rounded shadow'>{myGroup.memberList[index].memberName}</div>
 							)}
 							<div className='text-sm'>
 								{member.readCount} / {myGroup.communityDetail.articleCount}

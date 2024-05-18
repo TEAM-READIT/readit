@@ -66,6 +66,15 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 				setModalOpen(true);
 			}
 		};
+	const [hoveredMemberIndex, setHoveredMemberIndex] = useState<boolean>(false);
+
+	const handleMouseEnter = () => {
+		setHoveredMemberIndex(true);
+	};
+
+	const handleMouseLeave = () => {
+		setHoveredMemberIndex(false);
+	};
 
 	return (
 		<>
@@ -99,7 +108,22 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 					</Breadcrumb>
 					<div className='flex flex-row justify-between items-center w-full'>
 						<div className='flex flex-row items-center gap-x-5'>
-							<div className='text-xl font-semibold leading-tight text-gray-700'>{myGroup.communityDetail.title}</div>
+							<div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+								<div className='text-xl font-semibold leading-tight text-gray-700'>
+									{myGroup.communityDetail.title.length > 20 ? (
+										<>
+											{myGroup.communityDetail.title.slice(0, 18)+' ...'}
+											{hoveredMemberIndex && (
+												<div className=' text-xl font-semibold leading-tight text-gray-700  absolute bg-white border border-gray-300 py-2 px-10 rounded shadow'>
+													{myGroup.communityDetail.title}
+												</div>
+											)}
+										</>
+									) : (
+										<>{myGroup.communityDetail.title}</>
+									)}
+								</div>
+							</div>
 							<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
 								#{detail.categoryName}
 							</div>
@@ -146,10 +170,10 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 			</div>
 			<div className='w-full px-5 flex flex-row justify-between'>
 				<div className='flex flex-row w-full p-3 text bg-[#E1EDFF] rounded-xl items-center gap-3 text-start'>
-					<div className='font-bold'>📢 공지</div>:
+					<div className='font-bold '>📢 공지</div>:
 					{number === 0 ? (
 						<>
-							<div className='bg-[#E1EDFF] border-none w-5/6'>{myGroup.notice}</div>
+							<div className='bg-[#E1EDFF] border-none w-5/6 select-text '>{myGroup.notice}</div>
 							<span
 								className='material-symbols-outlined hover:cursor-pointer text-3xl pl-10 '
 								onClick={() => {
