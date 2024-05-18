@@ -145,14 +145,16 @@ const Challenge = () => {
 	};
 
 	useEffect(() => {
-		challengeData()
-			.then((res) => {
-				if (res) {
-					setProblems(res);
-				}
-			})
-			.catch((_err) => {});
-	}, []);
+		if (number === 1) {
+			challengeData()
+				.then((res) => {
+					if (res) {
+						setProblems(res);
+					}
+				})
+				.catch((_err) => {});
+		}
+	}, [number]);
 
 	useEffect(() => {
 		const challengescore: number[] = [];
@@ -202,7 +204,6 @@ const Challenge = () => {
 			},
 		},
 	};
-
 	const challengeIntro =
 		'안녕하십니까? 본 테스트는 READIT 당신의 문해력+에서 준비한 성인 문해력 테스트로, 우리나라 성인들의 문해력을 대략적으로 조사하기 위한 것입니다.\n검사지는 비문학에서 접하는 글을 파악하고 활용하는 능력을 묻는 간단한 2개의 문항으로 구성되어 있습니다. 챌린지는 하루에 한번만 응시 가능합니다.\n모든 문항에 성실하게 답해주시기 바랍니다. 감사합니다.';
 	return (
@@ -301,7 +302,7 @@ const Challenge = () => {
 										<span className='font-bold py-5 text-2xl'>통계</span>
 										<Line data={challengegraphData} options={options}></Line>
 										<div className='flex flex-row justify-end pt-10 w-full'>
-											{problems && problems.status === 400 ? (
+											{challengeScoresList && challengeScoresList.isSubmitToday === true ? (
 												<div className=' rounded-lg  text-center p-3  px-10 justify-center items-center text-sm  border bg-gray-400 text-white border-gray-300'>
 													<span>오늘 이미 참여했습니다</span>
 												</div>
