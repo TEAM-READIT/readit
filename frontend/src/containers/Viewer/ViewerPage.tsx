@@ -153,8 +153,22 @@ export const ViewerPage = () => {
 		const refresh = setTimeout(() => {}, 3000);
 		return () => clearTimeout(refresh);
 	});
-	useEffect(()=>{
-	},[summary])
+	useEffect(() => {}, [summary]);
+
+	const [good, setGood] = useState('');
+	const [bad, setBad] = useState('');
+
+	useEffect(() => {
+		const startIndex = feedback?.feedback.indexOf('잘한 점:')! + '잘한 점:'.length;
+		const endIndex = feedback?.feedback.indexOf('못한 점:')!;
+		const endStartIndex = feedback?.feedback.indexOf('못한 점:')! + '못한 점:'.length;
+
+		const extractedgoodText = feedback?.feedback.substring(startIndex+1, endIndex-1)!;
+		const extractedbadText = feedback?.feedback.substring(endStartIndex+1)!;
+		setGood(extractedgoodText);
+		setBad(extractedbadText);
+	}, [feedback]);
+
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
@@ -248,9 +262,8 @@ export const ViewerPage = () => {
 			{isOpen ? (
 				<>
 					<div className='bg-black absolute z-50 w-full h-screen opacity-70 flex flex-col  justify-center items-center'></div>
-					<Card className='flex flex-col w-full max-w-[800px] h-[600px] mt-24 absolute z-50  border-2 justify-start left-1/2 top-1/3  transform -translate-x-1/2 -translate-y-1/2'>
-						<div className='flex flex-row w-full  justify-between font-nicolast'>
-							<div>READIT</div>
+					<Card className='flex flex-col w-full max-w-[800px] h-[700px] mt-24 absolute z-50  border-2 justify-start left-1/2 top-1/3  transform -translate-x-1/2 -translate-y-1/2'>
+						<div className='flex flex-row w-full  justify-end font-nicolast'>
 							<div onClick={handleExit}>
 								<span className='material-symbols-outlined text-[1.2rem] hover:cursor-pointer'>close</span>
 							</div>
@@ -283,31 +296,49 @@ export const ViewerPage = () => {
 								</>
 							) : (
 								<>
-									<div className='h-5/6 flex flex-col justify-between pt-5'>
-										<div className='text-start break-words'>요약 : {summary.slice(0, 500)}</div>
-										<div className='text-start whitespace-pre-wrap'>{feedback?.feedback!}</div>
-										<div className='flex flex-row justify-end'>
-											<span className='p-5 text-lg'>{feedback?.score}점</span>
+									<div className='h-5/6 flex flex-col gap-5'>
+										<div className='text-start flex flex-col break-words h-1/3 gap-3'>
+											<span className='text-blue-700 font-bold'>요약 </span>
+											<div className='border-2 rounded-lg border-blue-700 max-h-full flex overflow-auto p-3 whitespace-pre-wrap'>
+												{summary.slice(0, 500)}
+											</div>
+										</div>
+										<div className='text-start flex flex-col break-words h-1/3 gap-3'>
+											<span className='text-blue-700 font-bold'>잘한 점 </span>
+											<div className='border-2 rounded-lg border-blue-700 max-h-full flex overflow-auto p-3 whitespace-pre-wrap'>
+												{good}
+											</div>
+										</div>
+										<div className='text-start flex flex-col break-words h-1/3 gap-3'>
+											<span className='text-blue-700 font-bold'>못한 점 </span>
+											<div className='border-2 rounded-lg border-blue-700 max-h-full flex overflow-auto p-3 whitespace-pre-wrap'>
+												{bad}
+											</div>
 										</div>
 									</div>
-									<div className='flex flex-row justify-end'>
-										<div className='flex flex-row justify-between gap-5 h-10'>
-											<button
-												className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm  border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white px-3 '
-												onClick={() => navigate('/')}
-											>
-												<div className='flex items-center gap-2'>
-													<span>홈으로 이동하기</span>
-												</div>
-											</button>
-											<button
-												className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 px-3'
-												onClick={() => navigate('/essay')}
-											>
-												<div className='flex items-center gap-2'>
-													<span>글 더 읽으러 가기</span>
-												</div>
-											</button>
+									<div className='h-1/6'>
+										<div className='flex flex-row justify-end'>
+											<span className='px-5 p-3 text-lg'>{feedback?.score}점</span>
+										</div>
+										<div className='flex flex-row justify-end'>
+											<div className='flex flex-row justify-between gap-5 h-10'>
+												<button
+													className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm  border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white px-3 '
+													onClick={() => navigate('/')}
+												>
+													<div className='flex items-center gap-2'>
+														<span>홈으로 이동하기</span>
+													</div>
+												</button>
+												<button
+													className=' rounded-lg  text-center flex flex-row justify-center items-center text-sm  border bg-blue-700 text-white border-blue-300 hover:bg-blue-800 px-3'
+													onClick={() => navigate('/essay')}
+												>
+													<div className='flex items-center gap-2'>
+														<span>글 더 읽으러 가기</span>
+													</div>
+												</button>
+											</div>
 										</div>
 									</div>
 								</>
