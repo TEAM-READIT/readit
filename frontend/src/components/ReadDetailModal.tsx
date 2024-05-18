@@ -48,7 +48,7 @@ const ReadDetailModal = () => {
 				var divElement = document.getElementById(i.toString());
 				const spanMemoWrapper = document.createElement('span');
 				spanMemoWrapper.className =
-					'memo-wrapper z-50 text-black bg-yellow-200 shadow-lg max-w-[300px] absolute rounded-lg text-start p-10 border whitespace-pre-wrap flex flex-row break-all'; // 클래스 추가
+					'memo-wrapper z-50 text-black bg-yellow-200 shadow-lg max-w-[300px] absolute rounded-lg text-start p-5 border whitespace-pre-wrap flex flex-row break-all'; // 클래스 추가
 
 				// 메모를 표시하는 span 엘리먼트 생성
 				const spanMemo = document.createElement('span');
