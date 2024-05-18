@@ -1,6 +1,7 @@
 package readit.challenge.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.domain.Article;
@@ -40,6 +41,7 @@ public class ChallengeService {
     private final ProblemParser problemParser;
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "challengeRank")
     public GetChallengeRankResponse getChallengeRank(Integer memberId) {
         List<Object[]> results = memberRepository.findTop7MembersWithRank();
         AtomicReference<Integer> myRank = new AtomicReference<>(null);
