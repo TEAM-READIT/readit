@@ -146,10 +146,10 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 			</div>
 			<div className='w-full px-5 flex flex-row justify-between'>
 				<div className='flex flex-row w-full p-3 text bg-[#E1EDFF] rounded-xl items-center gap-3 text-start'>
-					<div className='font-bold'>📢 공지</div>:
+					<div className='font-bold '>📢 공지</div>:
 					{number === 0 ? (
 						<>
-							<div className='bg-[#E1EDFF] border-none w-5/6'>{myGroup.notice}</div>
+							<div className='bg-[#E1EDFF] border-none w-5/6 select-text '>{myGroup.notice}</div>
 							<span
 								className='material-symbols-outlined hover:cursor-pointer text-3xl pl-10 '
 								onClick={() => {
