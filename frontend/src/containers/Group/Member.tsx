@@ -31,7 +31,7 @@ const Member = ({ myGroup }: { myGroup: communityProps }) => {
 									<img src={member.memberProfile} alt='사용자프로필' className='w-16 h-16 aspect-square rounded-full' />
 								</div>
 							)}
-							<div className='text-sm hover:cursor-pointer'>{member.memberName.slice(0, 10)}</div>
+							<div className='text-sm'>{member.memberName.slice(0, 10)}</div>
 							{hoveredMemberIndex === index && (
 								<div className='absolute bg-gray-200 p-2 rounded shadow'>{myGroup.memberList[index].memberName}</div>
 							)}

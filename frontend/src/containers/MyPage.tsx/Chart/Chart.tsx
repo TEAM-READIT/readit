@@ -39,7 +39,6 @@ const Chart = () => {
 	const [scoreList, setScoreList] = useState<{ scoreList: scoreList[] }>(); // scoreList 타입 변경
 	const { accessToken } = useAuthStore();
 	const [challengeScoreList, setChallengeScoreList] = useState<ChallengeScoreList>();
-
 	// 글 요약 점수 통계 받아오기
 	const scoreData = async () => {
 		const headers = {

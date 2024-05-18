@@ -84,7 +84,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 					</div>
 				</Modal.Body>
 			</Modal>
-			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center'>
+			<div className='flex flex-row w-full justify-between px-5 pb-5 items-center select-none'>
 				<div className=' w-full'>
 					<Breadcrumb className='pb-8'>
 						<BreadcrumbItem>
