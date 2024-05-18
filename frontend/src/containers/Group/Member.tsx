@@ -31,9 +31,17 @@ const Member = ({ myGroup }: { myGroup: communityProps }) => {
 									<img src={member.memberProfile} alt='사용자프로필' className='w-16 h-16 aspect-square rounded-full' />
 								</div>
 							)}
-							<div className='text-sm'>{member.memberName.slice(0, 10)}</div>
-							{hoveredMemberIndex === index && (
-								<div className='absolute bg-white border border-black p-2 rounded shadow'>{myGroup.memberList[index].memberName}</div>
+							{member.memberName.length > 5 ? (
+								<>
+									<div className=''>{member.memberName.slice(0, 3)} </div>
+									{hoveredMemberIndex === index && (
+										<div className='absolute bg-white border border-black p-2 rounded shadow'>
+											{myGroup.memberList[index].memberName}
+										</div>
+									)}
+								</>
+							) : (
+								<>{member.memberName}</>
 							)}
 							<div className='text-sm'>
 								{member.readCount} / {myGroup.communityDetail.articleCount}
