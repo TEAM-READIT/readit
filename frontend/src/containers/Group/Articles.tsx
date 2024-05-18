@@ -18,7 +18,7 @@ const Articles = ({ myGroup }: { myGroup: communityProps }) => {
 		<>
 			<div className='w-3/5 flex flex-col h-full gap-3'>
 				<Member myGroup={myGroup} />
-				<div className='overflow-y-auto h-[450px] py-3'>
+				<div className='overflow-y-auto h-[500px] py-3'>
 					<div className='flex gap-3 flex-col'>
 						{sortedArticles.length > 0 ? (
 							<>
@@ -46,8 +46,10 @@ const Articles = ({ myGroup }: { myGroup: communityProps }) => {
 													</div>
 													<div>
 														<div className='flex justify-start font-bold'>{article.articleDetail.title} </div>
-														{article.articleDetail.summary.length > 42 ? (
-															<div className='flex justify-start'>{article.articleDetail.summary.slice(0, 42)}... </div>
+														{article.articleDetail.summary.length > 40 ? (
+															<div className='flex justify-start'>
+																{article.articleDetail.summary.slice(0, 40)}...
+															</div>
 														) : (
 															<div className='flex justify-start'>{article.articleDetail.summary}</div>
 														)}
