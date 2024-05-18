@@ -7,14 +7,22 @@
 
 <table>
   <tr>
-    <td style="padding: 10px;"><img src="https://github.com/gnaak.png" width="200" height="200"></td>
-    <td style="padding: 10px;"><img src="" width="200" height="200"></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;">
+      <img src="https://github.com/gnaak.png" width="200" height="200">
+    </td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;">
+      <img src="" width="200" height="200">
+    </td>
   </tr>
   <tr>
-    <td style="padding: 10px;"><a href="https://github.com/gnaak">이근학</a></td>
-    <td style="padding: 10px;"><a href="https://github.com/">박현춘</a></td>
+    <td style="padding: 10px; text-align: center;">
+      <a href="https://github.com/gnaak">이근학</a>
+    </td>
+    <td style="padding: 10px; text-align: center;">
+      <a href="https://github.com/">박현춘</a>
+    </td>
   </tr>
-</table>    
+</table> 
 
 ## 🛠️기술 스택
 
