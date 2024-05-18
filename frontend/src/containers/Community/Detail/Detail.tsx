@@ -99,7 +99,6 @@ const Detail = () => {
 	useEffect(() => {
 	}, [mycommu]);
 	const { id } = useUserStore();
-
 	return (
 		<>
 			<div className='w-full flex justify-center flex-col items-center h-full select-none'>
@@ -114,56 +113,7 @@ const Detail = () => {
 									{community.currentParticipants < community.maxParticipants ? (
 										<>
 											{community.writerId === id ? (
-												<Button
-													className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
-													onClick={() => handleClickGroups(community)}
-												>
-													<div className='flex items-center gap-2'>
-														<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-														<span>이미 가입된 모임입니다</span>
-													</div>
-												</Button>
-											) : (
-													<>
-													{mycommu.includes(community.communityId) ? (
-														<>
-															<Button
-																className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
-																onClick={() => handleClickGroups(community)}
-															>
-																<div className='flex items-center gap-2'>
-																	<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-																	<span>이미 가입된 모임입니다</span>
-																</div>
-															</Button>
-														</>
-														) : (
-														<Button
-															className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
-															onClick={() => handleClickGroup(community)}
-														>
-															<div className='flex items-center gap-2'>
-																<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-																<span>모임 가입하기</span>
-															</div>
-														</Button>
-													)}
-												</>
-											)}
-										</>
-									): community.writerId === id ? (
-												<Button
-													className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
-													onClick={() => handleClickGroups(community)}
-												>
-													<div className='flex items-center gap-2'>
-														<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-														<span>이미 가입된 모임입니다</span>
-													</div>
-												</Button>
-											) : (
 												<>
-													{/* 가입한 모임이면 이이 가입 */}
 													{mycommu.includes(community.communityId) ? (
 														<>
 															<Button
@@ -177,19 +127,81 @@ const Detail = () => {
 															</Button>
 														</>
 													) : (
-															// 아니면 정원 초가
 														<Button
-															className='border bg-gray-400 text-white border-gray-300'
-															
+															className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
+															onClick={() => handleClickGroup(community)}
 														>
 															<div className='flex items-center gap-2'>
 																<span className='material-symbols-outlined text-[1.2rem]'>done</span>
-																<span>정원이 가득 찼습니다</span>
+																<span>모임 가입하기</span>
+															</div>
+														</Button>
+													)}
+												</>
+											) : (
+												<>
+													{mycommu.includes(community.communityId) ? (
+														<>
+															<Button
+																className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
+																onClick={() => handleClickGroups(community)}
+															>
+																<div className='flex items-center gap-2'>
+																	<span className='material-symbols-outlined text-[1.2rem]'>done</span>
+																	<span>이미 가입된 모임입니다</span>
+																</div>
+															</Button>
+														</>
+													) : (
+														<Button
+															className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
+															onClick={() => handleClickGroup(community)}
+														>
+															<div className='flex items-center gap-2'>
+																<span className='material-symbols-outlined text-[1.2rem]'>done</span>
+																<span>모임 가입하기</span>
 															</div>
 														</Button>
 													)}
 												</>
 											)}
+										</>
+									) : community.writerId === id ? (
+										<Button
+											className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
+											onClick={() => handleClickGroups(community)}
+										>
+											<div className='flex items-center gap-2'>
+												<span className='material-symbols-outlined text-[1.2rem]'>done</span>
+												<span>이미 가입된 모임입니다</span>
+											</div>
+										</Button>
+									) : (
+										<>
+											{/* 가입한 모임이면 이이 가입 */}
+											{mycommu.includes(community.communityId) ? (
+												<>
+													<Button
+														className='border border-blue-800 text-blue-800 bg-transparent hover:bg-blue-900 hover:text-white'
+														onClick={() => handleClickGroups(community)}
+													>
+														<div className='flex items-center gap-2'>
+															<span className='material-symbols-outlined text-[1.2rem]'>done</span>
+															<span>이미 가입된 모임입니다</span>
+														</div>
+													</Button>
+												</>
+											) : (
+												// 아니면 정원 초가
+												<Button className='border bg-gray-400 text-white border-gray-300'>
+													<div className='flex items-center gap-2'>
+														<span className='material-symbols-outlined text-[1.2rem]'>done</span>
+														<span>정원이 가득 찼습니다</span>
+													</div>
+												</Button>
+											)}
+										</>
+									)}
 								</div>
 								<div className='flex flex-row gap-5 items-center'>
 									<div className='flex items-center gap-1.5'>
