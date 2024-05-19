@@ -54,7 +54,7 @@ const Articles = ({ myGroup }: { myGroup: communityProps }) => {
 		<>
 			<div className='w-3/5 flex flex-col h-full gap-3'>
 				<Member myGroup={myGroup} />
-				<div className='overflow-y-auto h-[480px] py-3'>
+				<div className='overflow-y-auto h-[500px]'>
 					<div className='flex gap-3 flex-col'>
 						{sortedArticles.length > 0 ? (
 							<>
