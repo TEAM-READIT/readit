@@ -228,7 +228,11 @@ const Challenge = () => {
 												{rank?.memberList?.slice(0, 5).map((member, index) => (
 													<div key={index} className='flex flex-row items-center px-5'>
 														<div className='flex flex-row items-center gap-5 w-3/4 relative'>
-															<img src={member.profile} alt='프로필 사진' className='w-12 h-12 rounded-full ' />
+															<img
+																src={member.profile}
+																alt='프로필 사진'
+																className='w-12 h-12 rounded-full border border-black'
+															/>
 															{member.rank === 1 && index === 0 ? (
 																<>
 																	<div className='absolute -top-2 -left-1'>
@@ -270,7 +274,11 @@ const Challenge = () => {
 													</div>
 													<div className=' flex flex-row  items-center w-full'>
 														<div className='flex flex-row items-center gap-5 w-3/4 relative'>
-															<img src={profileImageUrl} alt='프로필' className='h-12 aspect-square rounded-full' />
+															<img
+																src={profileImageUrl}
+																alt='프로필'
+																className='h-12 aspect-square rounded-full border border-black'
+															/>
 															<span>{rank?.myRank}등</span>
 															{name}
 														</div>

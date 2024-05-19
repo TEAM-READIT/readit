@@ -76,6 +76,24 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 		setHoveredMemberIndex(false);
 	};
 
+
+			const categoryStyles: { [key: string]: string } = {
+				비문학: 'bg-blue-200 border border-blue-500',
+				정치: 'bg-gray-200 border border-gray-400 text-black',
+				경제: 'bg-green-200 border border-green-400 text-black',
+				사회: 'bg-yellow-100 border-yellow-400 text-black',
+				'생활/문화': 'bg-purple-200 border-purple-400 text-black',
+				'IT/과학': 'bg-indigo-200 border-indigo-400 text-black',
+				세계: 'bg-pink-200 border-pink-400 text-black',
+				오피니언: 'bg-red-200 border-red-400 text-black',
+			};
+
+			function getCategoryStyle(categoryName: string) {
+				return categoryStyles[categoryName] || 'bg-gray-200 text-gray-800';
+			}
+	
+	
+	
 	return (
 		<>
 			<Modal show={modalOpen} size='md' onClose={() => setModalOpen(false)}>
@@ -112,7 +130,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 								<div className='text-xl font-semibold leading-tight text-gray-700'>
 									{myGroup.communityDetail.title.length > 20 ? (
 										<>
-											{myGroup.communityDetail.title.slice(0, 18)+' ...'}
+											{myGroup.communityDetail.title.slice(0, 18) + ' ...'}
 											{hoveredMemberIndex && (
 												<div className=' text-xl font-semibold leading-tight text-gray-700  absolute bg-white border border-gray-300 py-2 px-10 rounded shadow'>
 													{myGroup.communityDetail.title}
@@ -124,7 +142,7 @@ const GroupHeader = ({ myGroup, setnoticebody, handlenoticePost, noticebody }: G
 									)}
 								</div>
 							</div>
-							<div className='px-3 border border-tag-100 bg-tag-50 rounded-lg text-tag-100 text-sm flex flex-row items-center justify-center'>
+							<div className={`px-3 border rounded-lg  text-sm flex flex-row items-center justify-center ${getCategoryStyle(myGroup.communityDetail.categoryName)}`}>
 								#{detail.categoryName}
 							</div>
 							<div>주 {detail.articleCount} 개의 글을 읽습니다. </div>
