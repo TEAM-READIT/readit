@@ -41,7 +41,7 @@ const Articles = ({ myGroup }: { myGroup: communityProps }) => {
 					<div className='flex gap-3 flex-col'>
 						{sortedArticles.length > 0 ? (
 							<>
-								{sortedArticles.slice(0, 4).map((article, index) => (
+								{sortedArticles.map((article, index) => (
 									<div key={index}>
 										<div
 											className='shadow-lg border border-gray-400 rounded-xl p-3 hover:cursor-pointer'
