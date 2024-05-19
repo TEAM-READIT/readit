@@ -75,10 +75,11 @@ export const ViewerPage = () => {
 	if (communityId) {
 		requestbody.communityId = communityId;
 	}
-	if (article.communityId) {
-		requestbody.communityId = article.communityId;
+	if (article) {
+		if (article.communityId) {
+			requestbody.communityId = article.communityId;
+		}
 	}
-
 	const summarySubmit = useMutation(async () => {
 		const response = await fetch(`${baseUrl}/viewer/submission/${id}`, {
 			method: 'POST',
