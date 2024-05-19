@@ -148,7 +148,7 @@ const Group = () => {
 						<div className='w-full h-full flex flex-row gap-5 items-start p-5'>
 							<Articles myGroup={myGroup} />
 							<div className='w-2/5 flex flex-col gap-5 pt-3'>
-								<div className='h-[530px] overflow-y-auto bg-blue-200 rounded-xl p-5 relative' ref={chatContainerRef}>
+								<div className='h-[540px] overflow-y-auto bg-blue-200 rounded-xl p-5 relative' ref={chatContainerRef}>
 									<div className='flex flex-col gap-5'>
 										{myGroup.chatList.map((chat, index) => (
 											<div key={index}>
