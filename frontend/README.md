@@ -11,7 +11,7 @@
       <img src="https://github.com/gnaak.png" width="200" height="200">
     </td>
     <td style="padding: 10px; text-align: center; vertical-align: middle;">
-      <img src="" width="200" height="200">
+      <img src="https://github.com/park-hyunchun.png" width="200" height="200">
     </td>
   </tr>
   <tr>
@@ -19,7 +19,7 @@
       <a href="https://github.com/gnaak">이근학</a>
     </td>
     <td style="padding: 10px; text-align: center;">
-      <a href="https://github.com/">박현춘</a>
+      <a href="https://github.com/park-hyunchun">박현춘</a>
     </td>
   </tr>
 </table> 
