@@ -1,7 +1,7 @@
 # READIT
 
+<img src="README_img/img_8.png" alt="img_8.png" width="800px">
 
-![readme-main.png](..%2F..%2F..%2FDownloads%2Freadme-main.png)
 # 목차
 
 ---
@@ -76,14 +76,17 @@
 
 ### 글 목록
 
-![img_2.png](README_img/img_2.png)
+<img src="README_img/img_2.png" alt="img_2.png" width="800px">
+
 - 카테고리별 글 목록
 - 원하는 네이버 뉴스 링크로 불러오기
 
 ### 글 읽기
 
 **뷰어**
-![img_1.png](README_img/img_1.png)
+
+<img src="README_img/img_1.png" alt="img_1.png" width="800px">
+
 - 글 읽기
 - 하이라이트
 - 단어 검색
@@ -92,17 +95,22 @@
 
 
 **요약 평가**
-![img_3.png](README_img/img_3.png)
+
+<img src="README_img/img_3.png" alt="img_3.png" width="800px">
+
 - 점수, 피드백 확인
 
 ### 챌린지
-![img_4.png](README_img/img_4.png)
-![img_5.png](README_img/img_5.png)
+<img src="README_img/img_4.png" alt="img_4.png" width="800px">
+
+<img src="README_img/img_5.png" alt="img_5.png" width="800px">
+
 - 매일 하나의 글을 읽고 퀴즈 풀기
 - 랭킹, 점수 통계 확인
 
 ### 커뮤니티
-![img_6.png](README_img/img_6.png)
+<img src="README_img/img_6.png" alt="img_6.png" width="800px">
+
 - 함께 글을 읽을 수 있는 커뮤니티 생성 또는 참여
 - 채팅 기능
 - 구성원이 읽은 글, 요약 확인 가능
@@ -110,17 +118,19 @@
 # 4. ERD
 
 ---
-![erd.png](..%2F..%2Ferd.png)
-
+<img src="README_img/img_10.png" alt="img_10.png" width="500px">
 
 # 5. 아키텍처
 
 ---
-![architecture.png](..%2F..%2F..%2FDownloads%2Farchitecture.png)
-
+<img src="README_img/img_9.png" alt="img_9.png" width="800px">
 
 # 6. 팀원 소개
 
 ---
-
-![img_8.png](README_img/img_8.png)
+-   박현춘 : 팀장, 프론트엔드 담당
+-   배정훈 : 백엔드, 인프라 담당
+-   오영주 : 백엔드 담당
+-   이근학 : 프론트엔드 담당
+-   이주희 : 백엔드 담당
+-   전하영 : 백엔드, 인프라 담당
