@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record GetMemberArticleResponse(
-    Integer memberArticleId,
     Integer id,
     String title,
     String content,
@@ -17,13 +16,11 @@ public record GetMemberArticleResponse(
     Integer score,
     String summary,
     String feedback,
-    Integer communityId,
     LocalDateTime completedAt
 ) {
     public static GetMemberArticleResponse from(MemberArticle memberArticle){
         return new GetMemberArticleResponse(
                 memberArticle.getId(),
-                memberArticle.getArticle().getId(),
                 memberArticle.getArticle().getTitle(),
                 memberArticle.getContent(),
                 memberArticle.getArticle().getType().toString(),
@@ -33,7 +30,6 @@ public record GetMemberArticleResponse(
                 memberArticle.getScore(),
                 memberArticle.getSummary(),
                 memberArticle.getFeedback(),
-                memberArticle.getCommunityId(),
                 memberArticle.getCompletedAt()
         );
     }

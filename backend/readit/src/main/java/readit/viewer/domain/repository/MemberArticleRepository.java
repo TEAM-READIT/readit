@@ -12,15 +12,7 @@ import readit.viewer.exception.ValueMissingException;
 
 public interface MemberArticleRepository extends JpaRepository<MemberArticle, Integer> {
     Optional<MemberArticle> findMemberArticleByArticleIdAndMemberId(Integer articleId, Integer memberId);
-
-    @Query("SELECT ma FROM MemberArticle ma WHERE ma.memberId = :memberId AND ma.completedAt IS NOT NULL ORDER BY ma.completedAt DESC")
-    List<MemberArticle> findAllCompleteArticle(Integer memberId);
-
-    @Query("SELECT ma FROM MemberArticle ma WHERE ma.memberId = :memberId AND ma.completedAt IS NOT NULL ORDER BY ma.completedAt DESC LIMIT 3")
-    List<MemberArticle> findCompleteArticle(Integer memberId);
-
-    @Query("SELECT ma FROM MemberArticle ma WHERE ma.memberId = :memberId AND ma.completedAt IS NULL ORDER BY ma.createdAt DESC LIMIT 3")
-    List<MemberArticle> findTempArticle(Integer memberId);
+    List<MemberArticle> findMemberArticleByMemberId(Integer memberId);
     default MemberArticle getById(Integer memberId, Integer id){
         return findMemberArticleByArticleIdAndMemberId(id,memberId).orElse(null);
     }

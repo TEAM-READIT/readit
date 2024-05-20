@@ -47,7 +47,7 @@ public class ArticleQueryRepository {
         return new Page<>(articles, limit);
     }
 
-    public Page<MemberArticle> findMemberArticleWithFilter(Integer id,Integer hitCursor, String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit, Boolean isCompleted){
+    public Page<MemberArticle> findMemberArticleWithFilter(Integer id,Integer hitCursor, String category, String title, String content, String reporter, Boolean hit, Integer cursor, Integer limit){
         List<MemberArticle> memberArticles =  queryFactory
                 .selectFrom(memberArticle)
                 .where(
@@ -57,8 +57,7 @@ public class ArticleQueryRepository {
                         eqMemberArticleCategory(category),
                         eqMemberArticleTitle(title),
                         eqMemberArticleContent(content),
-                        eqMemberArticleReporter(reporter),
-                        eqMemberArticleCompletedAt(isCompleted)
+                        eqMemberArticleReporter(reporter)
                 )
                 .orderBy(sortMemberArticleByHit(hit))
                 .limit(limit + 1)
@@ -80,18 +79,6 @@ public class ArticleQueryRepository {
                         )
                         .fetchFirst());
 
-    }
-
-    public BooleanExpression eqMemberArticleCompletedAt(Boolean isCompleted){
-        return Optional.ofNullable(isCompleted)
-                .map(completed -> {
-                    if (completed) {
-                        return memberArticle.completedAt.isNotNull();
-                    } else {
-                        return memberArticle.completedAt.isNull();
-                    }
-                })
-                .orElse(null);
     }
 
 

@@ -11,9 +11,9 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Integer> {
     Optional<Member> findByEmailAndMemberType(String email, MemberType memberType);
 
-    @Query(value = "SELECT m.id, m.name, m.profile, m.challenge_score, RANK() OVER (ORDER BY m.challenge_score DESC) AS `rank` " +
-            "FROM member m ORDER BY m.challenge_score DESC LIMIT 7", nativeQuery = true)
-    List<Object[]> findTop7MembersWithRank();
+    List<Member> findTop7ByOrderByChallengeScoreDesc();
+    @Query("SELECT COUNT(*) FROM Member m WHERE m.challengeScore > :score")
+    Optional<Integer> countPlayersWithHigherScore(int score);
 
     default Member getById(Integer memberId) {
         return findById(memberId).orElseThrow();
