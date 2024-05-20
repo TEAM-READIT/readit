@@ -1,0 +1,9 @@
+${AnsiColor.RED}      __...--~~~~~-._   _.-~~~~~--...__
+${AnsiColor.BRIGHT_RED}    //               `V'               \\
+${AnsiColor.YELLOW}   //                 |                 \\
+${AnsiColor.GREEN}  //__...--~~~~~~-._  |  _.-~~~~~~--...__\\
+${AnsiColor.BLUE} //__.....----~~~~._\ | /_.~~~~----.....__\\
+${AnsiColor.BRIGHT_CYAN}====================\\|//====================
+${AnsiColor.BRIGHT_CYAN}                ReadIt `---`
+${AnsiColor.GREEN}${application.title} ${application.version}
+${AnsiColor.GREEN}Powered by Spring Boot ${spring-boot.version}
