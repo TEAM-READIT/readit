@@ -1,10 +1,8 @@
 # READIT
 
-<img src="README_img/img_8.png" alt="img_8.png" width="800px">
+<img src="README_img/img_8.png" alt="img_8.png" width="900px">
 
 # 목차
-
----
 
 1. [개요](#1-개요)
 2. [개발 환경](#2-개발-환경)
@@ -15,16 +13,12 @@
 
 # 1. 개요
 
----
-
 ## 프로젝트 소개
 
 - Readit은 뉴스,비문학 읽기 및 요약을 통해 문해력 향상에 도움을 주는 서비스입니다.
 - 챌린지를 통해 본인의 실력을 확인하고, 커뮤니티를 통해 함께 문해력을 향상할 수있습니다.
 
 # 2. 개발 환경
-
----
 
 ### Management Tool
 
@@ -72,11 +66,9 @@
 
 # 3. 주요 서비스 화면
 
----
-
 ### 글 목록
 
-<img src="README_img/img_2.png" alt="img_2.png" width="800px">
+<img src="README_img/img_2.png" alt="img_2.png" width="900px">
 
 - 카테고리별 글 목록
 - 원하는 네이버 뉴스 링크로 불러오기
@@ -85,7 +77,7 @@
 
 **뷰어**
 
-<img src="README_img/img_1.png" alt="img_1.png" width="800px">
+<img src="README_img/img_1.png" alt="img_1.png" width="900px">
 
 - 글 읽기
 - 하이라이트
@@ -96,20 +88,22 @@
 
 **요약 평가**
 
-<img src="README_img/img_3.png" alt="img_3.png" width="800px">
+<img src="README_img/img_3.png" alt="img_3.png" width="900px">
 
 - 점수, 피드백 확인
 
 ### 챌린지
-<img src="README_img/img_4.png" alt="img_4.png" width="800px">
 
-<img src="README_img/img_5.png" alt="img_5.png" width="800px">
+<img src="README_img/img_4.png" alt="img_4.png" width="900px">
+
+<img src="README_img/img_5.png" alt="img_5.png" width="900px">
 
 - 매일 하나의 글을 읽고 퀴즈 풀기
 - 랭킹, 점수 통계 확인
 
 ### 커뮤니티
-<img src="README_img/img_6.png" alt="img_6.png" width="800px">
+
+<img src="README_img/img_6.png" alt="img_6.png" width="900px">
 
 - 함께 글을 읽을 수 있는 커뮤니티 생성 또는 참여
 - 채팅 기능
@@ -117,17 +111,14 @@
 
 # 4. ERD
 
----
-<img src="README_img/img_10.png" alt="img_10.png" width="500px">
+<img src="README_img/img_10.png" alt="img_10.png" width="600px">
 
 # 5. 아키텍처
 
----
-<img src="README_img/img_9.png" alt="img_9.png" width="800px">
+<img src="README_img/img_9.png" alt="img_9.png" width="900px">
 
 # 6. 팀원 소개
 
----
 -   박현춘 : 팀장, 프론트엔드 담당
 -   배정훈 : 백엔드, 인프라 담당
 -   오영주 : 백엔드 담당
