@@ -32,6 +32,12 @@ public class ArticleController {
         return ResponseEntity.ok(articleResponse);
     }
 
+    @GetMapping("/myarticle")
+    public ResponseEntity<GetMemberArticleListResponse> getMyArticle(@Auth AuthCredentials authCredentials){
+        GetMemberArticleListResponse articleResponse = articleService.getMyArticle(authCredentials.id());
+        return ResponseEntity.ok(articleResponse);
+    }
+
     @GetMapping("/stats")
     public ResponseEntity<GetStatsResponse> getStats(@Auth AuthCredentials authCredentials){
         GetStatsResponse statsResponse = articleService.getStats(authCredentials.id());
@@ -43,13 +49,12 @@ public class ArticleController {
                                                                         @RequestParam(required = false) String title,
                                                                         @RequestParam(required = false) String content,
                                                                         @RequestParam(required = false) String reporter,
-                                                                        @RequestParam(required = false) Boolean isComplete,
                                                                         @RequestParam(defaultValue = "0") Integer cursor,
                                                                         @RequestParam(defaultValue = "false") Boolean hit,
-                                                                        @RequestParam(defaultValue = "12") Integer limit,
+                                                                        @RequestParam(defaultValue = "12")  Integer limit,
                                                                         @Auth AuthCredentials authCredentials
                                                                         ){
-        GetMemberArticleSearchResponse searchListResponse = articleService.getMyArticleSearchList(authCredentials.id(),category,title,content,reporter,hit,cursor,limit,isComplete);
+        GetMemberArticleSearchResponse searchListResponse = articleService.getMyArticleSearchList(authCredentials.id(),category,title,content,reporter,hit,cursor,limit);
         return ResponseEntity.ok(searchListResponse);
     }
 
@@ -78,12 +83,5 @@ public class ArticleController {
             ){
         GetMemoListResponse memoListResponse = articleService.getMemoList(id);
         return ResponseEntity.ok(memoListResponse);
-    }
-
-    @GetMapping("/recent/myarticle")
-    public ResponseEntity<GetRecentMemberArticlesResponse> getRecentMyArticles(@RequestParam(required = false) Boolean isComplete,
-                                                                               @Auth AuthCredentials authCredentials){
-        GetRecentMemberArticlesResponse recentListResponse = articleService.getRecentMyArticles(authCredentials.id(),isComplete);
-        return ResponseEntity.ok(recentListResponse);
     }
 }
