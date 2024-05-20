@@ -2,6 +2,7 @@ package readit.article.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import readit.common.entity.BaseTimeEntity;
 
 @Entity
 @Getter
