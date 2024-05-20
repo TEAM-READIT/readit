@@ -8,7 +8,12 @@ public record GPTPrompt(
         Integer max_tokens,
         float temperature
 ) {
-    public static GPTPrompt of(String model, List<GPTMessage> messages, Integer max_tokens, float temperature) {
-        return new GPTPrompt(model, messages, max_tokens, temperature);
+    public static GPTPrompt of(String model, List<GPTMessage> messages, PromptType type) {
+        if (type.equals(PromptType.WORDS)) {
+            return new GPTPrompt(model, messages, 2000, 0.5F);
+        } else {
+            return new GPTPrompt(model, messages, 500, 0.7F);
+        }
     }
+
 }

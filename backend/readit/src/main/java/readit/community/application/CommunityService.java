@@ -2,6 +2,7 @@ package readit.community.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.dto.Page;
@@ -112,8 +113,9 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "popular_community")
     public GetHotCommunityResponse getHotCommunityList() {
-        List<Community> communityList = communityRepository.findTop8ByOrderByHitsDesc();
+        List<Community> communityList = communityRepository.getTop8CommunityList();
         List<CommunityDetail> communityDetailList = mapToCommunityDetails(communityList);
         return GetHotCommunityResponse.from(communityDetailList);
     }
@@ -134,8 +136,16 @@ public class CommunityService {
         communityRepository.increaseHitsById(communityId);
     }
 
+    public void communityNotice(Integer communityId, String notice){
+        Community community = communityRepository.getById(communityId);
+        community.updateNotice(notice);
+        communityRepository.save(community);
+    }
+
     @Transactional(readOnly = true)
-    public GetCommunityListResponse getCommunityList(String category, String title, String content, String writerName, Integer maxParticipants, Integer cursor, Boolean hit, Integer limit) {
+    @Cacheable(value = "popular_search")
+    public GetCommunityListResponse getCommunityList(String category, String title, String content, String writerName, Integer maxParticipants,
+                                                     Integer cursor, Boolean hit, Integer limit) {
         Community community = communityRepository.getByIdForQuery(cursor);
         Integer hitCursor = Optional.ofNullable(community)
                 .map(Community::getHits)
@@ -143,4 +153,5 @@ public class CommunityService {
         Page<Community> communityList = communityQueryRepository.findCommunityWithFilter(hitCursor, category, title, content, writerName, maxParticipants, cursor, hit, limit);
         return GetCommunityListResponse.from(communityList);
     }
+
 }
