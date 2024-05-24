@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import readit.auth.dto.AuthCredentials;
 import readit.auth.presentation.Auth;
-import readit.common.asepect.exectime.ExecutionTime;
 import readit.community.application.CommunityService;
 import readit.community.domain.dto.request.GetCreateCommunityRequest;
 import readit.community.domain.dto.request.PostChatRequest;
@@ -85,6 +84,7 @@ public class CommunityController {
     public ResponseEntity<Void> sendChat(@Valid @RequestBody PostChatRequest request,
                                          @Parameter(hidden = true) @Auth AuthCredentials authCredentials) {
         Integer memberId = authCredentials.id();
+//        memberId = 3;
         communityService.sendChat(request, memberId);
         return ResponseEntity.ok().build();
     }

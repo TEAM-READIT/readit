@@ -1,7 +1,6 @@
 package readit.challenge.application;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.domain.Article;
@@ -21,11 +20,9 @@ import readit.challenge.util.ProblemParser;
 import readit.member.domain.Member;
 import readit.member.domain.repository.MemberRepository;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Transactional

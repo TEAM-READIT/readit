@@ -1,7 +1,6 @@
 package readit.article.application;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import readit.article.application.support.SupportServiceDelegate;
@@ -52,6 +51,12 @@ public class ArticleService {
         return GetArticleFromLinkResponse.from(response,id);
     }
 
+    @Transactional(readOnly = true)
+    public GetMemberArticleListResponse getMyArticle(Integer id){
+        List<MemberArticle> memberArticleList = supportServiceDelegate.getMemberArticleListByMemberId(id);
+
+        return GetMemberArticleListResponse.from(memberArticleList);
+    }
 
     @Transactional(readOnly = true)
     public GetStatsResponse getStats(Integer id){

@@ -57,19 +57,8 @@ public class Community extends BaseTimeEntity {
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participants> participants = new ArrayList<>();
 
-    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Chat> chats = new ArrayList<>();
-
     @Column(nullable = false)
     private Integer hits;
-
-    public void increaseHit(){
-        this.hits++;
-    }
-
-    public void updateNotice(String notice){
-        this.notice = notice;
-    }
 
     public Participants joinParticipant(Member member) {
         Participants participant = Participants.builder()
