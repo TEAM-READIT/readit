@@ -9,10 +9,7 @@ import readit.article.domain.repository.ArticleRepository;
 import readit.challenge.domain.MemberProblem;
 import readit.challenge.domain.Problem;
 import readit.challenge.domain.dto.*;
-import readit.challenge.domain.dto.response.GetChallengeRankResponse;
-import readit.challenge.domain.dto.response.GetChallengeStatisticsResponse;
-import readit.challenge.domain.dto.response.GetProblemsResponse;
-import readit.challenge.domain.dto.response.SubmitAnswerResponse;
+import readit.challenge.domain.dto.response.*;
 import readit.challenge.domain.repository.MemberProblemQueryRepository;
 import readit.challenge.domain.repository.MemberProblemRepository;
 import readit.challenge.domain.repository.ProblemRepository;
@@ -41,25 +38,35 @@ public class ChallengeService {
     private final ProblemParser problemParser;
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "challengeRank")
     public GetChallengeRankResponse getChallengeRank(Integer memberId) {
+        List<Object[]> results = memberRepository.findTop7MembersWithRank();
+        AtomicReference<Integer> myRank = new AtomicReference<>(null);
 
-        List<GetRankMember> memberList = memberRepository.findTop7ByOrderByChallengeScoreDesc().stream()
-                .map(member -> GetRankMember.of(member.getName(), member.getProfile()))
-                .toList();
+        List<GetRankMember> memberList = results.stream().map(result -> {
+            Integer id = (Integer) result[0];
+            String name = (String) result[1];
+            String profile = (String) result[2];
+            Integer challengeScore = (Integer) result[3];
+            Integer rank = ((Number) result[4]).intValue();
 
-        int myScore = memberRepository.getById(memberId).getChallengeScore();
-        int myRank = memberRepository.countPlayersWithHigherScore(myScore).orElseThrow() + 1;
+            if (id.equals(memberId)) {
+                myRank.set(rank);
+            }
 
-        return new GetChallengeRankResponse(memberList, myRank);
+            return GetRankMember.of(name, profile, challengeScore, rank);
+        }).toList();
 
+        return new GetChallengeRankResponse(memberList, myRank.get());
     }
+
 
     @Transactional(readOnly = true)
     public GetProblemsResponse getProblems(Integer memberId) {
         Member member = memberRepository.getById(memberId);
         List<MemberProblem> list = memberProblemRepository.findByMemberAndSolvedAt(member, LocalDate.now());
         //오늘 이미 챌린지를 참여한 경우 확인
-        if(!memberProblemRepository.findByMemberAndSolvedAt(member, LocalDate.now()).isEmpty()){
+        if (!memberProblemRepository.findByMemberAndSolvedAt(member, LocalDate.now()).isEmpty()) {
             throw new TodayChallengeFinishedException();
         }
 
@@ -132,5 +139,12 @@ public class ChallengeService {
 
         return GetChallengeStatisticsResponse.from(scoreList);
 
+    }
+
+    public GetTotalChallengeStatisticsResponse getTotalChallengeStatistics(Integer memberId) {
+        boolean isSubmitToday = !memberProblemRepository.findByMember_IdAndSolvedAt(memberId, LocalDate.now()).isEmpty();
+        List<GetTotalScore> totalList = memberProblemQueryRepository.findTotalDateScore();
+
+        return GetTotalChallengeStatisticsResponse.of(totalList, isSubmitToday);
     }
 }

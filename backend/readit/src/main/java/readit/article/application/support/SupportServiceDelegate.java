@@ -26,7 +26,7 @@ public class SupportServiceDelegate {
                 .filter(list -> !list.isEmpty())
                 .orElseThrow(() -> exception);
     }
-    public <T> List<T> supportEmptyToNull(Supplier<List<T>> supplier, RuntimeException exception){
+    public <T> List<T> supportEmptyToNull(Supplier<List<T>> supplier){
         return Optional.ofNullable(supplier.get())
                 .orElse(null);
     }
@@ -39,7 +39,15 @@ public class SupportServiceDelegate {
         return supportEmptyToException(() -> articleRepository.findTop4ByTypeOrderByHitDesc(type), new ArticleNotFoundException());
     }
 
-    public List<MemberArticle> getMemberArticleListByMemberId(Integer id) {
-        return supportEmptyToNull(() -> memberArticleRepository.findMemberArticleByMemberId(id), new MemberArticleNotFoundException());
+    public List<MemberArticle> getCompleteArticle(Integer id) {
+        return supportEmptyToNull(() -> memberArticleRepository.findAllCompleteArticle(id));
+    }
+
+    public List<MemberArticle> getRecentCompleteArticle(Integer id) {
+        return supportEmptyToNull(() -> memberArticleRepository.findCompleteArticle(id));
+    }
+
+    public List<MemberArticle> getRecentTempArticles(Integer id){
+        return supportEmptyToNull(() -> memberArticleRepository.findTempArticle(id));
     }
 }

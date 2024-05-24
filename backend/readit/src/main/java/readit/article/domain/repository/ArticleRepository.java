@@ -13,7 +13,6 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
     List<Article> findTop4ByOrderByHitDesc();
     List<Article> findTop4ByTypeOrderByHitDesc(ArticleType type);
-
     Optional<Article> findById(Integer Id);
 
     default Article getById(Integer id){
